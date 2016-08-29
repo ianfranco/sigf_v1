@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.HaberTrabajador" table="haber_trabajador" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idHaberTrabajador" type="java.lang.Integer">
+            <column name="id_haber_trabajador" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreTipoHaber" type="string">
+            <column name="nombre_tipo_haber" not-null="true" />
+        </property>
+        <property name="fechaIngreso" type="timestamp">
+            <column name="fecha_ingreso" length="19" not-null="true" />
+        </property>
+        <property name="montoDefecto" type="java.lang.Integer">
+            <column name="monto_defecto" />
+        </property>
+        <property name="imponible" type="boolean">
+            <column name="imponible" not-null="true" />
+        </property>
+        <set name="haberTrabajadorLiquidacions" table="haber_trabajador_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_haber_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

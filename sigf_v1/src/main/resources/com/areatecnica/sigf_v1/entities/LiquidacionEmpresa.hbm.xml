@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.LiquidacionEmpresa" table="liquidacion_empresa" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idLiquidacionEmpresa" type="java.lang.Integer">
+            <column name="id_liquidacion_empresa" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empresa" class="com.areatecnica.sigf_v1.entities.Empresa" fetch="select">
+            <column name="id_empresa" not-null="true" />
+        </many-to-one>
+        <property name="mes" type="int">
+            <column name="mes" not-null="true" />
+        </property>
+        <property name="anio" type="int">
+            <column name="anio" not-null="true" />
+        </property>
+        <property name="fechaEmision" type="date">
+            <column name="fecha_emision" length="10" not-null="true" />
+        </property>
+        <property name="fechaPago" type="date">
+            <column name="fecha_pago" length="10" not-null="true" />
+        </property>
+        <property name="totalAbonos" type="int">
+            <column name="total_abonos" not-null="true" />
+        </property>
+        <property name="totalCargos" type="int">
+            <column name="total_cargos" not-null="true" />
+        </property>
+        <property name="saldo" type="int">
+            <column name="saldo" not-null="true" />
+        </property>
+        <set name="abonoLiquidacions" table="abono_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_liquidacion_empresa" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.AbonoLiquidacion" />
+        </set>
+        <set name="cargoLiquidacions" table="cargo_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_liquidacion_empresa" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargoLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

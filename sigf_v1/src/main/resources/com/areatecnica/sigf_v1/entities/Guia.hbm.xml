@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Guia" table="guia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idGuia" type="java.lang.Integer">
+            <column name="id_guia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bus" class="com.areatecnica.sigf_v1.entities.Bus" fetch="select">
+            <column name="id_bus" not-null="true" />
+        </many-to-one>
+        <many-to-one name="estadoGuia" class="com.areatecnica.sigf_v1.entities.EstadoGuia" fetch="select">
+            <column name="id_estado" not-null="true" />
+        </many-to-one>
+        <many-to-one name="procesoRecaudacion" class="com.areatecnica.sigf_v1.entities.ProcesoRecaudacion" fetch="select">
+            <column name="id_proceso_recuadacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="folio" type="int">
+            <column name="folio" not-null="true" />
+        </property>
+        <property name="fechaGuia" type="date">
+            <column name="fecha_guia" length="10" not-null="true" />
+        </property>
+        <property name="fechaIngresoGuia" type="timestamp">
+            <column name="fecha_ingreso_guia" length="19" />
+        </property>
+        <property name="fechaRecaudacion" type="date">
+            <column name="fecha_recaudacion" length="10" />
+        </property>
+        <property name="totalIngresos" type="java.lang.Integer">
+            <column name="total_ingresos" />
+        </property>
+        <property name="totalEgresos" type="java.lang.Integer">
+            <column name="total_egresos" />
+        </property>
+        <property name="viajeEspecial" type="java.lang.Integer">
+            <column name="viaje_especial" />
+        </property>
+        <property name="otrosIngresos" type="java.lang.Integer">
+            <column name="otros_ingresos" />
+        </property>
+        <property name="saldo" type="int">
+            <column name="saldo" not-null="true" />
+        </property>
+        <property name="numeroVueltas" type="java.lang.Integer">
+            <column name="numero_vueltas" />
+        </property>
+        <property name="turno" type="java.lang.Integer">
+            <column name="turno" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" length="100" />
+        </property>
+        <property name="recaudada" type="java.lang.Boolean">
+            <column name="recaudada" />
+        </property>
+        <set name="egresoGuias" table="egreso_guia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_guia" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.EgresoGuia" />
+        </set>
+        <set name="serieBoletoGuias" table="serie_boleto_guia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_guia" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.SerieBoletoGuia" />
+        </set>
+        <set name="ventaBoletoGuias" table="venta_boleto_guia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_guia" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.VentaBoletoGuia" />
+        </set>
+    </class>
+</hibernate-mapping>

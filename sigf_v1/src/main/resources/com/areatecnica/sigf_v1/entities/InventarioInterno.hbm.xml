@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.InventarioInterno" table="inventario_interno" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idInventarioInterno" type="java.lang.Integer">
+            <column name="id_inventario_interno" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="boleto" class="com.areatecnica.sigf_v1.entities.Boleto" fetch="select">
+            <column name="id_boleto" not-null="true" />
+        </many-to-one>
+        <property name="serie" type="int">
+            <column name="serie" not-null="true" />
+        </property>
+        <property name="identificador" type="string">
+            <column name="identificador" length="45" />
+        </property>
+        <property name="cantidadRollos" type="int">
+            <column name="cantidad_rollos" not-null="true" />
+        </property>
+        <property name="estado" type="java.lang.Boolean">
+            <column name="estado" />
+        </property>
+        <set name="detalleVentaBoletos" table="detalle_venta_boleto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_inventario_interno" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DetalleVentaBoleto" />
+        </set>
+    </class>
+</hibernate-mapping>

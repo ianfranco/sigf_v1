@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ObservacionTrabajador" table="observacion_trabajador" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idObservacionTrabajador" type="java.lang.Integer">
+            <column name="id_observacion_trabajador" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" not-null="true" />
+        </property>
+        <property name="fechaIngreso" type="timestamp">
+            <column name="fecha_ingreso" length="19" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="65535" not-null="true" />
+        </property>
+        <property name="detalle" type="string">
+            <column name="detalle" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

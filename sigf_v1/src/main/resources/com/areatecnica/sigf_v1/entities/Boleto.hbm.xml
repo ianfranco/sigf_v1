@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Boleto" table="boleto" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idBoleto" type="java.lang.Integer">
+            <column name="id_boleto" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreBoleto" type="string">
+            <column name="nombre_boleto" length="45" not-null="true" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo" not-null="true" />
+        </property>
+        <set name="inventarioInternos" table="inventario_interno" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.InventarioInterno" />
+        </set>
+        <set name="detalleCompraBoletos" table="detalle_compra_boleto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DetalleCompraBoleto" />
+        </set>
+        <set name="serieBoletoGuias" table="serie_boleto_guia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.SerieBoletoGuia" />
+        </set>
+        <set name="inventarioTerminals" table="inventario_terminal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.InventarioTerminal" />
+        </set>
+        <set name="tarifaServicios" table="tarifa_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.TarifaServicio" />
+        </set>
+    </class>
+</hibernate-mapping>

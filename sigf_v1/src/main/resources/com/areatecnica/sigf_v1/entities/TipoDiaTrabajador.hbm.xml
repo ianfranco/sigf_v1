@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.TipoDiaTrabajador" table="tipo_dia_trabajador" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTipoDiaTrabajador" type="java.lang.Integer">
+            <column name="id_tipo_dia_trabajador" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" not-null="true" />
+        </property>
+        <property name="sueldo" type="boolean">
+            <column name="sueldo" not-null="true" />
+        </property>
+        <set name="diaTrabajadors" table="dia_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tipo_dia_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DiaTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

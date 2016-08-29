@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.LicenciaMedica" table="licencia_medica" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idLicenciaMedica" type="java.lang.Integer">
+            <column name="id_licencia_medica" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="numeroLicencia" type="string">
+            <column name="numero_licencia" length="45" />
+        </property>
+        <property name="fechaIngresoLicencia" type="timestamp">
+            <column name="fecha_ingreso_licencia" length="19" not-null="true" />
+        </property>
+        <property name="fechaRecepcionLicencia" type="date">
+            <column name="fecha_recepcion_licencia" length="10" not-null="true" />
+        </property>
+        <property name="fechaEmisionLicencia" type="date">
+            <column name="fecha_emision_licencia" length="10" not-null="true" />
+        </property>
+        <property name="fechaDesdeReposo" type="date">
+            <column name="fecha_desde_reposo" length="10" not-null="true" />
+        </property>
+        <property name="fechaHastaReposo" type="date">
+            <column name="fecha_hasta_reposo" length="10" not-null="true" />
+        </property>
+        <property name="diagnosticoLicencia" type="string">
+            <column name="diagnostico_licencia" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

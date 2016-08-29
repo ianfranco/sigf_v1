@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.DescuentoTrabajadorLiquidacion" table="descuento_trabajador_liquidacion" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idDescuentoTrabajadorLiquidacion" type="java.lang.Integer">
+            <column name="id_descuento_trabajador_liquidacion" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="descuentoTrabajador" class="com.areatecnica.sigf_v1.entities.DescuentoTrabajador" fetch="select">
+            <column name="id_descuento_trabajador" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="fechaInicioDescuento" type="date">
+            <column name="fecha_inicio_descuento" length="10" not-null="true" />
+        </property>
+        <property name="fechaIngresoDescuento" type="timestamp">
+            <column name="fecha_ingreso_descuento" length="19" not-null="true" />
+        </property>
+        <property name="numeroCuotas" type="java.lang.Integer">
+            <column name="numero_cuotas" />
+        </property>
+        <property name="monto" type="int">
+            <column name="monto" not-null="true" />
+        </property>
+        <property name="activoDescuentoTrabajador" type="boolean">
+            <column name="activo_descuento_trabajador" not-null="true" />
+        </property>
+        <set name="descuentoLiquidacions" table="descuento_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_descuento_trabajador_liquidacion" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DescuentoLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

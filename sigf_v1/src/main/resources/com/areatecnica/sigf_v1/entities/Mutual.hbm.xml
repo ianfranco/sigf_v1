@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Mutual" table="mutual" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idMutual" type="java.lang.Integer">
+            <column name="id_mutual" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreMutual" type="string">
+            <column name="nombre_mutual" not-null="true" />
+        </property>
+        <property name="comision" type="big_decimal">
+            <column name="comision" precision="10" scale="5" />
+        </property>
+        <property name="porcentajeDescuento" type="big_decimal">
+            <column name="porcentaje_descuento" precision="10" scale="5" not-null="true" />
+        </property>
+        <set name="empresas" table="empresa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_mutual" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Empresa" />
+        </set>
+    </class>
+</hibernate-mapping>

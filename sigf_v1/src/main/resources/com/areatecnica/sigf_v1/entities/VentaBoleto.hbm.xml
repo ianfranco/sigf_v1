@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.VentaBoleto" table="venta_boleto" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idVentaBoleto" type="java.lang.Integer">
+            <column name="id_venta_boleto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="terminal" class="com.areatecnica.sigf_v1.entities.Terminal" fetch="select">
+            <column name="id_terminal" not-null="true" />
+        </many-to-one>
+        <property name="fechaVentaBoleto" type="timestamp">
+            <column name="fecha_venta_boleto" length="19" not-null="true" />
+        </property>
+        <property name="nombreComprador" type="string">
+            <column name="nombre_comprador" length="45" not-null="true" />
+        </property>
+        <property name="totalCompra" type="int">
+            <column name="total_compra" not-null="true" />
+        </property>
+        <set name="detalleVentaBoletos" table="detalle_venta_boleto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_venta_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DetalleVentaBoleto" />
+        </set>
+    </class>
+</hibernate-mapping>

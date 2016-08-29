@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ParentescoCarga" table="parentesco_carga" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idParentescoCarga" type="java.lang.Integer">
+            <column name="id_parentesco_carga" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreParentescoCarga" type="string">
+            <column name="nombre_parentesco_carga" length="45" not-null="true" />
+        </property>
+        <set name="cargasTrabajadors" table="cargas_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_parentesco_carga" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargasTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

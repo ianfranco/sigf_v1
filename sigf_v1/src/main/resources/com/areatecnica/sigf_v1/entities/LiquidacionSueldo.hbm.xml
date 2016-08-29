@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" table="liquidacion_sueldo" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idLiquidacionSueldo" type="java.lang.Integer">
+            <column name="id_liquidacion_sueldo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="relacionLaboral" class="com.areatecnica.sigf_v1.entities.RelacionLaboral" fetch="select">
+            <column name="id_relacion_laboral" not-null="true" />
+        </many-to-one>
+        <property name="mes" type="int">
+            <column name="mes" not-null="true" />
+        </property>
+        <property name="anio" type="int">
+            <column name="anio" not-null="true" />
+        </property>
+        <property name="fechaEmision" type="date">
+            <column name="fecha_emision" length="10" not-null="true" />
+        </property>
+        <property name="fechaPago" type="date">
+            <column name="fecha_pago" length="10" not-null="true" />
+        </property>
+        <property name="totalHaberesImponibles" type="int">
+            <column name="total_haberes_imponibles" not-null="true" />
+        </property>
+        <property name="totalHaberesNoImponibles" type="int">
+            <column name="total_haberes_no_imponibles" not-null="true" />
+        </property>
+        <property name="saldoAnterior" type="java.lang.Integer">
+            <column name="saldo_anterior" />
+        </property>
+        <property name="totalDescuentos" type="int">
+            <column name="total_descuentos" not-null="true" />
+        </property>
+        <property name="montoAnticipo" type="int">
+            <column name="monto_anticipo" not-null="true" />
+        </property>
+        <property name="saldoMonto" type="int">
+            <column name="saldo_monto" not-null="true" />
+        </property>
+        <property name="alcanceLiquido" type="int">
+            <column name="alcance_liquido" not-null="true" />
+        </property>
+        <set name="haberLiquidacions" table="haber_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_liquidacion_sueldo" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.HaberLiquidacion" />
+        </set>
+        <set name="descuentoLiquidacions" table="descuento_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_liquidacion_sueldo" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DescuentoLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

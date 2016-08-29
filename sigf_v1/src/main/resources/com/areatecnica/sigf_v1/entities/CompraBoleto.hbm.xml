@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.CompraBoleto" table="compra_boleto" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idCompraBoleto" type="java.lang.Integer">
+            <column name="id_compra_boleto" />
+            <generator class="identity" />
+        </id>
+        <property name="folioFactura" type="int">
+            <column name="folio_factura" not-null="true" />
+        </property>
+        <property name="fechaCompraBoleto" type="timestamp">
+            <column name="fecha_compra_boleto" length="19" not-null="true" />
+        </property>
+        <property name="total" type="int">
+            <column name="total" not-null="true" />
+        </property>
+        <set name="detalleCompraBoletos" table="detalle_compra_boleto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_compra_boleto" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DetalleCompraBoleto" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.TipoControl" table="tipo_control" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTipoControl" type="java.lang.Integer">
+            <column name="id_tipo_control" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreTipoControl" type="string">
+            <column name="nombre_tipo_control" length="45" not-null="true" />
+        </property>
+        <property name="clasificacion" type="string">
+            <column name="clasificacion" length="45" />
+        </property>
+        <set name="controls" table="control" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tipo_control" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Control" />
+        </set>
+    </class>
+</hibernate-mapping>

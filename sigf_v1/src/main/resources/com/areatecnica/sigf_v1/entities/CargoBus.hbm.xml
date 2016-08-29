@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.CargoBus" table="cargo_bus" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idCargoBus" type="java.lang.Integer">
+            <column name="id_cargo_bus" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bus" class="com.areatecnica.sigf_v1.entities.Bus" fetch="select">
+            <column name="id_bus" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoCargo" class="com.areatecnica.sigf_v1.entities.TipoCargo" fetch="select">
+            <column name="id_tipo_cargo" not-null="true" />
+        </many-to-one>
+        <property name="fechaIngresoCargoBus" type="timestamp">
+            <column name="fecha_ingreso_cargo_bus" length="19" not-null="true" />
+        </property>
+        <property name="fechaInicioCargoBus" type="date">
+            <column name="fecha_inicio_cargo_bus" length="10" not-null="true" />
+        </property>
+        <property name="numeroCuotasCargoBus" type="java.lang.Integer">
+            <column name="numero_cuotas_cargo_bus" />
+        </property>
+        <property name="montoCargoBus" type="int">
+            <column name="monto_cargo_bus" not-null="true" />
+        </property>
+        <property name="activoCargoBus" type="boolean">
+            <column name="activo_cargo_bus" not-null="true" />
+        </property>
+        <set name="cargoLiquidacions" table="cargo_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cargo_bus" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargoLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

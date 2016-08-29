@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.VentaBoletoGuia" table="venta_boleto_guia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idVentaBoletoGuia" type="java.lang.Integer">
+            <column name="id_venta_boleto_guia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="guia" class="com.areatecnica.sigf_v1.entities.Guia" fetch="select">
+            <column name="id_guia" not-null="true" />
+        </many-to-one>
+        <many-to-one name="inventarioTerminal" class="com.areatecnica.sigf_v1.entities.InventarioTerminal" fetch="select">
+            <column name="id_inventario_terminal" not-null="true" />
+        </many-to-one>
+        <property name="valor" type="int">
+            <column name="valor" not-null="true" />
+        </property>
+        <property name="recaudado" type="java.lang.Boolean">
+            <column name="recaudado" />
+        </property>
+        <property name="fechaVentaBoletoGuia" type="timestamp">
+            <column name="fecha_venta_boleto_guia" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

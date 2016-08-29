@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ControlHorarioServicio" table="control_horario_servicio" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idControlHorarioServicio" type="java.lang.Integer">
+            <column name="id_control_horario_servicio" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="controlServicio" class="com.areatecnica.sigf_v1.entities.ControlServicio" fetch="select">
+            <column name="id_control_servicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="horarioServicio" class="com.areatecnica.sigf_v1.entities.HorarioServicio" fetch="select">
+            <column name="id_horario_servicio" not-null="true" />
+        </many-to-one>
+        <property name="tiempo" type="int">
+            <column name="tiempo" not-null="true" />
+        </property>
+        <property name="multa" type="int">
+            <column name="multa" not-null="true" />
+        </property>
+        <property name="peso" type="int">
+            <column name="peso" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

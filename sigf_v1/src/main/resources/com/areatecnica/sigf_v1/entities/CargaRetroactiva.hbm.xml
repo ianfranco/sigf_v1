@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.CargaRetroactiva" table="carga_retroactiva" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idCargaRetroactiva" type="java.lang.Integer">
+            <column name="id_carga_retroactiva" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cargasTrabajador" class="com.areatecnica.sigf_v1.entities.CargasTrabajador" fetch="select">
+            <column name="id_carga_trabajador" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="mesLiquidacion" type="int">
+            <column name="mes_liquidacion" not-null="true" />
+        </property>
+        <property name="anioLiquidacion" type="int">
+            <column name="anio_liquidacion" not-null="true" />
+        </property>
+        <property name="montoRetroactivo" type="int">
+            <column name="monto_retroactivo" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Trabajador" table="trabajador" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTrabajador" type="java.lang.Integer">
+            <column name="id_trabajador" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="comuna" class="com.areatecnica.sigf_v1.entities.Comuna" fetch="select">
+            <column name="id_comuna" not-null="true" />
+        </many-to-one>
+        <many-to-one name="grupoAsignacionTrabajador" class="com.areatecnica.sigf_v1.entities.GrupoAsignacionTrabajador" fetch="select">
+            <column name="id_grupo_asignacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="institucionApv" class="com.areatecnica.sigf_v1.entities.InstitucionApv" fetch="select">
+            <column name="id_institucion_apv" not-null="true" />
+        </many-to-one>
+        <many-to-one name="institucionPrevision" class="com.areatecnica.sigf_v1.entities.InstitucionPrevision" fetch="select">
+            <column name="id_institucion_prevision" not-null="true" />
+        </many-to-one>
+        <many-to-one name="institucionSalud" class="com.areatecnica.sigf_v1.entities.InstitucionSalud" fetch="select">
+            <column name="id_institucion_salud" not-null="true" />
+        </many-to-one>
+        <many-to-one name="monedaPactadaInstitucionSalud" class="com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud" fetch="select">
+            <column name="id_moneda_pactada_salud" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoCotizacionTrabajador" class="com.areatecnica.sigf_v1.entities.TipoCotizacionTrabajador" fetch="select">
+            <column name="id_tipo_cotizacion_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="rutTrabajador" type="string">
+            <column name="rut_trabajador" length="9" not-null="true" unique="true" />
+        </property>
+        <property name="nombreTrabajador" type="string">
+            <column name="nombre_trabajador" not-null="true" />
+        </property>
+        <property name="apellidoPaternoTrabajador" type="string">
+            <column name="apellido_paterno_trabajador" not-null="true" />
+        </property>
+        <property name="apellidoMaternoTrabajador" type="string">
+            <column name="apellido_materno_trabajador" not-null="true" />
+        </property>
+        <property name="fechaNacimientoTrabajador" type="date">
+            <column name="fecha_nacimiento_trabajador" length="10" />
+        </property>
+        <property name="nacionalidad" type="java.lang.Boolean">
+            <column name="nacionalidad" />
+        </property>
+        <property name="sexo" type="java.lang.Boolean">
+            <column name="sexo" />
+        </property>
+        <property name="estadoCivil" type="java.lang.Short">
+            <column name="estado_civil" />
+        </property>
+        <property name="calleTrabajador" type="string">
+            <column name="calle_trabajador" />
+        </property>
+        <property name="numeroDireccionTrabajador" type="string">
+            <column name="numero_direccion_trabajador" length="45" />
+        </property>
+        <property name="telefonoFijoTrabajador" type="string">
+            <column name="telefono_fijo_trabajador" />
+        </property>
+        <property name="celularTrabajador" type="string">
+            <column name="celular_trabajador" />
+        </property>
+        <property name="emailTrabajador" type="string">
+            <column name="email_trabajador" />
+        </property>
+        <property name="numeroCargas" type="java.lang.Integer">
+            <column name="numero_cargas" />
+        </property>
+        <property name="montoSalud" type="big_decimal">
+            <column name="monto_salud" precision="6" />
+        </property>
+        <property name="formaPagoApv" type="java.lang.Boolean">
+            <column name="forma_pago_apv" />
+        </property>
+        <property name="subsidioJoven" type="java.lang.Boolean">
+            <column name="subsidio_joven" />
+        </property>
+        <property name="fechaIngresoTrabajador" type="timestamp">
+            <column name="fecha_ingreso_trabajador" length="19" not-null="true" />
+        </property>
+        <set name="observacionTrabajadors" table="observacion_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ObservacionTrabajador" />
+        </set>
+        <set name="licenciaMedicas" table="licencia_medica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.LicenciaMedica" />
+        </set>
+        <set name="despachos" table="despacho" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Despacho" />
+        </set>
+        <set name="centroCostoTrabajadors" table="centro_costo_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CentroCostoTrabajador" />
+        </set>
+        <set name="relacionLaborals" table="relacion_laboral" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.RelacionLaboral" />
+        </set>
+        <set name="haberTrabajadorLiquidacions" table="haber_trabajador_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion" />
+        </set>
+        <set name="controlAsistencias" table="control_asistencia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ControlAsistencia" />
+        </set>
+        <set name="horaExtraTrabajadors" table="hora_extra_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.HoraExtraTrabajador" />
+        </set>
+        <set name="cargasTrabajadors" table="cargas_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargasTrabajador" />
+        </set>
+        <set name="feriadoLegals" table="feriado_legal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.FeriadoLegal" />
+        </set>
+        <set name="descuentoTrabajadorLiquidacions" table="descuento_trabajador_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DescuentoTrabajadorLiquidacion" />
+        </set>
+        <set name="cargaRetroactivas" table="carga_retroactiva" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargaRetroactiva" />
+        </set>
+        <set name="formaPagoTrabajadors" table="forma_pago_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.FormaPagoTrabajador" />
+        </set>
+        <set name="cuentaBancariaTrabajadors" table="cuenta_bancaria_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CuentaBancariaTrabajador" />
+        </set>
+        <set name="guias" table="guia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Guia" />
+        </set>
+        <set name="jornadaTrabajadors" table="jornada_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.JornadaTrabajador" />
+        </set>
+        <set name="diaTrabajadors" table="dia_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.DiaTrabajador" />
+        </set>
+        <set name="trabajadorTerminals" table="trabajador_terminal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.TrabajadorTerminal" />
+        </set>
+        <set name="sindicatoTrabajadors" table="sindicato_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.SindicatoTrabajador" />
+        </set>
+        <set name="anticipoTrabajadors" table="anticipo_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.AnticipoTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

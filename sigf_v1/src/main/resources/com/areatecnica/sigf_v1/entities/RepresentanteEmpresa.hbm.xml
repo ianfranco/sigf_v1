@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.RepresentanteEmpresa" table="representante_empresa" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idRepresentanteEmpresa" type="java.lang.Integer">
+            <column name="id_representante_empresa" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empresa" class="com.areatecnica.sigf_v1.entities.Empresa" fetch="select">
+            <column name="id_empresa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="representanteLegal" class="com.areatecnica.sigf_v1.entities.RepresentanteLegal" fetch="select">
+            <column name="id_representante_legal" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

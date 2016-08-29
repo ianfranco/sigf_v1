@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.SerieBoletoGuia" table="serie_boleto_guia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idSerieBoletoGuia" type="java.lang.Integer">
+            <column name="id_serie_boleto_guia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="boleto" class="com.areatecnica.sigf_v1.entities.Boleto" fetch="select">
+            <column name="id_boleto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="guia" class="com.areatecnica.sigf_v1.entities.Guia" fetch="select">
+            <column name="id_guia" not-null="true" />
+        </many-to-one>
+        <property name="valor" type="int">
+            <column name="valor" not-null="true" />
+        </property>
+        <property name="serie" type="int">
+            <column name="serie" not-null="true" />
+        </property>
+        <property name="termino" type="int">
+            <column name="termino" not-null="true" />
+        </property>
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+        <property name="total" type="int">
+            <column name="total" not-null="true" />
+        </property>
+        <property name="nuevo" type="boolean">
+            <column name="nuevo" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

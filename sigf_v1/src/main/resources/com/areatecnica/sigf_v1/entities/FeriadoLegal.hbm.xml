@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.FeriadoLegal" table="feriado_legal" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idFeriadoLegal" type="java.lang.Integer">
+            <column name="id_feriado_legal" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="fechaIngresoFeriado" type="timestamp">
+            <column name="fecha_ingreso_feriado" length="19" not-null="true" />
+        </property>
+        <property name="fechaDesdeFeriado" type="date">
+            <column name="fecha_desde_feriado" length="10" not-null="true" />
+        </property>
+        <property name="fechaHastaFeriado" type="date">
+            <column name="fecha_hasta_feriado" length="10" not-null="true" />
+        </property>
+        <property name="diasHabiles" type="java.lang.Integer">
+            <column name="dias_habiles" />
+        </property>
+        <property name="vacacionesProgresivas" type="java.lang.Integer">
+            <column name="vacaciones_progresivas" />
+        </property>
+        <property name="domingosInhabiles" type="java.lang.Integer">
+            <column name="domingos_inhabiles" />
+        </property>
+        <property name="feriadoFraccionado" type="java.lang.Integer">
+            <column name="feriado_fraccionado" />
+        </property>
+        <property name="saldoPendiente" type="java.lang.Integer">
+            <column name="saldo_pendiente" />
+        </property>
+        <property name="valorFeriado" type="java.lang.Integer">
+            <column name="valor_feriado" />
+        </property>
+    </class>
+</hibernate-mapping>

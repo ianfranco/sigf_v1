@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.TarifaServicio" table="tarifa_servicio" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTarifaServicio" type="java.lang.Integer">
+            <column name="id_tarifa_servicio" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="boleto" class="com.areatecnica.sigf_v1.entities.Boleto" fetch="select">
+            <column name="id_boleto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="servicio" class="com.areatecnica.sigf_v1.entities.Servicio" fetch="select">
+            <column name="id_servicio" not-null="true" />
+        </many-to-one>
+        <property name="valorTarifa" type="int">
+            <column name="valor_tarifa" not-null="true" />
+        </property>
+        <property name="mes" type="int">
+            <column name="mes" not-null="true" />
+        </property>
+        <property name="anio" type="int">
+            <column name="anio" not-null="true" />
+        </property>
+        <property name="activa" type="boolean">
+            <column name="activa" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

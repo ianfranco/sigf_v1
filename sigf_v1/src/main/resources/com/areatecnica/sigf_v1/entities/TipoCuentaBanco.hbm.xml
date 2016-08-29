@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.TipoCuentaBanco" table="tipo_cuenta_banco" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTipoCuentaBanco" type="java.lang.Integer">
+            <column name="id_tipo_cuenta_banco" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreTipoCuenta" type="string">
+            <column name="nombre_tipo_cuenta" length="45" not-null="true" />
+        </property>
+        <set name="cuentaBancariaTrabajadors" table="cuenta_bancaria_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tipo_cuenta" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CuentaBancariaTrabajador" />
+        </set>
+        <set name="cuentaBancariaEmpresas" table="cuenta_bancaria_empresa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tipo_cuenta" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CuentaBancariaEmpresa" />
+        </set>
+    </class>
+</hibernate-mapping>

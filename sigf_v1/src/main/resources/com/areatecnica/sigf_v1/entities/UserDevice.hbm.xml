@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.UserDevice" table="user_device" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idUserDevice" type="java.lang.Integer">
+            <column name="id_user_device" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="device" class="com.areatecnica.sigf_v1.entities.Device" fetch="select">
+            <column name="deviceId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.areatecnica.sigf_v1.entities.User" fetch="select">
+            <column name="userId" not-null="true" />
+        </many-to-one>
+        <property name="read" type="boolean">
+            <column name="read" not-null="true" />
+        </property>
+        <property name="write" type="boolean">
+            <column name="write" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

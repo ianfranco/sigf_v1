@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ParametroCesantia" table="parametro_cesantia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idParametroCesantia" type="java.lang.Integer">
+            <column name="id_parametro_cesantia" />
+            <generator class="identity" />
+        </id>
+        <property name="empleador" type="big_decimal">
+            <column name="empleador" precision="10" not-null="true" />
+        </property>
+        <property name="trabajador" type="big_decimal">
+            <column name="trabajador" precision="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

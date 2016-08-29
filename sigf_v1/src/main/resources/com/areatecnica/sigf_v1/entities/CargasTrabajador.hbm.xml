@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.CargasTrabajador" table="cargas_trabajador" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idCargasTrabajador" type="java.lang.Integer">
+            <column name="id_cargas_trabajador" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="parentescoCarga" class="com.areatecnica.sigf_v1.entities.ParentescoCarga" fetch="select">
+            <column name="id_parentesco_carga" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoCarga" class="com.areatecnica.sigf_v1.entities.TipoCarga" fetch="select">
+            <column name="id_tipo_carga" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="apellidoCargaTrabajador" type="string">
+            <column name="apellido_carga_trabajador" length="45" not-null="true" />
+        </property>
+        <property name="nombreCargaTrabajador" type="string">
+            <column name="nombre_carga_trabajador" length="45" not-null="true" />
+        </property>
+        <property name="rut" type="string">
+            <column name="rut" length="45" not-null="true" />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" length="10" />
+        </property>
+        <property name="fechaIngreso" type="date">
+            <column name="fecha_ingreso" length="10" not-null="true" />
+        </property>
+        <property name="activa" type="boolean">
+            <column name="activa" not-null="true" />
+        </property>
+        <set name="cargaRetroactivas" table="carga_retroactiva" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_carga_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargaRetroactiva" />
+        </set>
+    </class>
+</hibernate-mapping>

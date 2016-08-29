@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Sindicato" table="sindicato" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idSindicato" type="java.lang.Integer">
+            <column name="id_sindicato" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreSindicato" type="string">
+            <column name="nombre_sindicato" length="100" not-null="true" />
+        </property>
+        <property name="cuotaSindicato" type="int">
+            <column name="cuota_sindicato" not-null="true" />
+        </property>
+        <set name="sindicatoTrabajadors" table="sindicato_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_sindicato" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.SindicatoTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

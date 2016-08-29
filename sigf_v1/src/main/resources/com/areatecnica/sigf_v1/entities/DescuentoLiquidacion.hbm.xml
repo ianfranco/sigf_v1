@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.DescuentoLiquidacion" table="descuento_liquidacion" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idDescuentoLiquidacion" type="int">
+            <column name="id_descuento_liquidacion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="descuentoTrabajadorLiquidacion" class="com.areatecnica.sigf_v1.entities.DescuentoTrabajadorLiquidacion" fetch="select">
+            <column name="id_descuento_trabajador_liquidacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="liquidacionSueldo" class="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" fetch="select">
+            <column name="id_liquidacion_sueldo" not-null="true" />
+        </many-to-one>
+        <property name="montoDescuento" type="int">
+            <column name="monto_descuento" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

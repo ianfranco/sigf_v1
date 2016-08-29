@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Position" table="position" catalog="sigf_v1" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="device" class="com.areatecnica.sigf_v1.entities.Device" fetch="select">
+            <column name="deviceId" not-null="true" />
+        </many-to-one>
+        <property name="protocol" type="string">
+            <column name="protocol" length="128" />
+        </property>
+        <property name="serverTime" type="timestamp">
+            <column name="serverTime" length="19" not-null="true" />
+        </property>
+        <property name="deviceTime" type="timestamp">
+            <column name="deviceTime" length="19" not-null="true" />
+        </property>
+        <property name="fixTime" type="timestamp">
+            <column name="fixTime" length="19" not-null="true" />
+        </property>
+        <property name="valid" type="boolean">
+            <column name="valid" not-null="true" />
+        </property>
+        <property name="latitude" type="double">
+            <column name="latitude" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="longitude" type="double">
+            <column name="longitude" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="altitude" type="float">
+            <column name="altitude" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="speed" type="float">
+            <column name="speed" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="course" type="float">
+            <column name="course" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="512" />
+        </property>
+        <property name="attributes" type="string">
+            <column name="attributes" length="4096" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

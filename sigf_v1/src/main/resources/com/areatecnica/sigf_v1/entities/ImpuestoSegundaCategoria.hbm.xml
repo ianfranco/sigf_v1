@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ImpuestoSegundaCategoria" table="impuesto_segunda_categoria" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idImpuestaSegundaCategoria" type="java.lang.Integer">
+            <column name="id_impuesta_segunda_categoria" />
+            <generator class="identity" />
+        </id>
+        <property name="desde" type="big_decimal">
+            <column name="desde" precision="10" scale="3" not-null="true" />
+        </property>
+        <property name="hasta" type="big_decimal">
+            <column name="hasta" precision="10" scale="3" not-null="true" />
+        </property>
+        <property name="factor" type="big_decimal">
+            <column name="factor" precision="10" scale="3" />
+        </property>
+        <property name="rebaja" type="big_decimal">
+            <column name="rebaja" precision="10" scale="3" />
+        </property>
+    </class>
+</hibernate-mapping>

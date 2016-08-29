@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.RepresentanteLegal" table="representante_legal" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idRepresentanteLegal" type="java.lang.Integer">
+            <column name="id_representante_legal" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreRepresentanteLegal" type="string">
+            <column name="nombre_representante_legal" length="45" not-null="true" />
+        </property>
+        <property name="rutRepresentanteLegal" type="string">
+            <column name="rut_representante_legal" length="45" not-null="true" />
+        </property>
+        <property name="direccionRepresentanteLegal" type="string">
+            <column name="direccion_representante_legal" length="45" />
+        </property>
+        <property name="telefonoRepresentanteLegal" type="string">
+            <column name="telefono_representante_legal" length="45" />
+        </property>
+        <property name="emailRepresentanteLegal" type="string">
+            <column name="email_representante_legal" length="45" />
+        </property>
+        <set name="representanteEmpresas" table="representante_empresa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_representante_legal" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.RepresentanteEmpresa" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.AbonoBus" table="abono_bus" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idAbonoBus" type="java.lang.Integer">
+            <column name="id_abono_bus" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bus" class="com.areatecnica.sigf_v1.entities.Bus" fetch="select">
+            <column name="id_bus" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoAbono" class="com.areatecnica.sigf_v1.entities.TipoAbono" fetch="select">
+            <column name="id_tipo_abono" not-null="true" />
+        </many-to-one>
+        <property name="fechaIngresoAbonoBus" type="timestamp">
+            <column name="fecha_ingreso_abono_bus" length="19" not-null="true" />
+        </property>
+        <property name="fechaInicioAbonoBus" type="date">
+            <column name="fecha_inicio_abono_bus" length="10" not-null="true" />
+        </property>
+        <property name="numeroCuotasAbonoBus" type="java.lang.Integer">
+            <column name="numero_cuotas_abono_bus" />
+        </property>
+        <property name="montoAbonoBus" type="int">
+            <column name="monto_abono_bus" not-null="true" />
+        </property>
+        <property name="activoAbonoBus" type="boolean">
+            <column name="activo_abono_bus" not-null="true" />
+        </property>
+        <set name="abonoLiquidacions" table="abono_liquidacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_abono_bus" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.AbonoLiquidacion" />
+        </set>
+    </class>
+</hibernate-mapping>

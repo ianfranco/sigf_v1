@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.HorarioServicio" table="horario_servicio" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idHorarioServicio" type="java.lang.Integer">
+            <column name="id_horario_servicio" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="servicio" class="com.areatecnica.sigf_v1.entities.Servicio" fetch="select">
+            <column name="id_servicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoEstacionalidad" class="com.areatecnica.sigf_v1.entities.TipoEstacionalidad" fetch="select">
+            <column name="id_tipo_estacionalidad" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="desde" type="time">
+            <column name="desde" length="8" not-null="true" />
+        </property>
+        <property name="hasta" type="time">
+            <column name="hasta" length="8" not-null="true" />
+        </property>
+        <property name="lunes" type="java.lang.Boolean">
+            <column name="lunes" />
+        </property>
+        <property name="martes" type="java.lang.Boolean">
+            <column name="martes" />
+        </property>
+        <property name="miercoles" type="java.lang.Boolean">
+            <column name="miercoles" />
+        </property>
+        <property name="jueves" type="java.lang.Boolean">
+            <column name="jueves" />
+        </property>
+        <property name="viernes" type="java.lang.Boolean">
+            <column name="viernes" />
+        </property>
+        <property name="sabado" type="java.lang.Boolean">
+            <column name="sabado" />
+        </property>
+        <property name="domingo" type="java.lang.Boolean">
+            <column name="domingo" />
+        </property>
+        <set name="controlHorarioServicios" table="control_horario_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_horario_servicio" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ControlHorarioServicio" />
+        </set>
+    </class>
+</hibernate-mapping>

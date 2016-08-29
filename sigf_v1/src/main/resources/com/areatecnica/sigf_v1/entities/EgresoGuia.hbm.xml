@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.EgresoGuia" table="egreso_guia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idEgresoGuia" type="java.lang.Integer">
+            <column name="id_egreso_guia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="egresoRecaudacion" class="com.areatecnica.sigf_v1.entities.EgresoRecaudacion" fetch="select">
+            <column name="id_egreso_servicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="guia" class="com.areatecnica.sigf_v1.entities.Guia" fetch="select">
+            <column name="id_guia" not-null="true" />
+        </many-to-one>
+        <property name="monto" type="int">
+            <column name="monto" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

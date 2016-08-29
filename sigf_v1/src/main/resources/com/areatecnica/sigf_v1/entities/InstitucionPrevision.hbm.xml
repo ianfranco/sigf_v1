@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.InstitucionPrevision" table="institucion_prevision" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idInstitucionPrevision" type="java.lang.Integer">
+            <column name="id_institucion_prevision" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreInstitucionPrevision" type="string">
+            <column name="nombre_institucion_prevision" not-null="true" />
+        </property>
+        <property name="comision" type="big_decimal">
+            <column name="comision" precision="10" scale="5" />
+        </property>
+        <property name="porcentajeDescuento" type="big_decimal">
+            <column name="porcentaje_descuento" precision="10" scale="5" not-null="true" />
+        </property>
+        <set name="trabajadors" table="trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_institucion_prevision" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Trabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ControlAsistencia" table="control_asistencia" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idControlAsistencia" type="java.lang.Integer">
+            <column name="id_control_asistencia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="horarioEntrada" type="timestamp">
+            <column name="horario_entrada" length="19" not-null="true" />
+        </property>
+        <property name="horarioSalida" type="timestamp">
+            <column name="horario_salida" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

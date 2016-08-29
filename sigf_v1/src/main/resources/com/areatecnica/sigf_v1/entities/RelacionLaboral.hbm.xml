@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.RelacionLaboral" table="relacion_laboral" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idRelacionLaboral" type="java.lang.Integer">
+            <column name="id_relacion_laboral" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empresa" class="com.areatecnica.sigf_v1.entities.Empresa" fetch="select">
+            <column name="id_empresa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoContrato" class="com.areatecnica.sigf_v1.entities.TipoContrato" fetch="select">
+            <column name="id_tipo_contrato" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoTrabajador" class="com.areatecnica.sigf_v1.entities.TipoTrabajador" fetch="select">
+            <column name="id_tipo_trabajador" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="fechaInicio" type="date">
+            <column name="fecha_inicio" length="10" />
+        </property>
+        <property name="fechaFin" type="date">
+            <column name="fecha_fin" length="10" />
+        </property>
+        <property name="tipoContrato_1" type="string">
+            <column name="tipo_contrato" />
+        </property>
+        <property name="sueldoBase" type="java.lang.Integer">
+            <column name="sueldo_base" />
+        </property>
+        <property name="rutaArchivoRespaldo" type="string">
+            <column name="ruta_archivo_respaldo" />
+        </property>
+        <property name="estado" type="java.lang.Boolean">
+            <column name="estado" />
+        </property>
+        <set name="finiquitoRelacionLaborals" table="finiquito_relacion_laboral" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_relacion_laboral" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.FiniquitoRelacionLaboral" />
+        </set>
+        <set name="liquidacionSueldos" table="liquidacion_sueldo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_relacion_laboral" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" />
+        </set>
+    </class>
+</hibernate-mapping>

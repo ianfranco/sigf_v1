@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Control" table="control" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idControl" type="java.lang.Integer">
+            <column name="id_control" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tipoControl" class="com.areatecnica.sigf_v1.entities.TipoControl" fetch="select">
+            <column name="id_tipo_control" not-null="true" />
+        </many-to-one>
+        <property name="nombreControl" type="string">
+            <column name="nombre_control" length="45" not-null="true" />
+        </property>
+        <property name="latitud" type="double">
+            <column name="latitud" precision="12" scale="8" not-null="true" />
+        </property>
+        <property name="longitud" type="double">
+            <column name="longitud" precision="12" scale="8" not-null="true" />
+        </property>
+        <property name="radio" type="int">
+            <column name="radio" not-null="true" />
+        </property>
+        <set name="controlServicios" table="control_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_control" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ControlServicio" />
+        </set>
+    </class>
+</hibernate-mapping>

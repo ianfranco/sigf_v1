@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ControlServicio" table="control_servicio" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idControlServicio" type="java.lang.Integer">
+            <column name="id_control_servicio" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="control" class="com.areatecnica.sigf_v1.entities.Control" fetch="select">
+            <column name="id_control" not-null="true" />
+        </many-to-one>
+        <many-to-one name="servicio" class="com.areatecnica.sigf_v1.entities.Servicio" fetch="select">
+            <column name="id_servicio" not-null="true" />
+        </many-to-one>
+        <property name="tiempo" type="time">
+            <column name="tiempo" length="8" not-null="true" />
+        </property>
+        <property name="numeroOrden" type="int">
+            <column name="numero_orden" not-null="true" />
+        </property>
+        <set name="controlHorarioServicios" table="control_horario_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_control_servicio" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ControlHorarioServicio" />
+        </set>
+    </class>
+</hibernate-mapping>

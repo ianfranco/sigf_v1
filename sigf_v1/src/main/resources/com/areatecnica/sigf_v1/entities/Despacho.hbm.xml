@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Despacho" table="despacho" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idDespacho" type="java.lang.Integer">
+            <column name="id_despacho" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bus" class="com.areatecnica.sigf_v1.entities.Bus" fetch="select">
+            <column name="id_bus" not-null="true" />
+        </many-to-one>
+        <many-to-one name="servicio" class="com.areatecnica.sigf_v1.entities.Servicio" fetch="select">
+            <column name="id_servicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="com.areatecnica.sigf_v1.entities.Usuario" fetch="select">
+            <column name="id_inspector" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" not-null="true" />
+        </property>
+        <property name="horario" type="time">
+            <column name="horario" length="8" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

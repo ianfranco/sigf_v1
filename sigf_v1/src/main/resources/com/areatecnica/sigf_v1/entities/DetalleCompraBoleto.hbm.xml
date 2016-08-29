@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.DetalleCompraBoleto" table="detalle_compra_boleto" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idDetalleCompraBoleto" type="java.lang.Integer">
+            <column name="id_detalle_compra_boleto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="boleto" class="com.areatecnica.sigf_v1.entities.Boleto" fetch="select">
+            <column name="id_boleto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="compraBoleto" class="com.areatecnica.sigf_v1.entities.CompraBoleto" fetch="select">
+            <column name="id_compra_boleto" not-null="true" />
+        </many-to-one>
+        <property name="cantidadRollos" type="int">
+            <column name="cantidad_rollos" not-null="true" />
+        </property>
+        <property name="serie" type="string">
+            <column name="serie" length="45" />
+        </property>
+        <property name="total" type="int">
+            <column name="total" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

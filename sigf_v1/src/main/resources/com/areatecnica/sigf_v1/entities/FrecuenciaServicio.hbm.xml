@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.FrecuenciaServicio" table="frecuencia_servicio" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idFrecuenciaServicio" type="java.lang.Integer">
+            <column name="id_frecuencia_servicio" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="periodoFrecuencia" class="com.areatecnica.sigf_v1.entities.PeriodoFrecuencia" fetch="select">
+            <column name="id_periodo_frecuencia" not-null="true" />
+        </many-to-one>
+        <many-to-one name="servicio" class="com.areatecnica.sigf_v1.entities.Servicio" fetch="select">
+            <column name="id_servicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoDemanda" class="com.areatecnica.sigf_v1.entities.TipoDemanda" fetch="select">
+            <column name="id_tipo_demanda" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoDiaFrecuencia" class="com.areatecnica.sigf_v1.entities.TipoDiaFrecuencia" fetch="select">
+            <column name="id_tipo_dia_frecuencia" not-null="true" />
+        </many-to-one>
+        <property name="numeroBuses" type="int">
+            <column name="numero_buses" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

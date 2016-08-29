@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.GastosAdministracionMensual" table="gastos_administracion_mensual" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idGastosAdministracionMensual" type="java.lang.Integer">
+            <column name="id_gastos_administracion_mensual" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="departamento" class="com.areatecnica.sigf_v1.entities.Departamento" fetch="select">
+            <column name="id_departamento" not-null="true" />
+        </many-to-one>
+        <property name="mes" type="int">
+            <column name="mes" not-null="true" />
+        </property>
+        <property name="anio" type="int">
+            <column name="anio" not-null="true" />
+        </property>
+        <property name="numeroFolio" type="int">
+            <column name="numero_folio" not-null="true" />
+        </property>
+        <property name="nombreGastoAdministracion" type="string">
+            <column name="nombre_gasto_administracion" length="45" not-null="true" />
+        </property>
+        <property name="fechaGastoAdministracion" type="date">
+            <column name="fecha_gasto_administracion" length="10" not-null="true" />
+        </property>
+        <property name="fechaIngreso" type="date">
+            <column name="fecha_ingreso" length="10" not-null="true" />
+        </property>
+        <property name="valor" type="date">
+            <column name="valor" length="10" not-null="true" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" />
+        </property>
+    </class>
+</hibernate-mapping>
