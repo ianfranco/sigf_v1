@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="../../resources/css/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="../../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDujXh7O-rPJBePHxDh-gOJYUWZQatutG8"/>
+        <style type="text/css">
+            #growl {
+                background: #D20005;
+            }
+        </style>
+
+        <title>SIGF - Remuneraciones</title>
+
+        <h:outputScript target="head">
+            jQuery(document).ready(function() {
+            jQuery(document).ready(function() {
+            fixPFMDialogs();
+            });
+            });
+        </h:outputScript>
+    </h:head>
+
+    <h:body>
+        <p:growl id="growl" life="3000"/>
+        <p:layout fullPage="true">            
+            <p:layoutUnit position="north" size="75" header="Remuneraciones"  collapsible="true">
+                <div id="menu">
+                    <h:form> 
+                        <p:menubar>
+                            <p:menuitem value="Inicio" url="#{appBean.basePath}indexServicio.xhtml" icon="ui-icon-home" />
+
+                            <p:submenu label="Administración de Personal">
+                                <p:menuitem value="Ficha Individual" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
+                                <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                <p:submenu label="Cargas Familiares">
+                                    <p:menuitem value="Nueva" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares" />
+                                    <p:menuitem value="Listado x Personal" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                    <p:menuitem value="Retroactivas" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasretroactivas" />
+                                    <p:submenu label="Avanzado">
+                                        <p:menuitem value="Tipos de Cargas" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                        <p:menuitem value="Parentescos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                    </p:submenu>
+                                </p:submenu>
+                                <p:submenu label="Contratos" >
+                                    <p:menuitem value="Últimos Contratos" />
+                                    <p:menuitem value="Nuevo" />
+                                    <p:menuitem value="Activos x Empresa" />
+                                    <p:menuitem value="Historial x Empresa" />
+                                    <p:submenu label="Avanzado">
+                                        <p:menuitem value="Tipos de Contrato" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                        
+                                    </p:submenu>
+                                </p:submenu>
+                                <p:submenu label="Finiquitos">
+                                    <p:menuitem value="Últimos Finiquitos" />
+                                    <p:menuitem value="Nuevo" />
+                                    <p:menuitem value="Historial x Empresa" />
+                                    <p:submenu label="Avanzado">
+                                        <p:menuitem value="Causales Finiquitos" />
+                                    </p:submenu>
+                                </p:submenu>
+
+                                <p:submenu label="Vacaciones">
+                                    <p:menuitem value="Vacaciones x Personal"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>
+                                    <p:menuitem value="Nueva"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>                                    
+                                </p:submenu>
+                                
+                                <p:submenu label="Licencias">
+                                    <p:menuitem value="Licencias x Personal"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/licenciamedica"/>
+                                    <p:menuitem value="Nueva"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/licenciamedica"/>
+                                    <p:menuitem value="Seguimiento"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>
+                                </p:submenu>
+                                
+                            </p:submenu>                            
+                            <p:submenu label="Empresas">
+                                <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
+                            </p:submenu>
+                            <p:submenu label="Movimientos">
+                                <p:menuitem value="Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                <p:menuitem value="Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                <p:menuitem value="Anticipos"/>
+                                <p:submenu label="Avanzados">
+                                    <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                    <p:menuitem value="Definición de Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                </p:submenu>                                
+                            </p:submenu>
+                            <p:submenu label="Procesos">
+                                <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                            
+                                <p:menuitem value="Liquidaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
+                                <p:submenu label="Avanzado">
+                                    <p:menuitem value="Definición de Tipos de Controles" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="RR.HH">
+                                <p:menuitem value="Control de Asistencia" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                <p:submenu label="Personal x Cargo">
+                                    <p:menuitem value="Jefes de Servicios" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                    
+                                </p:submenu>                                
+                                <p:menuitem value="Observaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                <p:menuitem value="Tipos de Trabajadores" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                            </p:submenu>    
+                            <p:submenu label="Instituciones">
+                                <p:menuitem value="AFP" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/afp" />
+                                <p:menuitem value="Ahorro Previsional" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/apv" />
+                                <p:menuitem value="Isapres" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/salud" />
+                                <p:menuitem value="Cajas de Compensación" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/cajacompensacion" />
+                                <p:menuitem value="Mutuales de Seguridad" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/mutual" />
+                                <p:menuitem value="Bancos" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/banco" />
+                            </p:submenu>
+
+                            <p:submenu label="Parametros">
+                                <p:menuitem value="Asignación Familiar" outcome="#{appBean.basePath}webapp/remuneraciones/parametros/asignacionfamiliar" />
+                                <p:menuitem value="Seguro Cesantía" outcome="#{appBean.basePath}webapp/remuneraciones/parametros/cesantia" />
+                                <p:menuitem value="Centros de Costos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                            </p:submenu>
+
+                            <p:submenu label="Varios">
+                                <p:submenu label="Avanzado">                                    
+                                    <p:menuitem value="Tipos de Cotización" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+
+                                </p:submenu>
+                            </p:submenu>
+
+                            <f:facet name="options">                        
+                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
+                            </f:facet>
+                        </p:menubar>
+                    </h:form>
+                </div>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="30" resizable="true" closable="true" collapsible="true">
+                <ui:insert name="footer"/>
+                <div id="bottom" class="ui-widget-header">
+                    <p:outputLabel value="Bienvenido: #{loginBean.userName}" style="float: left;"/>
+                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2015 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
+                </div>
+            </p:layoutUnit>      
+
+            <p:layoutUnit position="center">
+                <div id="container"  class="ui-corner-all">
+
+                    <div>
+                        <div id="content" class="ui-corner-all">
+
+                            <ui:insert name="body"/>
+                            
+                            <ui:insert name="content" class="ui-corner-all">
+                                <ui:include src="/WEB-INF/include/entity/compraBoleto/Create.xhtml"/>
+                            </ui:insert>
+                        </div>
+                    </div>
+                </div>
+            </p:layoutUnit>
+
+        </p:layout>
+
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.loggedOut) {
+                    location.href = args.path;
+                }
+            }
+
+            function handleSubmit(xhr, status, args, dialog) {
+                var jqDialog = jQuery('#' + dialog.id);
+                if (args.validationFailed) {
+                    jqDialog.effect('shake', {times: 3}, 100);
+                } else {
+                    dialog.hide();
+                }
+            }
+
+            function logout(xhr, status, args) {
+                setTimeout(function () {
+                    window.location = args.path;
+                }, 500);
+            }
+
+        </script>
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.loggedOut) {
+                    location.href = args.path;
+                }
+            }
+
+            function handleSubmit(xhr, status, args, dialog) {
+                var jqDialog = jQuery('#' + dialog.id);
+                if (args.validationFailed) {
+                    jqDialog.effect('shake', {times: 3}, 100);
+                } else {
+                    dialog.hide();
+                }
+            }
+
+            function logout(xhr, status, args) {
+                setTimeout(function () {
+                    window.location = args.path;
+                }, 500);
+            }
+
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+
+    </h:body>
+</html>
