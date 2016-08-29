@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CargaRetroactivaEditDlg" widgetVar="CargaRetroactivaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCargaRetroactivaTitle}" closeOnEscape="true">
+
+            <h:form id="CargaRetroactivaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cargaRetroactivaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCargaRetroactivaLabel_idCargaRetroactiva}" for="idCargaRetroactiva" />
+                        <h:panelGroup>
+                            <h:outputText id="idCargaRetroactiva" value="#{cargaRetroactivaController.selected.idCargaRetroactiva}" />
+                            <p:tooltip for="idCargaRetroactiva" value="#{cargaRetroactivaController.getComponentMessages('idCargaRetroactiva', bundle.EditCargaRetroactivaHelpText_idCargaRetroactiva)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargaRetroactivaLabel_cargasTrabajador}" for="cargasTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cargasTrabajador" value="#{cargaRetroactivaController.selected.cargasTrabajador}" required="true" requiredMessage="#{bundle.EditCargaRetroactivaRequiredMessage_cargasTrabajador}" converter="cargasTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cargasTrabajadorController.items}"
+                                               var="cargasTrabajadorItem"
+                                               itemValue="#{cargasTrabajadorItem}"
+                                               itemLabel="#{cargasTrabajadorItem.idCargasTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cargasTrabajador" value="#{cargaRetroactivaController.getComponentMessages('cargasTrabajador', bundle.EditCargaRetroactivaHelpText_cargasTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargaRetroactivaLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{cargaRetroactivaController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditCargaRetroactivaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{cargaRetroactivaController.getComponentMessages('trabajador', bundle.EditCargaRetroactivaHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargaRetroactivaLabel_mesLiquidacion}" for="mesLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="mesLiquidacion" value="#{cargaRetroactivaController.selected.mesLiquidacion}" title="#{bundle.EditCargaRetroactivaTitle_mesLiquidacion}" required="true" requiredMessage="#{bundle.EditCargaRetroactivaRequiredMessage_mesLiquidacion}"/>
+                            <p:tooltip for="mesLiquidacion" value="#{cargaRetroactivaController.getComponentMessages('mesLiquidacion', bundle.EditCargaRetroactivaHelpText_mesLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargaRetroactivaLabel_anioLiquidacion}" for="anioLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="anioLiquidacion" value="#{cargaRetroactivaController.selected.anioLiquidacion}" title="#{bundle.EditCargaRetroactivaTitle_anioLiquidacion}" required="true" requiredMessage="#{bundle.EditCargaRetroactivaRequiredMessage_anioLiquidacion}"/>
+                            <p:tooltip for="anioLiquidacion" value="#{cargaRetroactivaController.getComponentMessages('anioLiquidacion', bundle.EditCargaRetroactivaHelpText_anioLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargaRetroactivaLabel_montoRetroactivo}" for="montoRetroactivo" />
+                        <h:panelGroup>
+                            <p:inputText id="montoRetroactivo" value="#{cargaRetroactivaController.selected.montoRetroactivo}" title="#{bundle.EditCargaRetroactivaTitle_montoRetroactivo}" required="true" requiredMessage="#{bundle.EditCargaRetroactivaRequiredMessage_montoRetroactivo}"/>
+                            <p:tooltip for="montoRetroactivo" value="#{cargaRetroactivaController.getComponentMessages('montoRetroactivo', bundle.EditCargaRetroactivaHelpText_montoRetroactivo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargaRetroactivaController.save}" value="#{bundle.Save}" update="display,:CargaRetroactivaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargaRetroactivaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargaRetroactivaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

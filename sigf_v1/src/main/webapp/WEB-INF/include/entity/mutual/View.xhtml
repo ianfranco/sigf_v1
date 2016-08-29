@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MutualViewDlg" widgetVar="MutualViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewMutualTitle}" closeOnEscape="true">
+
+            <h:form id="MutualViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{mutualController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewMutualLabel_idMutual}"/>
+                        <h:outputText value="#{mutualController.selected.idMutual}" title="#{bundle.ViewMutualTitle_idMutual}"/>
+
+                        <h:outputText value="#{bundle.ViewMutualLabel_nombreMutual}"/>
+                        <h:outputText value="#{mutualController.selected.nombreMutual}" title="#{bundle.ViewMutualTitle_nombreMutual}"/>
+
+                        <h:outputText value="#{bundle.ViewMutualLabel_comision}"/>
+                        <h:outputText value="#{mutualController.selected.comision}" title="#{bundle.ViewMutualTitle_comision}"/>
+
+                        <h:outputText value="#{bundle.ViewMutualLabel_porcentajeDescuento}"/>
+                        <h:outputText value="#{mutualController.selected.porcentajeDescuento}" title="#{bundle.ViewMutualTitle_porcentajeDescuento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('MutualViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

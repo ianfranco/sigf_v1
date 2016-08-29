@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CalleServicioEditDlg" widgetVar="CalleServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCalleServicioTitle}" closeOnEscape="true">
+
+            <h:form id="CalleServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{calleServicioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCalleServicioLabel_idCalleServicio}" for="idCalleServicio" />
+                        <h:panelGroup>
+                            <h:outputText id="idCalleServicio" value="#{calleServicioController.selected.idCalleServicio}" />
+                            <p:tooltip for="idCalleServicio" value="#{calleServicioController.getComponentMessages('idCalleServicio', bundle.EditCalleServicioHelpText_idCalleServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calle}" for="calle" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="calle" value="#{calleServicioController.selected.calle}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_calle}" converter="calleConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{calleController.items}"
+                                               var="calleItem"
+                                               itemValue="#{calleItem}"
+                                               itemLabel="#{calleItem.idCalle.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="calle" value="#{calleServicioController.getComponentMessages('calle', bundle.EditCalleServicioHelpText_calle)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{calleServicioController.selected.servicio}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{calleServicioController.getComponentMessages('servicio', bundle.EditCalleServicioHelpText_servicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_numeroOrden}" for="numeroOrden" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroOrden" value="#{calleServicioController.selected.numeroOrden}" title="#{bundle.EditCalleServicioTitle_numeroOrden}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_numeroOrden}"/>
+                            <p:tooltip for="numeroOrden" value="#{calleServicioController.getComponentMessages('numeroOrden', bundle.EditCalleServicioHelpText_numeroOrden)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_sentido}" for="sentido" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="sentido" value="#{calleServicioController.selected.sentido}" />
+                            <p:tooltip for="sentido" value="#{calleServicioController.getComponentMessages('sentido', bundle.EditCalleServicioHelpText_sentido)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calleServicioController.save}" value="#{bundle.Save}" update="display,:CalleServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CalleServicioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

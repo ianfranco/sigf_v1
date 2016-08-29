@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TrabajadorTerminalEditDlg" widgetVar="TrabajadorTerminalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTrabajadorTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorTerminalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{trabajadorTerminalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTrabajadorTerminalLabel_idTrabajadorTerminal}" for="idTrabajadorTerminal" />
+                        <h:panelGroup>
+                            <h:outputText id="idTrabajadorTerminal" value="#{trabajadorTerminalController.selected.idTrabajadorTerminal}" />
+                            <p:tooltip for="idTrabajadorTerminal" value="#{trabajadorTerminalController.getComponentMessages('idTrabajadorTerminal', bundle.EditTrabajadorTerminalHelpText_idTrabajadorTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTrabajadorTerminalLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{trabajadorTerminalController.selected.terminal}" required="true" requiredMessage="#{bundle.EditTrabajadorTerminalRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{trabajadorTerminalController.getComponentMessages('terminal', bundle.EditTrabajadorTerminalHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTrabajadorTerminalLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{trabajadorTerminalController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorTerminalRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{trabajadorTerminalController.getComponentMessages('trabajador', bundle.EditTrabajadorTerminalHelpText_trabajador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{trabajadorTerminalController.save}" value="#{bundle.Save}" update="display,:TrabajadorTerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorTerminalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorTerminalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

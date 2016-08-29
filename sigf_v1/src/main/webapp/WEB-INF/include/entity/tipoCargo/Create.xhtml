@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoCargoCreateDlg" widgetVar="TipoCargoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoCargoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoCargoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_nombreTipoCargo}" for="nombreTipoCargo" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoCargo" value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.CreateTipoCargoTitle_nombreTipoCargo}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_nombreTipoCargo}"/>
+                            <p:tooltip for="nombreTipoCargo" value="#{tipoCargoController.getComponentMessages('nombreTipoCargo', bundle.CreateTipoCargoHelpText_nombreTipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCargoController.selected.fechaIngreso}" title="#{bundle.CreateTipoCargoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoCargoController.getComponentMessages('fechaIngreso', bundle.CreateTipoCargoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.CreateTipoCargoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoCargoController.getComponentMessages('montoDefecto', bundle.CreateTipoCargoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCargoController.saveNew}" value="#{bundle.Save}" update="display,:TipoCargoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCargoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCargoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

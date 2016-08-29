@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UserDeviceEditDlg" widgetVar="UserDeviceEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUserDeviceTitle}" closeOnEscape="true">
+
+            <h:form id="UserDeviceEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{userDeviceController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUserDeviceLabel_idUserDevice}" for="idUserDevice" />
+                        <h:panelGroup>
+                            <h:outputText id="idUserDevice" value="#{userDeviceController.selected.idUserDevice}" />
+                            <p:tooltip for="idUserDevice" value="#{userDeviceController.getComponentMessages('idUserDevice', bundle.EditUserDeviceHelpText_idUserDevice)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserDeviceLabel_device}" for="device" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="device" value="#{userDeviceController.selected.device}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_device}" converter="deviceConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{deviceController.items}"
+                                               var="deviceItem"
+                                               itemValue="#{deviceItem}"
+                                               itemLabel="#{deviceItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="device" value="#{userDeviceController.getComponentMessages('device', bundle.EditUserDeviceHelpText_device)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserDeviceLabel_user}" for="user" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="user" value="#{userDeviceController.selected.user}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_user}" converter="userConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{userController.items}"
+                                               var="userItem"
+                                               itemValue="#{userItem}"
+                                               itemLabel="#{userItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="user" value="#{userDeviceController.getComponentMessages('user', bundle.EditUserDeviceHelpText_user)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserDeviceLabel_read}" for="read" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="read" value="#{userDeviceController.selected.read}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_read}"/>
+                            <p:tooltip for="read" value="#{userDeviceController.getComponentMessages('read', bundle.EditUserDeviceHelpText_read)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserDeviceLabel_write}" for="write" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="write" value="#{userDeviceController.selected.write}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_write}"/>
+                            <p:tooltip for="write" value="#{userDeviceController.getComponentMessages('write', bundle.EditUserDeviceHelpText_write)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{userDeviceController.save}" value="#{bundle.Save}" update="display,:UserDeviceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UserDeviceEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UserDeviceEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

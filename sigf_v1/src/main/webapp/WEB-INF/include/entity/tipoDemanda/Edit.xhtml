@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoDemandaEditDlg" widgetVar="TipoDemandaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoDemandaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDemandaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoDemandaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoDemandaLabel_idTipoDemanda}" for="idTipoDemanda" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoDemanda" value="#{tipoDemandaController.selected.idTipoDemanda}" />
+                            <p:tooltip for="idTipoDemanda" value="#{tipoDemandaController.getComponentMessages('idTipoDemanda', bundle.EditTipoDemandaHelpText_idTipoDemanda)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoDemandaLabel_nombreTipoDemanda}" for="nombreTipoDemanda" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoDemanda" value="#{tipoDemandaController.selected.nombreTipoDemanda}" title="#{bundle.EditTipoDemandaTitle_nombreTipoDemanda}" required="true" requiredMessage="#{bundle.EditTipoDemandaRequiredMessage_nombreTipoDemanda}"/>
+                            <p:tooltip for="nombreTipoDemanda" value="#{tipoDemandaController.getComponentMessages('nombreTipoDemanda', bundle.EditTipoDemandaHelpText_nombreTipoDemanda)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDemandaController.save}" value="#{bundle.Save}" update="display,:TipoDemandaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDemandaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoDemandaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

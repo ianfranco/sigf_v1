@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GastosAdministracionMensualViewDlg" widgetVar="GastosAdministracionMensualViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGastosAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="GastosAdministracionMensualViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{gastosAdministracionMensualController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_idGastosAdministracionMensual}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.idGastosAdministracionMensual}" title="#{bundle.ViewGastosAdministracionMensualTitle_idGastosAdministracionMensual}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_departamento}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.departamento.idDepartamento}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_mes}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.mes}" title="#{bundle.ViewGastosAdministracionMensualTitle_mes}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_anio}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.anio}" title="#{bundle.ViewGastosAdministracionMensualTitle_anio}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_numeroFolio}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.numeroFolio}" title="#{bundle.ViewGastosAdministracionMensualTitle_numeroFolio}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_nombreGastoAdministracion}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.nombreGastoAdministracion}" title="#{bundle.ViewGastosAdministracionMensualTitle_nombreGastoAdministracion}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_fechaGastoAdministracion}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.fechaGastoAdministracion}" title="#{bundle.ViewGastosAdministracionMensualTitle_fechaGastoAdministracion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_fechaIngreso}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.fechaIngreso}" title="#{bundle.ViewGastosAdministracionMensualTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_valor}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.valor}" title="#{bundle.ViewGastosAdministracionMensualTitle_valor}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_observacion}"/>
+                        <h:outputText value="#{gastosAdministracionMensualController.selected.observacion}" title="#{bundle.ViewGastosAdministracionMensualTitle_observacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('GastosAdministracionMensualViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JornadaLaboralViewDlg" widgetVar="JornadaLaboralViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="JornadaLaboralViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{jornadaLaboralController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_idJornadaLaboral}"/>
+                        <h:outputText value="#{jornadaLaboralController.selected.idJornadaLaboral}" title="#{bundle.ViewJornadaLaboralTitle_idJornadaLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_horarioJornada}"/>
+                        <h:outputText value="#{jornadaLaboralController.selected.horarioJornada.idHorarioJornada}"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_nombreJornadaLaboral}"/>
+                        <h:outputText value="#{jornadaLaboralController.selected.nombreJornadaLaboral}" title="#{bundle.ViewJornadaLaboralTitle_nombreJornadaLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_lunes}"/>
+                        <h:selectBooleanCheckbox id="lunes" value="#{jornadaLaboralController.selected.lunes}" title="#{bundle.EditJornadaLaboralTitle_lunes}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_martes}"/>
+                        <h:selectBooleanCheckbox id="martes" value="#{jornadaLaboralController.selected.martes}" title="#{bundle.EditJornadaLaboralTitle_martes}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_miercoles}"/>
+                        <h:selectBooleanCheckbox id="miercoles" value="#{jornadaLaboralController.selected.miercoles}" title="#{bundle.EditJornadaLaboralTitle_miercoles}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_jueves}"/>
+                        <h:selectBooleanCheckbox id="jueves" value="#{jornadaLaboralController.selected.jueves}" title="#{bundle.EditJornadaLaboralTitle_jueves}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_viernes}"/>
+                        <h:selectBooleanCheckbox id="viernes" value="#{jornadaLaboralController.selected.viernes}" title="#{bundle.EditJornadaLaboralTitle_viernes}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_sabado}"/>
+                        <h:selectBooleanCheckbox id="sabado" value="#{jornadaLaboralController.selected.sabado}" title="#{bundle.EditJornadaLaboralTitle_sabado}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewJornadaLaboralLabel_domingo}"/>
+                        <h:selectBooleanCheckbox id="domingo" value="#{jornadaLaboralController.selected.domingo}" title="#{bundle.EditJornadaLaboralTitle_domingo}"  disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('JornadaLaboralViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

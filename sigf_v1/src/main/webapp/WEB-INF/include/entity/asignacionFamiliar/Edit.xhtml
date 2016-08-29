@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AsignacionFamiliarEditDlg" widgetVar="AsignacionFamiliarEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAsignacionFamiliarTitle}" closeOnEscape="true">
+
+            <h:form id="AsignacionFamiliarEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{asignacionFamiliarController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_idAsignacionFamiliar}" for="idAsignacionFamiliar" />
+                        <h:panelGroup>
+                            <h:outputText id="idAsignacionFamiliar" value="#{asignacionFamiliarController.selected.idAsignacionFamiliar}" />
+                            <p:tooltip for="idAsignacionFamiliar" value="#{asignacionFamiliarController.getComponentMessages('idAsignacionFamiliar', bundle.EditAsignacionFamiliarHelpText_idAsignacionFamiliar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_codigoAsignacionFamiliar}" for="codigoAsignacionFamiliar" />
+                        <h:panelGroup>
+                            <p:inputText id="codigoAsignacionFamiliar" value="#{asignacionFamiliarController.selected.codigoAsignacionFamiliar}" title="#{bundle.EditAsignacionFamiliarTitle_codigoAsignacionFamiliar}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_codigoAsignacionFamiliar}"/>
+                            <p:tooltip for="codigoAsignacionFamiliar" value="#{asignacionFamiliarController.getComponentMessages('codigoAsignacionFamiliar', bundle.EditAsignacionFamiliarHelpText_codigoAsignacionFamiliar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_tramo}" for="tramo" />
+                        <h:panelGroup>
+                            <p:inputText id="tramo" value="#{asignacionFamiliarController.selected.tramo}" title="#{bundle.EditAsignacionFamiliarTitle_tramo}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_tramo}"/>
+                            <p:tooltip for="tramo" value="#{asignacionFamiliarController.getComponentMessages('tramo', bundle.EditAsignacionFamiliarHelpText_tramo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{asignacionFamiliarController.selected.monto}" title="#{bundle.EditAsignacionFamiliarTitle_monto}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_monto}"/>
+                            <p:tooltip for="monto" value="#{asignacionFamiliarController.getComponentMessages('monto', bundle.EditAsignacionFamiliarHelpText_monto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:inputText id="desde" value="#{asignacionFamiliarController.selected.desde}" title="#{bundle.EditAsignacionFamiliarTitle_desde}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_desde}"/>
+                            <p:tooltip for="desde" value="#{asignacionFamiliarController.getComponentMessages('desde', bundle.EditAsignacionFamiliarHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:inputText id="hasta" value="#{asignacionFamiliarController.selected.hasta}" title="#{bundle.EditAsignacionFamiliarTitle_hasta}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_hasta}"/>
+                            <p:tooltip for="hasta" value="#{asignacionFamiliarController.getComponentMessages('hasta', bundle.EditAsignacionFamiliarHelpText_hasta)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{asignacionFamiliarController.selected.anio}" title="#{bundle.EditAsignacionFamiliarTitle_anio}"/>
+                            <p:tooltip for="anio" value="#{asignacionFamiliarController.getComponentMessages('anio', bundle.EditAsignacionFamiliarHelpText_anio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{asignacionFamiliarController.save}" value="#{bundle.Save}" update="display,:AsignacionFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AsignacionFamiliarEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignacionFamiliarEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

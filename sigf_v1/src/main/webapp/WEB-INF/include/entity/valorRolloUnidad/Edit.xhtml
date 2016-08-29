@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorRolloUnidadEditDlg" widgetVar="ValorRolloUnidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorRolloUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ValorRolloUnidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorRolloUnidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorRolloUnidadLabel_idValorRolloUnidad}" for="idValorRolloUnidad" />
+                        <h:panelGroup>
+                            <h:outputText id="idValorRolloUnidad" value="#{valorRolloUnidadController.selected.idValorRolloUnidad}" />
+                            <p:tooltip for="idValorRolloUnidad" value="#{valorRolloUnidadController.getComponentMessages('idValorRolloUnidad', bundle.EditValorRolloUnidadHelpText_idValorRolloUnidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_unidadNegocio}" for="unidadNegocio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="unidadNegocio" value="#{valorRolloUnidadController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_unidadNegocio}" converter="unidadNegocioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{unidadNegocioController.items}"
+                                               var="unidadNegocioItem"
+                                               itemValue="#{unidadNegocioItem}"
+                                               itemLabel="#{unidadNegocioItem.idUnidadNegocio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="unidadNegocio" value="#{valorRolloUnidadController.getComponentMessages('unidadNegocio', bundle.EditValorRolloUnidadHelpText_unidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_compra}" for="compra" />
+                        <h:panelGroup>
+                            <p:inputText id="compra" value="#{valorRolloUnidadController.selected.compra}" title="#{bundle.EditValorRolloUnidadTitle_compra}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_compra}"/>
+                            <p:tooltip for="compra" value="#{valorRolloUnidadController.getComponentMessages('compra', bundle.EditValorRolloUnidadHelpText_compra)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_venta}" for="venta" />
+                        <h:panelGroup>
+                            <p:inputText id="venta" value="#{valorRolloUnidadController.selected.venta}" title="#{bundle.EditValorRolloUnidadTitle_venta}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_venta}"/>
+                            <p:tooltip for="venta" value="#{valorRolloUnidadController.getComponentMessages('venta', bundle.EditValorRolloUnidadHelpText_venta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorRolloUnidadController.save}" value="#{bundle.Save}" update="display,:ValorRolloUnidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorRolloUnidadEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorRolloUnidadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

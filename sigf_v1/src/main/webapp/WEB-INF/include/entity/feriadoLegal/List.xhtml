@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FeriadoLegalListForm">
+
+        <p:panel header="#{bundle.ListFeriadoLegalTitle}">
+            <p:contextMenu id="FeriadoLegalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('FeriadoLegalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('FeriadoLegalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('FeriadoLegalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('FeriadoLegalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.FeriadoLegalMenuItem_trabajador}" icon="ui-icon-search"  actionListener="#{feriadoLegalController.prepareTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty feriadoLegalController.selected.trabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{feriadoLegalController.items}"
+                         lazy="false"
+                         rowKey="#{item.idFeriadoLegal}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{feriadoLegalController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{feriadoLegalController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idFeriadoLegal}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FeriadoLegalDataTableContextMenu" listener="#{feriadoLegalController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FeriadoLegalDataTableContextMenu" listener="#{feriadoLegalController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{feriadoLegalController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FeriadoLegalListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idFeriadoLegal}" filterBy="#{item.idFeriadoLegal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_idFeriadoLegal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idFeriadoLegal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajador.idTrabajador}" filterBy="#{item.trabajador.idTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_trabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.idTrabajador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaIngresoFeriado}" filterBy="#{item.fechaIngresoFeriado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_fechaIngresoFeriado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngresoFeriado}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaDesdeFeriado}" filterBy="#{item.fechaDesdeFeriado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_fechaDesdeFeriado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaDesdeFeriado}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaHastaFeriado}" filterBy="#{item.fechaHastaFeriado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_fechaHastaFeriado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaHastaFeriado}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.diasHabiles}" filterBy="#{item.diasHabiles}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFeriadoLegalTitle_diasHabiles}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasHabiles}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.vacacionesProgresivas}" filterBy="#{item.vacacionesProgresivas}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_vacacionesProgresivas}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.vacacionesProgresivas}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.domingosInhabiles}" filterBy="#{item.domingosInhabiles}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_domingosInhabiles}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.domingosInhabiles}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.feriadoFraccionado}" filterBy="#{item.feriadoFraccionado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_feriadoFraccionado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.feriadoFraccionado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.saldoPendiente}" filterBy="#{item.saldoPendiente}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_saldoPendiente}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.saldoPendiente}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.valorFeriado}" filterBy="#{item.valorFeriado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_valorFeriado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.valorFeriado}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{feriadoLegalController.prepareCreate}" update=":FeriadoLegalCreateForm" oncomplete="PF('FeriadoLegalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":FeriadoLegalViewForm" oncomplete="PF('FeriadoLegalViewDialog').show()" disabled="#{empty feriadoLegalController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FeriadoLegalEditForm" oncomplete="PF('FeriadoLegalEditDialog').show()" disabled="#{empty feriadoLegalController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{feriadoLegalController.delete}" update=":growl,datalist" disabled="#{empty feriadoLegalController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

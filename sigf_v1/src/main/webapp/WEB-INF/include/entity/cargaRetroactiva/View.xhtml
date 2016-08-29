@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargaRetroactivaViewDlg" widgetVar="CargaRetroactivaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCargaRetroactivaTitle}" closeOnEscape="true">
+
+            <h:form id="CargaRetroactivaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cargaRetroactivaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_idCargaRetroactiva}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.idCargaRetroactiva}" title="#{bundle.ViewCargaRetroactivaTitle_idCargaRetroactiva}"/>
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_cargasTrabajador}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.cargasTrabajador.idCargasTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_trabajador}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_mesLiquidacion}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.mesLiquidacion}" title="#{bundle.ViewCargaRetroactivaTitle_mesLiquidacion}"/>
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_anioLiquidacion}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.anioLiquidacion}" title="#{bundle.ViewCargaRetroactivaTitle_anioLiquidacion}"/>
+
+                        <h:outputText value="#{bundle.ViewCargaRetroactivaLabel_montoRetroactivo}"/>
+                        <h:outputText value="#{cargaRetroactivaController.selected.montoRetroactivo}" title="#{bundle.ViewCargaRetroactivaTitle_montoRetroactivo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CargaRetroactivaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

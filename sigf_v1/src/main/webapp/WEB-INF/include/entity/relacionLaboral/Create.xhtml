@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RelacionLaboralCreateDlg" widgetVar="RelacionLaboralCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="RelacionLaboralCreateForm">
+
+                <h:panelGroup id="display" rendered="#{relacionLaboralController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{relacionLaboralController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{relacionLaboralController.getComponentMessages('empresa', bundle.CreateRelacionLaboralHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_tipoContrato}" for="tipoContrato" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoContrato" value="#{relacionLaboralController.selected.tipoContrato}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoContrato}" converter="tipoContratoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoContratoController.items}"
+                                               var="tipoContratoItem"
+                                               itemValue="#{tipoContratoItem}"
+                                               itemLabel="#{tipoContratoItem.idTipoContrato.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoContrato" value="#{relacionLaboralController.getComponentMessages('tipoContrato', bundle.CreateRelacionLaboralHelpText_tipoContrato)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_tipoTrabajador}" for="tipoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoTrabajador" value="#{relacionLaboralController.selected.tipoTrabajador}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoTrabajador}" converter="tipoTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoTrabajadorController.items}"
+                                               var="tipoTrabajadorItem"
+                                               itemValue="#{tipoTrabajadorItem}"
+                                               itemLabel="#{tipoTrabajadorItem.idTipoTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoTrabajador" value="#{relacionLaboralController.getComponentMessages('tipoTrabajador', bundle.CreateRelacionLaboralHelpText_tipoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{relacionLaboralController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{relacionLaboralController.getComponentMessages('trabajador', bundle.CreateRelacionLaboralHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_fechaInicio}" for="fechaInicio" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{relacionLaboralController.selected.fechaInicio}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}"  showOn="button"/>
+                            <p:tooltip for="fechaInicio" value="#{relacionLaboralController.getComponentMessages('fechaInicio', bundle.CreateRelacionLaboralHelpText_fechaInicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_fechaFin}" for="fechaFin" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{relacionLaboralController.selected.fechaFin}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}"  showOn="button"/>
+                            <p:tooltip for="fechaFin" value="#{relacionLaboralController.getComponentMessages('fechaFin', bundle.CreateRelacionLaboralHelpText_fechaFin)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_tipoContrato_1}" for="tipoContrato_1" />
+                        <h:panelGroup>
+                            <p:inputText id="tipoContrato_1" value="#{relacionLaboralController.selected.tipoContrato_1}" title="#{bundle.CreateRelacionLaboralTitle_tipoContrato_1}"/>
+                            <p:tooltip for="tipoContrato_1" value="#{relacionLaboralController.getComponentMessages('tipoContrato_1', bundle.CreateRelacionLaboralHelpText_tipoContrato_1)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_sueldoBase}" for="sueldoBase" />
+                        <h:panelGroup>
+                            <p:inputText id="sueldoBase" value="#{relacionLaboralController.selected.sueldoBase}" title="#{bundle.CreateRelacionLaboralTitle_sueldoBase}"/>
+                            <p:tooltip for="sueldoBase" value="#{relacionLaboralController.getComponentMessages('sueldoBase', bundle.CreateRelacionLaboralHelpText_sueldoBase)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_rutaArchivoRespaldo}" for="rutaArchivoRespaldo" />
+                        <h:panelGroup>
+                            <p:inputText id="rutaArchivoRespaldo" value="#{relacionLaboralController.selected.rutaArchivoRespaldo}" title="#{bundle.CreateRelacionLaboralTitle_rutaArchivoRespaldo}"/>
+                            <p:tooltip for="rutaArchivoRespaldo" value="#{relacionLaboralController.getComponentMessages('rutaArchivoRespaldo', bundle.CreateRelacionLaboralHelpText_rutaArchivoRespaldo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_estado}" for="estado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="estado" value="#{relacionLaboralController.selected.estado}" />
+                            <p:tooltip for="estado" value="#{relacionLaboralController.getComponentMessages('estado', bundle.CreateRelacionLaboralHelpText_estado)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{relacionLaboralController.saveNew}" value="#{bundle.Save}" update="display,:RelacionLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RelacionLaboralCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RelacionLaboralCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

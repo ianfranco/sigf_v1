@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GrupoAsignacionTrabajadorEditDlg" widgetVar="GrupoAsignacionTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditGrupoAsignacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoAsignacionTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{grupoAsignacionTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditGrupoAsignacionTrabajadorLabel_idGrupoAsignacionTrabajador}" for="idGrupoAsignacionTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idGrupoAsignacionTrabajador" value="#{grupoAsignacionTrabajadorController.selected.idGrupoAsignacionTrabajador}" />
+                            <p:tooltip for="idGrupoAsignacionTrabajador" value="#{grupoAsignacionTrabajadorController.getComponentMessages('idGrupoAsignacionTrabajador', bundle.EditGrupoAsignacionTrabajadorHelpText_idGrupoAsignacionTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGrupoAsignacionTrabajadorLabel_asignacionFamiliar}" for="asignacionFamiliar" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="asignacionFamiliar" value="#{grupoAsignacionTrabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.EditGrupoAsignacionTrabajadorRequiredMessage_asignacionFamiliar}" converter="asignacionFamiliarConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{asignacionFamiliarController.items}"
+                                               var="asignacionFamiliarItem"
+                                               itemValue="#{asignacionFamiliarItem}"
+                                               itemLabel="#{asignacionFamiliarItem.idAsignacionFamiliar.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="asignacionFamiliar" value="#{grupoAsignacionTrabajadorController.getComponentMessages('asignacionFamiliar', bundle.EditGrupoAsignacionTrabajadorHelpText_asignacionFamiliar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGrupoAsignacionTrabajadorLabel_sueldoAsignacionTrabajador}" for="sueldoAsignacionTrabajador" />
+                        <h:panelGroup>
+                            <p:inputText id="sueldoAsignacionTrabajador" value="#{grupoAsignacionTrabajadorController.selected.sueldoAsignacionTrabajador}" title="#{bundle.EditGrupoAsignacionTrabajadorTitle_sueldoAsignacionTrabajador}" required="true" requiredMessage="#{bundle.EditGrupoAsignacionTrabajadorRequiredMessage_sueldoAsignacionTrabajador}"/>
+                            <p:tooltip for="sueldoAsignacionTrabajador" value="#{grupoAsignacionTrabajadorController.getComponentMessages('sueldoAsignacionTrabajador', bundle.EditGrupoAsignacionTrabajadorHelpText_sueldoAsignacionTrabajador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{grupoAsignacionTrabajadorController.save}" value="#{bundle.Save}" update="display,:GrupoAsignacionTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GrupoAsignacionTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GrupoAsignacionTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

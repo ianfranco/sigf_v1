@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDemandaViewDlg" widgetVar="TipoDemandaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoDemandaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDemandaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoDemandaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoDemandaLabel_idTipoDemanda}"/>
+                        <h:outputText value="#{tipoDemandaController.selected.idTipoDemanda}" title="#{bundle.ViewTipoDemandaTitle_idTipoDemanda}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDemandaLabel_nombreTipoDemanda}"/>
+                        <h:outputText value="#{tipoDemandaController.selected.nombreTipoDemanda}" title="#{bundle.ViewTipoDemandaTitle_nombreTipoDemanda}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoDemandaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

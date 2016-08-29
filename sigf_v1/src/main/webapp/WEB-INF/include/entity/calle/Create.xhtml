@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalleCreateDlg" widgetVar="CalleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCalleTitle}" closeOnEscape="true">
+
+            <h:form id="CalleCreateForm">
+
+                <h:panelGroup id="display" rendered="#{calleController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCalleLabel_comuna}" for="comuna" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="comuna" value="#{calleController.selected.comuna}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_comuna}" converter="comunaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{comunaController.items}"
+                                               var="comunaItem"
+                                               itemValue="#{comunaItem}"
+                                               itemLabel="#{comunaItem.idComuna.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="comuna" value="#{calleController.getComponentMessages('comuna', bundle.CreateCalleHelpText_comuna)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCalleLabel_nombreCalle}" for="nombreCalle" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreCalle" value="#{calleController.selected.nombreCalle}" title="#{bundle.CreateCalleTitle_nombreCalle}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_nombreCalle}"/>
+                            <p:tooltip for="nombreCalle" value="#{calleController.getComponentMessages('nombreCalle', bundle.CreateCalleHelpText_nombreCalle)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calleController.saveNew}" value="#{bundle.Save}" update="display,:CalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CalleCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

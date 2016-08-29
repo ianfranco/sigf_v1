@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoUnidadCreateDlg" widgetVar="ContratoUnidadCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateContratoUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ContratoUnidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{contratoUnidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_unidadNegocio}" for="unidadNegocio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="unidadNegocio" value="#{contratoUnidadController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_unidadNegocio}" converter="unidadNegocioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{unidadNegocioController.items}"
+                                               var="unidadNegocioItem"
+                                               itemValue="#{unidadNegocioItem}"
+                                               itemLabel="#{unidadNegocioItem.idUnidadNegocio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="unidadNegocio" value="#{contratoUnidadController.getComponentMessages('unidadNegocio', bundle.CreateContratoUnidadHelpText_unidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_identificadorContratoUnidad}" for="identificadorContratoUnidad" />
+                        <h:panelGroup>
+                            <p:inputText id="identificadorContratoUnidad" value="#{contratoUnidadController.selected.identificadorContratoUnidad}" title="#{bundle.CreateContratoUnidadTitle_identificadorContratoUnidad}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_identificadorContratoUnidad}"/>
+                            <p:tooltip for="identificadorContratoUnidad" value="#{contratoUnidadController.getComponentMessages('identificadorContratoUnidad', bundle.CreateContratoUnidadHelpText_identificadorContratoUnidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_desdeContratoUnidad}" for="desdeContratoUnidad" />
+                        <h:panelGroup>
+                            <p:calendar id="desdeContratoUnidad" pattern="MM/dd/yyyy" value="#{contratoUnidadController.selected.desdeContratoUnidad}" title="#{bundle.CreateContratoUnidadTitle_desdeContratoUnidad}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_desdeContratoUnidad}" showOn="button"/>
+                            <p:tooltip for="desdeContratoUnidad" value="#{contratoUnidadController.getComponentMessages('desdeContratoUnidad', bundle.CreateContratoUnidadHelpText_desdeContratoUnidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_hastaContratoUnidad}" for="hastaContratoUnidad" />
+                        <h:panelGroup>
+                            <p:calendar id="hastaContratoUnidad" pattern="MM/dd/yyyy" value="#{contratoUnidadController.selected.hastaContratoUnidad}" title="#{bundle.CreateContratoUnidadTitle_hastaContratoUnidad}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_hastaContratoUnidad}" showOn="button"/>
+                            <p:tooltip for="hastaContratoUnidad" value="#{contratoUnidadController.getComponentMessages('hastaContratoUnidad', bundle.CreateContratoUnidadHelpText_hastaContratoUnidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_nombreContratoUnidad}" for="nombreContratoUnidad" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreContratoUnidad" value="#{contratoUnidadController.selected.nombreContratoUnidad}" title="#{bundle.CreateContratoUnidadTitle_nombreContratoUnidad}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_nombreContratoUnidad}"/>
+                            <p:tooltip for="nombreContratoUnidad" value="#{contratoUnidadController.getComponentMessages('nombreContratoUnidad', bundle.CreateContratoUnidadHelpText_nombreContratoUnidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_descripcionContratoUnidad}" for="descripcionContratoUnidad" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcionContratoUnidad" value="#{contratoUnidadController.selected.descripcionContratoUnidad}" title="#{bundle.CreateContratoUnidadTitle_descripcionContratoUnidad}"/>
+                            <p:tooltip for="descripcionContratoUnidad" value="#{contratoUnidadController.getComponentMessages('descripcionContratoUnidad', bundle.CreateContratoUnidadHelpText_descripcionContratoUnidad)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contratoUnidadController.saveNew}" value="#{bundle.Save}" update="display,:ContratoUnidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ContratoUnidadCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ContratoUnidadCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

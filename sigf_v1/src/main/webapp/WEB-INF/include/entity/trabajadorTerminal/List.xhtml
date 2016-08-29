@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TrabajadorTerminalListForm">
+
+        <p:panel header="#{bundle.ListTrabajadorTerminalTitle}">
+            <p:contextMenu id="TrabajadorTerminalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TrabajadorTerminalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TrabajadorTerminalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorTerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TrabajadorTerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TrabajadorTerminalMenuItem_terminal}" icon="ui-icon-search"  actionListener="#{trabajadorTerminalController.prepareTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty trabajadorTerminalController.selected.terminal}"/>  
+                <p:menuitem value="#{bundle.TrabajadorTerminalMenuItem_trabajador}" icon="ui-icon-search"  actionListener="#{trabajadorTerminalController.prepareTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorTerminalController.selected.trabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{trabajadorTerminalController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTrabajadorTerminal}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{trabajadorTerminalController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{trabajadorTerminalController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTrabajadorTerminal}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorTerminalDataTableContextMenu" listener="#{trabajadorTerminalController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorTerminalDataTableContextMenu" listener="#{trabajadorTerminalController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{trabajadorTerminalController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TrabajadorTerminalListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTrabajadorTerminal}" filterBy="#{item.idTrabajadorTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTerminalTitle_idTrabajadorTerminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTrabajadorTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminal.idTerminal}" filterBy="#{item.terminal.idTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTerminalTitle_terminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminal.idTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajador.idTrabajador}" filterBy="#{item.trabajador.idTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTerminalTitle_trabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.idTrabajador}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{trabajadorTerminalController.prepareCreate}" update=":TrabajadorTerminalCreateForm" oncomplete="PF('TrabajadorTerminalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorTerminalViewForm" oncomplete="PF('TrabajadorTerminalViewDialog').show()" disabled="#{empty trabajadorTerminalController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorTerminalEditForm" oncomplete="PF('TrabajadorTerminalEditDialog').show()" disabled="#{empty trabajadorTerminalController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{trabajadorTerminalController.delete}" update=":growl,datalist" disabled="#{empty trabajadorTerminalController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

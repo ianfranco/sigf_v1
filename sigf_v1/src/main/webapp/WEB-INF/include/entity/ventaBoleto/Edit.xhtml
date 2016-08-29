@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VentaBoletoEditDlg" widgetVar="VentaBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ventaBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditVentaBoletoLabel_idVentaBoleto}" for="idVentaBoleto" />
+                        <h:panelGroup>
+                            <h:outputText id="idVentaBoleto" value="#{ventaBoletoController.selected.idVentaBoleto}" />
+                            <p:tooltip for="idVentaBoleto" value="#{ventaBoletoController.getComponentMessages('idVentaBoleto', bundle.EditVentaBoletoHelpText_idVentaBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{ventaBoletoController.selected.terminal}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{ventaBoletoController.getComponentMessages('terminal', bundle.EditVentaBoletoHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_fechaVentaBoleto}" for="fechaVentaBoleto" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaVentaBoleto" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaBoletoController.selected.fechaVentaBoleto}" title="#{bundle.EditVentaBoletoTitle_fechaVentaBoleto}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_fechaVentaBoleto}" showOn="button"/>
+                            <p:tooltip for="fechaVentaBoleto" value="#{ventaBoletoController.getComponentMessages('fechaVentaBoleto', bundle.EditVentaBoletoHelpText_fechaVentaBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_nombreComprador}" for="nombreComprador" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreComprador" value="#{ventaBoletoController.selected.nombreComprador}" title="#{bundle.EditVentaBoletoTitle_nombreComprador}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_nombreComprador}"/>
+                            <p:tooltip for="nombreComprador" value="#{ventaBoletoController.getComponentMessages('nombreComprador', bundle.EditVentaBoletoHelpText_nombreComprador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_totalCompra}" for="totalCompra" />
+                        <h:panelGroup>
+                            <p:inputText id="totalCompra" value="#{ventaBoletoController.selected.totalCompra}" title="#{bundle.EditVentaBoletoTitle_totalCompra}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_totalCompra}"/>
+                            <p:tooltip for="totalCompra" value="#{ventaBoletoController.getComponentMessages('totalCompra', bundle.EditVentaBoletoHelpText_totalCompra)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoController.save}" value="#{bundle.Save}" update="display,:VentaBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

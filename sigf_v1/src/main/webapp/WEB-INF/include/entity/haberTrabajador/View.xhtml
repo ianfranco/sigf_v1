@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberTrabajadorViewDlg" widgetVar="HaberTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{haberTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_idHaberTrabajador}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.idHaberTrabajador}" title="#{bundle.ViewHaberTrabajadorTitle_idHaberTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_nombreTipoHaber}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.nombreTipoHaber}" title="#{bundle.ViewHaberTrabajadorTitle_nombreTipoHaber}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_fechaIngreso}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.fechaIngreso}" title="#{bundle.ViewHaberTrabajadorTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_montoDefecto}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.montoDefecto}" title="#{bundle.ViewHaberTrabajadorTitle_montoDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_imponible}"/>
+                        <h:selectBooleanCheckbox id="imponible" value="#{haberTrabajadorController.selected.imponible}" title="#{bundle.EditHaberTrabajadorTitle_imponible}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_imponible}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HaberTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

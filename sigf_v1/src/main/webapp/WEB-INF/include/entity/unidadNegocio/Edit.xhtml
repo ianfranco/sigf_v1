@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UnidadNegocioEditDlg" widgetVar="UnidadNegocioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUnidadNegocioTitle}" closeOnEscape="true">
+
+            <h:form id="UnidadNegocioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{unidadNegocioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUnidadNegocioLabel_idUnidadNegocio}" for="idUnidadNegocio" />
+                        <h:panelGroup>
+                            <h:outputText id="idUnidadNegocio" value="#{unidadNegocioController.selected.idUnidadNegocio}" />
+                            <p:tooltip for="idUnidadNegocio" value="#{unidadNegocioController.getComponentMessages('idUnidadNegocio', bundle.EditUnidadNegocioHelpText_idUnidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_operadorTransporte}" for="operadorTransporte" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="operadorTransporte" value="#{unidadNegocioController.selected.operadorTransporte}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_operadorTransporte}" converter="operadorTransporteConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{operadorTransporteController.items}"
+                                               var="operadorTransporteItem"
+                                               itemValue="#{operadorTransporteItem}"
+                                               itemLabel="#{operadorTransporteItem.idOperadorTransporte.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="operadorTransporte" value="#{unidadNegocioController.getComponentMessages('operadorTransporte', bundle.EditUnidadNegocioHelpText_operadorTransporte)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_region}" for="region" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="region" value="#{unidadNegocioController.selected.region}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_region}" converter="regionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{regionController.items}"
+                                               var="regionItem"
+                                               itemValue="#{regionItem}"
+                                               itemLabel="#{regionItem.idRegion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="region" value="#{unidadNegocioController.getComponentMessages('region', bundle.EditUnidadNegocioHelpText_region)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_numeroUnidadNegocio}" for="numeroUnidadNegocio" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroUnidadNegocio" value="#{unidadNegocioController.selected.numeroUnidadNegocio}" title="#{bundle.EditUnidadNegocioTitle_numeroUnidadNegocio}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_numeroUnidadNegocio}"/>
+                            <p:tooltip for="numeroUnidadNegocio" value="#{unidadNegocioController.getComponentMessages('numeroUnidadNegocio', bundle.EditUnidadNegocioHelpText_numeroUnidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_nombreUnidadNegocio}" for="nombreUnidadNegocio" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreUnidadNegocio" value="#{unidadNegocioController.selected.nombreUnidadNegocio}" title="#{bundle.EditUnidadNegocioTitle_nombreUnidadNegocio}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_nombreUnidadNegocio}"/>
+                            <p:tooltip for="nombreUnidadNegocio" value="#{unidadNegocioController.getComponentMessages('nombreUnidadNegocio', bundle.EditUnidadNegocioHelpText_nombreUnidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_folioUnidadNegocio}" for="folioUnidadNegocio" />
+                        <h:panelGroup>
+                            <p:inputText id="folioUnidadNegocio" value="#{unidadNegocioController.selected.folioUnidadNegocio}" title="#{bundle.EditUnidadNegocioTitle_folioUnidadNegocio}"/>
+                            <p:tooltip for="folioUnidadNegocio" value="#{unidadNegocioController.getComponentMessages('folioUnidadNegocio', bundle.EditUnidadNegocioHelpText_folioUnidadNegocio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{unidadNegocioController.save}" value="#{bundle.Save}" update="display,:UnidadNegocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UnidadNegocioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UnidadNegocioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

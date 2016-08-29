@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RepresentanteEmpresaCreateDlg" widgetVar="RepresentanteEmpresaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRepresentanteEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteEmpresaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{representanteEmpresaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteEmpresaLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{representanteEmpresaController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateRepresentanteEmpresaRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{representanteEmpresaController.getComponentMessages('empresa', bundle.CreateRepresentanteEmpresaHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteEmpresaLabel_representanteLegal}" for="representanteLegal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="representanteLegal" value="#{representanteEmpresaController.selected.representanteLegal}" required="true" requiredMessage="#{bundle.CreateRepresentanteEmpresaRequiredMessage_representanteLegal}" converter="representanteLegalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{representanteLegalController.items}"
+                                               var="representanteLegalItem"
+                                               itemValue="#{representanteLegalItem}"
+                                               itemLabel="#{representanteLegalItem.idRepresentanteLegal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="representanteLegal" value="#{representanteEmpresaController.getComponentMessages('representanteLegal', bundle.CreateRepresentanteEmpresaHelpText_representanteLegal)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{representanteEmpresaController.saveNew}" value="#{bundle.Save}" update="display,:RepresentanteEmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RepresentanteEmpresaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RepresentanteEmpresaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

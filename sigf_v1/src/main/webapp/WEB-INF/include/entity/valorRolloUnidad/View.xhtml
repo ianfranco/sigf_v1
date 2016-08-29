@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorRolloUnidadViewDlg" widgetVar="ValorRolloUnidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewValorRolloUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ValorRolloUnidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{valorRolloUnidadController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewValorRolloUnidadLabel_idValorRolloUnidad}"/>
+                        <h:outputText value="#{valorRolloUnidadController.selected.idValorRolloUnidad}" title="#{bundle.ViewValorRolloUnidadTitle_idValorRolloUnidad}"/>
+
+                        <h:outputText value="#{bundle.ViewValorRolloUnidadLabel_unidadNegocio}"/>
+                        <h:outputText value="#{valorRolloUnidadController.selected.unidadNegocio.idUnidadNegocio}"/>
+
+                        <h:outputText value="#{bundle.ViewValorRolloUnidadLabel_compra}"/>
+                        <h:outputText value="#{valorRolloUnidadController.selected.compra}" title="#{bundle.ViewValorRolloUnidadTitle_compra}"/>
+
+                        <h:outputText value="#{bundle.ViewValorRolloUnidadLabel_venta}"/>
+                        <h:outputText value="#{valorRolloUnidadController.selected.venta}" title="#{bundle.ViewValorRolloUnidadTitle_venta}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ValorRolloUnidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

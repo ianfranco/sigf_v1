@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HorarioServicioCreateDlg" widgetVar="HorarioServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHorarioServicioTitle}" closeOnEscape="true">
+
+            <h:form id="HorarioServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{horarioServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{horarioServicioController.selected.servicio}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{horarioServicioController.getComponentMessages('servicio', bundle.CreateHorarioServicioHelpText_servicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_tipoEstacionalidad}" for="tipoEstacionalidad" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoEstacionalidad" value="#{horarioServicioController.selected.tipoEstacionalidad}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_tipoEstacionalidad}" converter="tipoEstacionalidadConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoEstacionalidadController.items}"
+                                               var="tipoEstacionalidadItem"
+                                               itemValue="#{tipoEstacionalidadItem}"
+                                               itemLabel="#{tipoEstacionalidadItem.idTipoEstacionalidad.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoEstacionalidad" value="#{horarioServicioController.getComponentMessages('tipoEstacionalidad', bundle.CreateHorarioServicioHelpText_tipoEstacionalidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{horarioServicioController.selected.nombre}" title="#{bundle.CreateHorarioServicioTitle_nombre}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_nombre}"/>
+                            <p:tooltip for="nombre" value="#{horarioServicioController.getComponentMessages('nombre', bundle.CreateHorarioServicioHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:calendar id="desde" pattern="HH:mm:ss" value="#{horarioServicioController.selected.desde}" title="#{bundle.CreateHorarioServicioTitle_desde}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_desde}" showOn="button"/>
+                            <p:tooltip for="desde" value="#{horarioServicioController.getComponentMessages('desde', bundle.CreateHorarioServicioHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:calendar id="hasta" pattern="HH:mm:ss" value="#{horarioServicioController.selected.hasta}" title="#{bundle.CreateHorarioServicioTitle_hasta}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_hasta}" showOn="button"/>
+                            <p:tooltip for="hasta" value="#{horarioServicioController.getComponentMessages('hasta', bundle.CreateHorarioServicioHelpText_hasta)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_lunes}" for="lunes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="lunes" value="#{horarioServicioController.selected.lunes}" />
+                            <p:tooltip for="lunes" value="#{horarioServicioController.getComponentMessages('lunes', bundle.CreateHorarioServicioHelpText_lunes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_martes}" for="martes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="martes" value="#{horarioServicioController.selected.martes}" />
+                            <p:tooltip for="martes" value="#{horarioServicioController.getComponentMessages('martes', bundle.CreateHorarioServicioHelpText_martes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_miercoles}" for="miercoles" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="miercoles" value="#{horarioServicioController.selected.miercoles}" />
+                            <p:tooltip for="miercoles" value="#{horarioServicioController.getComponentMessages('miercoles', bundle.CreateHorarioServicioHelpText_miercoles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_jueves}" for="jueves" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="jueves" value="#{horarioServicioController.selected.jueves}" />
+                            <p:tooltip for="jueves" value="#{horarioServicioController.getComponentMessages('jueves', bundle.CreateHorarioServicioHelpText_jueves)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_viernes}" for="viernes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="viernes" value="#{horarioServicioController.selected.viernes}" />
+                            <p:tooltip for="viernes" value="#{horarioServicioController.getComponentMessages('viernes', bundle.CreateHorarioServicioHelpText_viernes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_sabado}" for="sabado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="sabado" value="#{horarioServicioController.selected.sabado}" />
+                            <p:tooltip for="sabado" value="#{horarioServicioController.getComponentMessages('sabado', bundle.CreateHorarioServicioHelpText_sabado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_domingo}" for="domingo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="domingo" value="#{horarioServicioController.selected.domingo}" />
+                            <p:tooltip for="domingo" value="#{horarioServicioController.getComponentMessages('domingo', bundle.CreateHorarioServicioHelpText_domingo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horarioServicioController.saveNew}" value="#{bundle.Save}" update="display,:HorarioServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HorarioServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

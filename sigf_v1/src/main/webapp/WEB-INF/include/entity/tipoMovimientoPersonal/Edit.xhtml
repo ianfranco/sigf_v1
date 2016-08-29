@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoMovimientoPersonalEditDlg" widgetVar="TipoMovimientoPersonalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoMovimientoPersonalTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMovimientoPersonalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoMovimientoPersonalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoMovimientoPersonalLabel_idTipoMovimientoPersonal}" for="idTipoMovimientoPersonal" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoMovimientoPersonal" value="#{tipoMovimientoPersonalController.selected.idTipoMovimientoPersonal}" />
+                            <p:tooltip for="idTipoMovimientoPersonal" value="#{tipoMovimientoPersonalController.getComponentMessages('idTipoMovimientoPersonal', bundle.EditTipoMovimientoPersonalHelpText_idTipoMovimientoPersonal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoMovimientoPersonalLabel_nombreTipoMovtoPersonal}" for="nombreTipoMovtoPersonal" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoMovtoPersonal" value="#{tipoMovimientoPersonalController.selected.nombreTipoMovtoPersonal}" title="#{bundle.EditTipoMovimientoPersonalTitle_nombreTipoMovtoPersonal}" required="true" requiredMessage="#{bundle.EditTipoMovimientoPersonalRequiredMessage_nombreTipoMovtoPersonal}"/>
+                            <p:tooltip for="nombreTipoMovtoPersonal" value="#{tipoMovimientoPersonalController.getComponentMessages('nombreTipoMovtoPersonal', bundle.EditTipoMovimientoPersonalHelpText_nombreTipoMovtoPersonal)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMovimientoPersonalController.save}" value="#{bundle.Save}" update="display,:TipoMovimientoPersonalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoMovimientoPersonalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoMovimientoPersonalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

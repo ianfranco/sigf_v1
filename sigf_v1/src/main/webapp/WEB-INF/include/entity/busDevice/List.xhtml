@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="BusDeviceListForm">
+
+        <p:panel header="#{bundle.ListBusDeviceTitle}">
+            <p:contextMenu id="BusDeviceDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('BusDeviceListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('BusDeviceListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('BusDeviceListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('BusDeviceListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.BusDeviceMenuItem_bus}" icon="ui-icon-search"  actionListener="#{busDeviceController.prepareBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty busDeviceController.selected.bus}"/>  
+                <p:menuitem value="#{bundle.BusDeviceMenuItem_device}" icon="ui-icon-search"  actionListener="#{busDeviceController.prepareDevice}" update=":DeviceViewForm" oncomplete="PF('DeviceViewDialog').show()" disabled="#{empty busDeviceController.selected.device}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{busDeviceController.items}"
+                         lazy="false"
+                         rowKey="#{item.idBusDevice}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{busDeviceController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{busDeviceController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idBusDevice}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:BusDeviceDataTableContextMenu" listener="#{busDeviceController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:BusDeviceDataTableContextMenu" listener="#{busDeviceController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{busDeviceController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('BusDeviceListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idBusDevice}" filterBy="#{item.idBusDevice}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusDeviceTitle_idBusDevice}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idBusDevice}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.bus.idBus}" filterBy="#{item.bus.idBus}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusDeviceTitle_bus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bus.idBus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.device.name}" filterBy="#{item.device.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusDeviceTitle_device}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.device.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusDeviceTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{busDeviceController.prepareCreate}" update=":BusDeviceCreateForm" oncomplete="PF('BusDeviceCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":BusDeviceViewForm" oncomplete="PF('BusDeviceViewDialog').show()" disabled="#{empty busDeviceController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BusDeviceEditForm" oncomplete="PF('BusDeviceEditDialog').show()" disabled="#{empty busDeviceController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{busDeviceController.delete}" update=":growl,datalist" disabled="#{empty busDeviceController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

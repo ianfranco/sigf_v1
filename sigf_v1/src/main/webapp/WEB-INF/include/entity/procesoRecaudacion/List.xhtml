@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProcesoRecaudacionListForm">
+
+        <p:panel header="#{bundle.ListProcesoRecaudacionTitle}">
+            <p:contextMenu id="ProcesoRecaudacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ProcesoRecaudacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ProcesoRecaudacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ProcesoRecaudacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ProcesoRecaudacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_usuario}" icon="ui-icon-search"  actionListener="#{procesoRecaudacionController.prepareUsuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty procesoRecaudacionController.selected.usuario}"/>  
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_servicioProcesoRecaudacions}" icon="ui-icon-search"  action="#{procesoRecaudacionController.navigateServicioProcesoRecaudacions}" disabled="#{empty procesoRecaudacionController.selected.servicioProcesoRecaudacions}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_egresoRecaudacions}" icon="ui-icon-search"  action="#{procesoRecaudacionController.navigateEgresoRecaudacions}" disabled="#{empty procesoRecaudacionController.selected.egresoRecaudacions}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_guias}" icon="ui-icon-search"  action="#{procesoRecaudacionController.navigateGuias}" disabled="#{empty procesoRecaudacionController.selected.guias}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{procesoRecaudacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idProcesoRecaudacion}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{procesoRecaudacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{procesoRecaudacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idProcesoRecaudacion}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProcesoRecaudacionDataTableContextMenu" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProcesoRecaudacionDataTableContextMenu" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProcesoRecaudacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProcesoRecaudacion}" filterBy="#{item.idProcesoRecaudacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_idProcesoRecaudacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProcesoRecaudacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuario.idUsario}" filterBy="#{item.usuario.idUsario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_usuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario.idUsario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreProceso}" filterBy="#{item.nombreProceso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_nombreProceso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreProceso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaCreacionProceso}" filterBy="#{item.fechaCreacionProceso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_fechaCreacionProceso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaCreacionProceso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_activo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{bundle.EditProcesoRecaudacionTitle_activo}"  disabled="true"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoRecaudacionController.prepareCreate}" update=":ProcesoRecaudacionCreateForm" oncomplete="PF('ProcesoRecaudacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ProcesoRecaudacionViewForm" oncomplete="PF('ProcesoRecaudacionViewDialog').show()" disabled="#{empty procesoRecaudacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ProcesoRecaudacionEditForm" oncomplete="PF('ProcesoRecaudacionEditDialog').show()" disabled="#{empty procesoRecaudacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{procesoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty procesoRecaudacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FormaPagoTrabajadorEditDlg" widgetVar="FormaPagoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditFormaPagoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="FormaPagoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{formaPagoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditFormaPagoTrabajadorLabel_idFormaPagoTrabajador}" for="idFormaPagoTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idFormaPagoTrabajador" value="#{formaPagoTrabajadorController.selected.idFormaPagoTrabajador}" />
+                            <p:tooltip for="idFormaPagoTrabajador" value="#{formaPagoTrabajadorController.getComponentMessages('idFormaPagoTrabajador', bundle.EditFormaPagoTrabajadorHelpText_idFormaPagoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFormaPagoTrabajadorLabel_formaPago}" for="formaPago" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="formaPago" value="#{formaPagoTrabajadorController.selected.formaPago}" required="true" requiredMessage="#{bundle.EditFormaPagoTrabajadorRequiredMessage_formaPago}" converter="formaPagoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{formaPagoController.items}"
+                                               var="formaPagoItem"
+                                               itemValue="#{formaPagoItem}"
+                                               itemLabel="#{formaPagoItem.idFormaPago.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="formaPago" value="#{formaPagoTrabajadorController.getComponentMessages('formaPago', bundle.EditFormaPagoTrabajadorHelpText_formaPago)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFormaPagoTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{formaPagoTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditFormaPagoTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{formaPagoTrabajadorController.getComponentMessages('trabajador', bundle.EditFormaPagoTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formaPagoTrabajadorController.save}" value="#{bundle.Save}" update="display,:FormaPagoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FormaPagoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FormaPagoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargasTrabajadorCreateDlg" widgetVar="CargasTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCargasTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="CargasTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargasTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_parentescoCarga}" for="parentescoCarga" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="parentescoCarga" value="#{cargasTrabajadorController.selected.parentescoCarga}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_parentescoCarga}" converter="parentescoCargaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{parentescoCargaController.items}"
+                                               var="parentescoCargaItem"
+                                               itemValue="#{parentescoCargaItem}"
+                                               itemLabel="#{parentescoCargaItem.idParentescoCarga.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="parentescoCarga" value="#{cargasTrabajadorController.getComponentMessages('parentescoCarga', bundle.CreateCargasTrabajadorHelpText_parentescoCarga)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_tipoCarga}" for="tipoCarga" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoCarga" value="#{cargasTrabajadorController.selected.tipoCarga}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_tipoCarga}" converter="tipoCargaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoCargaController.items}"
+                                               var="tipoCargaItem"
+                                               itemValue="#{tipoCargaItem}"
+                                               itemLabel="#{tipoCargaItem.idTipoCarga.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoCarga" value="#{cargasTrabajadorController.getComponentMessages('tipoCarga', bundle.CreateCargasTrabajadorHelpText_tipoCarga)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{cargasTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{cargasTrabajadorController.getComponentMessages('trabajador', bundle.CreateCargasTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_apellidoCargaTrabajador}" for="apellidoCargaTrabajador" />
+                        <h:panelGroup>
+                            <p:inputText id="apellidoCargaTrabajador" value="#{cargasTrabajadorController.selected.apellidoCargaTrabajador}" title="#{bundle.CreateCargasTrabajadorTitle_apellidoCargaTrabajador}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_apellidoCargaTrabajador}"/>
+                            <p:tooltip for="apellidoCargaTrabajador" value="#{cargasTrabajadorController.getComponentMessages('apellidoCargaTrabajador', bundle.CreateCargasTrabajadorHelpText_apellidoCargaTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_nombreCargaTrabajador}" for="nombreCargaTrabajador" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreCargaTrabajador" value="#{cargasTrabajadorController.selected.nombreCargaTrabajador}" title="#{bundle.CreateCargasTrabajadorTitle_nombreCargaTrabajador}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_nombreCargaTrabajador}"/>
+                            <p:tooltip for="nombreCargaTrabajador" value="#{cargasTrabajadorController.getComponentMessages('nombreCargaTrabajador', bundle.CreateCargasTrabajadorHelpText_nombreCargaTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_rut}" for="rut" />
+                        <h:panelGroup>
+                            <p:inputText id="rut" value="#{cargasTrabajadorController.selected.rut}" title="#{bundle.CreateCargasTrabajadorTitle_rut}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_rut}"/>
+                            <p:tooltip for="rut" value="#{cargasTrabajadorController.getComponentMessages('rut', bundle.CreateCargasTrabajadorHelpText_rut)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{cargasTrabajadorController.selected.fechaNacimiento}" title="#{bundle.CreateCargasTrabajadorTitle_fechaNacimiento}"  showOn="button"/>
+                            <p:tooltip for="fechaNacimiento" value="#{cargasTrabajadorController.getComponentMessages('fechaNacimiento', bundle.CreateCargasTrabajadorHelpText_fechaNacimiento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy" value="#{cargasTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateCargasTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{cargasTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateCargasTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargasTrabajadorLabel_activa}" for="activa" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activa" value="#{cargasTrabajadorController.selected.activa}" required="true" requiredMessage="#{bundle.CreateCargasTrabajadorRequiredMessage_activa}"/>
+                            <p:tooltip for="activa" value="#{cargasTrabajadorController.getComponentMessages('activa', bundle.CreateCargasTrabajadorHelpText_activa)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargasTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:CargasTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargasTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargasTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioInternoViewDlg" widgetVar="InventarioInternoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInventarioInternoTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioInternoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{inventarioInternoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_idInventarioInterno}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.idInventarioInterno}" title="#{bundle.ViewInventarioInternoTitle_idInventarioInterno}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_boleto}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.boleto.idBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_serie}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.serie}" title="#{bundle.ViewInventarioInternoTitle_serie}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_identificador}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.identificador}" title="#{bundle.ViewInventarioInternoTitle_identificador}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_cantidadRollos}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.cantidadRollos}" title="#{bundle.ViewInventarioInternoTitle_cantidadRollos}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_estado}"/>
+                        <h:selectBooleanCheckbox id="estado" value="#{inventarioInternoController.selected.estado}" title="#{bundle.EditInventarioInternoTitle_estado}"  disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InventarioInternoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FrecuenciaServicioListForm">
+
+        <p:panel header="#{bundle.ListFrecuenciaServicioTitle}">
+            <p:contextMenu id="FrecuenciaServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('FrecuenciaServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('FrecuenciaServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('FrecuenciaServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('FrecuenciaServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_periodoFrecuencia}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.preparePeriodoFrecuencia}" update=":PeriodoFrecuenciaViewForm" oncomplete="PF('PeriodoFrecuenciaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.periodoFrecuencia}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_servicio}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.servicio}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_tipoDemanda}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareTipoDemanda}" update=":TipoDemandaViewForm" oncomplete="PF('TipoDemandaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.tipoDemanda}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_tipoDiaFrecuencia}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareTipoDiaFrecuencia}" update=":TipoDiaFrecuenciaViewForm" oncomplete="PF('TipoDiaFrecuenciaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.tipoDiaFrecuencia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{frecuenciaServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.idFrecuenciaServicio}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{frecuenciaServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{frecuenciaServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idFrecuenciaServicio}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FrecuenciaServicioDataTableContextMenu" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FrecuenciaServicioDataTableContextMenu" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FrecuenciaServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idFrecuenciaServicio}" filterBy="#{item.idFrecuenciaServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_idFrecuenciaServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idFrecuenciaServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.periodoFrecuencia.idPeriodoFrecuencia}" filterBy="#{item.periodoFrecuencia.idPeriodoFrecuencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_periodoFrecuencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.periodoFrecuencia.idPeriodoFrecuencia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicio.idServicio}" filterBy="#{item.servicio.idServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_servicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicio.idServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDemanda.idTipoDemanda}" filterBy="#{item.tipoDemanda.idTipoDemanda}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_tipoDemanda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDemanda.idTipoDemanda}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDiaFrecuencia.idTipoDiaFrecuencia}" filterBy="#{item.tipoDiaFrecuencia.idTipoDiaFrecuencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_tipoDiaFrecuencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDiaFrecuencia.idTipoDiaFrecuencia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroBuses}" filterBy="#{item.numeroBuses}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_numeroBuses}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroBuses}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{frecuenciaServicioController.prepareCreate}" update=":FrecuenciaServicioCreateForm" oncomplete="PF('FrecuenciaServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":FrecuenciaServicioViewForm" oncomplete="PF('FrecuenciaServicioViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FrecuenciaServicioEditForm" oncomplete="PF('FrecuenciaServicioEditDialog').show()" disabled="#{empty frecuenciaServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{frecuenciaServicioController.delete}" update=":growl,datalist" disabled="#{empty frecuenciaServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

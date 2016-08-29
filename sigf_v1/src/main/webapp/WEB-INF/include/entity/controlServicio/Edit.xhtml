@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ControlServicioEditDlg" widgetVar="ControlServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditControlServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{controlServicioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditControlServicioLabel_idControlServicio}" for="idControlServicio" />
+                        <h:panelGroup>
+                            <h:outputText id="idControlServicio" value="#{controlServicioController.selected.idControlServicio}" />
+                            <p:tooltip for="idControlServicio" value="#{controlServicioController.getComponentMessages('idControlServicio', bundle.EditControlServicioHelpText_idControlServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlServicioLabel_control}" for="control" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="control" value="#{controlServicioController.selected.control}" required="true" requiredMessage="#{bundle.EditControlServicioRequiredMessage_control}" converter="controlConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{controlController.items}"
+                                               var="controlItem"
+                                               itemValue="#{controlItem}"
+                                               itemLabel="#{controlItem.idControl.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="control" value="#{controlServicioController.getComponentMessages('control', bundle.EditControlServicioHelpText_control)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlServicioLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{controlServicioController.selected.servicio}" required="true" requiredMessage="#{bundle.EditControlServicioRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{controlServicioController.getComponentMessages('servicio', bundle.EditControlServicioHelpText_servicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlServicioLabel_tiempo}" for="tiempo" />
+                        <h:panelGroup>
+                            <p:calendar id="tiempo" pattern="HH:mm:ss" value="#{controlServicioController.selected.tiempo}" title="#{bundle.EditControlServicioTitle_tiempo}" required="true" requiredMessage="#{bundle.EditControlServicioRequiredMessage_tiempo}" showOn="button"/>
+                            <p:tooltip for="tiempo" value="#{controlServicioController.getComponentMessages('tiempo', bundle.EditControlServicioHelpText_tiempo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlServicioLabel_numeroOrden}" for="numeroOrden" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroOrden" value="#{controlServicioController.selected.numeroOrden}" title="#{bundle.EditControlServicioTitle_numeroOrden}" required="true" requiredMessage="#{bundle.EditControlServicioRequiredMessage_numeroOrden}"/>
+                            <p:tooltip for="numeroOrden" value="#{controlServicioController.getComponentMessages('numeroOrden', bundle.EditControlServicioHelpText_numeroOrden)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlServicioController.save}" value="#{bundle.Save}" update="display,:ControlServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlServicioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

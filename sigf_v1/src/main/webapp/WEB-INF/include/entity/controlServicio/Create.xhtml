@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlServicioCreateDlg" widgetVar="ControlServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateControlServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{controlServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateControlServicioLabel_control}" for="control" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="control" value="#{controlServicioController.selected.control}" required="true" requiredMessage="#{bundle.CreateControlServicioRequiredMessage_control}" converter="controlConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{controlController.items}"
+                                               var="controlItem"
+                                               itemValue="#{controlItem}"
+                                               itemLabel="#{controlItem.idControl.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="control" value="#{controlServicioController.getComponentMessages('control', bundle.CreateControlServicioHelpText_control)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlServicioLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{controlServicioController.selected.servicio}" required="true" requiredMessage="#{bundle.CreateControlServicioRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{controlServicioController.getComponentMessages('servicio', bundle.CreateControlServicioHelpText_servicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlServicioLabel_tiempo}" for="tiempo" />
+                        <h:panelGroup>
+                            <p:calendar id="tiempo" pattern="HH:mm:ss" value="#{controlServicioController.selected.tiempo}" title="#{bundle.CreateControlServicioTitle_tiempo}" required="true" requiredMessage="#{bundle.CreateControlServicioRequiredMessage_tiempo}" showOn="button"/>
+                            <p:tooltip for="tiempo" value="#{controlServicioController.getComponentMessages('tiempo', bundle.CreateControlServicioHelpText_tiempo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlServicioLabel_numeroOrden}" for="numeroOrden" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroOrden" value="#{controlServicioController.selected.numeroOrden}" title="#{bundle.CreateControlServicioTitle_numeroOrden}" required="true" requiredMessage="#{bundle.CreateControlServicioRequiredMessage_numeroOrden}"/>
+                            <p:tooltip for="numeroOrden" value="#{controlServicioController.getComponentMessages('numeroOrden', bundle.CreateControlServicioHelpText_numeroOrden)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlServicioController.saveNew}" value="#{bundle.Save}" update="display,:ControlServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

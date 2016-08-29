@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleCompraBoletoEditDlg" widgetVar="DetalleCompraBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleCompraBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleCompraBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_idDetalleCompraBoleto}" for="idDetalleCompraBoleto" />
+                        <h:panelGroup>
+                            <h:outputText id="idDetalleCompraBoleto" value="#{detalleCompraBoletoController.selected.idDetalleCompraBoleto}" />
+                            <p:tooltip for="idDetalleCompraBoleto" value="#{detalleCompraBoletoController.getComponentMessages('idDetalleCompraBoleto', bundle.EditDetalleCompraBoletoHelpText_idDetalleCompraBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_boleto}" for="boleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="boleto" value="#{detalleCompraBoletoController.selected.boleto}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_boleto}" converter="boletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{boletoController.items}"
+                                               var="boletoItem"
+                                               itemValue="#{boletoItem}"
+                                               itemLabel="#{boletoItem.idBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="boleto" value="#{detalleCompraBoletoController.getComponentMessages('boleto', bundle.EditDetalleCompraBoletoHelpText_boleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_compraBoleto}" for="compraBoleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="compraBoleto" value="#{detalleCompraBoletoController.selected.compraBoleto}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_compraBoleto}" converter="compraBoletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{compraBoletoController.items}"
+                                               var="compraBoletoItem"
+                                               itemValue="#{compraBoletoItem}"
+                                               itemLabel="#{compraBoletoItem.idCompraBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="compraBoleto" value="#{detalleCompraBoletoController.getComponentMessages('compraBoleto', bundle.EditDetalleCompraBoletoHelpText_compraBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_cantidadRollos}" for="cantidadRollos" />
+                        <h:panelGroup>
+                            <p:inputText id="cantidadRollos" value="#{detalleCompraBoletoController.selected.cantidadRollos}" title="#{bundle.EditDetalleCompraBoletoTitle_cantidadRollos}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_cantidadRollos}"/>
+                            <p:tooltip for="cantidadRollos" value="#{detalleCompraBoletoController.getComponentMessages('cantidadRollos', bundle.EditDetalleCompraBoletoHelpText_cantidadRollos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_serie}" for="serie" />
+                        <h:panelGroup>
+                            <p:inputText id="serie" value="#{detalleCompraBoletoController.selected.serie}" title="#{bundle.EditDetalleCompraBoletoTitle_serie}"/>
+                            <p:tooltip for="serie" value="#{detalleCompraBoletoController.getComponentMessages('serie', bundle.EditDetalleCompraBoletoHelpText_serie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_total}" for="total" />
+                        <h:panelGroup>
+                            <p:inputText id="total" value="#{detalleCompraBoletoController.selected.total}" title="#{bundle.EditDetalleCompraBoletoTitle_total}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_total}"/>
+                            <p:tooltip for="total" value="#{detalleCompraBoletoController.getComponentMessages('total', bundle.EditDetalleCompraBoletoHelpText_total)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleCompraBoletoController.save}" value="#{bundle.Save}" update="display,:DetalleCompraBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleCompraBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleCompraBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

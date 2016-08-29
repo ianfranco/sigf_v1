@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GrupoAsignacionTrabajadorViewDlg" widgetVar="GrupoAsignacionTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGrupoAsignacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoAsignacionTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{grupoAsignacionTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewGrupoAsignacionTrabajadorLabel_idGrupoAsignacionTrabajador}"/>
+                        <h:outputText value="#{grupoAsignacionTrabajadorController.selected.idGrupoAsignacionTrabajador}" title="#{bundle.ViewGrupoAsignacionTrabajadorTitle_idGrupoAsignacionTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewGrupoAsignacionTrabajadorLabel_asignacionFamiliar}"/>
+                        <h:outputText value="#{grupoAsignacionTrabajadorController.selected.asignacionFamiliar.idAsignacionFamiliar}"/>
+
+                        <h:outputText value="#{bundle.ViewGrupoAsignacionTrabajadorLabel_sueldoAsignacionTrabajador}"/>
+                        <h:outputText value="#{grupoAsignacionTrabajadorController.selected.sueldoAsignacionTrabajador}" title="#{bundle.ViewGrupoAsignacionTrabajadorTitle_sueldoAsignacionTrabajador}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('GrupoAsignacionTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

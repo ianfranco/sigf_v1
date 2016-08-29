@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioTerminalViewDlg" widgetVar="InventarioTerminalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInventarioTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioTerminalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{inventarioTerminalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_idInventarioTerminal}"/>
+                        <h:outputText value="#{inventarioTerminalController.selected.idInventarioTerminal}" title="#{bundle.ViewInventarioTerminalTitle_idInventarioTerminal}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_boleto}"/>
+                        <h:outputText value="#{inventarioTerminalController.selected.boleto.idBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_terminal}"/>
+                        <h:outputText value="#{inventarioTerminalController.selected.terminal.idTerminal}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_estado}"/>
+                        <h:selectBooleanCheckbox id="estado" value="#{inventarioTerminalController.selected.estado}" title="#{bundle.EditInventarioTerminalTitle_estado}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_serie}"/>
+                        <h:outputText value="#{inventarioTerminalController.selected.serie}" title="#{bundle.ViewInventarioTerminalTitle_serie}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioTerminalLabel_identificador}"/>
+                        <h:outputText value="#{inventarioTerminalController.selected.identificador}" title="#{bundle.ViewInventarioTerminalTitle_identificador}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InventarioTerminalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

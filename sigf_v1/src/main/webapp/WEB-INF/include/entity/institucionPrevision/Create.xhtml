@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionPrevisionCreateDlg" widgetVar="InstitucionPrevisionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInstitucionPrevisionTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionPrevisionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{institucionPrevisionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateInstitucionPrevisionLabel_nombreInstitucionPrevision}" for="nombreInstitucionPrevision" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreInstitucionPrevision" value="#{institucionPrevisionController.selected.nombreInstitucionPrevision}" title="#{bundle.CreateInstitucionPrevisionTitle_nombreInstitucionPrevision}" required="true" requiredMessage="#{bundle.CreateInstitucionPrevisionRequiredMessage_nombreInstitucionPrevision}"/>
+                            <p:tooltip for="nombreInstitucionPrevision" value="#{institucionPrevisionController.getComponentMessages('nombreInstitucionPrevision', bundle.CreateInstitucionPrevisionHelpText_nombreInstitucionPrevision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateInstitucionPrevisionLabel_comision}" for="comision" />
+                        <h:panelGroup>
+                            <p:inputText id="comision" value="#{institucionPrevisionController.selected.comision}" title="#{bundle.CreateInstitucionPrevisionTitle_comision}"/>
+                            <p:tooltip for="comision" value="#{institucionPrevisionController.getComponentMessages('comision', bundle.CreateInstitucionPrevisionHelpText_comision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateInstitucionPrevisionLabel_porcentajeDescuento}" for="porcentajeDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentajeDescuento" value="#{institucionPrevisionController.selected.porcentajeDescuento}" title="#{bundle.CreateInstitucionPrevisionTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.CreateInstitucionPrevisionRequiredMessage_porcentajeDescuento}"/>
+                            <p:tooltip for="porcentajeDescuento" value="#{institucionPrevisionController.getComponentMessages('porcentajeDescuento', bundle.CreateInstitucionPrevisionHelpText_porcentajeDescuento)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionPrevisionController.saveNew}" value="#{bundle.Save}" update="display,:InstitucionPrevisionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionPrevisionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionPrevisionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

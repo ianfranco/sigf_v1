@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HoraExtraTrabajadorViewDlg" widgetVar="HoraExtraTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHoraExtraTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HoraExtraTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{horaExtraTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_idHorasExtrasTrabajador}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.idHorasExtrasTrabajador}" title="#{bundle.ViewHoraExtraTrabajadorTitle_idHorasExtrasTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_trabajador}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_cantidad}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.cantidad}" title="#{bundle.ViewHoraExtraTrabajadorTitle_cantidad}"/>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_fecha}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.fecha}" title="#{bundle.ViewHoraExtraTrabajadorTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HoraExtraTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

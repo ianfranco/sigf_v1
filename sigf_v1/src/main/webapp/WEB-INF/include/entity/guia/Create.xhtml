@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="GuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{guiaController.selected != null}">
+                    <p:tabView id="GuiaTabView">
+
+                        <p:tab id="GuiaTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_bus}" for="bus" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="bus" value="#{guiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{busController.items}"
+                                                       var="busItem"
+                                                       itemValue="#{busItem}"
+                                                       itemLabel="#{busItem.idBus.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="bus" value="#{guiaController.getComponentMessages('bus', bundle.CreateGuiaHelpText_bus)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_estadoGuia}" for="estadoGuia" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="estadoGuia" value="#{guiaController.selected.estadoGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_estadoGuia}" converter="estadoGuiaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{estadoGuiaController.items}"
+                                                       var="estadoGuiaItem"
+                                                       itemValue="#{estadoGuiaItem}"
+                                                       itemLabel="#{estadoGuiaItem.idEstadoGuia.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="estadoGuia" value="#{guiaController.getComponentMessages('estadoGuia', bundle.CreateGuiaHelpText_estadoGuia)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_procesoRecaudacion}" for="procesoRecaudacion" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="procesoRecaudacion" value="#{guiaController.selected.procesoRecaudacion}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_procesoRecaudacion}" converter="procesoRecaudacionConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{procesoRecaudacionController.items}"
+                                                       var="procesoRecaudacionItem"
+                                                       itemValue="#{procesoRecaudacionItem}"
+                                                       itemLabel="#{procesoRecaudacionItem.idProcesoRecaudacion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="procesoRecaudacion" value="#{guiaController.getComponentMessages('procesoRecaudacion', bundle.CreateGuiaHelpText_procesoRecaudacion)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_trabajador}" for="trabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="trabajador" value="#{guiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{trabajadorController.items}"
+                                                       var="trabajadorItem"
+                                                       itemValue="#{trabajadorItem}"
+                                                       itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="trabajador" value="#{guiaController.getComponentMessages('trabajador', bundle.CreateGuiaHelpText_trabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
+                                <h:panelGroup>
+                                    <p:inputText id="folio" value="#{guiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}"/>
+                                    <p:tooltip for="folio" value="#{guiaController.getComponentMessages('folio', bundle.CreateGuiaHelpText_folio)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_fechaGuia}" for="fechaGuia" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaGuia" pattern="MM/dd/yyyy" value="#{guiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" showOn="button"/>
+                                    <p:tooltip for="fechaGuia" value="#{guiaController.getComponentMessages('fechaGuia', bundle.CreateGuiaHelpText_fechaGuia)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_fechaIngresoGuia}" for="fechaIngresoGuia" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaIngresoGuia" pattern="MM/dd/yyyy HH:mm:ss" value="#{guiaController.selected.fechaIngresoGuia}" title="#{bundle.CreateGuiaTitle_fechaIngresoGuia}"  showOn="button"/>
+                                    <p:tooltip for="fechaIngresoGuia" value="#{guiaController.getComponentMessages('fechaIngresoGuia', bundle.CreateGuiaHelpText_fechaIngresoGuia)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_fechaRecaudacion}" for="fechaRecaudacion" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaRecaudacion" pattern="MM/dd/yyyy" value="#{guiaController.selected.fechaRecaudacion}" title="#{bundle.CreateGuiaTitle_fechaRecaudacion}"  showOn="button"/>
+                                    <p:tooltip for="fechaRecaudacion" value="#{guiaController.getComponentMessages('fechaRecaudacion', bundle.CreateGuiaHelpText_fechaRecaudacion)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
+                                <h:panelGroup>
+                                    <p:inputText id="totalIngresos" value="#{guiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}"/>
+                                    <p:tooltip for="totalIngresos" value="#{guiaController.getComponentMessages('totalIngresos', bundle.CreateGuiaHelpText_totalIngresos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
+                                <h:panelGroup>
+                                    <p:inputText id="totalEgresos" value="#{guiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}"/>
+                                    <p:tooltip for="totalEgresos" value="#{guiaController.getComponentMessages('totalEgresos', bundle.CreateGuiaHelpText_totalEgresos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_viajeEspecial}" for="viajeEspecial" />
+                                <h:panelGroup>
+                                    <p:inputText id="viajeEspecial" value="#{guiaController.selected.viajeEspecial}" title="#{bundle.CreateGuiaTitle_viajeEspecial}"/>
+                                    <p:tooltip for="viajeEspecial" value="#{guiaController.getComponentMessages('viajeEspecial', bundle.CreateGuiaHelpText_viajeEspecial)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_otrosIngresos}" for="otrosIngresos" />
+                                <h:panelGroup>
+                                    <p:inputText id="otrosIngresos" value="#{guiaController.selected.otrosIngresos}" title="#{bundle.CreateGuiaTitle_otrosIngresos}"/>
+                                    <p:tooltip for="otrosIngresos" value="#{guiaController.getComponentMessages('otrosIngresos', bundle.CreateGuiaHelpText_otrosIngresos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
+                                <h:panelGroup>
+                                    <p:inputText id="saldo" value="#{guiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}"/>
+                                    <p:tooltip for="saldo" value="#{guiaController.getComponentMessages('saldo', bundle.CreateGuiaHelpText_saldo)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_numeroVueltas}" for="numeroVueltas" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroVueltas" value="#{guiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}"/>
+                                    <p:tooltip for="numeroVueltas" value="#{guiaController.getComponentMessages('numeroVueltas', bundle.CreateGuiaHelpText_numeroVueltas)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
+                                <h:panelGroup>
+                                    <p:inputText id="turno" value="#{guiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}"/>
+                                    <p:tooltip for="turno" value="#{guiaController.getComponentMessages('turno', bundle.CreateGuiaHelpText_turno)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_observacion}" for="observacion" />
+                                <h:panelGroup>
+                                    <p:inputText id="observacion" value="#{guiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}"/>
+                                    <p:tooltip for="observacion" value="#{guiaController.getComponentMessages('observacion', bundle.CreateGuiaHelpText_observacion)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_recaudada}" for="recaudada" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="recaudada" value="#{guiaController.selected.recaudada}" />
+                                    <p:tooltip for="recaudada" value="#{guiaController.getComponentMessages('recaudada', bundle.CreateGuiaHelpText_recaudada)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{guiaController.saveNew}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

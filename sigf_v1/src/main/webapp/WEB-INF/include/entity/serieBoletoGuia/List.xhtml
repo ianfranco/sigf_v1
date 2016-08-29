@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SerieBoletoGuiaListForm">
+
+        <p:panel header="#{bundle.ListSerieBoletoGuiaTitle}">
+            <p:contextMenu id="SerieBoletoGuiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SerieBoletoGuiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SerieBoletoGuiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('SerieBoletoGuiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('SerieBoletoGuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.SerieBoletoGuiaMenuItem_boleto}" icon="ui-icon-search"  actionListener="#{serieBoletoGuiaController.prepareBoleto}" update=":BoletoViewForm" oncomplete="PF('BoletoViewDialog').show()" disabled="#{empty serieBoletoGuiaController.selected.boleto}"/>  
+                <p:menuitem value="#{bundle.SerieBoletoGuiaMenuItem_guia}" icon="ui-icon-search"  actionListener="#{serieBoletoGuiaController.prepareGuia}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty serieBoletoGuiaController.selected.guia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{serieBoletoGuiaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idSerieBoletoGuia}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{serieBoletoGuiaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{serieBoletoGuiaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idSerieBoletoGuia}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SerieBoletoGuiaDataTableContextMenu" listener="#{serieBoletoGuiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SerieBoletoGuiaDataTableContextMenu" listener="#{serieBoletoGuiaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{serieBoletoGuiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SerieBoletoGuiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idSerieBoletoGuia}" filterBy="#{item.idSerieBoletoGuia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_idSerieBoletoGuia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSerieBoletoGuia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.boleto.idBoleto}" filterBy="#{item.boleto.idBoleto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_boleto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.boleto.idBoleto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guia.idGuia}" filterBy="#{item.guia.idGuia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_guia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guia.idGuia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.serie}" filterBy="#{item.serie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_serie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.serie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.termino}" filterBy="#{item.termino}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_termino}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.termino}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_cantidad}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cantidad}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.total}" filterBy="#{item.total}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_total}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.total}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.nuevo}" filterBy="#{item.nuevo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSerieBoletoGuiaTitle_nuevo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="nuevo" value="#{item.nuevo}" title="#{bundle.EditSerieBoletoGuiaTitle_nuevo}" required="true" requiredMessage="#{bundle.EditSerieBoletoGuiaRequiredMessage_nuevo}" disabled="true"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{serieBoletoGuiaController.prepareCreate}" update=":SerieBoletoGuiaCreateForm" oncomplete="PF('SerieBoletoGuiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SerieBoletoGuiaViewForm" oncomplete="PF('SerieBoletoGuiaViewDialog').show()" disabled="#{empty serieBoletoGuiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SerieBoletoGuiaEditForm" oncomplete="PF('SerieBoletoGuiaEditDialog').show()" disabled="#{empty serieBoletoGuiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{serieBoletoGuiaController.delete}" update=":growl,datalist" disabled="#{empty serieBoletoGuiaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

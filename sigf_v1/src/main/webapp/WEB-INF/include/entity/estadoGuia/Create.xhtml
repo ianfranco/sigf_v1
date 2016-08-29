@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoGuiaCreateDlg" widgetVar="EstadoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEstadoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estadoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_idEstadoGuia}" for="idEstadoGuia" />
+                        <h:panelGroup>
+                            <p:inputText id="idEstadoGuia" value="#{estadoGuiaController.selected.idEstadoGuia}" title="#{bundle.CreateEstadoGuiaTitle_idEstadoGuia}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_idEstadoGuia}"/>
+                            <p:tooltip for="idEstadoGuia" value="#{estadoGuiaController.getComponentMessages('idEstadoGuia', bundle.CreateEstadoGuiaHelpText_idEstadoGuia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_nombreEstado}" for="nombreEstado" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreEstado" value="#{estadoGuiaController.selected.nombreEstado}" title="#{bundle.CreateEstadoGuiaTitle_nombreEstado}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_nombreEstado}"/>
+                            <p:tooltip for="nombreEstado" value="#{estadoGuiaController.getComponentMessages('nombreEstado', bundle.CreateEstadoGuiaHelpText_nombreEstado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{estadoGuiaController.selected.activo}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_activo}"/>
+                            <p:tooltip for="activo" value="#{estadoGuiaController.getComponentMessages('activo', bundle.CreateEstadoGuiaHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:EstadoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EstadoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

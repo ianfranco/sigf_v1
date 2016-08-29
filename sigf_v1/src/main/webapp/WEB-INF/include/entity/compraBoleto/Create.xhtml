@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompraBoletoCreateDlg" widgetVar="CompraBoletoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="CompraBoletoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{compraBoletoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCompraBoletoLabel_folioFactura}" for="folioFactura" />
+                        <h:panelGroup>
+                            <p:inputText id="folioFactura" value="#{compraBoletoController.selected.folioFactura}" title="#{bundle.CreateCompraBoletoTitle_folioFactura}" required="true" requiredMessage="#{bundle.CreateCompraBoletoRequiredMessage_folioFactura}"/>
+                            <p:tooltip for="folioFactura" value="#{compraBoletoController.getComponentMessages('folioFactura', bundle.CreateCompraBoletoHelpText_folioFactura)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCompraBoletoLabel_fechaCompraBoleto}" for="fechaCompraBoleto" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaCompraBoleto" pattern="MM/dd/yyyy HH:mm:ss" value="#{compraBoletoController.selected.fechaCompraBoleto}" title="#{bundle.CreateCompraBoletoTitle_fechaCompraBoleto}" required="true" requiredMessage="#{bundle.CreateCompraBoletoRequiredMessage_fechaCompraBoleto}" showOn="button"/>
+                            <p:tooltip for="fechaCompraBoleto" value="#{compraBoletoController.getComponentMessages('fechaCompraBoleto', bundle.CreateCompraBoletoHelpText_fechaCompraBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCompraBoletoLabel_total}" for="total" />
+                        <h:panelGroup>
+                            <p:inputText id="total" value="#{compraBoletoController.selected.total}" title="#{bundle.CreateCompraBoletoTitle_total}" required="true" requiredMessage="#{bundle.CreateCompraBoletoRequiredMessage_total}"/>
+                            <p:tooltip for="total" value="#{compraBoletoController.getComponentMessages('total', bundle.CreateCompraBoletoHelpText_total)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{compraBoletoController.saveNew}" value="#{bundle.Save}" update="display,:CompraBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CompraBoletoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CompraBoletoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

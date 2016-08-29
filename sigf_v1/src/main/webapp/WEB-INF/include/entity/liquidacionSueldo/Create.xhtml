@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LiquidacionSueldoCreateDlg" widgetVar="LiquidacionSueldoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateLiquidacionSueldoTitle}" closeOnEscape="true">
+
+            <h:form id="LiquidacionSueldoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{liquidacionSueldoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_relacionLaboral}" for="relacionLaboral" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="relacionLaboral" value="#{liquidacionSueldoController.selected.relacionLaboral}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_relacionLaboral}" converter="relacionLaboralConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{relacionLaboralController.items}"
+                                               var="relacionLaboralItem"
+                                               itemValue="#{relacionLaboralItem}"
+                                               itemLabel="#{relacionLaboralItem.idRelacionLaboral.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="relacionLaboral" value="#{liquidacionSueldoController.getComponentMessages('relacionLaboral', bundle.CreateLiquidacionSueldoHelpText_relacionLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{liquidacionSueldoController.selected.mes}" title="#{bundle.CreateLiquidacionSueldoTitle_mes}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_mes}"/>
+                            <p:tooltip for="mes" value="#{liquidacionSueldoController.getComponentMessages('mes', bundle.CreateLiquidacionSueldoHelpText_mes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{liquidacionSueldoController.selected.anio}" title="#{bundle.CreateLiquidacionSueldoTitle_anio}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_anio}"/>
+                            <p:tooltip for="anio" value="#{liquidacionSueldoController.getComponentMessages('anio', bundle.CreateLiquidacionSueldoHelpText_anio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_fechaEmision}" for="fechaEmision" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaEmision" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.fechaEmision}" title="#{bundle.CreateLiquidacionSueldoTitle_fechaEmision}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_fechaEmision}" showOn="button"/>
+                            <p:tooltip for="fechaEmision" value="#{liquidacionSueldoController.getComponentMessages('fechaEmision', bundle.CreateLiquidacionSueldoHelpText_fechaEmision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_fechaPago}" for="fechaPago" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaPago" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.fechaPago}" title="#{bundle.CreateLiquidacionSueldoTitle_fechaPago}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_fechaPago}" showOn="button"/>
+                            <p:tooltip for="fechaPago" value="#{liquidacionSueldoController.getComponentMessages('fechaPago', bundle.CreateLiquidacionSueldoHelpText_fechaPago)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_totalHaberesImponibles}" for="totalHaberesImponibles" />
+                        <h:panelGroup>
+                            <p:inputText id="totalHaberesImponibles" value="#{liquidacionSueldoController.selected.totalHaberesImponibles}" title="#{bundle.CreateLiquidacionSueldoTitle_totalHaberesImponibles}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_totalHaberesImponibles}"/>
+                            <p:tooltip for="totalHaberesImponibles" value="#{liquidacionSueldoController.getComponentMessages('totalHaberesImponibles', bundle.CreateLiquidacionSueldoHelpText_totalHaberesImponibles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_totalHaberesNoImponibles}" for="totalHaberesNoImponibles" />
+                        <h:panelGroup>
+                            <p:inputText id="totalHaberesNoImponibles" value="#{liquidacionSueldoController.selected.totalHaberesNoImponibles}" title="#{bundle.CreateLiquidacionSueldoTitle_totalHaberesNoImponibles}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_totalHaberesNoImponibles}"/>
+                            <p:tooltip for="totalHaberesNoImponibles" value="#{liquidacionSueldoController.getComponentMessages('totalHaberesNoImponibles', bundle.CreateLiquidacionSueldoHelpText_totalHaberesNoImponibles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_saldoAnterior}" for="saldoAnterior" />
+                        <h:panelGroup>
+                            <p:inputText id="saldoAnterior" value="#{liquidacionSueldoController.selected.saldoAnterior}" title="#{bundle.CreateLiquidacionSueldoTitle_saldoAnterior}"/>
+                            <p:tooltip for="saldoAnterior" value="#{liquidacionSueldoController.getComponentMessages('saldoAnterior', bundle.CreateLiquidacionSueldoHelpText_saldoAnterior)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_totalDescuentos}" for="totalDescuentos" />
+                        <h:panelGroup>
+                            <p:inputText id="totalDescuentos" value="#{liquidacionSueldoController.selected.totalDescuentos}" title="#{bundle.CreateLiquidacionSueldoTitle_totalDescuentos}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_totalDescuentos}"/>
+                            <p:tooltip for="totalDescuentos" value="#{liquidacionSueldoController.getComponentMessages('totalDescuentos', bundle.CreateLiquidacionSueldoHelpText_totalDescuentos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_montoAnticipo}" for="montoAnticipo" />
+                        <h:panelGroup>
+                            <p:inputText id="montoAnticipo" value="#{liquidacionSueldoController.selected.montoAnticipo}" title="#{bundle.CreateLiquidacionSueldoTitle_montoAnticipo}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_montoAnticipo}"/>
+                            <p:tooltip for="montoAnticipo" value="#{liquidacionSueldoController.getComponentMessages('montoAnticipo', bundle.CreateLiquidacionSueldoHelpText_montoAnticipo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_saldoMonto}" for="saldoMonto" />
+                        <h:panelGroup>
+                            <p:inputText id="saldoMonto" value="#{liquidacionSueldoController.selected.saldoMonto}" title="#{bundle.CreateLiquidacionSueldoTitle_saldoMonto}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_saldoMonto}"/>
+                            <p:tooltip for="saldoMonto" value="#{liquidacionSueldoController.getComponentMessages('saldoMonto', bundle.CreateLiquidacionSueldoHelpText_saldoMonto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionSueldoLabel_alcanceLiquido}" for="alcanceLiquido" />
+                        <h:panelGroup>
+                            <p:inputText id="alcanceLiquido" value="#{liquidacionSueldoController.selected.alcanceLiquido}" title="#{bundle.CreateLiquidacionSueldoTitle_alcanceLiquido}" required="true" requiredMessage="#{bundle.CreateLiquidacionSueldoRequiredMessage_alcanceLiquido}"/>
+                            <p:tooltip for="alcanceLiquido" value="#{liquidacionSueldoController.getComponentMessages('alcanceLiquido', bundle.CreateLiquidacionSueldoHelpText_alcanceLiquido)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{liquidacionSueldoController.saveNew}" value="#{bundle.Save}" update="display,:LiquidacionSueldoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LiquidacionSueldoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LiquidacionSueldoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

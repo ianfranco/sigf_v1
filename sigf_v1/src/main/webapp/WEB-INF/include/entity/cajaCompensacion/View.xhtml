@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaCompensacionViewDlg" widgetVar="CajaCompensacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCajaCompensacionTitle}" closeOnEscape="true">
+
+            <h:form id="CajaCompensacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cajaCompensacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCajaCompensacionLabel_idCajaCompensacion}"/>
+                        <h:outputText value="#{cajaCompensacionController.selected.idCajaCompensacion}" title="#{bundle.ViewCajaCompensacionTitle_idCajaCompensacion}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaCompensacionLabel_nombreCajaCompensacion}"/>
+                        <h:outputText value="#{cajaCompensacionController.selected.nombreCajaCompensacion}" title="#{bundle.ViewCajaCompensacionTitle_nombreCajaCompensacion}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaCompensacionLabel_comision}"/>
+                        <h:outputText value="#{cajaCompensacionController.selected.comision}" title="#{bundle.ViewCajaCompensacionTitle_comision}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaCompensacionLabel_porcentajeDescuento}"/>
+                        <h:outputText value="#{cajaCompensacionController.selected.porcentajeDescuento}" title="#{bundle.ViewCajaCompensacionTitle_porcentajeDescuento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CajaCompensacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

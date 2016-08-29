@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpuestoSegundaCategoriaCreateDlg" widgetVar="ImpuestoSegundaCategoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateImpuestoSegundaCategoriaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpuestoSegundaCategoriaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{impuestoSegundaCategoriaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:inputText id="desde" value="#{impuestoSegundaCategoriaController.selected.desde}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_desde}" required="true" requiredMessage="#{bundle.CreateImpuestoSegundaCategoriaRequiredMessage_desde}"/>
+                            <p:tooltip for="desde" value="#{impuestoSegundaCategoriaController.getComponentMessages('desde', bundle.CreateImpuestoSegundaCategoriaHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:inputText id="hasta" value="#{impuestoSegundaCategoriaController.selected.hasta}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_hasta}" required="true" requiredMessage="#{bundle.CreateImpuestoSegundaCategoriaRequiredMessage_hasta}"/>
+                            <p:tooltip for="hasta" value="#{impuestoSegundaCategoriaController.getComponentMessages('hasta', bundle.CreateImpuestoSegundaCategoriaHelpText_hasta)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_factor}" for="factor" />
+                        <h:panelGroup>
+                            <p:inputText id="factor" value="#{impuestoSegundaCategoriaController.selected.factor}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_factor}"/>
+                            <p:tooltip for="factor" value="#{impuestoSegundaCategoriaController.getComponentMessages('factor', bundle.CreateImpuestoSegundaCategoriaHelpText_factor)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_rebaja}" for="rebaja" />
+                        <h:panelGroup>
+                            <p:inputText id="rebaja" value="#{impuestoSegundaCategoriaController.selected.rebaja}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_rebaja}"/>
+                            <p:tooltip for="rebaja" value="#{impuestoSegundaCategoriaController.getComponentMessages('rebaja', bundle.CreateImpuestoSegundaCategoriaHelpText_rebaja)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{impuestoSegundaCategoriaController.saveNew}" value="#{bundle.Save}" update="display,:ImpuestoSegundaCategoriaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ImpuestoSegundaCategoriaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ImpuestoSegundaCategoriaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

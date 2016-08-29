@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RepresentanteLegalViewDlg" widgetVar="RepresentanteLegalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewRepresentanteLegalTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteLegalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{representanteLegalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_idRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.idRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_idRepresentanteLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_nombreRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.nombreRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_nombreRepresentanteLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_rutRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.rutRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_rutRepresentanteLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_direccionRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.direccionRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_direccionRepresentanteLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_telefonoRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.telefonoRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_telefonoRepresentanteLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewRepresentanteLegalLabel_emailRepresentanteLegal}"/>
+                        <h:outputText value="#{representanteLegalController.selected.emailRepresentanteLegal}" title="#{bundle.ViewRepresentanteLegalTitle_emailRepresentanteLegal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('RepresentanteLegalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

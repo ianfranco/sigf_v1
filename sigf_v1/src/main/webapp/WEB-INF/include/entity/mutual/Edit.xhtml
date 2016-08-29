@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MutualEditDlg" widgetVar="MutualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMutualTitle}" closeOnEscape="true">
+
+            <h:form id="MutualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{mutualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMutualLabel_idMutual}" for="idMutual" />
+                        <h:panelGroup>
+                            <h:outputText id="idMutual" value="#{mutualController.selected.idMutual}" />
+                            <p:tooltip for="idMutual" value="#{mutualController.getComponentMessages('idMutual', bundle.EditMutualHelpText_idMutual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_nombreMutual}" for="nombreMutual" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreMutual" value="#{mutualController.selected.nombreMutual}" title="#{bundle.EditMutualTitle_nombreMutual}" required="true" requiredMessage="#{bundle.EditMutualRequiredMessage_nombreMutual}"/>
+                            <p:tooltip for="nombreMutual" value="#{mutualController.getComponentMessages('nombreMutual', bundle.EditMutualHelpText_nombreMutual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_comision}" for="comision" />
+                        <h:panelGroup>
+                            <p:inputText id="comision" value="#{mutualController.selected.comision}" title="#{bundle.EditMutualTitle_comision}"/>
+                            <p:tooltip for="comision" value="#{mutualController.getComponentMessages('comision', bundle.EditMutualHelpText_comision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_porcentajeDescuento}" for="porcentajeDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentajeDescuento" value="#{mutualController.selected.porcentajeDescuento}" title="#{bundle.EditMutualTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.EditMutualRequiredMessage_porcentajeDescuento}"/>
+                            <p:tooltip for="porcentajeDescuento" value="#{mutualController.getComponentMessages('porcentajeDescuento', bundle.EditMutualHelpText_porcentajeDescuento)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mutualController.save}" value="#{bundle.Save}" update="display,:MutualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MutualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MutualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

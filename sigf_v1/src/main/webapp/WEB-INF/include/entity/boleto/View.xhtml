@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BoletoViewDlg" widgetVar="BoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="BoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{boletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_idBoleto}"/>
+                        <h:outputText value="#{boletoController.selected.idBoleto}" title="#{bundle.ViewBoletoTitle_idBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_nombreBoleto}"/>
+                        <h:outputText value="#{boletoController.selected.nombreBoleto}" title="#{bundle.ViewBoletoTitle_nombreBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_activo}"/>
+                        <h:selectBooleanCheckbox id="activo" value="#{boletoController.selected.activo}" title="#{bundle.EditBoletoTitle_activo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_activo}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('BoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

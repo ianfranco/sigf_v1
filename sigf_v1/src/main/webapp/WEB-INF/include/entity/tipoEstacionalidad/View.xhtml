@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoEstacionalidadViewDlg" widgetVar="TipoEstacionalidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoEstacionalidadTitle}" closeOnEscape="true">
+
+            <h:form id="TipoEstacionalidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoEstacionalidadController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoEstacionalidadLabel_idTipoEstacionalidad}"/>
+                        <h:outputText value="#{tipoEstacionalidadController.selected.idTipoEstacionalidad}" title="#{bundle.ViewTipoEstacionalidadTitle_idTipoEstacionalidad}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoEstacionalidadLabel_nombreEstacionalidad}"/>
+                        <h:outputText value="#{tipoEstacionalidadController.selected.nombreEstacionalidad}" title="#{bundle.ViewTipoEstacionalidadTitle_nombreEstacionalidad}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoEstacionalidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

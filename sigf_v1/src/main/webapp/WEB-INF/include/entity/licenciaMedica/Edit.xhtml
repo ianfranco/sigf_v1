@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LicenciaMedicaEditDlg" widgetVar="LicenciaMedicaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditLicenciaMedicaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaMedicaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{licenciaMedicaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditLicenciaMedicaLabel_idLicenciaMedica}" for="idLicenciaMedica" />
+                        <h:panelGroup>
+                            <h:outputText id="idLicenciaMedica" value="#{licenciaMedicaController.selected.idLicenciaMedica}" />
+                            <p:tooltip for="idLicenciaMedica" value="#{licenciaMedicaController.getComponentMessages('idLicenciaMedica', bundle.EditLicenciaMedicaHelpText_idLicenciaMedica)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{licenciaMedicaController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{licenciaMedicaController.getComponentMessages('trabajador', bundle.EditLicenciaMedicaHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_numeroLicencia}" for="numeroLicencia" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroLicencia" value="#{licenciaMedicaController.selected.numeroLicencia}" title="#{bundle.EditLicenciaMedicaTitle_numeroLicencia}"/>
+                            <p:tooltip for="numeroLicencia" value="#{licenciaMedicaController.getComponentMessages('numeroLicencia', bundle.EditLicenciaMedicaHelpText_numeroLicencia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_fechaIngresoLicencia}" for="fechaIngresoLicencia" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoLicencia" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenciaMedicaController.selected.fechaIngresoLicencia}" title="#{bundle.EditLicenciaMedicaTitle_fechaIngresoLicencia}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_fechaIngresoLicencia}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoLicencia" value="#{licenciaMedicaController.getComponentMessages('fechaIngresoLicencia', bundle.EditLicenciaMedicaHelpText_fechaIngresoLicencia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_fechaRecepcionLicencia}" for="fechaRecepcionLicencia" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRecepcionLicencia" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.fechaRecepcionLicencia}" title="#{bundle.EditLicenciaMedicaTitle_fechaRecepcionLicencia}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_fechaRecepcionLicencia}" showOn="button"/>
+                            <p:tooltip for="fechaRecepcionLicencia" value="#{licenciaMedicaController.getComponentMessages('fechaRecepcionLicencia', bundle.EditLicenciaMedicaHelpText_fechaRecepcionLicencia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_fechaEmisionLicencia}" for="fechaEmisionLicencia" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaEmisionLicencia" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.fechaEmisionLicencia}" title="#{bundle.EditLicenciaMedicaTitle_fechaEmisionLicencia}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_fechaEmisionLicencia}" showOn="button"/>
+                            <p:tooltip for="fechaEmisionLicencia" value="#{licenciaMedicaController.getComponentMessages('fechaEmisionLicencia', bundle.EditLicenciaMedicaHelpText_fechaEmisionLicencia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_fechaDesdeReposo}" for="fechaDesdeReposo" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaDesdeReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.fechaDesdeReposo}" title="#{bundle.EditLicenciaMedicaTitle_fechaDesdeReposo}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_fechaDesdeReposo}" showOn="button"/>
+                            <p:tooltip for="fechaDesdeReposo" value="#{licenciaMedicaController.getComponentMessages('fechaDesdeReposo', bundle.EditLicenciaMedicaHelpText_fechaDesdeReposo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_fechaHastaReposo}" for="fechaHastaReposo" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaHastaReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.fechaHastaReposo}" title="#{bundle.EditLicenciaMedicaTitle_fechaHastaReposo}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_fechaHastaReposo}" showOn="button"/>
+                            <p:tooltip for="fechaHastaReposo" value="#{licenciaMedicaController.getComponentMessages('fechaHastaReposo', bundle.EditLicenciaMedicaHelpText_fechaHastaReposo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_diagnosticoLicencia}" for="diagnosticoLicencia" />
+                        <h:panelGroup>
+                            <p:inputText id="diagnosticoLicencia" value="#{licenciaMedicaController.selected.diagnosticoLicencia}" title="#{bundle.EditLicenciaMedicaTitle_diagnosticoLicencia}"/>
+                            <p:tooltip for="diagnosticoLicencia" value="#{licenciaMedicaController.getComponentMessages('diagnosticoLicencia', bundle.EditLicenciaMedicaHelpText_diagnosticoLicencia)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licenciaMedicaController.save}" value="#{bundle.Save}" update="display,:LicenciaMedicaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LicenciaMedicaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LicenciaMedicaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

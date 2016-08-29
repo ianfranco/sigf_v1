@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoFrecuenciaViewDlg" widgetVar="PeriodoFrecuenciaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewPeriodoFrecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoFrecuenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{periodoFrecuenciaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPeriodoFrecuenciaLabel_idPeriodoFrecuencia}"/>
+                        <h:outputText value="#{periodoFrecuenciaController.selected.idPeriodoFrecuencia}" title="#{bundle.ViewPeriodoFrecuenciaTitle_idPeriodoFrecuencia}"/>
+
+                        <h:outputText value="#{bundle.ViewPeriodoFrecuenciaLabel_desde}"/>
+                        <h:outputText value="#{periodoFrecuenciaController.selected.desde}" title="#{bundle.ViewPeriodoFrecuenciaTitle_desde}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPeriodoFrecuenciaLabel_hasta}"/>
+                        <h:outputText value="#{periodoFrecuenciaController.selected.hasta}" title="#{bundle.ViewPeriodoFrecuenciaTitle_hasta}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('PeriodoFrecuenciaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

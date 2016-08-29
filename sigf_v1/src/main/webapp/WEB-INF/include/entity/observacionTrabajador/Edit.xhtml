@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ObservacionTrabajadorEditDlg" widgetVar="ObservacionTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditObservacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="ObservacionTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{observacionTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_idObservacionTrabajador}" for="idObservacionTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idObservacionTrabajador" value="#{observacionTrabajadorController.selected.idObservacionTrabajador}" />
+                            <p:tooltip for="idObservacionTrabajador" value="#{observacionTrabajadorController.getComponentMessages('idObservacionTrabajador', bundle.EditObservacionTrabajadorHelpText_idObservacionTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{observacionTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{observacionTrabajadorController.getComponentMessages('trabajador', bundle.EditObservacionTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_fecha}" for="fecha" />
+                        <h:panelGroup>
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{observacionTrabajadorController.selected.fecha}" title="#{bundle.EditObservacionTrabajadorTitle_fecha}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_fecha}" showOn="button"/>
+                            <p:tooltip for="fecha" value="#{observacionTrabajadorController.getComponentMessages('fecha', bundle.EditObservacionTrabajadorHelpText_fecha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{observacionTrabajadorController.selected.fechaIngreso}" title="#{bundle.EditObservacionTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{observacionTrabajadorController.getComponentMessages('fechaIngreso', bundle.EditObservacionTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{observacionTrabajadorController.selected.descripcion}" title="#{bundle.EditObservacionTrabajadorTitle_descripcion}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_descripcion}"/>
+                            <p:tooltip for="descripcion" value="#{observacionTrabajadorController.getComponentMessages('descripcion', bundle.EditObservacionTrabajadorHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_detalle}" for="detalle" />
+                        <h:panelGroup>
+                            <p:inputText id="detalle" value="#{observacionTrabajadorController.selected.detalle}" title="#{bundle.EditObservacionTrabajadorTitle_detalle}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_detalle}"/>
+                            <p:tooltip for="detalle" value="#{observacionTrabajadorController.getComponentMessages('detalle', bundle.EditObservacionTrabajadorHelpText_detalle)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{observacionTrabajadorController.save}" value="#{bundle.Save}" update="display,:ObservacionTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ObservacionTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ObservacionTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

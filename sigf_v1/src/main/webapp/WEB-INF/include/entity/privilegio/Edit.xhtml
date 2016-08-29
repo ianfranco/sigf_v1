@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PrivilegioEditDlg" widgetVar="PrivilegioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="PrivilegioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{privilegioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPrivilegioLabel_idPrivilegio}" for="idPrivilegio" />
+                        <h:panelGroup>
+                            <h:outputText id="idPrivilegio" value="#{privilegioController.selected.idPrivilegio}" />
+                            <p:tooltip for="idPrivilegio" value="#{privilegioController.getComponentMessages('idPrivilegio', bundle.EditPrivilegioHelpText_idPrivilegio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPrivilegioLabel_rol}" for="rol" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="rol" value="#{privilegioController.selected.rol}" required="true" requiredMessage="#{bundle.EditPrivilegioRequiredMessage_rol}" converter="rolConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{rolController.items}"
+                                               var="rolItem"
+                                               itemValue="#{rolItem}"
+                                               itemLabel="#{rolItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="rol" value="#{privilegioController.getComponentMessages('rol', bundle.EditPrivilegioHelpText_rol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPrivilegioLabel_nombrePrivilegio}" for="nombrePrivilegio" />
+                        <h:panelGroup>
+                            <p:inputText id="nombrePrivilegio" value="#{privilegioController.selected.nombrePrivilegio}" title="#{bundle.EditPrivilegioTitle_nombrePrivilegio}" required="true" requiredMessage="#{bundle.EditPrivilegioRequiredMessage_nombrePrivilegio}"/>
+                            <p:tooltip for="nombrePrivilegio" value="#{privilegioController.getComponentMessages('nombrePrivilegio', bundle.EditPrivilegioHelpText_nombrePrivilegio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPrivilegioLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{privilegioController.selected.descripcion}" title="#{bundle.EditPrivilegioTitle_descripcion}" required="true" requiredMessage="#{bundle.EditPrivilegioRequiredMessage_descripcion}"/>
+                            <p:tooltip for="descripcion" value="#{privilegioController.getComponentMessages('descripcion', bundle.EditPrivilegioHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{privilegioController.save}" value="#{bundle.Save}" update="display,:PrivilegioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrivilegioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PrivilegioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

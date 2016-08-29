@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ServerEditDlg" widgetVar="ServerEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditServerTitle}" closeOnEscape="true">
+
+            <h:form id="ServerEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{serverController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditServerLabel_id}" for="id" />
+                        <h:panelGroup>
+                            <h:outputText id="id" value="#{serverController.selected.id}" />
+                            <p:tooltip for="id" value="#{serverController.getComponentMessages('id', bundle.EditServerHelpText_id)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_registration}" for="registration" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="registration" value="#{serverController.selected.registration}" required="true" requiredMessage="#{bundle.EditServerRequiredMessage_registration}"/>
+                            <p:tooltip for="registration" value="#{serverController.getComponentMessages('registration', bundle.EditServerHelpText_registration)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_map}" for="map" />
+                        <h:panelGroup>
+                            <p:inputText id="map" value="#{serverController.selected.map}" title="#{bundle.EditServerTitle_map}"/>
+                            <p:tooltip for="map" value="#{serverController.getComponentMessages('map', bundle.EditServerHelpText_map)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_bingKey}" for="bingKey" />
+                        <h:panelGroup>
+                            <p:inputText id="bingKey" value="#{serverController.selected.bingKey}" title="#{bundle.EditServerTitle_bingKey}"/>
+                            <p:tooltip for="bingKey" value="#{serverController.getComponentMessages('bingKey', bundle.EditServerHelpText_bingKey)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_mapUrl}" for="mapUrl" />
+                        <h:panelGroup>
+                            <p:inputText id="mapUrl" value="#{serverController.selected.mapUrl}" title="#{bundle.EditServerTitle_mapUrl}"/>
+                            <p:tooltip for="mapUrl" value="#{serverController.getComponentMessages('mapUrl', bundle.EditServerHelpText_mapUrl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_language}" for="language" />
+                        <h:panelGroup>
+                            <p:inputText id="language" value="#{serverController.selected.language}" title="#{bundle.EditServerTitle_language}"/>
+                            <p:tooltip for="language" value="#{serverController.getComponentMessages('language', bundle.EditServerHelpText_language)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_distanceUnit}" for="distanceUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="distanceUnit" value="#{serverController.selected.distanceUnit}" title="#{bundle.EditServerTitle_distanceUnit}"/>
+                            <p:tooltip for="distanceUnit" value="#{serverController.getComponentMessages('distanceUnit', bundle.EditServerHelpText_distanceUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_speedUnit}" for="speedUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="speedUnit" value="#{serverController.selected.speedUnit}" title="#{bundle.EditServerTitle_speedUnit}"/>
+                            <p:tooltip for="speedUnit" value="#{serverController.getComponentMessages('speedUnit', bundle.EditServerHelpText_speedUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_latitude}" for="latitude" />
+                        <h:panelGroup>
+                            <p:inputText id="latitude" value="#{serverController.selected.latitude}" title="#{bundle.EditServerTitle_latitude}" required="true" requiredMessage="#{bundle.EditServerRequiredMessage_latitude}"/>
+                            <p:tooltip for="latitude" value="#{serverController.getComponentMessages('latitude', bundle.EditServerHelpText_latitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_longitude}" for="longitude" />
+                        <h:panelGroup>
+                            <p:inputText id="longitude" value="#{serverController.selected.longitude}" title="#{bundle.EditServerTitle_longitude}" required="true" requiredMessage="#{bundle.EditServerRequiredMessage_longitude}"/>
+                            <p:tooltip for="longitude" value="#{serverController.getComponentMessages('longitude', bundle.EditServerHelpText_longitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditServerLabel_zoom}" for="zoom" />
+                        <h:panelGroup>
+                            <p:inputText id="zoom" value="#{serverController.selected.zoom}" title="#{bundle.EditServerTitle_zoom}" required="true" requiredMessage="#{bundle.EditServerRequiredMessage_zoom}"/>
+                            <p:tooltip for="zoom" value="#{serverController.getComponentMessages('zoom', bundle.EditServerHelpText_zoom)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{serverController.save}" value="#{bundle.Save}" update="display,:ServerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServerEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServerEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

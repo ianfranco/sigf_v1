@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UnidadNegocioViewDlg" widgetVar="UnidadNegocioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewUnidadNegocioTitle}" closeOnEscape="true">
+
+            <h:form id="UnidadNegocioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{unidadNegocioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_idUnidadNegocio}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.idUnidadNegocio}" title="#{bundle.ViewUnidadNegocioTitle_idUnidadNegocio}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_operadorTransporte}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.operadorTransporte.idOperadorTransporte}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_region}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.region.idRegion}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_numeroUnidadNegocio}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.numeroUnidadNegocio}" title="#{bundle.ViewUnidadNegocioTitle_numeroUnidadNegocio}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_nombreUnidadNegocio}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.nombreUnidadNegocio}" title="#{bundle.ViewUnidadNegocioTitle_nombreUnidadNegocio}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_folioUnidadNegocio}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.folioUnidadNegocio}" title="#{bundle.ViewUnidadNegocioTitle_folioUnidadNegocio}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('UnidadNegocioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

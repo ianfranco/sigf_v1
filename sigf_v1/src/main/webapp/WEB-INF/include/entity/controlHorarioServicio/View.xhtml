@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlHorarioServicioViewDlg" widgetVar="ControlHorarioServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewControlHorarioServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlHorarioServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{controlHorarioServicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_idControlHorarioServicio}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.idControlHorarioServicio}" title="#{bundle.ViewControlHorarioServicioTitle_idControlHorarioServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_controlServicio}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.controlServicio.idControlServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_horarioServicio}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.horarioServicio.idHorarioServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_tiempo}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.tiempo}" title="#{bundle.ViewControlHorarioServicioTitle_tiempo}"/>
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_multa}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.multa}" title="#{bundle.ViewControlHorarioServicioTitle_multa}"/>
+
+                        <h:outputText value="#{bundle.ViewControlHorarioServicioLabel_peso}"/>
+                        <h:outputText value="#{controlHorarioServicioController.selected.peso}" title="#{bundle.ViewControlHorarioServicioTitle_peso}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ControlHorarioServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

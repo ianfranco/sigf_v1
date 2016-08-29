@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FiniquitoRelacionLaboralEditDlg" widgetVar="FiniquitoRelacionLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditFiniquitoRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="FiniquitoRelacionLaboralEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{finiquitoRelacionLaboralController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_idFiniquitoRelacionLaboral}" for="idFiniquitoRelacionLaboral" />
+                        <h:panelGroup>
+                            <h:outputText id="idFiniquitoRelacionLaboral" value="#{finiquitoRelacionLaboralController.selected.idFiniquitoRelacionLaboral}" />
+                            <p:tooltip for="idFiniquitoRelacionLaboral" value="#{finiquitoRelacionLaboralController.getComponentMessages('idFiniquitoRelacionLaboral', bundle.EditFiniquitoRelacionLaboralHelpText_idFiniquitoRelacionLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_causalFiniquito}" for="causalFiniquito" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="causalFiniquito" value="#{finiquitoRelacionLaboralController.selected.causalFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_causalFiniquito}" converter="causalFiniquitoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{causalFiniquitoController.items}"
+                                               var="causalFiniquitoItem"
+                                               itemValue="#{causalFiniquitoItem}"
+                                               itemLabel="#{causalFiniquitoItem.descripcionCausalFiniquito.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="causalFiniquito" value="#{finiquitoRelacionLaboralController.getComponentMessages('causalFiniquito', bundle.EditFiniquitoRelacionLaboralHelpText_causalFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_relacionLaboral}" for="relacionLaboral" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="relacionLaboral" value="#{finiquitoRelacionLaboralController.selected.relacionLaboral}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_relacionLaboral}" converter="relacionLaboralConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{relacionLaboralController.items}"
+                                               var="relacionLaboralItem"
+                                               itemValue="#{relacionLaboralItem}"
+                                               itemLabel="#{relacionLaboralItem.idRelacionLaboral.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="relacionLaboral" value="#{finiquitoRelacionLaboralController.getComponentMessages('relacionLaboral', bundle.EditFiniquitoRelacionLaboralHelpText_relacionLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_fechaFiniquito}" for="fechaFiniquito" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaFiniquito" pattern="MM/dd/yyyy" value="#{finiquitoRelacionLaboralController.selected.fechaFiniquito}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_fechaFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_fechaFiniquito}" showOn="button"/>
+                            <p:tooltip for="fechaFiniquito" value="#{finiquitoRelacionLaboralController.getComponentMessages('fechaFiniquito', bundle.EditFiniquitoRelacionLaboralHelpText_fechaFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_fechaRegistroFiniquito}" for="fechaRegistroFiniquito" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRegistroFiniquito" pattern="MM/dd/yyyy HH:mm:ss" value="#{finiquitoRelacionLaboralController.selected.fechaRegistroFiniquito}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_fechaRegistroFiniquito}"  showOn="button"/>
+                            <p:tooltip for="fechaRegistroFiniquito" value="#{finiquitoRelacionLaboralController.getComponentMessages('fechaRegistroFiniquito', bundle.EditFiniquitoRelacionLaboralHelpText_fechaRegistroFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_montoFiniquito}" for="montoFiniquito" />
+                        <h:panelGroup>
+                            <p:inputText id="montoFiniquito" value="#{finiquitoRelacionLaboralController.selected.montoFiniquito}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_montoFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_montoFiniquito}"/>
+                            <p:tooltip for="montoFiniquito" value="#{finiquitoRelacionLaboralController.getComponentMessages('montoFiniquito', bundle.EditFiniquitoRelacionLaboralHelpText_montoFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_anioServicio}" for="anioServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="anioServicio" value="#{finiquitoRelacionLaboralController.selected.anioServicio}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_anioServicio}"/>
+                            <p:tooltip for="anioServicio" value="#{finiquitoRelacionLaboralController.getComponentMessages('anioServicio', bundle.EditFiniquitoRelacionLaboralHelpText_anioServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_anioAdicionales}" for="anioAdicionales" />
+                        <h:panelGroup>
+                            <p:inputText id="anioAdicionales" value="#{finiquitoRelacionLaboralController.selected.anioAdicionales}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_anioAdicionales}"/>
+                            <p:tooltip for="anioAdicionales" value="#{finiquitoRelacionLaboralController.getComponentMessages('anioAdicionales', bundle.EditFiniquitoRelacionLaboralHelpText_anioAdicionales)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{finiquitoRelacionLaboralController.save}" value="#{bundle.Save}" update="display,:FiniquitoRelacionLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FiniquitoRelacionLaboralEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FiniquitoRelacionLaboralEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

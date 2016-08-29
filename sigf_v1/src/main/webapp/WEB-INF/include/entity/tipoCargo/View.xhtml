@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoCargoViewDlg" widgetVar="TipoCargoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoCargoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoCargoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoCargoLabel_idTipoCargo}"/>
+                        <h:outputText value="#{tipoCargoController.selected.idTipoCargo}" title="#{bundle.ViewTipoCargoTitle_idTipoCargo}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoCargoLabel_nombreTipoCargo}"/>
+                        <h:outputText value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.ViewTipoCargoTitle_nombreTipoCargo}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoCargoLabel_fechaIngreso}"/>
+                        <h:outputText value="#{tipoCargoController.selected.fechaIngreso}" title="#{bundle.ViewTipoCargoTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewTipoCargoLabel_montoDefecto}"/>
+                        <h:outputText value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.ViewTipoCargoTitle_montoDefecto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoCargoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DeviceCreateDlg" widgetVar="DeviceCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDeviceTitle}" closeOnEscape="true">
+
+            <h:form id="DeviceCreateForm">
+
+                <h:panelGroup id="display" rendered="#{deviceController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDeviceLabel_name}" for="name" />
+                        <h:panelGroup>
+                            <p:inputText id="name" value="#{deviceController.selected.name}" title="#{bundle.CreateDeviceTitle_name}" required="true" requiredMessage="#{bundle.CreateDeviceRequiredMessage_name}"/>
+                            <p:tooltip for="name" value="#{deviceController.getComponentMessages('name', bundle.CreateDeviceHelpText_name)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDeviceLabel_uniqueId}" for="uniqueId" />
+                        <h:panelGroup>
+                            <p:inputText id="uniqueId" value="#{deviceController.selected.uniqueId}" title="#{bundle.CreateDeviceTitle_uniqueId}" required="true" requiredMessage="#{bundle.CreateDeviceRequiredMessage_uniqueId}"/>
+                            <p:tooltip for="uniqueId" value="#{deviceController.getComponentMessages('uniqueId', bundle.CreateDeviceHelpText_uniqueId)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDeviceLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:inputText id="status" value="#{deviceController.selected.status}" title="#{bundle.CreateDeviceTitle_status}"/>
+                            <p:tooltip for="status" value="#{deviceController.getComponentMessages('status', bundle.CreateDeviceHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDeviceLabel_lastUpdate}" for="lastUpdate" />
+                        <h:panelGroup>
+                            <p:calendar id="lastUpdate" pattern="MM/dd/yyyy HH:mm:ss" value="#{deviceController.selected.lastUpdate}" title="#{bundle.CreateDeviceTitle_lastUpdate}" required="true" requiredMessage="#{bundle.CreateDeviceRequiredMessage_lastUpdate}" showOn="button"/>
+                            <p:tooltip for="lastUpdate" value="#{deviceController.getComponentMessages('lastUpdate', bundle.CreateDeviceHelpText_lastUpdate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDeviceLabel_positionId}" for="positionId" />
+                        <h:panelGroup>
+                            <p:inputText id="positionId" value="#{deviceController.selected.positionId}" title="#{bundle.CreateDeviceTitle_positionId}"/>
+                            <p:tooltip for="positionId" value="#{deviceController.getComponentMessages('positionId', bundle.CreateDeviceHelpText_positionId)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{deviceController.saveNew}" value="#{bundle.Save}" update="display,:DeviceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DeviceCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DeviceCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoGuiaViewDlg" widgetVar="EgresoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoGuiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_idEgresoGuia}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.idEgresoGuia}" title="#{bundle.ViewEgresoGuiaTitle_idEgresoGuia}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoRecaudacion}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoRecaudacion.idEgresoRecaudacion}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_guia}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.guia.idGuia}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_monto}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.monto}" title="#{bundle.ViewEgresoGuiaTitle_monto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

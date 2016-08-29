@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoDiaTrabajadorEditDlg" widgetVar="TipoDiaTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoDiaTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDiaTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoDiaTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoDiaTrabajadorLabel_idTipoDiaTrabajador}" for="idTipoDiaTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoDiaTrabajador" value="#{tipoDiaTrabajadorController.selected.idTipoDiaTrabajador}" />
+                            <p:tooltip for="idTipoDiaTrabajador" value="#{tipoDiaTrabajadorController.getComponentMessages('idTipoDiaTrabajador', bundle.EditTipoDiaTrabajadorHelpText_idTipoDiaTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoDiaTrabajadorLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{tipoDiaTrabajadorController.selected.nombre}" title="#{bundle.EditTipoDiaTrabajadorTitle_nombre}" required="true" requiredMessage="#{bundle.EditTipoDiaTrabajadorRequiredMessage_nombre}"/>
+                            <p:tooltip for="nombre" value="#{tipoDiaTrabajadorController.getComponentMessages('nombre', bundle.EditTipoDiaTrabajadorHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoDiaTrabajadorLabel_sueldo}" for="sueldo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="sueldo" value="#{tipoDiaTrabajadorController.selected.sueldo}" required="true" requiredMessage="#{bundle.EditTipoDiaTrabajadorRequiredMessage_sueldo}"/>
+                            <p:tooltip for="sueldo" value="#{tipoDiaTrabajadorController.getComponentMessages('sueldo', bundle.EditTipoDiaTrabajadorHelpText_sueldo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDiaTrabajadorController.save}" value="#{bundle.Save}" update="display,:TipoDiaTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDiaTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoDiaTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DespachoViewDlg" widgetVar="DespachoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDespachoTitle}" closeOnEscape="true">
+
+            <h:form id="DespachoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{despachoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_idDespacho}"/>
+                        <h:outputText value="#{despachoController.selected.idDespacho}" title="#{bundle.ViewDespachoTitle_idDespacho}"/>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_bus}"/>
+                        <h:outputText value="#{despachoController.selected.bus.idBus}"/>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_servicio}"/>
+                        <h:outputText value="#{despachoController.selected.servicio.idServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_trabajador}"/>
+                        <h:outputText value="#{despachoController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_usuario}"/>
+                        <h:outputText value="#{despachoController.selected.usuario.idUsario}"/>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_fecha}"/>
+                        <h:outputText value="#{despachoController.selected.fecha}" title="#{bundle.ViewDespachoTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDespachoLabel_horario}"/>
+                        <h:outputText value="#{despachoController.selected.horario}" title="#{bundle.ViewDespachoTitle_horario}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DespachoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

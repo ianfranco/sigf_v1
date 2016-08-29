@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ControlAsistenciaEditDlg" widgetVar="ControlAsistenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditControlAsistenciaTitle}" closeOnEscape="true">
+
+            <h:form id="ControlAsistenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{controlAsistenciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditControlAsistenciaLabel_idControlAsistencia}" for="idControlAsistencia" />
+                        <h:panelGroup>
+                            <h:outputText id="idControlAsistencia" value="#{controlAsistenciaController.selected.idControlAsistencia}" />
+                            <p:tooltip for="idControlAsistencia" value="#{controlAsistenciaController.getComponentMessages('idControlAsistencia', bundle.EditControlAsistenciaHelpText_idControlAsistencia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{controlAsistenciaController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditControlAsistenciaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{controlAsistenciaController.getComponentMessages('trabajador', bundle.EditControlAsistenciaHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_horarioEntrada}" for="horarioEntrada" />
+                        <h:panelGroup>
+                            <p:calendar id="horarioEntrada" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.horarioEntrada}" title="#{bundle.EditControlAsistenciaTitle_horarioEntrada}" required="true" requiredMessage="#{bundle.EditControlAsistenciaRequiredMessage_horarioEntrada}" showOn="button"/>
+                            <p:tooltip for="horarioEntrada" value="#{controlAsistenciaController.getComponentMessages('horarioEntrada', bundle.EditControlAsistenciaHelpText_horarioEntrada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_horarioSalida}" for="horarioSalida" />
+                        <h:panelGroup>
+                            <p:calendar id="horarioSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.horarioSalida}" title="#{bundle.EditControlAsistenciaTitle_horarioSalida}"  showOn="button"/>
+                            <p:tooltip for="horarioSalida" value="#{controlAsistenciaController.getComponentMessages('horarioSalida', bundle.EditControlAsistenciaHelpText_horarioSalida)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlAsistenciaController.save}" value="#{bundle.Save}" update="display,:ControlAsistenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlAsistenciaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlAsistenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

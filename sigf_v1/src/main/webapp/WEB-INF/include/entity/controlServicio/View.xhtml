@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlServicioViewDlg" widgetVar="ControlServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewControlServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{controlServicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_idControlServicio}"/>
+                        <h:outputText value="#{controlServicioController.selected.idControlServicio}" title="#{bundle.ViewControlServicioTitle_idControlServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_control}"/>
+                        <h:outputText value="#{controlServicioController.selected.control.idControl}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_servicio}"/>
+                        <h:outputText value="#{controlServicioController.selected.servicio.idServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_tiempo}"/>
+                        <h:outputText value="#{controlServicioController.selected.tiempo}" title="#{bundle.ViewControlServicioTitle_tiempo}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_numeroOrden}"/>
+                        <h:outputText value="#{controlServicioController.selected.numeroOrden}" title="#{bundle.ViewControlServicioTitle_numeroOrden}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ControlServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

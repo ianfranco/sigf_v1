@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TrabajadorEditDlg" widgetVar="TrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="TrabajadorTabView">
+
+                        <p:tab id="TrabajadorTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+
+                                <h:outputLabel value="#{bundle.EditTrabajadorLabel_idTrabajador}" for="idTrabajador" />
+                                <h:panelGroup>
+                                    <h:outputText id="idTrabajador" value="#{trabajadorController.selected.idTrabajador}" />
+                                    <p:tooltip for="idTrabajador" value="#{trabajadorController.getComponentMessages('idTrabajador', bundle.EditTrabajadorHelpText_idTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_comuna}" for="comuna" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="comuna" value="#{trabajadorController.selected.comuna}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_comuna}" converter="comunaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{comunaController.items}"
+                                                       var="comunaItem"
+                                                       itemValue="#{comunaItem}"
+                                                       itemLabel="#{comunaItem.idComuna.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="comuna" value="#{trabajadorController.getComponentMessages('comuna', bundle.EditTrabajadorHelpText_comuna)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_grupoAsignacionTrabajador}" for="grupoAsignacionTrabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="grupoAsignacionTrabajador" value="#{trabajadorController.selected.grupoAsignacionTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="grupoAsignacionTrabajadorConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{grupoAsignacionTrabajadorController.items}"
+                                                       var="grupoAsignacionTrabajadorItem"
+                                                       itemValue="#{grupoAsignacionTrabajadorItem}"
+                                                       itemLabel="#{grupoAsignacionTrabajadorItem.idGrupoAsignacionTrabajador.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="grupoAsignacionTrabajador" value="#{trabajadorController.getComponentMessages('grupoAsignacionTrabajador', bundle.EditTrabajadorHelpText_grupoAsignacionTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_institucionApv}" for="institucionApv" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionApv" value="#{trabajadorController.selected.institucionApv}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_institucionApv}" converter="institucionApvConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionApvController.items}"
+                                                       var="institucionApvItem"
+                                                       itemValue="#{institucionApvItem}"
+                                                       itemLabel="#{institucionApvItem.idInstitucionApv.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="institucionApv" value="#{trabajadorController.getComponentMessages('institucionApv', bundle.EditTrabajadorHelpText_institucionApv)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_institucionPrevision}" for="institucionPrevision" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionPrevision" value="#{trabajadorController.selected.institucionPrevision}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_institucionPrevision}" converter="institucionPrevisionConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionPrevisionController.items}"
+                                                       var="institucionPrevisionItem"
+                                                       itemValue="#{institucionPrevisionItem}"
+                                                       itemLabel="#{institucionPrevisionItem.idInstitucionPrevision.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="institucionPrevision" value="#{trabajadorController.getComponentMessages('institucionPrevision', bundle.EditTrabajadorHelpText_institucionPrevision)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_institucionSalud}" for="institucionSalud" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionSalud" value="#{trabajadorController.selected.institucionSalud}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_institucionSalud}" converter="institucionSaludConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionSaludController.items}"
+                                                       var="institucionSaludItem"
+                                                       itemValue="#{institucionSaludItem}"
+                                                       itemLabel="#{institucionSaludItem.idInstitucionSalud.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="institucionSalud" value="#{trabajadorController.getComponentMessages('institucionSalud', bundle.EditTrabajadorHelpText_institucionSalud)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_monedaPactadaInstitucionSalud}" for="monedaPactadaInstitucionSalud" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="monedaPactadaInstitucionSalud" value="#{trabajadorController.selected.monedaPactadaInstitucionSalud}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_monedaPactadaInstitucionSalud}" converter="monedaPactadaInstitucionSaludConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{monedaPactadaInstitucionSaludController.items}"
+                                                       var="monedaPactadaInstitucionSaludItem"
+                                                       itemValue="#{monedaPactadaInstitucionSaludItem}"
+                                                       itemLabel="#{monedaPactadaInstitucionSaludItem.idMonedaSalud.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="monedaPactadaInstitucionSalud" value="#{trabajadorController.getComponentMessages('monedaPactadaInstitucionSalud', bundle.EditTrabajadorHelpText_monedaPactadaInstitucionSalud)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_tipoCotizacionTrabajador}" for="tipoCotizacionTrabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="tipoCotizacionTrabajador" value="#{trabajadorController.selected.tipoCotizacionTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_tipoCotizacionTrabajador}" converter="tipoCotizacionTrabajadorConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{tipoCotizacionTrabajadorController.items}"
+                                                       var="tipoCotizacionTrabajadorItem"
+                                                       itemValue="#{tipoCotizacionTrabajadorItem}"
+                                                       itemLabel="#{tipoCotizacionTrabajadorItem.idTipoCotizacionTrabajador.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="tipoCotizacionTrabajador" value="#{trabajadorController.getComponentMessages('tipoCotizacionTrabajador', bundle.EditTrabajadorHelpText_tipoCotizacionTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_rutTrabajador}" for="rutTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.EditTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_rutTrabajador}"/>
+                                    <p:tooltip for="rutTrabajador" value="#{trabajadorController.getComponentMessages('rutTrabajador', bundle.EditTrabajadorHelpText_rutTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_nombreTrabajador}" for="nombreTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="nombreTrabajador" value="#{trabajadorController.selected.nombreTrabajador}" title="#{bundle.EditTrabajadorTitle_nombreTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_nombreTrabajador}"/>
+                                    <p:tooltip for="nombreTrabajador" value="#{trabajadorController.getComponentMessages('nombreTrabajador', bundle.EditTrabajadorHelpText_nombreTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_apellidoPaternoTrabajador}" for="apellidoPaternoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="apellidoPaternoTrabajador" value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.EditTrabajadorTitle_apellidoPaternoTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_apellidoPaternoTrabajador}"/>
+                                    <p:tooltip for="apellidoPaternoTrabajador" value="#{trabajadorController.getComponentMessages('apellidoPaternoTrabajador', bundle.EditTrabajadorHelpText_apellidoPaternoTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_apellidoMaternoTrabajador}" for="apellidoMaternoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="apellidoMaternoTrabajador" value="#{trabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.EditTrabajadorTitle_apellidoMaternoTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_apellidoMaternoTrabajador}"/>
+                                    <p:tooltip for="apellidoMaternoTrabajador" value="#{trabajadorController.getComponentMessages('apellidoMaternoTrabajador', bundle.EditTrabajadorHelpText_apellidoMaternoTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_fechaNacimientoTrabajador}" for="fechaNacimientoTrabajador" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaNacimientoTrabajador" pattern="MM/dd/yyyy" value="#{trabajadorController.selected.fechaNacimientoTrabajador}" title="#{bundle.EditTrabajadorTitle_fechaNacimientoTrabajador}"  showOn="button"/>
+                                    <p:tooltip for="fechaNacimientoTrabajador" value="#{trabajadorController.getComponentMessages('fechaNacimientoTrabajador', bundle.EditTrabajadorHelpText_fechaNacimientoTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_nacionalidad}" for="nacionalidad" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="nacionalidad" value="#{trabajadorController.selected.nacionalidad}" />
+                                    <p:tooltip for="nacionalidad" value="#{trabajadorController.getComponentMessages('nacionalidad', bundle.EditTrabajadorHelpText_nacionalidad)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_sexo}" for="sexo" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="sexo" value="#{trabajadorController.selected.sexo}" />
+                                    <p:tooltip for="sexo" value="#{trabajadorController.getComponentMessages('sexo', bundle.EditTrabajadorHelpText_sexo)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_estadoCivil}" for="estadoCivil" />
+                                <h:panelGroup>
+                                    <p:inputText id="estadoCivil" value="#{trabajadorController.selected.estadoCivil}" title="#{bundle.EditTrabajadorTitle_estadoCivil}"/>
+                                    <p:tooltip for="estadoCivil" value="#{trabajadorController.getComponentMessages('estadoCivil', bundle.EditTrabajadorHelpText_estadoCivil)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_calleTrabajador}" for="calleTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="calleTrabajador" value="#{trabajadorController.selected.calleTrabajador}" title="#{bundle.EditTrabajadorTitle_calleTrabajador}"/>
+                                    <p:tooltip for="calleTrabajador" value="#{trabajadorController.getComponentMessages('calleTrabajador', bundle.EditTrabajadorHelpText_calleTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_numeroDireccionTrabajador}" for="numeroDireccionTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroDireccionTrabajador" value="#{trabajadorController.selected.numeroDireccionTrabajador}" title="#{bundle.EditTrabajadorTitle_numeroDireccionTrabajador}"/>
+                                    <p:tooltip for="numeroDireccionTrabajador" value="#{trabajadorController.getComponentMessages('numeroDireccionTrabajador', bundle.EditTrabajadorHelpText_numeroDireccionTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_telefonoFijoTrabajador}" for="telefonoFijoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="telefonoFijoTrabajador" value="#{trabajadorController.selected.telefonoFijoTrabajador}" title="#{bundle.EditTrabajadorTitle_telefonoFijoTrabajador}"/>
+                                    <p:tooltip for="telefonoFijoTrabajador" value="#{trabajadorController.getComponentMessages('telefonoFijoTrabajador', bundle.EditTrabajadorHelpText_telefonoFijoTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_celularTrabajador}" for="celularTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="celularTrabajador" value="#{trabajadorController.selected.celularTrabajador}" title="#{bundle.EditTrabajadorTitle_celularTrabajador}"/>
+                                    <p:tooltip for="celularTrabajador" value="#{trabajadorController.getComponentMessages('celularTrabajador', bundle.EditTrabajadorHelpText_celularTrabajador)}"/>
+                                </h:panelGroup>
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="TrabajadorTab2" title="#{bundle.TabHeaderPrefix} 2">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_emailTrabajador}" for="emailTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="emailTrabajador" value="#{trabajadorController.selected.emailTrabajador}" title="#{bundle.EditTrabajadorTitle_emailTrabajador}"/>
+                                    <p:tooltip for="emailTrabajador" value="#{trabajadorController.getComponentMessages('emailTrabajador', bundle.EditTrabajadorHelpText_emailTrabajador)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_numeroCargas}" for="numeroCargas" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroCargas" value="#{trabajadorController.selected.numeroCargas}" title="#{bundle.EditTrabajadorTitle_numeroCargas}"/>
+                                    <p:tooltip for="numeroCargas" value="#{trabajadorController.getComponentMessages('numeroCargas', bundle.EditTrabajadorHelpText_numeroCargas)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_montoSalud}" for="montoSalud" />
+                                <h:panelGroup>
+                                    <p:inputText id="montoSalud" value="#{trabajadorController.selected.montoSalud}" title="#{bundle.EditTrabajadorTitle_montoSalud}"/>
+                                    <p:tooltip for="montoSalud" value="#{trabajadorController.getComponentMessages('montoSalud', bundle.EditTrabajadorHelpText_montoSalud)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_formaPagoApv}" for="formaPagoApv" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="formaPagoApv" value="#{trabajadorController.selected.formaPagoApv}" />
+                                    <p:tooltip for="formaPagoApv" value="#{trabajadorController.getComponentMessages('formaPagoApv', bundle.EditTrabajadorHelpText_formaPagoApv)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_subsidioJoven}" for="subsidioJoven" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="subsidioJoven" value="#{trabajadorController.selected.subsidioJoven}" />
+                                    <p:tooltip for="subsidioJoven" value="#{trabajadorController.getComponentMessages('subsidioJoven', bundle.EditTrabajadorHelpText_subsidioJoven)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.EditTrabajadorLabel_fechaIngresoTrabajador}" for="fechaIngresoTrabajador" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaIngresoTrabajador" pattern="MM/dd/yyyy HH:mm:ss" value="#{trabajadorController.selected.fechaIngresoTrabajador}" title="#{bundle.EditTrabajadorTitle_fechaIngresoTrabajador}" required="true" requiredMessage="#{bundle.EditTrabajadorRequiredMessage_fechaIngresoTrabajador}" showOn="button"/>
+                                    <p:tooltip for="fechaIngresoTrabajador" value="#{trabajadorController.getComponentMessages('fechaIngresoTrabajador', bundle.EditTrabajadorHelpText_fechaIngresoTrabajador)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{trabajadorController.save}" value="#{bundle.Save}" update="display,:TrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

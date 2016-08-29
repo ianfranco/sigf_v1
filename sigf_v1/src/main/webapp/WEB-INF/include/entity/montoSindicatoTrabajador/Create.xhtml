@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MontoSindicatoTrabajadorCreateDlg" widgetVar="MontoSindicatoTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMontoSindicatoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="MontoSindicatoTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{montoSindicatoTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateMontoSindicatoTrabajadorLabel_sindicatoTrabajador}" for="sindicatoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="sindicatoTrabajador" value="#{montoSindicatoTrabajadorController.selected.sindicatoTrabajador}" required="true" requiredMessage="#{bundle.CreateMontoSindicatoTrabajadorRequiredMessage_sindicatoTrabajador}" converter="sindicatoTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{sindicatoTrabajadorController.items}"
+                                               var="sindicatoTrabajadorItem"
+                                               itemValue="#{sindicatoTrabajadorItem}"
+                                               itemLabel="#{sindicatoTrabajadorItem.idSindicatoTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="sindicatoTrabajador" value="#{montoSindicatoTrabajadorController.getComponentMessages('sindicatoTrabajador', bundle.CreateMontoSindicatoTrabajadorHelpText_sindicatoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateMontoSindicatoTrabajadorLabel_montoSindicatoTrabajador}" for="montoSindicatoTrabajador" />
+                        <h:panelGroup>
+                            <p:inputText id="montoSindicatoTrabajador" value="#{montoSindicatoTrabajadorController.selected.montoSindicatoTrabajador}" title="#{bundle.CreateMontoSindicatoTrabajadorTitle_montoSindicatoTrabajador}" required="true" requiredMessage="#{bundle.CreateMontoSindicatoTrabajadorRequiredMessage_montoSindicatoTrabajador}"/>
+                            <p:tooltip for="montoSindicatoTrabajador" value="#{montoSindicatoTrabajadorController.getComponentMessages('montoSindicatoTrabajador', bundle.CreateMontoSindicatoTrabajadorHelpText_montoSindicatoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateMontoSindicatoTrabajadorLabel_mesLiquidacion}" for="mesLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="mesLiquidacion" value="#{montoSindicatoTrabajadorController.selected.mesLiquidacion}" title="#{bundle.CreateMontoSindicatoTrabajadorTitle_mesLiquidacion}" required="true" requiredMessage="#{bundle.CreateMontoSindicatoTrabajadorRequiredMessage_mesLiquidacion}"/>
+                            <p:tooltip for="mesLiquidacion" value="#{montoSindicatoTrabajadorController.getComponentMessages('mesLiquidacion', bundle.CreateMontoSindicatoTrabajadorHelpText_mesLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateMontoSindicatoTrabajadorLabel_anioLiquidacion}" for="anioLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="anioLiquidacion" value="#{montoSindicatoTrabajadorController.selected.anioLiquidacion}" title="#{bundle.CreateMontoSindicatoTrabajadorTitle_anioLiquidacion}" required="true" requiredMessage="#{bundle.CreateMontoSindicatoTrabajadorRequiredMessage_anioLiquidacion}"/>
+                            <p:tooltip for="anioLiquidacion" value="#{montoSindicatoTrabajadorController.getComponentMessages('anioLiquidacion', bundle.CreateMontoSindicatoTrabajadorHelpText_anioLiquidacion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{montoSindicatoTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:MontoSindicatoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MontoSindicatoTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MontoSindicatoTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

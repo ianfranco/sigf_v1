@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoRecaudacionViewDlg" widgetVar="EgresoRecaudacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoRecaudacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoRecaudacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_idEgresoRecaudacion}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.idEgresoRecaudacion}" title="#{bundle.ViewEgresoRecaudacionTitle_idEgresoRecaudacion}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_egreso}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.egreso.idEgreso}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_procesoRecaudacion}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.procesoRecaudacion.idProcesoRecaudacion}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_valorDefectoEgreso}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.valorDefectoEgreso}" title="#{bundle.ViewEgresoRecaudacionTitle_valorDefectoEgreso}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_porcentaje}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.porcentaje}" title="#{bundle.ViewEgresoRecaudacionTitle_porcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_numeroOrdenEgreso}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.numeroOrdenEgreso}" title="#{bundle.ViewEgresoRecaudacionTitle_numeroOrdenEgreso}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_activo}"/>
+                        <h:selectBooleanCheckbox id="activo" value="#{egresoRecaudacionController.selected.activo}" title="#{bundle.EditEgresoRecaudacionTitle_activo}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_activo}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoRecaudacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ControlEditDlg" widgetVar="ControlEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditControlTitle}" closeOnEscape="true">
+
+            <h:form id="ControlEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{controlController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditControlLabel_idControl}" for="idControl" />
+                        <h:panelGroup>
+                            <h:outputText id="idControl" value="#{controlController.selected.idControl}" />
+                            <p:tooltip for="idControl" value="#{controlController.getComponentMessages('idControl', bundle.EditControlHelpText_idControl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_tipoControl}" for="tipoControl" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoControl" value="#{controlController.selected.tipoControl}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_tipoControl}" converter="tipoControlConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoControlController.items}"
+                                               var="tipoControlItem"
+                                               itemValue="#{tipoControlItem}"
+                                               itemLabel="#{tipoControlItem.idTipoControl.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoControl" value="#{controlController.getComponentMessages('tipoControl', bundle.EditControlHelpText_tipoControl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_nombreControl}" for="nombreControl" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreControl" value="#{controlController.selected.nombreControl}" title="#{bundle.EditControlTitle_nombreControl}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_nombreControl}"/>
+                            <p:tooltip for="nombreControl" value="#{controlController.getComponentMessages('nombreControl', bundle.EditControlHelpText_nombreControl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_latitud}" for="latitud" />
+                        <h:panelGroup>
+                            <p:inputText id="latitud" value="#{controlController.selected.latitud}" title="#{bundle.EditControlTitle_latitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_latitud}"/>
+                            <p:tooltip for="latitud" value="#{controlController.getComponentMessages('latitud', bundle.EditControlHelpText_latitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_longitud}" for="longitud" />
+                        <h:panelGroup>
+                            <p:inputText id="longitud" value="#{controlController.selected.longitud}" title="#{bundle.EditControlTitle_longitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_longitud}"/>
+                            <p:tooltip for="longitud" value="#{controlController.getComponentMessages('longitud', bundle.EditControlHelpText_longitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_radio}" for="radio" />
+                        <h:panelGroup>
+                            <p:inputText id="radio" value="#{controlController.selected.radio}" title="#{bundle.EditControlTitle_radio}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_radio}"/>
+                            <p:tooltip for="radio" value="#{controlController.getComponentMessages('radio', bundle.EditControlHelpText_radio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlController.save}" value="#{bundle.Save}" update="display,:ControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

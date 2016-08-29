@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TarifaServicioCreateDlg" widgetVar="TarifaServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTarifaServicioTitle}" closeOnEscape="true">
+
+            <h:form id="TarifaServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tarifaServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_boleto}" for="boleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="boleto" value="#{tarifaServicioController.selected.boleto}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_boleto}" converter="boletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{boletoController.items}"
+                                               var="boletoItem"
+                                               itemValue="#{boletoItem}"
+                                               itemLabel="#{boletoItem.idBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="boleto" value="#{tarifaServicioController.getComponentMessages('boleto', bundle.CreateTarifaServicioHelpText_boleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{tarifaServicioController.selected.servicio}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{tarifaServicioController.getComponentMessages('servicio', bundle.CreateTarifaServicioHelpText_servicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_valorTarifa}" for="valorTarifa" />
+                        <h:panelGroup>
+                            <p:inputText id="valorTarifa" value="#{tarifaServicioController.selected.valorTarifa}" title="#{bundle.CreateTarifaServicioTitle_valorTarifa}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_valorTarifa}"/>
+                            <p:tooltip for="valorTarifa" value="#{tarifaServicioController.getComponentMessages('valorTarifa', bundle.CreateTarifaServicioHelpText_valorTarifa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{tarifaServicioController.selected.mes}" title="#{bundle.CreateTarifaServicioTitle_mes}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_mes}"/>
+                            <p:tooltip for="mes" value="#{tarifaServicioController.getComponentMessages('mes', bundle.CreateTarifaServicioHelpText_mes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{tarifaServicioController.selected.anio}" title="#{bundle.CreateTarifaServicioTitle_anio}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_anio}"/>
+                            <p:tooltip for="anio" value="#{tarifaServicioController.getComponentMessages('anio', bundle.CreateTarifaServicioHelpText_anio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTarifaServicioLabel_activa}" for="activa" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activa" value="#{tarifaServicioController.selected.activa}" required="true" requiredMessage="#{bundle.CreateTarifaServicioRequiredMessage_activa}"/>
+                            <p:tooltip for="activa" value="#{tarifaServicioController.getComponentMessages('activa', bundle.CreateTarifaServicioHelpText_activa)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tarifaServicioController.saveNew}" value="#{bundle.Save}" update="display,:TarifaServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TarifaServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TarifaServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargasTrabajadorViewDlg" widgetVar="CargasTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCargasTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="CargasTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cargasTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_idCargasTrabajador}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.idCargasTrabajador}" title="#{bundle.ViewCargasTrabajadorTitle_idCargasTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_parentescoCarga}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.parentescoCarga.idParentescoCarga}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_tipoCarga}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.tipoCarga.idTipoCarga}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_trabajador}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_apellidoCargaTrabajador}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.apellidoCargaTrabajador}" title="#{bundle.ViewCargasTrabajadorTitle_apellidoCargaTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_nombreCargaTrabajador}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.nombreCargaTrabajador}" title="#{bundle.ViewCargasTrabajadorTitle_nombreCargaTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_rut}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.rut}" title="#{bundle.ViewCargasTrabajadorTitle_rut}"/>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.fechaNacimiento}" title="#{bundle.ViewCargasTrabajadorTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_fechaIngreso}"/>
+                        <h:outputText value="#{cargasTrabajadorController.selected.fechaIngreso}" title="#{bundle.ViewCargasTrabajadorTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCargasTrabajadorLabel_activa}"/>
+                        <h:selectBooleanCheckbox id="activa" value="#{cargasTrabajadorController.selected.activa}" title="#{bundle.EditCargasTrabajadorTitle_activa}" required="true" requiredMessage="#{bundle.EditCargasTrabajadorRequiredMessage_activa}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CargasTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

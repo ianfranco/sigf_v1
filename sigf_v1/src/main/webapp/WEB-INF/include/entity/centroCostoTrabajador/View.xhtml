@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CentroCostoTrabajadorViewDlg" widgetVar="CentroCostoTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCentroCostoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="CentroCostoTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{centroCostoTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCentroCostoTrabajadorLabel_idCentroCostoTrabajador}"/>
+                        <h:outputText value="#{centroCostoTrabajadorController.selected.idCentroCostoTrabajador}" title="#{bundle.ViewCentroCostoTrabajadorTitle_idCentroCostoTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewCentroCostoTrabajadorLabel_centroCosto}"/>
+                        <h:outputText value="#{centroCostoTrabajadorController.selected.centroCosto.idCentroCosto}"/>
+
+                        <h:outputText value="#{bundle.ViewCentroCostoTrabajadorLabel_trabajador}"/>
+                        <h:outputText value="#{centroCostoTrabajadorController.selected.trabajador.idTrabajador}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CentroCostoTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

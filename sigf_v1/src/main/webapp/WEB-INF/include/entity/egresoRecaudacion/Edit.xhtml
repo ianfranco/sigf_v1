@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoRecaudacionEditDlg" widgetVar="EgresoRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoRecaudacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_idEgresoRecaudacion}" for="idEgresoRecaudacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idEgresoRecaudacion" value="#{egresoRecaudacionController.selected.idEgresoRecaudacion}" />
+                            <p:tooltip for="idEgresoRecaudacion" value="#{egresoRecaudacionController.getComponentMessages('idEgresoRecaudacion', bundle.EditEgresoRecaudacionHelpText_idEgresoRecaudacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_egreso}" for="egreso" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="egreso" value="#{egresoRecaudacionController.selected.egreso}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_egreso}" converter="egresoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{egresoController.items}"
+                                               var="egresoItem"
+                                               itemValue="#{egresoItem}"
+                                               itemLabel="#{egresoItem.idEgreso.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="egreso" value="#{egresoRecaudacionController.getComponentMessages('egreso', bundle.EditEgresoRecaudacionHelpText_egreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_procesoRecaudacion}" for="procesoRecaudacion" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="procesoRecaudacion" value="#{egresoRecaudacionController.selected.procesoRecaudacion}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_procesoRecaudacion}" converter="procesoRecaudacionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{procesoRecaudacionController.items}"
+                                               var="procesoRecaudacionItem"
+                                               itemValue="#{procesoRecaudacionItem}"
+                                               itemLabel="#{procesoRecaudacionItem.idProcesoRecaudacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="procesoRecaudacion" value="#{egresoRecaudacionController.getComponentMessages('procesoRecaudacion', bundle.EditEgresoRecaudacionHelpText_procesoRecaudacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_valorDefectoEgreso}" for="valorDefectoEgreso" />
+                        <h:panelGroup>
+                            <p:inputText id="valorDefectoEgreso" value="#{egresoRecaudacionController.selected.valorDefectoEgreso}" title="#{bundle.EditEgresoRecaudacionTitle_valorDefectoEgreso}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_valorDefectoEgreso}"/>
+                            <p:tooltip for="valorDefectoEgreso" value="#{egresoRecaudacionController.getComponentMessages('valorDefectoEgreso', bundle.EditEgresoRecaudacionHelpText_valorDefectoEgreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_porcentaje}" for="porcentaje" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentaje" value="#{egresoRecaudacionController.selected.porcentaje}" title="#{bundle.EditEgresoRecaudacionTitle_porcentaje}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_porcentaje}"/>
+                            <p:tooltip for="porcentaje" value="#{egresoRecaudacionController.getComponentMessages('porcentaje', bundle.EditEgresoRecaudacionHelpText_porcentaje)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_numeroOrdenEgreso}" for="numeroOrdenEgreso" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroOrdenEgreso" value="#{egresoRecaudacionController.selected.numeroOrdenEgreso}" title="#{bundle.EditEgresoRecaudacionTitle_numeroOrdenEgreso}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_numeroOrdenEgreso}"/>
+                            <p:tooltip for="numeroOrdenEgreso" value="#{egresoRecaudacionController.getComponentMessages('numeroOrdenEgreso', bundle.EditEgresoRecaudacionHelpText_numeroOrdenEgreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{egresoRecaudacionController.selected.activo}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_activo}"/>
+                            <p:tooltip for="activo" value="#{egresoRecaudacionController.getComponentMessages('activo', bundle.EditEgresoRecaudacionHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoRecaudacionController.save}" value="#{bundle.Save}" update="display,:EgresoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MontoSindicatoTrabajadorEditDlg" widgetVar="MontoSindicatoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMontoSindicatoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="MontoSindicatoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{montoSindicatoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMontoSindicatoTrabajadorLabel_idMontoSindicatoTrabajado}" for="idMontoSindicatoTrabajado" />
+                        <h:panelGroup>
+                            <h:outputText id="idMontoSindicatoTrabajado" value="#{montoSindicatoTrabajadorController.selected.idMontoSindicatoTrabajado}" />
+                            <p:tooltip for="idMontoSindicatoTrabajado" value="#{montoSindicatoTrabajadorController.getComponentMessages('idMontoSindicatoTrabajado', bundle.EditMontoSindicatoTrabajadorHelpText_idMontoSindicatoTrabajado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMontoSindicatoTrabajadorLabel_sindicatoTrabajador}" for="sindicatoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="sindicatoTrabajador" value="#{montoSindicatoTrabajadorController.selected.sindicatoTrabajador}" required="true" requiredMessage="#{bundle.EditMontoSindicatoTrabajadorRequiredMessage_sindicatoTrabajador}" converter="sindicatoTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{sindicatoTrabajadorController.items}"
+                                               var="sindicatoTrabajadorItem"
+                                               itemValue="#{sindicatoTrabajadorItem}"
+                                               itemLabel="#{sindicatoTrabajadorItem.idSindicatoTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="sindicatoTrabajador" value="#{montoSindicatoTrabajadorController.getComponentMessages('sindicatoTrabajador', bundle.EditMontoSindicatoTrabajadorHelpText_sindicatoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMontoSindicatoTrabajadorLabel_montoSindicatoTrabajador}" for="montoSindicatoTrabajador" />
+                        <h:panelGroup>
+                            <p:inputText id="montoSindicatoTrabajador" value="#{montoSindicatoTrabajadorController.selected.montoSindicatoTrabajador}" title="#{bundle.EditMontoSindicatoTrabajadorTitle_montoSindicatoTrabajador}" required="true" requiredMessage="#{bundle.EditMontoSindicatoTrabajadorRequiredMessage_montoSindicatoTrabajador}"/>
+                            <p:tooltip for="montoSindicatoTrabajador" value="#{montoSindicatoTrabajadorController.getComponentMessages('montoSindicatoTrabajador', bundle.EditMontoSindicatoTrabajadorHelpText_montoSindicatoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMontoSindicatoTrabajadorLabel_mesLiquidacion}" for="mesLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="mesLiquidacion" value="#{montoSindicatoTrabajadorController.selected.mesLiquidacion}" title="#{bundle.EditMontoSindicatoTrabajadorTitle_mesLiquidacion}" required="true" requiredMessage="#{bundle.EditMontoSindicatoTrabajadorRequiredMessage_mesLiquidacion}"/>
+                            <p:tooltip for="mesLiquidacion" value="#{montoSindicatoTrabajadorController.getComponentMessages('mesLiquidacion', bundle.EditMontoSindicatoTrabajadorHelpText_mesLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMontoSindicatoTrabajadorLabel_anioLiquidacion}" for="anioLiquidacion" />
+                        <h:panelGroup>
+                            <p:inputText id="anioLiquidacion" value="#{montoSindicatoTrabajadorController.selected.anioLiquidacion}" title="#{bundle.EditMontoSindicatoTrabajadorTitle_anioLiquidacion}" required="true" requiredMessage="#{bundle.EditMontoSindicatoTrabajadorRequiredMessage_anioLiquidacion}"/>
+                            <p:tooltip for="anioLiquidacion" value="#{montoSindicatoTrabajadorController.getComponentMessages('anioLiquidacion', bundle.EditMontoSindicatoTrabajadorHelpText_anioLiquidacion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{montoSindicatoTrabajadorController.save}" value="#{bundle.Save}" update="display,:MontoSindicatoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MontoSindicatoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MontoSindicatoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CalleServicioListForm">
+
+        <p:panel header="#{bundle.ListCalleServicioTitle}">
+            <p:contextMenu id="CalleServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CalleServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CalleServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CalleServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CalleServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CalleServicioMenuItem_calle}" icon="ui-icon-search"  actionListener="#{calleServicioController.prepareCalle}" update=":CalleViewForm" oncomplete="PF('CalleViewDialog').show()" disabled="#{empty calleServicioController.selected.calle}"/>  
+                <p:menuitem value="#{bundle.CalleServicioMenuItem_servicio}" icon="ui-icon-search"  actionListener="#{calleServicioController.prepareServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty calleServicioController.selected.servicio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{calleServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.idCalleServicio}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{calleServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{calleServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idCalleServicio}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CalleServicioDataTableContextMenu" listener="#{calleServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CalleServicioDataTableContextMenu" listener="#{calleServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{calleServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CalleServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCalleServicio}" filterBy="#{item.idCalleServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCalleServicioTitle_idCalleServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCalleServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.calle.idCalle}" filterBy="#{item.calle.idCalle}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCalleServicioTitle_calle}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.calle.idCalle}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicio.idServicio}" filterBy="#{item.servicio.idServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCalleServicioTitle_servicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicio.idServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroOrden}" filterBy="#{item.numeroOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCalleServicioTitle_numeroOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sentido}" filterBy="#{item.sentido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCalleServicioTitle_sentido}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="sentido" value="#{item.sentido}" title="#{bundle.EditCalleServicioTitle_sentido}"  disabled="true"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{calleServicioController.prepareCreate}" update=":CalleServicioCreateForm" oncomplete="PF('CalleServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CalleServicioViewForm" oncomplete="PF('CalleServicioViewDialog').show()" disabled="#{empty calleServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CalleServicioEditForm" oncomplete="PF('CalleServicioEditDialog').show()" disabled="#{empty calleServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{calleServicioController.delete}" update=":growl,datalist" disabled="#{empty calleServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

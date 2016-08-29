@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ParametroCesantiaViewDlg" widgetVar="ParametroCesantiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewParametroCesantiaTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroCesantiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{parametroCesantiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_idParametroCesantia}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.idParametroCesantia}" title="#{bundle.ViewParametroCesantiaTitle_idParametroCesantia}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_empleador}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.empleador}" title="#{bundle.ViewParametroCesantiaTitle_empleador}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_trabajador}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.trabajador}" title="#{bundle.ViewParametroCesantiaTitle_trabajador}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ParametroCesantiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AsignacionFamiliarViewDlg" widgetVar="AsignacionFamiliarViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewAsignacionFamiliarTitle}" closeOnEscape="true">
+
+            <h:form id="AsignacionFamiliarViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{asignacionFamiliarController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_idAsignacionFamiliar}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.idAsignacionFamiliar}" title="#{bundle.ViewAsignacionFamiliarTitle_idAsignacionFamiliar}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_codigoAsignacionFamiliar}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.codigoAsignacionFamiliar}" title="#{bundle.ViewAsignacionFamiliarTitle_codigoAsignacionFamiliar}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_tramo}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.tramo}" title="#{bundle.ViewAsignacionFamiliarTitle_tramo}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_monto}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.monto}" title="#{bundle.ViewAsignacionFamiliarTitle_monto}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_desde}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.desde}" title="#{bundle.ViewAsignacionFamiliarTitle_desde}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_hasta}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.hasta}" title="#{bundle.ViewAsignacionFamiliarTitle_hasta}"/>
+
+                        <h:outputText value="#{bundle.ViewAsignacionFamiliarLabel_anio}"/>
+                        <h:outputText value="#{asignacionFamiliarController.selected.anio}" title="#{bundle.ViewAsignacionFamiliarTitle_anio}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('AsignacionFamiliarViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

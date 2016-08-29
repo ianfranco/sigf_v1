@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DiaTrabajadorEditDlg" widgetVar="DiaTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDiaTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="DiaTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{diaTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDiaTrabajadorLabel_idDiaTrabajador}" for="idDiaTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idDiaTrabajador" value="#{diaTrabajadorController.selected.idDiaTrabajador}" />
+                            <p:tooltip for="idDiaTrabajador" value="#{diaTrabajadorController.getComponentMessages('idDiaTrabajador', bundle.EditDiaTrabajadorHelpText_idDiaTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDiaTrabajadorLabel_tipoDiaTrabajador}" for="tipoDiaTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoDiaTrabajador" value="#{diaTrabajadorController.selected.tipoDiaTrabajador}" required="true" requiredMessage="#{bundle.EditDiaTrabajadorRequiredMessage_tipoDiaTrabajador}" converter="tipoDiaTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoDiaTrabajadorController.items}"
+                                               var="tipoDiaTrabajadorItem"
+                                               itemValue="#{tipoDiaTrabajadorItem}"
+                                               itemLabel="#{tipoDiaTrabajadorItem.idTipoDiaTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoDiaTrabajador" value="#{diaTrabajadorController.getComponentMessages('tipoDiaTrabajador', bundle.EditDiaTrabajadorHelpText_tipoDiaTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDiaTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{diaTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditDiaTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{diaTrabajadorController.getComponentMessages('trabajador', bundle.EditDiaTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDiaTrabajadorLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:calendar id="desde" pattern="MM/dd/yyyy" value="#{diaTrabajadorController.selected.desde}" title="#{bundle.EditDiaTrabajadorTitle_desde}" required="true" requiredMessage="#{bundle.EditDiaTrabajadorRequiredMessage_desde}" showOn="button"/>
+                            <p:tooltip for="desde" value="#{diaTrabajadorController.getComponentMessages('desde', bundle.EditDiaTrabajadorHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDiaTrabajadorLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:calendar id="hasta" pattern="MM/dd/yyyy" value="#{diaTrabajadorController.selected.hasta}" title="#{bundle.EditDiaTrabajadorTitle_hasta}" required="true" requiredMessage="#{bundle.EditDiaTrabajadorRequiredMessage_hasta}" showOn="button"/>
+                            <p:tooltip for="hasta" value="#{diaTrabajadorController.getComponentMessages('hasta', bundle.EditDiaTrabajadorHelpText_hasta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{diaTrabajadorController.save}" value="#{bundle.Save}" update="display,:DiaTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DiaTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DiaTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

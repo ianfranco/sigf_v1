@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusCreateDlg" widgetVar="BusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateBusTitle}" closeOnEscape="true">
+
+            <h:form id="BusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{busController.selected != null}">
+                    <p:tabView id="BusTabView">
+
+                        <p:tab id="BusTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateBusLabel_empresa}" for="empresa" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="empresa" value="#{busController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_empresa}" converter="empresaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{empresaController.items}"
+                                                       var="empresaItem"
+                                                       itemValue="#{empresaItem}"
+                                                       itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="empresa" value="#{busController.getComponentMessages('empresa', bundle.CreateBusHelpText_empresa)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_estadoBus}" for="estadoBus" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="estadoBus" value="#{busController.selected.estadoBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_estadoBus}" converter="estadoBusConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{estadoBusController.items}"
+                                                       var="estadoBusItem"
+                                                       itemValue="#{estadoBusItem}"
+                                                       itemLabel="#{estadoBusItem.idEstadoBus.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="estadoBus" value="#{busController.getComponentMessages('estadoBus', bundle.CreateBusHelpText_estadoBus)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_flota}" for="flota" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="flota" value="#{busController.selected.flota}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_flota}" converter="flotaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{flotaController.items}"
+                                                       var="flotaItem"
+                                                       itemValue="#{flotaItem}"
+                                                       itemLabel="#{flotaItem.idFlota.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="flota" value="#{busController.getComponentMessages('flota', bundle.CreateBusHelpText_flota)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_modeloMarcaBus}" for="modeloMarcaBus" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="modeloMarcaBus" value="#{busController.selected.modeloMarcaBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_modeloMarcaBus}" converter="modeloMarcaBusConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{modeloMarcaBusController.items}"
+                                                       var="modeloMarcaBusItem"
+                                                       itemValue="#{modeloMarcaBusItem}"
+                                                       itemLabel="#{modeloMarcaBusItem.idModeloMarcaBus.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="modeloMarcaBus" value="#{busController.getComponentMessages('modeloMarcaBus', bundle.CreateBusHelpText_modeloMarcaBus)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_terminal}" for="terminal" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="terminal" value="#{busController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_terminal}" converter="terminalConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{terminalController.items}"
+                                                       var="terminalItem"
+                                                       itemValue="#{terminalItem}"
+                                                       itemLabel="#{terminalItem.idTerminal.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="terminal" value="#{busController.getComponentMessages('terminal', bundle.CreateBusHelpText_terminal)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_unidadNegocio}" for="unidadNegocio" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="unidadNegocio" value="#{busController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_unidadNegocio}" converter="unidadNegocioConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{unidadNegocioController.items}"
+                                                       var="unidadNegocioItem"
+                                                       itemValue="#{unidadNegocioItem}"
+                                                       itemLabel="#{unidadNegocioItem.idUnidadNegocio.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="unidadNegocio" value="#{busController.getComponentMessages('unidadNegocio', bundle.CreateBusHelpText_unidadNegocio)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_numeroBus}" for="numeroBus" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroBus" value="#{busController.selected.numeroBus}" title="#{bundle.CreateBusTitle_numeroBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_numeroBus}"/>
+                                    <p:tooltip for="numeroBus" value="#{busController.getComponentMessages('numeroBus', bundle.CreateBusHelpText_numeroBus)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_patente}" for="patente" />
+                                <h:panelGroup>
+                                    <p:inputText id="patente" value="#{busController.selected.patente}" title="#{bundle.CreateBusTitle_patente}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_patente}"/>
+                                    <p:tooltip for="patente" value="#{busController.getComponentMessages('patente', bundle.CreateBusHelpText_patente)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_anio}" for="anio" />
+                                <h:panelGroup>
+                                    <p:inputText id="anio" value="#{busController.selected.anio}" title="#{bundle.CreateBusTitle_anio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_anio}"/>
+                                    <p:tooltip for="anio" value="#{busController.getComponentMessages('anio', bundle.CreateBusHelpText_anio)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_fechaRevisionTecnica}" for="fechaRevisionTecnica" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaRevisionTecnica" pattern="MM/dd/yyyy" value="#{busController.selected.fechaRevisionTecnica}" title="#{bundle.CreateBusTitle_fechaRevisionTecnica}"  showOn="button"/>
+                                    <p:tooltip for="fechaRevisionTecnica" value="#{busController.getComponentMessages('fechaRevisionTecnica', bundle.CreateBusHelpText_fechaRevisionTecnica)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_numeroMotor}" for="numeroMotor" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroMotor" value="#{busController.selected.numeroMotor}" title="#{bundle.CreateBusTitle_numeroMotor}"/>
+                                    <p:tooltip for="numeroMotor" value="#{busController.getComponentMessages('numeroMotor', bundle.CreateBusHelpText_numeroMotor)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_numeroChasis}" for="numeroChasis" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroChasis" value="#{busController.selected.numeroChasis}" title="#{bundle.CreateBusTitle_numeroChasis}"/>
+                                    <p:tooltip for="numeroChasis" value="#{busController.getComponentMessages('numeroChasis', bundle.CreateBusHelpText_numeroChasis)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_carroceria}" for="carroceria" />
+                                <h:panelGroup>
+                                    <p:inputText id="carroceria" value="#{busController.selected.carroceria}" title="#{bundle.CreateBusTitle_carroceria}"/>
+                                    <p:tooltip for="carroceria" value="#{busController.getComponentMessages('carroceria', bundle.CreateBusHelpText_carroceria)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_activo}" for="activo" />
+                                <h:panelGroup>
+                                    <p:selectBooleanCheckbox id="activo" value="#{busController.selected.activo}" />
+                                    <p:tooltip for="activo" value="#{busController.getComponentMessages('activo', bundle.CreateBusHelpText_activo)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateBusLabel_fechaIngresoBus}" for="fechaIngresoBus" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaIngresoBus" pattern="MM/dd/yyyy HH:mm:ss" value="#{busController.selected.fechaIngresoBus}" title="#{bundle.CreateBusTitle_fechaIngresoBus}"  showOn="button"/>
+                                    <p:tooltip for="fechaIngresoBus" value="#{busController.getComponentMessages('fechaIngresoBus', bundle.CreateBusHelpText_fechaIngresoBus)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{busController.saveNew}" value="#{bundle.Save}" update="display,:BusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

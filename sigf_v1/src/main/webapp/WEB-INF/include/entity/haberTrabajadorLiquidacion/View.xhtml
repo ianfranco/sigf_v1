@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberTrabajadorLiquidacionViewDlg" widgetVar="HaberTrabajadorLiquidacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHaberTrabajadorLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorLiquidacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{haberTrabajadorLiquidacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_idHaberTrabajadorLiquidacion}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.idHaberTrabajadorLiquidacion}" title="#{bundle.ViewHaberTrabajadorLiquidacionTitle_idHaberTrabajadorLiquidacion}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_haberTrabajador}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.haberTrabajador.idHaberTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_trabajador}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_fechaInicioHaber}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.fechaInicioHaber}" title="#{bundle.ViewHaberTrabajadorLiquidacionTitle_fechaInicioHaber}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_fechaIngresoHaber}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.fechaIngresoHaber}" title="#{bundle.ViewHaberTrabajadorLiquidacionTitle_fechaIngresoHaber}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_numeroCuotas}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.ViewHaberTrabajadorLiquidacionTitle_numeroCuotas}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_monto}"/>
+                        <h:outputText value="#{haberTrabajadorLiquidacionController.selected.monto}" title="#{bundle.ViewHaberTrabajadorLiquidacionTitle_monto}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLiquidacionLabel_activoHaberTrabajador}"/>
+                        <h:selectBooleanCheckbox id="activoHaberTrabajador" value="#{haberTrabajadorLiquidacionController.selected.activoHaberTrabajador}" title="#{bundle.EditHaberTrabajadorLiquidacionTitle_activoHaberTrabajador}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_activoHaberTrabajador}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HaberTrabajadorLiquidacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

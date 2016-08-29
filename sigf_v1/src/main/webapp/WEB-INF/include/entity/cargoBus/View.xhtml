@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargoBusViewDlg" widgetVar="CargoBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCargoBusTitle}" closeOnEscape="true">
+
+            <h:form id="CargoBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cargoBusController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_idCargoBus}"/>
+                        <h:outputText value="#{cargoBusController.selected.idCargoBus}" title="#{bundle.ViewCargoBusTitle_idCargoBus}"/>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_bus}"/>
+                        <h:outputText value="#{cargoBusController.selected.bus.idBus}"/>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_tipoCargo}"/>
+                        <h:outputText value="#{cargoBusController.selected.tipoCargo.idTipoCargo}"/>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_fechaIngresoCargoBus}"/>
+                        <h:outputText value="#{cargoBusController.selected.fechaIngresoCargoBus}" title="#{bundle.ViewCargoBusTitle_fechaIngresoCargoBus}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_fechaInicioCargoBus}"/>
+                        <h:outputText value="#{cargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.ViewCargoBusTitle_fechaInicioCargoBus}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_numeroCuotasCargoBus}"/>
+                        <h:outputText value="#{cargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.ViewCargoBusTitle_numeroCuotasCargoBus}"/>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_montoCargoBus}"/>
+                        <h:outputText value="#{cargoBusController.selected.montoCargoBus}" title="#{bundle.ViewCargoBusTitle_montoCargoBus}"/>
+
+                        <h:outputText value="#{bundle.ViewCargoBusLabel_activoCargoBus}"/>
+                        <h:selectBooleanCheckbox id="activoCargoBus" value="#{cargoBusController.selected.activoCargoBus}" title="#{bundle.EditCargoBusTitle_activoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_activoCargoBus}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CargoBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ObservacionTrabajadorCreateDlg" widgetVar="ObservacionTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateObservacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="ObservacionTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{observacionTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateObservacionTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{observacionTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateObservacionTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{observacionTrabajadorController.getComponentMessages('trabajador', bundle.CreateObservacionTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateObservacionTrabajadorLabel_fecha}" for="fecha" />
+                        <h:panelGroup>
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{observacionTrabajadorController.selected.fecha}" title="#{bundle.CreateObservacionTrabajadorTitle_fecha}" required="true" requiredMessage="#{bundle.CreateObservacionTrabajadorRequiredMessage_fecha}" showOn="button"/>
+                            <p:tooltip for="fecha" value="#{observacionTrabajadorController.getComponentMessages('fecha', bundle.CreateObservacionTrabajadorHelpText_fecha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateObservacionTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{observacionTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateObservacionTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateObservacionTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{observacionTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateObservacionTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateObservacionTrabajadorLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{observacionTrabajadorController.selected.descripcion}" title="#{bundle.CreateObservacionTrabajadorTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateObservacionTrabajadorRequiredMessage_descripcion}"/>
+                            <p:tooltip for="descripcion" value="#{observacionTrabajadorController.getComponentMessages('descripcion', bundle.CreateObservacionTrabajadorHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateObservacionTrabajadorLabel_detalle}" for="detalle" />
+                        <h:panelGroup>
+                            <p:inputText id="detalle" value="#{observacionTrabajadorController.selected.detalle}" title="#{bundle.CreateObservacionTrabajadorTitle_detalle}" required="true" requiredMessage="#{bundle.CreateObservacionTrabajadorRequiredMessage_detalle}"/>
+                            <p:tooltip for="detalle" value="#{observacionTrabajadorController.getComponentMessages('detalle', bundle.CreateObservacionTrabajadorHelpText_detalle)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{observacionTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:ObservacionTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ObservacionTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ObservacionTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

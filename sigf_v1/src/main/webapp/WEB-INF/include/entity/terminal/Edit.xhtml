@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TerminalEditDlg" widgetVar="TerminalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="TerminalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{terminalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTerminalLabel_idTerminal}" for="idTerminal" />
+                        <h:panelGroup>
+                            <h:outputText id="idTerminal" value="#{terminalController.selected.idTerminal}" />
+                            <p:tooltip for="idTerminal" value="#{terminalController.getComponentMessages('idTerminal', bundle.EditTerminalHelpText_idTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_nombreTerminal}" for="nombreTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTerminal" value="#{terminalController.selected.nombreTerminal}" title="#{bundle.EditTerminalTitle_nombreTerminal}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_nombreTerminal}"/>
+                            <p:tooltip for="nombreTerminal" value="#{terminalController.getComponentMessages('nombreTerminal', bundle.EditTerminalHelpText_nombreTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_direccionTerminal}" for="direccionTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="direccionTerminal" value="#{terminalController.selected.direccionTerminal}" title="#{bundle.EditTerminalTitle_direccionTerminal}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_direccionTerminal}"/>
+                            <p:tooltip for="direccionTerminal" value="#{terminalController.getComponentMessages('direccionTerminal', bundle.EditTerminalHelpText_direccionTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_superficie}" for="superficie" />
+                        <h:panelGroup>
+                            <p:inputText id="superficie" value="#{terminalController.selected.superficie}" title="#{bundle.EditTerminalTitle_superficie}"/>
+                            <p:tooltip for="superficie" value="#{terminalController.getComponentMessages('superficie', bundle.EditTerminalHelpText_superficie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_telefonoTerminal}" for="telefonoTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="telefonoTerminal" value="#{terminalController.selected.telefonoTerminal}" title="#{bundle.EditTerminalTitle_telefonoTerminal}"/>
+                            <p:tooltip for="telefonoTerminal" value="#{terminalController.getComponentMessages('telefonoTerminal', bundle.EditTerminalHelpText_telefonoTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_emailTerminal}" for="emailTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="emailTerminal" value="#{terminalController.selected.emailTerminal}" title="#{bundle.EditTerminalTitle_emailTerminal}"/>
+                            <p:tooltip for="emailTerminal" value="#{terminalController.getComponentMessages('emailTerminal', bundle.EditTerminalHelpText_emailTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_ubicacionLongitud}" for="ubicacionLongitud" />
+                        <h:panelGroup>
+                            <p:inputText id="ubicacionLongitud" value="#{terminalController.selected.ubicacionLongitud}" title="#{bundle.EditTerminalTitle_ubicacionLongitud}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_ubicacionLongitud}"/>
+                            <p:tooltip for="ubicacionLongitud" value="#{terminalController.getComponentMessages('ubicacionLongitud', bundle.EditTerminalHelpText_ubicacionLongitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_ubicacionLatitud}" for="ubicacionLatitud" />
+                        <h:panelGroup>
+                            <p:inputText id="ubicacionLatitud" value="#{terminalController.selected.ubicacionLatitud}" title="#{bundle.EditTerminalTitle_ubicacionLatitud}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_ubicacionLatitud}"/>
+                            <p:tooltip for="ubicacionLatitud" value="#{terminalController.getComponentMessages('ubicacionLatitud', bundle.EditTerminalHelpText_ubicacionLatitud)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{terminalController.save}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TerminalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

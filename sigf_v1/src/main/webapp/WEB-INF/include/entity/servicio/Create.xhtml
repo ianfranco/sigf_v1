@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioCreateDlg" widgetVar="ServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{servicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{servicioController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{servicioController.getComponentMessages('terminal', bundle.CreateServicioHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_unidadNegocio}" for="unidadNegocio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="unidadNegocio" value="#{servicioController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_unidadNegocio}" converter="unidadNegocioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{unidadNegocioController.items}"
+                                               var="unidadNegocioItem"
+                                               itemValue="#{unidadNegocioItem}"
+                                               itemLabel="#{unidadNegocioItem.idUnidadNegocio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="unidadNegocio" value="#{servicioController.getComponentMessages('unidadNegocio', bundle.CreateServicioHelpText_unidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_numeroServicio}" for="numeroServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroServicio" value="#{servicioController.selected.numeroServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_numeroServicio}"/>
+                            <p:tooltip for="numeroServicio" value="#{servicioController.getComponentMessages('numeroServicio', bundle.CreateServicioHelpText_numeroServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_longitud}" for="longitud" />
+                        <h:panelGroup>
+                            <p:inputText id="longitud" value="#{servicioController.selected.longitud}" title="#{bundle.CreateServicioTitle_longitud}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_longitud}"/>
+                            <p:tooltip for="longitud" value="#{servicioController.getComponentMessages('longitud', bundle.CreateServicioHelpText_longitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_nombreServicio}" for="nombreServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreServicio" value="#{servicioController.selected.nombreServicio}" title="#{bundle.CreateServicioTitle_nombreServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_nombreServicio}"/>
+                            <p:tooltip for="nombreServicio" value="#{servicioController.getComponentMessages('nombreServicio', bundle.CreateServicioHelpText_nombreServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_origenServicio}" for="origenServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="origenServicio" value="#{servicioController.selected.origenServicio}" title="#{bundle.CreateServicioTitle_origenServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_origenServicio}"/>
+                            <p:tooltip for="origenServicio" value="#{servicioController.getComponentMessages('origenServicio', bundle.CreateServicioHelpText_origenServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_destinoServicio}" for="destinoServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="destinoServicio" value="#{servicioController.selected.destinoServicio}" title="#{bundle.CreateServicioTitle_destinoServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_destinoServicio}"/>
+                            <p:tooltip for="destinoServicio" value="#{servicioController.getComponentMessages('destinoServicio', bundle.CreateServicioHelpText_destinoServicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_folioServicio}" for="folioServicio" />
+                        <h:panelGroup>
+                            <p:inputText id="folioServicio" value="#{servicioController.selected.folioServicio}" title="#{bundle.CreateServicioTitle_folioServicio}"/>
+                            <p:tooltip for="folioServicio" value="#{servicioController.getComponentMessages('folioServicio', bundle.CreateServicioHelpText_folioServicio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicioController.saveNew}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

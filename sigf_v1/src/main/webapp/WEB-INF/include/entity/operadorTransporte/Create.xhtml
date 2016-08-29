@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperadorTransporteCreateDlg" widgetVar="OperadorTransporteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOperadorTransporteTitle}" closeOnEscape="true">
+
+            <h:form id="OperadorTransporteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{operadorTransporteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateOperadorTransporteLabel_rutOperador}" for="rutOperador" />
+                        <h:panelGroup>
+                            <p:inputText id="rutOperador" value="#{operadorTransporteController.selected.rutOperador}" title="#{bundle.CreateOperadorTransporteTitle_rutOperador}" required="true" requiredMessage="#{bundle.CreateOperadorTransporteRequiredMessage_rutOperador}"/>
+                            <p:tooltip for="rutOperador" value="#{operadorTransporteController.getComponentMessages('rutOperador', bundle.CreateOperadorTransporteHelpText_rutOperador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateOperadorTransporteLabel_nombreOperador}" for="nombreOperador" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreOperador" value="#{operadorTransporteController.selected.nombreOperador}" title="#{bundle.CreateOperadorTransporteTitle_nombreOperador}" required="true" requiredMessage="#{bundle.CreateOperadorTransporteRequiredMessage_nombreOperador}"/>
+                            <p:tooltip for="nombreOperador" value="#{operadorTransporteController.getComponentMessages('nombreOperador', bundle.CreateOperadorTransporteHelpText_nombreOperador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadorTransporteController.saveNew}" value="#{bundle.Save}" update="display,:OperadorTransporteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OperadorTransporteCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('OperadorTransporteCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

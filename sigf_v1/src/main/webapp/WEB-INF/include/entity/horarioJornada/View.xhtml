@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HorarioJornadaViewDlg" widgetVar="HorarioJornadaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHorarioJornadaTitle}" closeOnEscape="true">
+
+            <h:form id="HorarioJornadaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{horarioJornadaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHorarioJornadaLabel_idHorarioJornada}"/>
+                        <h:outputText value="#{horarioJornadaController.selected.idHorarioJornada}" title="#{bundle.ViewHorarioJornadaTitle_idHorarioJornada}"/>
+
+                        <h:outputText value="#{bundle.ViewHorarioJornadaLabel_inicioHorario}"/>
+                        <h:outputText value="#{horarioJornadaController.selected.inicioHorario}" title="#{bundle.ViewHorarioJornadaTitle_inicioHorario}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHorarioJornadaLabel_terminoHorario}"/>
+                        <h:outputText value="#{horarioJornadaController.selected.terminoHorario}" title="#{bundle.ViewHorarioJornadaTitle_terminoHorario}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHorarioJornadaLabel_horarioVariable}"/>
+                        <h:selectBooleanCheckbox id="horarioVariable" value="#{horarioJornadaController.selected.horarioVariable}" title="#{bundle.EditHorarioJornadaTitle_horarioVariable}"  disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HorarioJornadaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioProcesoRecaudacionCreateDlg" widgetVar="ServicioProcesoRecaudacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateServicioProcesoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="ServicioProcesoRecaudacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{servicioProcesoRecaudacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateServicioProcesoRecaudacionLabel_idServicioProcesoRecaudacion}" for="idServicioProcesoRecaudacion" />
+                        <h:panelGroup>
+                            <p:inputText id="idServicioProcesoRecaudacion" value="#{servicioProcesoRecaudacionController.selected.idServicioProcesoRecaudacion}" title="#{bundle.CreateServicioProcesoRecaudacionTitle_idServicioProcesoRecaudacion}" required="true" requiredMessage="#{bundle.CreateServicioProcesoRecaudacionRequiredMessage_idServicioProcesoRecaudacion}"/>
+                            <p:tooltip for="idServicioProcesoRecaudacion" value="#{servicioProcesoRecaudacionController.getComponentMessages('idServicioProcesoRecaudacion', bundle.CreateServicioProcesoRecaudacionHelpText_idServicioProcesoRecaudacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioProcesoRecaudacionLabel_procesoRecaudacion}" for="procesoRecaudacion" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="procesoRecaudacion" value="#{servicioProcesoRecaudacionController.selected.procesoRecaudacion}" required="true" requiredMessage="#{bundle.CreateServicioProcesoRecaudacionRequiredMessage_procesoRecaudacion}" converter="procesoRecaudacionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{procesoRecaudacionController.items}"
+                                               var="procesoRecaudacionItem"
+                                               itemValue="#{procesoRecaudacionItem}"
+                                               itemLabel="#{procesoRecaudacionItem.idProcesoRecaudacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="procesoRecaudacion" value="#{servicioProcesoRecaudacionController.getComponentMessages('procesoRecaudacion', bundle.CreateServicioProcesoRecaudacionHelpText_procesoRecaudacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateServicioProcesoRecaudacionLabel_servicio}" for="servicio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicio" value="#{servicioProcesoRecaudacionController.selected.servicio}" required="true" requiredMessage="#{bundle.CreateServicioProcesoRecaudacionRequiredMessage_servicio}" converter="servicioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicioController.items}"
+                                               var="servicioItem"
+                                               itemValue="#{servicioItem}"
+                                               itemLabel="#{servicioItem.idServicio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicio" value="#{servicioProcesoRecaudacionController.getComponentMessages('servicio', bundle.CreateServicioProcesoRecaudacionHelpText_servicio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicioProcesoRecaudacionController.saveNew}" value="#{bundle.Save}" update="display,:ServicioProcesoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioProcesoRecaudacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServicioProcesoRecaudacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

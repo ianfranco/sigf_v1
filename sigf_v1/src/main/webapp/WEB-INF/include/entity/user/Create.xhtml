@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserCreateDlg" widgetVar="UserCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUserTitle}" closeOnEscape="true">
+
+            <h:form id="UserCreateForm">
+
+                <h:panelGroup id="display" rendered="#{userController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_name}" for="name" />
+                        <h:panelGroup>
+                            <p:inputText id="name" value="#{userController.selected.name}" title="#{bundle.CreateUserTitle_name}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_name}"/>
+                            <p:tooltip for="name" value="#{userController.getComponentMessages('name', bundle.CreateUserHelpText_name)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_email}" for="email" />
+                        <h:panelGroup>
+                            <p:inputText id="email" value="#{userController.selected.email}" title="#{bundle.CreateUserTitle_email}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_email}"/>
+                            <p:tooltip for="email" value="#{userController.getComponentMessages('email', bundle.CreateUserHelpText_email)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_hashedPassword}" for="hashedPassword" />
+                        <h:panelGroup>
+                            <p:inputText id="hashedPassword" value="#{userController.selected.hashedPassword}" title="#{bundle.CreateUserTitle_hashedPassword}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_hashedPassword}"/>
+                            <p:tooltip for="hashedPassword" value="#{userController.getComponentMessages('hashedPassword', bundle.CreateUserHelpText_hashedPassword)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_salt}" for="salt" />
+                        <h:panelGroup>
+                            <p:inputText id="salt" value="#{userController.selected.salt}" title="#{bundle.CreateUserTitle_salt}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_salt}"/>
+                            <p:tooltip for="salt" value="#{userController.getComponentMessages('salt', bundle.CreateUserHelpText_salt)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_readonly}" for="readonly" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="readonly" value="#{userController.selected.readonly}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_readonly}"/>
+                            <p:tooltip for="readonly" value="#{userController.getComponentMessages('readonly', bundle.CreateUserHelpText_readonly)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_admin}" for="admin" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="admin" value="#{userController.selected.admin}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_admin}"/>
+                            <p:tooltip for="admin" value="#{userController.getComponentMessages('admin', bundle.CreateUserHelpText_admin)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_map}" for="map" />
+                        <h:panelGroup>
+                            <p:inputText id="map" value="#{userController.selected.map}" title="#{bundle.CreateUserTitle_map}"/>
+                            <p:tooltip for="map" value="#{userController.getComponentMessages('map', bundle.CreateUserHelpText_map)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_language}" for="language" />
+                        <h:panelGroup>
+                            <p:inputText id="language" value="#{userController.selected.language}" title="#{bundle.CreateUserTitle_language}"/>
+                            <p:tooltip for="language" value="#{userController.getComponentMessages('language', bundle.CreateUserHelpText_language)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_distanceUnit}" for="distanceUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="distanceUnit" value="#{userController.selected.distanceUnit}" title="#{bundle.CreateUserTitle_distanceUnit}"/>
+                            <p:tooltip for="distanceUnit" value="#{userController.getComponentMessages('distanceUnit', bundle.CreateUserHelpText_distanceUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_speedUnit}" for="speedUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="speedUnit" value="#{userController.selected.speedUnit}" title="#{bundle.CreateUserTitle_speedUnit}"/>
+                            <p:tooltip for="speedUnit" value="#{userController.getComponentMessages('speedUnit', bundle.CreateUserHelpText_speedUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_latitude}" for="latitude" />
+                        <h:panelGroup>
+                            <p:inputText id="latitude" value="#{userController.selected.latitude}" title="#{bundle.CreateUserTitle_latitude}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_latitude}"/>
+                            <p:tooltip for="latitude" value="#{userController.getComponentMessages('latitude', bundle.CreateUserHelpText_latitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_longitude}" for="longitude" />
+                        <h:panelGroup>
+                            <p:inputText id="longitude" value="#{userController.selected.longitude}" title="#{bundle.CreateUserTitle_longitude}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_longitude}"/>
+                            <p:tooltip for="longitude" value="#{userController.getComponentMessages('longitude', bundle.CreateUserHelpText_longitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_zoom}" for="zoom" />
+                        <h:panelGroup>
+                            <p:inputText id="zoom" value="#{userController.selected.zoom}" title="#{bundle.CreateUserTitle_zoom}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_zoom}"/>
+                            <p:tooltip for="zoom" value="#{userController.getComponentMessages('zoom', bundle.CreateUserHelpText_zoom)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{userController.saveNew}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UserCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UserCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

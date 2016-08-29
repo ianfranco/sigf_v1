@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ParametroInterpolacionEditDlg" widgetVar="ParametroInterpolacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditParametroInterpolacionTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroInterpolacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{parametroInterpolacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditParametroInterpolacionLabel_idParametroInterpolacion}" for="idParametroInterpolacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idParametroInterpolacion" value="#{parametroInterpolacionController.selected.idParametroInterpolacion}" />
+                            <p:tooltip for="idParametroInterpolacion" value="#{parametroInterpolacionController.getComponentMessages('idParametroInterpolacion', bundle.EditParametroInterpolacionHelpText_idParametroInterpolacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_nombreParametro}" for="nombreParametro" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreParametro" value="#{parametroInterpolacionController.selected.nombreParametro}" title="#{bundle.EditParametroInterpolacionTitle_nombreParametro}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_nombreParametro}"/>
+                            <p:tooltip for="nombreParametro" value="#{parametroInterpolacionController.getComponentMessages('nombreParametro', bundle.EditParametroInterpolacionHelpText_nombreParametro)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_valorParametro}" for="valorParametro" />
+                        <h:panelGroup>
+                            <p:inputText id="valorParametro" value="#{parametroInterpolacionController.selected.valorParametro}" title="#{bundle.EditParametroInterpolacionTitle_valorParametro}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_valorParametro}"/>
+                            <p:tooltip for="valorParametro" value="#{parametroInterpolacionController.getComponentMessages('valorParametro', bundle.EditParametroInterpolacionHelpText_valorParametro)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_unidadParametro}" for="unidadParametro" />
+                        <h:panelGroup>
+                            <p:inputText id="unidadParametro" value="#{parametroInterpolacionController.selected.unidadParametro}" title="#{bundle.EditParametroInterpolacionTitle_unidadParametro}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_unidadParametro}"/>
+                            <p:tooltip for="unidadParametro" value="#{parametroInterpolacionController.getComponentMessages('unidadParametro', bundle.EditParametroInterpolacionHelpText_unidadParametro)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{parametroInterpolacionController.save}" value="#{bundle.Save}" update="display,:ParametroInterpolacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ParametroInterpolacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ParametroInterpolacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

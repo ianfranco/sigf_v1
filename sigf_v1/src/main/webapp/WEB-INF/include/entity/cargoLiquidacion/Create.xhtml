@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargoLiquidacionCreateDlg" widgetVar="CargoLiquidacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCargoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="CargoLiquidacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargoLiquidacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCargoLiquidacionLabel_cargoBus}" for="cargoBus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cargoBus" value="#{cargoLiquidacionController.selected.cargoBus}" required="true" requiredMessage="#{bundle.CreateCargoLiquidacionRequiredMessage_cargoBus}" converter="cargoBusConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cargoBusController.items}"
+                                               var="cargoBusItem"
+                                               itemValue="#{cargoBusItem}"
+                                               itemLabel="#{cargoBusItem.idCargoBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cargoBus" value="#{cargoLiquidacionController.getComponentMessages('cargoBus', bundle.CreateCargoLiquidacionHelpText_cargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoLiquidacionLabel_liquidacionEmpresa}" for="liquidacionEmpresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="liquidacionEmpresa" value="#{cargoLiquidacionController.selected.liquidacionEmpresa}" required="true" requiredMessage="#{bundle.CreateCargoLiquidacionRequiredMessage_liquidacionEmpresa}" converter="liquidacionEmpresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{liquidacionEmpresaController.items}"
+                                               var="liquidacionEmpresaItem"
+                                               itemValue="#{liquidacionEmpresaItem}"
+                                               itemLabel="#{liquidacionEmpresaItem.idLiquidacionEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="liquidacionEmpresa" value="#{cargoLiquidacionController.getComponentMessages('liquidacionEmpresa', bundle.CreateCargoLiquidacionHelpText_liquidacionEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoLiquidacionLabel_montoCargo}" for="montoCargo" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargo" value="#{cargoLiquidacionController.selected.montoCargo}" title="#{bundle.CreateCargoLiquidacionTitle_montoCargo}" required="true" requiredMessage="#{bundle.CreateCargoLiquidacionRequiredMessage_montoCargo}"/>
+                            <p:tooltip for="montoCargo" value="#{cargoLiquidacionController.getComponentMessages('montoCargo', bundle.CreateCargoLiquidacionHelpText_montoCargo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:CargoLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoLiquidacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoLiquidacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

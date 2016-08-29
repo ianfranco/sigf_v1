@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoGuiaEditDlg" widgetVar="EgresoGuiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoGuiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoGuiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoGuiaLabel_idEgresoGuia}" for="idEgresoGuia" />
+                        <h:panelGroup>
+                            <h:outputText id="idEgresoGuia" value="#{egresoGuiaController.selected.idEgresoGuia}" />
+                            <p:tooltip for="idEgresoGuia" value="#{egresoGuiaController.getComponentMessages('idEgresoGuia', bundle.EditEgresoGuiaHelpText_idEgresoGuia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoGuiaLabel_egresoRecaudacion}" for="egresoRecaudacion" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="egresoRecaudacion" value="#{egresoGuiaController.selected.egresoRecaudacion}" required="true" requiredMessage="#{bundle.EditEgresoGuiaRequiredMessage_egresoRecaudacion}" converter="egresoRecaudacionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{egresoRecaudacionController.items}"
+                                               var="egresoRecaudacionItem"
+                                               itemValue="#{egresoRecaudacionItem}"
+                                               itemLabel="#{egresoRecaudacionItem.idEgresoRecaudacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="egresoRecaudacion" value="#{egresoGuiaController.getComponentMessages('egresoRecaudacion', bundle.EditEgresoGuiaHelpText_egresoRecaudacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoGuiaLabel_guia}" for="guia" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="guia" value="#{egresoGuiaController.selected.guia}" required="true" requiredMessage="#{bundle.EditEgresoGuiaRequiredMessage_guia}" converter="guiaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{guiaController.items}"
+                                               var="guiaItem"
+                                               itemValue="#{guiaItem}"
+                                               itemLabel="#{guiaItem.idGuia.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="guia" value="#{egresoGuiaController.getComponentMessages('guia', bundle.EditEgresoGuiaHelpText_guia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEgresoGuiaLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{egresoGuiaController.selected.monto}" title="#{bundle.EditEgresoGuiaTitle_monto}" required="true" requiredMessage="#{bundle.EditEgresoGuiaRequiredMessage_monto}"/>
+                            <p:tooltip for="monto" value="#{egresoGuiaController.getComponentMessages('monto', bundle.EditEgresoGuiaHelpText_monto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoGuiaController.save}" value="#{bundle.Save}" update="display,:EgresoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoGuiaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoGuiaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoNominaEditDlg" widgetVar="TipoNominaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoNominaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoNominaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoNominaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoNominaLabel_idTipoNomina}" for="idTipoNomina" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoNomina" value="#{tipoNominaController.selected.idTipoNomina}" />
+                            <p:tooltip for="idTipoNomina" value="#{tipoNominaController.getComponentMessages('idTipoNomina', bundle.EditTipoNominaHelpText_idTipoNomina)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoNominaLabel_nombreTipoNomina}" for="nombreTipoNomina" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoNomina" value="#{tipoNominaController.selected.nombreTipoNomina}" title="#{bundle.EditTipoNominaTitle_nombreTipoNomina}" required="true" requiredMessage="#{bundle.EditTipoNominaRequiredMessage_nombreTipoNomina}"/>
+                            <p:tooltip for="nombreTipoNomina" value="#{tipoNominaController.getComponentMessages('nombreTipoNomina', bundle.EditTipoNominaHelpText_nombreTipoNomina)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoNominaController.save}" value="#{bundle.Save}" update="display,:TipoNominaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoNominaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoNominaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

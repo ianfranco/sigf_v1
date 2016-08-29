@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuentaBancariaEmpresaViewDlg" widgetVar="CuentaBancariaEmpresaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCuentaBancariaEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaEmpresaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cuentaBancariaEmpresaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaEmpresaLabel_idCuentaEmpresa}"/>
+                        <h:outputText value="#{cuentaBancariaEmpresaController.selected.idCuentaEmpresa}" title="#{bundle.ViewCuentaBancariaEmpresaTitle_idCuentaEmpresa}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaEmpresaLabel_banco}"/>
+                        <h:outputText value="#{cuentaBancariaEmpresaController.selected.banco.idBanco}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaEmpresaLabel_empresa}"/>
+                        <h:outputText value="#{cuentaBancariaEmpresaController.selected.empresa.idEmpresa}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaEmpresaLabel_tipoCuentaBanco}"/>
+                        <h:outputText value="#{cuentaBancariaEmpresaController.selected.tipoCuentaBanco.idTipoCuentaBanco}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaEmpresaLabel_numeroCuentaEmpresa}"/>
+                        <h:outputText value="#{cuentaBancariaEmpresaController.selected.numeroCuentaEmpresa}" title="#{bundle.ViewCuentaBancariaEmpresaTitle_numeroCuentaEmpresa}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CuentaBancariaEmpresaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

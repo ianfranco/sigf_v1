@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AnticipoTrabajadorEditDlg" widgetVar="AnticipoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAnticipoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="AnticipoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{anticipoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAnticipoTrabajadorLabel_idAnticipoTrabajador}" for="idAnticipoTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idAnticipoTrabajador" value="#{anticipoTrabajadorController.selected.idAnticipoTrabajador}" />
+                            <p:tooltip for="idAnticipoTrabajador" value="#{anticipoTrabajadorController.getComponentMessages('idAnticipoTrabajador', bundle.EditAnticipoTrabajadorHelpText_idAnticipoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAnticipoTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{anticipoTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditAnticipoTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{anticipoTrabajadorController.getComponentMessages('trabajador', bundle.EditAnticipoTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAnticipoTrabajadorLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{anticipoTrabajadorController.selected.mes}" title="#{bundle.EditAnticipoTrabajadorTitle_mes}" required="true" requiredMessage="#{bundle.EditAnticipoTrabajadorRequiredMessage_mes}"/>
+                            <p:tooltip for="mes" value="#{anticipoTrabajadorController.getComponentMessages('mes', bundle.EditAnticipoTrabajadorHelpText_mes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAnticipoTrabajadorLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{anticipoTrabajadorController.selected.anio}" title="#{bundle.EditAnticipoTrabajadorTitle_anio}" required="true" requiredMessage="#{bundle.EditAnticipoTrabajadorRequiredMessage_anio}"/>
+                            <p:tooltip for="anio" value="#{anticipoTrabajadorController.getComponentMessages('anio', bundle.EditAnticipoTrabajadorHelpText_anio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAnticipoTrabajadorLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{anticipoTrabajadorController.selected.monto}" title="#{bundle.EditAnticipoTrabajadorTitle_monto}" required="true" requiredMessage="#{bundle.EditAnticipoTrabajadorRequiredMessage_monto}"/>
+                            <p:tooltip for="monto" value="#{anticipoTrabajadorController.getComponentMessages('monto', bundle.EditAnticipoTrabajadorHelpText_monto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{anticipoTrabajadorController.save}" value="#{bundle.Save}" update="display,:AnticipoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AnticipoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AnticipoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

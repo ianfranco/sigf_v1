@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RepresentanteLegalEditDlg" widgetVar="RepresentanteLegalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRepresentanteLegalTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteLegalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{representanteLegalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRepresentanteLegalLabel_idRepresentanteLegal}" for="idRepresentanteLegal" />
+                        <h:panelGroup>
+                            <h:outputText id="idRepresentanteLegal" value="#{representanteLegalController.selected.idRepresentanteLegal}" />
+                            <p:tooltip for="idRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('idRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_idRepresentanteLegal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_nombreRepresentanteLegal}" for="nombreRepresentanteLegal" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreRepresentanteLegal" value="#{representanteLegalController.selected.nombreRepresentanteLegal}" title="#{bundle.EditRepresentanteLegalTitle_nombreRepresentanteLegal}" required="true" requiredMessage="#{bundle.EditRepresentanteLegalRequiredMessage_nombreRepresentanteLegal}"/>
+                            <p:tooltip for="nombreRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('nombreRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_nombreRepresentanteLegal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_rutRepresentanteLegal}" for="rutRepresentanteLegal" />
+                        <h:panelGroup>
+                            <p:inputText id="rutRepresentanteLegal" value="#{representanteLegalController.selected.rutRepresentanteLegal}" title="#{bundle.EditRepresentanteLegalTitle_rutRepresentanteLegal}" required="true" requiredMessage="#{bundle.EditRepresentanteLegalRequiredMessage_rutRepresentanteLegal}"/>
+                            <p:tooltip for="rutRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('rutRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_rutRepresentanteLegal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_direccionRepresentanteLegal}" for="direccionRepresentanteLegal" />
+                        <h:panelGroup>
+                            <p:inputText id="direccionRepresentanteLegal" value="#{representanteLegalController.selected.direccionRepresentanteLegal}" title="#{bundle.EditRepresentanteLegalTitle_direccionRepresentanteLegal}"/>
+                            <p:tooltip for="direccionRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('direccionRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_direccionRepresentanteLegal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_telefonoRepresentanteLegal}" for="telefonoRepresentanteLegal" />
+                        <h:panelGroup>
+                            <p:inputText id="telefonoRepresentanteLegal" value="#{representanteLegalController.selected.telefonoRepresentanteLegal}" title="#{bundle.EditRepresentanteLegalTitle_telefonoRepresentanteLegal}"/>
+                            <p:tooltip for="telefonoRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('telefonoRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_telefonoRepresentanteLegal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_emailRepresentanteLegal}" for="emailRepresentanteLegal" />
+                        <h:panelGroup>
+                            <p:inputText id="emailRepresentanteLegal" value="#{representanteLegalController.selected.emailRepresentanteLegal}" title="#{bundle.EditRepresentanteLegalTitle_emailRepresentanteLegal}"/>
+                            <p:tooltip for="emailRepresentanteLegal" value="#{representanteLegalController.getComponentMessages('emailRepresentanteLegal', bundle.EditRepresentanteLegalHelpText_emailRepresentanteLegal)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{representanteLegalController.save}" value="#{bundle.Save}" update="display,:RepresentanteLegalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RepresentanteLegalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RepresentanteLegalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

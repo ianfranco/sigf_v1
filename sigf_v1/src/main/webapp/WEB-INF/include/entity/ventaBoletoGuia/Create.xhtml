@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaBoletoGuiaCreateDlg" widgetVar="VentaBoletoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentaBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ventaBoletoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoGuiaLabel_guia}" for="guia" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="guia" value="#{ventaBoletoGuiaController.selected.guia}" required="true" requiredMessage="#{bundle.CreateVentaBoletoGuiaRequiredMessage_guia}" converter="guiaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{guiaController.items}"
+                                               var="guiaItem"
+                                               itemValue="#{guiaItem}"
+                                               itemLabel="#{guiaItem.idGuia.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="guia" value="#{ventaBoletoGuiaController.getComponentMessages('guia', bundle.CreateVentaBoletoGuiaHelpText_guia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoGuiaLabel_inventarioTerminal}" for="inventarioTerminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="inventarioTerminal" value="#{ventaBoletoGuiaController.selected.inventarioTerminal}" required="true" requiredMessage="#{bundle.CreateVentaBoletoGuiaRequiredMessage_inventarioTerminal}" converter="inventarioTerminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{inventarioTerminalController.items}"
+                                               var="inventarioTerminalItem"
+                                               itemValue="#{inventarioTerminalItem}"
+                                               itemLabel="#{inventarioTerminalItem.idInventarioTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="inventarioTerminal" value="#{ventaBoletoGuiaController.getComponentMessages('inventarioTerminal', bundle.CreateVentaBoletoGuiaHelpText_inventarioTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoGuiaLabel_valor}" for="valor" />
+                        <h:panelGroup>
+                            <p:inputText id="valor" value="#{ventaBoletoGuiaController.selected.valor}" title="#{bundle.CreateVentaBoletoGuiaTitle_valor}" required="true" requiredMessage="#{bundle.CreateVentaBoletoGuiaRequiredMessage_valor}"/>
+                            <p:tooltip for="valor" value="#{ventaBoletoGuiaController.getComponentMessages('valor', bundle.CreateVentaBoletoGuiaHelpText_valor)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoGuiaLabel_recaudado}" for="recaudado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="recaudado" value="#{ventaBoletoGuiaController.selected.recaudado}" />
+                            <p:tooltip for="recaudado" value="#{ventaBoletoGuiaController.getComponentMessages('recaudado', bundle.CreateVentaBoletoGuiaHelpText_recaudado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoGuiaLabel_fechaVentaBoletoGuia}" for="fechaVentaBoletoGuia" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaVentaBoletoGuia" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaBoletoGuiaController.selected.fechaVentaBoletoGuia}" title="#{bundle.CreateVentaBoletoGuiaTitle_fechaVentaBoletoGuia}" required="true" requiredMessage="#{bundle.CreateVentaBoletoGuiaRequiredMessage_fechaVentaBoletoGuia}" showOn="button"/>
+                            <p:tooltip for="fechaVentaBoletoGuia" value="#{ventaBoletoGuiaController.getComponentMessages('fechaVentaBoletoGuia', bundle.CreateVentaBoletoGuiaHelpText_fechaVentaBoletoGuia)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:VentaBoletoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

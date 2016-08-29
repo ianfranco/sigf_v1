@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LiquidacionSueldoListForm">
+
+        <p:panel header="#{bundle.ListLiquidacionSueldoTitle}">
+            <p:contextMenu id="LiquidacionSueldoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('LiquidacionSueldoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('LiquidacionSueldoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('LiquidacionSueldoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('LiquidacionSueldoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_relacionLaboral}" icon="ui-icon-search"  actionListener="#{liquidacionSueldoController.prepareRelacionLaboral}" update=":RelacionLaboralViewForm" oncomplete="PF('RelacionLaboralViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected.relacionLaboral}"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_haberLiquidacions}" icon="ui-icon-search"  action="#{liquidacionSueldoController.navigateHaberLiquidacions}" disabled="#{empty liquidacionSueldoController.selected.haberLiquidacions}" ajax="false"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_descuentoLiquidacions}" icon="ui-icon-search"  action="#{liquidacionSueldoController.navigateDescuentoLiquidacions}" disabled="#{empty liquidacionSueldoController.selected.descuentoLiquidacions}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{liquidacionSueldoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idLiquidacionSueldo}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{liquidacionSueldoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{liquidacionSueldoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idLiquidacionSueldo}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LiquidacionSueldoDataTableContextMenu" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LiquidacionSueldoDataTableContextMenu" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LiquidacionSueldoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idLiquidacionSueldo}" filterBy="#{item.idLiquidacionSueldo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_idLiquidacionSueldo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idLiquidacionSueldo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.relacionLaboral.idRelacionLaboral}" filterBy="#{item.relacionLaboral.idRelacionLaboral}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_relacionLaboral}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.relacionLaboral.idRelacionLaboral}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mes}" filterBy="#{item.mes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_mes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anio}" filterBy="#{item.anio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_anio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaEmision}" filterBy="#{item.fechaEmision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_fechaEmision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaEmision}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaPago}" filterBy="#{item.fechaPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_fechaPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaPago}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.totalHaberesImponibles}" filterBy="#{item.totalHaberesImponibles}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_totalHaberesImponibles}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.totalHaberesImponibles}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.totalHaberesNoImponibles}" filterBy="#{item.totalHaberesNoImponibles}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_totalHaberesNoImponibles}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.totalHaberesNoImponibles}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.saldoAnterior}" filterBy="#{item.saldoAnterior}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_saldoAnterior}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.saldoAnterior}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.totalDescuentos}" filterBy="#{item.totalDescuentos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_totalDescuentos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.totalDescuentos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.montoAnticipo}" filterBy="#{item.montoAnticipo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_montoAnticipo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.montoAnticipo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.saldoMonto}" filterBy="#{item.saldoMonto}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_saldoMonto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.saldoMonto}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.alcanceLiquido}" filterBy="#{item.alcanceLiquido}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_alcanceLiquido}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.alcanceLiquido}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{liquidacionSueldoController.prepareCreate}" update=":LiquidacionSueldoCreateForm" oncomplete="PF('LiquidacionSueldoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":LiquidacionSueldoViewForm" oncomplete="PF('LiquidacionSueldoViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LiquidacionSueldoEditForm" oncomplete="PF('LiquidacionSueldoEditDialog').show()" disabled="#{empty liquidacionSueldoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{liquidacionSueldoController.delete}" update=":growl,datalist" disabled="#{empty liquidacionSueldoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

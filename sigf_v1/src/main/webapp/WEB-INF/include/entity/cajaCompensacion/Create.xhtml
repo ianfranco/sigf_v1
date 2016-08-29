@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaCompensacionCreateDlg" widgetVar="CajaCompensacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCajaCompensacionTitle}" closeOnEscape="true">
+
+            <h:form id="CajaCompensacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cajaCompensacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCajaCompensacionLabel_nombreCajaCompensacion}" for="nombreCajaCompensacion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreCajaCompensacion" value="#{cajaCompensacionController.selected.nombreCajaCompensacion}" title="#{bundle.CreateCajaCompensacionTitle_nombreCajaCompensacion}" required="true" requiredMessage="#{bundle.CreateCajaCompensacionRequiredMessage_nombreCajaCompensacion}"/>
+                            <p:tooltip for="nombreCajaCompensacion" value="#{cajaCompensacionController.getComponentMessages('nombreCajaCompensacion', bundle.CreateCajaCompensacionHelpText_nombreCajaCompensacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCajaCompensacionLabel_comision}" for="comision" />
+                        <h:panelGroup>
+                            <p:inputText id="comision" value="#{cajaCompensacionController.selected.comision}" title="#{bundle.CreateCajaCompensacionTitle_comision}"/>
+                            <p:tooltip for="comision" value="#{cajaCompensacionController.getComponentMessages('comision', bundle.CreateCajaCompensacionHelpText_comision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCajaCompensacionLabel_porcentajeDescuento}" for="porcentajeDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentajeDescuento" value="#{cajaCompensacionController.selected.porcentajeDescuento}" title="#{bundle.CreateCajaCompensacionTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.CreateCajaCompensacionRequiredMessage_porcentajeDescuento}"/>
+                            <p:tooltip for="porcentajeDescuento" value="#{cajaCompensacionController.getComponentMessages('porcentajeDescuento', bundle.CreateCajaCompensacionHelpText_porcentajeDescuento)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cajaCompensacionController.saveNew}" value="#{bundle.Save}" update="display,:CajaCompensacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CajaCompensacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CajaCompensacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

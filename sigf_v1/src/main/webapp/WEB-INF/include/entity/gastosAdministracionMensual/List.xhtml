@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="GastosAdministracionMensualListForm">
+
+        <p:panel header="#{bundle.ListGastosAdministracionMensualTitle}">
+            <p:contextMenu id="GastosAdministracionMensualDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('GastosAdministracionMensualListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('GastosAdministracionMensualListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('GastosAdministracionMensualListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GastosAdministracionMensualListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.GastosAdministracionMensualMenuItem_departamento}" icon="ui-icon-search"  actionListener="#{gastosAdministracionMensualController.prepareDepartamento}" update=":DepartamentoViewForm" oncomplete="PF('DepartamentoViewDialog').show()" disabled="#{empty gastosAdministracionMensualController.selected.departamento}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{gastosAdministracionMensualController.items}"
+                         lazy="false"
+                         rowKey="#{item.idGastosAdministracionMensual}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{gastosAdministracionMensualController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{gastosAdministracionMensualController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idGastosAdministracionMensual}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GastosAdministracionMensualDataTableContextMenu" listener="#{gastosAdministracionMensualController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GastosAdministracionMensualDataTableContextMenu" listener="#{gastosAdministracionMensualController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{gastosAdministracionMensualController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('GastosAdministracionMensualListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idGastosAdministracionMensual}" filterBy="#{item.idGastosAdministracionMensual}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_idGastosAdministracionMensual}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idGastosAdministracionMensual}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.departamento.idDepartamento}" filterBy="#{item.departamento.idDepartamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_departamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.departamento.idDepartamento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mes}" filterBy="#{item.mes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_mes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anio}" filterBy="#{item.anio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_anio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroFolio}" filterBy="#{item.numeroFolio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_numeroFolio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroFolio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreGastoAdministracion}" filterBy="#{item.nombreGastoAdministracion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_nombreGastoAdministracion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreGastoAdministracion}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaGastoAdministracion}" filterBy="#{item.fechaGastoAdministracion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_fechaGastoAdministracion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaGastoAdministracion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_fechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_valor}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.valor}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.observacion}" filterBy="#{item.observacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGastosAdministracionMensualTitle_observacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.observacion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{gastosAdministracionMensualController.prepareCreate}" update=":GastosAdministracionMensualCreateForm" oncomplete="PF('GastosAdministracionMensualCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":GastosAdministracionMensualViewForm" oncomplete="PF('GastosAdministracionMensualViewDialog').show()" disabled="#{empty gastosAdministracionMensualController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GastosAdministracionMensualEditForm" oncomplete="PF('GastosAdministracionMensualEditDialog').show()" disabled="#{empty gastosAdministracionMensualController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{gastosAdministracionMensualController.delete}" update=":growl,datalist" disabled="#{empty gastosAdministracionMensualController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DescuentoLiquidacionListForm">
+
+        <p:panel header="#{bundle.ListDescuentoLiquidacionTitle}">
+            <p:contextMenu id="DescuentoLiquidacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DescuentoLiquidacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DescuentoLiquidacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DescuentoLiquidacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DescuentoLiquidacionMenuItem_descuentoTrabajadorLiquidacion}" icon="ui-icon-search"  actionListener="#{descuentoLiquidacionController.prepareDescuentoTrabajadorLiquidacion}" update=":DescuentoTrabajadorLiquidacionViewForm" oncomplete="PF('DescuentoTrabajadorLiquidacionViewDialog').show()" disabled="#{empty descuentoLiquidacionController.selected.descuentoTrabajadorLiquidacion}"/>  
+                <p:menuitem value="#{bundle.DescuentoLiquidacionMenuItem_liquidacionSueldo}" icon="ui-icon-search"  actionListener="#{descuentoLiquidacionController.prepareLiquidacionSueldo}" update=":LiquidacionSueldoViewForm" oncomplete="PF('LiquidacionSueldoViewDialog').show()" disabled="#{empty descuentoLiquidacionController.selected.liquidacionSueldo}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{descuentoLiquidacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idDescuentoLiquidacion}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{descuentoLiquidacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{descuentoLiquidacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idDescuentoLiquidacion}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DescuentoLiquidacionDataTableContextMenu" listener="#{descuentoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DescuentoLiquidacionDataTableContextMenu" listener="#{descuentoLiquidacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{descuentoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DescuentoLiquidacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDescuentoLiquidacion}" filterBy="#{item.idDescuentoLiquidacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoLiquidacionTitle_idDescuentoLiquidacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDescuentoLiquidacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descuentoTrabajadorLiquidacion.idDescuentoTrabajadorLiquidacion}" filterBy="#{item.descuentoTrabajadorLiquidacion.idDescuentoTrabajadorLiquidacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoLiquidacionTitle_descuentoTrabajadorLiquidacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descuentoTrabajadorLiquidacion.idDescuentoTrabajadorLiquidacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldo.idLiquidacionSueldo}" filterBy="#{item.liquidacionSueldo.idLiquidacionSueldo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoLiquidacionTitle_liquidacionSueldo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldo.idLiquidacionSueldo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.montoDescuento}" filterBy="#{item.montoDescuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoLiquidacionTitle_montoDescuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoDescuento}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{descuentoLiquidacionController.prepareCreate}" update=":DescuentoLiquidacionCreateForm" oncomplete="PF('DescuentoLiquidacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DescuentoLiquidacionViewForm" oncomplete="PF('DescuentoLiquidacionViewDialog').show()" disabled="#{empty descuentoLiquidacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DescuentoLiquidacionEditForm" oncomplete="PF('DescuentoLiquidacionEditDialog').show()" disabled="#{empty descuentoLiquidacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty descuentoLiquidacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberTrabajadorCreateDlg" widgetVar="HaberTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{haberTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_nombreTipoHaber}" for="nombreTipoHaber" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoHaber" value="#{haberTrabajadorController.selected.nombreTipoHaber}" title="#{bundle.CreateHaberTrabajadorTitle_nombreTipoHaber}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_nombreTipoHaber}"/>
+                            <p:tooltip for="nombreTipoHaber" value="#{haberTrabajadorController.getComponentMessages('nombreTipoHaber', bundle.CreateHaberTrabajadorHelpText_nombreTipoHaber)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateHaberTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{haberTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateHaberTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{haberTrabajadorController.selected.montoDefecto}" title="#{bundle.CreateHaberTrabajadorTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{haberTrabajadorController.getComponentMessages('montoDefecto', bundle.CreateHaberTrabajadorHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_imponible}" for="imponible" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="imponible" value="#{haberTrabajadorController.selected.imponible}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_imponible}"/>
+                            <p:tooltip for="imponible" value="#{haberTrabajadorController.getComponentMessages('imponible', bundle.CreateHaberTrabajadorHelpText_imponible)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{haberTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:HaberTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

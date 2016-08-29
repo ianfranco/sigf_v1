@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LiquidacionSueldoViewDlg" widgetVar="LiquidacionSueldoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewLiquidacionSueldoTitle}" closeOnEscape="true">
+
+            <h:form id="LiquidacionSueldoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{liquidacionSueldoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_idLiquidacionSueldo}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.idLiquidacionSueldo}" title="#{bundle.ViewLiquidacionSueldoTitle_idLiquidacionSueldo}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_relacionLaboral}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.relacionLaboral.idRelacionLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_mes}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.mes}" title="#{bundle.ViewLiquidacionSueldoTitle_mes}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_anio}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.anio}" title="#{bundle.ViewLiquidacionSueldoTitle_anio}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_fechaEmision}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.fechaEmision}" title="#{bundle.ViewLiquidacionSueldoTitle_fechaEmision}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_fechaPago}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.fechaPago}" title="#{bundle.ViewLiquidacionSueldoTitle_fechaPago}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_totalHaberesImponibles}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.totalHaberesImponibles}" title="#{bundle.ViewLiquidacionSueldoTitle_totalHaberesImponibles}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_totalHaberesNoImponibles}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.totalHaberesNoImponibles}" title="#{bundle.ViewLiquidacionSueldoTitle_totalHaberesNoImponibles}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_saldoAnterior}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.saldoAnterior}" title="#{bundle.ViewLiquidacionSueldoTitle_saldoAnterior}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_totalDescuentos}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.totalDescuentos}" title="#{bundle.ViewLiquidacionSueldoTitle_totalDescuentos}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_montoAnticipo}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.montoAnticipo}" title="#{bundle.ViewLiquidacionSueldoTitle_montoAnticipo}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_saldoMonto}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.saldoMonto}" title="#{bundle.ViewLiquidacionSueldoTitle_saldoMonto}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionSueldoLabel_alcanceLiquido}"/>
+                        <h:outputText value="#{liquidacionSueldoController.selected.alcanceLiquido}" title="#{bundle.ViewLiquidacionSueldoTitle_alcanceLiquido}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('LiquidacionSueldoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

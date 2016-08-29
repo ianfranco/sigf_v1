@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="BoletoEditDlg" widgetVar="BoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="BoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{boletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditBoletoLabel_idBoleto}" for="idBoleto" />
+                        <h:panelGroup>
+                            <h:outputText id="idBoleto" value="#{boletoController.selected.idBoleto}" />
+                            <p:tooltip for="idBoleto" value="#{boletoController.getComponentMessages('idBoleto', bundle.EditBoletoHelpText_idBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditBoletoLabel_nombreBoleto}" for="nombreBoleto" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreBoleto" value="#{boletoController.selected.nombreBoleto}" title="#{bundle.EditBoletoTitle_nombreBoleto}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_nombreBoleto}"/>
+                            <p:tooltip for="nombreBoleto" value="#{boletoController.getComponentMessages('nombreBoleto', bundle.EditBoletoHelpText_nombreBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditBoletoLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{boletoController.selected.activo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_activo}"/>
+                            <p:tooltip for="activo" value="#{boletoController.getComponentMessages('activo', bundle.EditBoletoHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{boletoController.save}" value="#{bundle.Save}" update="display,:BoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

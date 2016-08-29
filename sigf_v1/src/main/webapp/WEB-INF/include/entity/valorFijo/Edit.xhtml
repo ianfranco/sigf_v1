@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorFijoEditDlg" widgetVar="ValorFijoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorFijoTitle}" closeOnEscape="true">
+
+            <h:form id="ValorFijoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorFijoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorFijoLabel_idValorFijo}" for="idValorFijo" />
+                        <h:panelGroup>
+                            <h:outputText id="idValorFijo" value="#{valorFijoController.selected.idValorFijo}" />
+                            <p:tooltip for="idValorFijo" value="#{valorFijoController.getComponentMessages('idValorFijo', bundle.EditValorFijoHelpText_idValorFijo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditValorFijoLabel_nombreValor}" for="nombreValor" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreValor" value="#{valorFijoController.selected.nombreValor}" title="#{bundle.EditValorFijoTitle_nombreValor}" required="true" requiredMessage="#{bundle.EditValorFijoRequiredMessage_nombreValor}"/>
+                            <p:tooltip for="nombreValor" value="#{valorFijoController.getComponentMessages('nombreValor', bundle.EditValorFijoHelpText_nombreValor)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditValorFijoLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{valorFijoController.selected.monto}" title="#{bundle.EditValorFijoTitle_monto}"/>
+                            <p:tooltip for="monto" value="#{valorFijoController.getComponentMessages('monto', bundle.EditValorFijoHelpText_monto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorFijoController.save}" value="#{bundle.Save}" update="display,:ValorFijoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorFijoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorFijoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

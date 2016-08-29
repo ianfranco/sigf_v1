@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="BusDeviceEditDlg" widgetVar="BusDeviceEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditBusDeviceTitle}" closeOnEscape="true">
+
+            <h:form id="BusDeviceEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{busDeviceController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditBusDeviceLabel_idBusDevice}" for="idBusDevice" />
+                        <h:panelGroup>
+                            <h:outputText id="idBusDevice" value="#{busDeviceController.selected.idBusDevice}" />
+                            <p:tooltip for="idBusDevice" value="#{busDeviceController.getComponentMessages('idBusDevice', bundle.EditBusDeviceHelpText_idBusDevice)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditBusDeviceLabel_bus}" for="bus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="bus" value="#{busDeviceController.selected.bus}" required="true" requiredMessage="#{bundle.EditBusDeviceRequiredMessage_bus}" converter="busConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{busController.items}"
+                                               var="busItem"
+                                               itemValue="#{busItem}"
+                                               itemLabel="#{busItem.idBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="bus" value="#{busDeviceController.getComponentMessages('bus', bundle.EditBusDeviceHelpText_bus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditBusDeviceLabel_device}" for="device" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="device" value="#{busDeviceController.selected.device}" required="true" requiredMessage="#{bundle.EditBusDeviceRequiredMessage_device}" converter="deviceConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{deviceController.items}"
+                                               var="deviceItem"
+                                               itemValue="#{deviceItem}"
+                                               itemLabel="#{deviceItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="device" value="#{busDeviceController.getComponentMessages('device', bundle.EditBusDeviceHelpText_device)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditBusDeviceLabel_fechaRegistro}" for="fechaRegistro" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{busDeviceController.selected.fechaRegistro}" title="#{bundle.EditBusDeviceTitle_fechaRegistro}" required="true" requiredMessage="#{bundle.EditBusDeviceRequiredMessage_fechaRegistro}" showOn="button"/>
+                            <p:tooltip for="fechaRegistro" value="#{busDeviceController.getComponentMessages('fechaRegistro', bundle.EditBusDeviceHelpText_fechaRegistro)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{busDeviceController.save}" value="#{bundle.Save}" update="display,:BusDeviceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusDeviceEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BusDeviceEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

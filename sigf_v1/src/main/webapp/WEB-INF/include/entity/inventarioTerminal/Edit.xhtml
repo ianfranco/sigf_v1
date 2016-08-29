@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InventarioTerminalEditDlg" widgetVar="InventarioTerminalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditInventarioTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioTerminalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{inventarioTerminalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditInventarioTerminalLabel_idInventarioTerminal}" for="idInventarioTerminal" />
+                        <h:panelGroup>
+                            <h:outputText id="idInventarioTerminal" value="#{inventarioTerminalController.selected.idInventarioTerminal}" />
+                            <p:tooltip for="idInventarioTerminal" value="#{inventarioTerminalController.getComponentMessages('idInventarioTerminal', bundle.EditInventarioTerminalHelpText_idInventarioTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInventarioTerminalLabel_boleto}" for="boleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="boleto" value="#{inventarioTerminalController.selected.boleto}" required="true" requiredMessage="#{bundle.EditInventarioTerminalRequiredMessage_boleto}" converter="boletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{boletoController.items}"
+                                               var="boletoItem"
+                                               itemValue="#{boletoItem}"
+                                               itemLabel="#{boletoItem.idBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="boleto" value="#{inventarioTerminalController.getComponentMessages('boleto', bundle.EditInventarioTerminalHelpText_boleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInventarioTerminalLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{inventarioTerminalController.selected.terminal}" required="true" requiredMessage="#{bundle.EditInventarioTerminalRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{inventarioTerminalController.getComponentMessages('terminal', bundle.EditInventarioTerminalHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInventarioTerminalLabel_estado}" for="estado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="estado" value="#{inventarioTerminalController.selected.estado}" />
+                            <p:tooltip for="estado" value="#{inventarioTerminalController.getComponentMessages('estado', bundle.EditInventarioTerminalHelpText_estado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInventarioTerminalLabel_serie}" for="serie" />
+                        <h:panelGroup>
+                            <p:inputText id="serie" value="#{inventarioTerminalController.selected.serie}" title="#{bundle.EditInventarioTerminalTitle_serie}" required="true" requiredMessage="#{bundle.EditInventarioTerminalRequiredMessage_serie}"/>
+                            <p:tooltip for="serie" value="#{inventarioTerminalController.getComponentMessages('serie', bundle.EditInventarioTerminalHelpText_serie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInventarioTerminalLabel_identificador}" for="identificador" />
+                        <h:panelGroup>
+                            <p:inputText id="identificador" value="#{inventarioTerminalController.selected.identificador}" title="#{bundle.EditInventarioTerminalTitle_identificador}" required="true" requiredMessage="#{bundle.EditInventarioTerminalRequiredMessage_identificador}"/>
+                            <p:tooltip for="identificador" value="#{inventarioTerminalController.getComponentMessages('identificador', bundle.EditInventarioTerminalHelpText_identificador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{inventarioTerminalController.save}" value="#{bundle.Save}" update="display,:InventarioTerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InventarioTerminalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InventarioTerminalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

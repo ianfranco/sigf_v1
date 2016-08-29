@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleVentaBoletoEditDlg" widgetVar="DetalleVentaBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentaBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleVentaBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleVentaBoletoLabel_idDetalleVentaBoleto}" for="idDetalleVentaBoleto" />
+                        <h:panelGroup>
+                            <h:outputText id="idDetalleVentaBoleto" value="#{detalleVentaBoletoController.selected.idDetalleVentaBoleto}" />
+                            <p:tooltip for="idDetalleVentaBoleto" value="#{detalleVentaBoletoController.getComponentMessages('idDetalleVentaBoleto', bundle.EditDetalleVentaBoletoHelpText_idDetalleVentaBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleVentaBoletoLabel_inventarioInterno}" for="inventarioInterno" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="inventarioInterno" value="#{detalleVentaBoletoController.selected.inventarioInterno}" required="true" requiredMessage="#{bundle.EditDetalleVentaBoletoRequiredMessage_inventarioInterno}" converter="inventarioInternoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{inventarioInternoController.items}"
+                                               var="inventarioInternoItem"
+                                               itemValue="#{inventarioInternoItem}"
+                                               itemLabel="#{inventarioInternoItem.idInventarioInterno.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="inventarioInterno" value="#{detalleVentaBoletoController.getComponentMessages('inventarioInterno', bundle.EditDetalleVentaBoletoHelpText_inventarioInterno)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleVentaBoletoLabel_ventaBoleto}" for="ventaBoleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="ventaBoleto" value="#{detalleVentaBoletoController.selected.ventaBoleto}" required="true" requiredMessage="#{bundle.EditDetalleVentaBoletoRequiredMessage_ventaBoleto}" converter="ventaBoletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{ventaBoletoController.items}"
+                                               var="ventaBoletoItem"
+                                               itemValue="#{ventaBoletoItem}"
+                                               itemLabel="#{ventaBoletoItem.idVentaBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="ventaBoleto" value="#{detalleVentaBoletoController.getComponentMessages('ventaBoleto', bundle.EditDetalleVentaBoletoHelpText_ventaBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDetalleVentaBoletoLabel_total}" for="total" />
+                        <h:panelGroup>
+                            <p:inputText id="total" value="#{detalleVentaBoletoController.selected.total}" title="#{bundle.EditDetalleVentaBoletoTitle_total}" required="true" requiredMessage="#{bundle.EditDetalleVentaBoletoRequiredMessage_total}"/>
+                            <p:tooltip for="total" value="#{detalleVentaBoletoController.getComponentMessages('total', bundle.EditDetalleVentaBoletoHelpText_total)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleVentaBoletoController.save}" value="#{bundle.Save}" update="display,:DetalleVentaBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleVentaBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleVentaBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

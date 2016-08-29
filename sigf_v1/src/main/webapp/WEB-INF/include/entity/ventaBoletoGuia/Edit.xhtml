@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VentaBoletoGuiaEditDlg" widgetVar="VentaBoletoGuiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditVentaBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoGuiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ventaBoletoGuiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_idVentaBoletoGuia}" for="idVentaBoletoGuia" />
+                        <h:panelGroup>
+                            <h:outputText id="idVentaBoletoGuia" value="#{ventaBoletoGuiaController.selected.idVentaBoletoGuia}" />
+                            <p:tooltip for="idVentaBoletoGuia" value="#{ventaBoletoGuiaController.getComponentMessages('idVentaBoletoGuia', bundle.EditVentaBoletoGuiaHelpText_idVentaBoletoGuia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_guia}" for="guia" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="guia" value="#{ventaBoletoGuiaController.selected.guia}" required="true" requiredMessage="#{bundle.EditVentaBoletoGuiaRequiredMessage_guia}" converter="guiaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{guiaController.items}"
+                                               var="guiaItem"
+                                               itemValue="#{guiaItem}"
+                                               itemLabel="#{guiaItem.idGuia.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="guia" value="#{ventaBoletoGuiaController.getComponentMessages('guia', bundle.EditVentaBoletoGuiaHelpText_guia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_inventarioTerminal}" for="inventarioTerminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="inventarioTerminal" value="#{ventaBoletoGuiaController.selected.inventarioTerminal}" required="true" requiredMessage="#{bundle.EditVentaBoletoGuiaRequiredMessage_inventarioTerminal}" converter="inventarioTerminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{inventarioTerminalController.items}"
+                                               var="inventarioTerminalItem"
+                                               itemValue="#{inventarioTerminalItem}"
+                                               itemLabel="#{inventarioTerminalItem.idInventarioTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="inventarioTerminal" value="#{ventaBoletoGuiaController.getComponentMessages('inventarioTerminal', bundle.EditVentaBoletoGuiaHelpText_inventarioTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_valor}" for="valor" />
+                        <h:panelGroup>
+                            <p:inputText id="valor" value="#{ventaBoletoGuiaController.selected.valor}" title="#{bundle.EditVentaBoletoGuiaTitle_valor}" required="true" requiredMessage="#{bundle.EditVentaBoletoGuiaRequiredMessage_valor}"/>
+                            <p:tooltip for="valor" value="#{ventaBoletoGuiaController.getComponentMessages('valor', bundle.EditVentaBoletoGuiaHelpText_valor)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_recaudado}" for="recaudado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="recaudado" value="#{ventaBoletoGuiaController.selected.recaudado}" />
+                            <p:tooltip for="recaudado" value="#{ventaBoletoGuiaController.getComponentMessages('recaudado', bundle.EditVentaBoletoGuiaHelpText_recaudado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoGuiaLabel_fechaVentaBoletoGuia}" for="fechaVentaBoletoGuia" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaVentaBoletoGuia" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaBoletoGuiaController.selected.fechaVentaBoletoGuia}" title="#{bundle.EditVentaBoletoGuiaTitle_fechaVentaBoletoGuia}" required="true" requiredMessage="#{bundle.EditVentaBoletoGuiaRequiredMessage_fechaVentaBoletoGuia}" showOn="button"/>
+                            <p:tooltip for="fechaVentaBoletoGuia" value="#{ventaBoletoGuiaController.getComponentMessages('fechaVentaBoletoGuia', bundle.EditVentaBoletoGuiaHelpText_fechaVentaBoletoGuia)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoGuiaController.save}" value="#{bundle.Save}" update="display,:VentaBoletoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoGuiaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoGuiaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

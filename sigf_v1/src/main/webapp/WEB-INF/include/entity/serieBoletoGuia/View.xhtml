@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SerieBoletoGuiaViewDlg" widgetVar="SerieBoletoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewSerieBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="SerieBoletoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{serieBoletoGuiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_idSerieBoletoGuia}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.idSerieBoletoGuia}" title="#{bundle.ViewSerieBoletoGuiaTitle_idSerieBoletoGuia}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_boleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.boleto.idBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_guia}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.guia.idGuia}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_valor}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.valor}" title="#{bundle.ViewSerieBoletoGuiaTitle_valor}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serie}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serie}" title="#{bundle.ViewSerieBoletoGuiaTitle_serie}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_termino}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.termino}" title="#{bundle.ViewSerieBoletoGuiaTitle_termino}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_cantidad}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.cantidad}" title="#{bundle.ViewSerieBoletoGuiaTitle_cantidad}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_total}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.total}" title="#{bundle.ViewSerieBoletoGuiaTitle_total}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_nuevo}"/>
+                        <h:selectBooleanCheckbox id="nuevo" value="#{serieBoletoGuiaController.selected.nuevo}" title="#{bundle.EditSerieBoletoGuiaTitle_nuevo}" required="true" requiredMessage="#{bundle.EditSerieBoletoGuiaRequiredMessage_nuevo}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('SerieBoletoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

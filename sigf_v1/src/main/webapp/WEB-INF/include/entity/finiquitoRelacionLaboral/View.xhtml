@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FiniquitoRelacionLaboralViewDlg" widgetVar="FiniquitoRelacionLaboralViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewFiniquitoRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="FiniquitoRelacionLaboralViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{finiquitoRelacionLaboralController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_idFiniquitoRelacionLaboral}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.idFiniquitoRelacionLaboral}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_idFiniquitoRelacionLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_causalFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.causalFiniquito.descripcionCausalFiniquito}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_relacionLaboral}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.relacionLaboral.idRelacionLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_fechaFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.fechaFiniquito}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_fechaFiniquito}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_fechaRegistroFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.fechaRegistroFiniquito}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_fechaRegistroFiniquito}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_montoFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.montoFiniquito}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_montoFiniquito}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_anioServicio}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.anioServicio}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_anioServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_anioAdicionales}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.anioAdicionales}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_anioAdicionales}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('FiniquitoRelacionLaboralViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

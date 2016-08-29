@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DiaTrabajadorViewDlg" widgetVar="DiaTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDiaTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="DiaTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{diaTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDiaTrabajadorLabel_idDiaTrabajador}"/>
+                        <h:outputText value="#{diaTrabajadorController.selected.idDiaTrabajador}" title="#{bundle.ViewDiaTrabajadorTitle_idDiaTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDiaTrabajadorLabel_tipoDiaTrabajador}"/>
+                        <h:outputText value="#{diaTrabajadorController.selected.tipoDiaTrabajador.idTipoDiaTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDiaTrabajadorLabel_trabajador}"/>
+                        <h:outputText value="#{diaTrabajadorController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDiaTrabajadorLabel_desde}"/>
+                        <h:outputText value="#{diaTrabajadorController.selected.desde}" title="#{bundle.ViewDiaTrabajadorTitle_desde}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDiaTrabajadorLabel_hasta}"/>
+                        <h:outputText value="#{diaTrabajadorController.selected.hasta}" title="#{bundle.ViewDiaTrabajadorTitle_hasta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DiaTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SerieBoletoGuiaCreateDlg" widgetVar="SerieBoletoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSerieBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="SerieBoletoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{serieBoletoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_boleto}" for="boleto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="boleto" value="#{serieBoletoGuiaController.selected.boleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_boleto}" converter="boletoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{boletoController.items}"
+                                               var="boletoItem"
+                                               itemValue="#{boletoItem}"
+                                               itemLabel="#{boletoItem.idBoleto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="boleto" value="#{serieBoletoGuiaController.getComponentMessages('boleto', bundle.CreateSerieBoletoGuiaHelpText_boleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_guia}" for="guia" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="guia" value="#{serieBoletoGuiaController.selected.guia}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_guia}" converter="guiaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{guiaController.items}"
+                                               var="guiaItem"
+                                               itemValue="#{guiaItem}"
+                                               itemLabel="#{guiaItem.idGuia.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="guia" value="#{serieBoletoGuiaController.getComponentMessages('guia', bundle.CreateSerieBoletoGuiaHelpText_guia)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_valor}" for="valor" />
+                        <h:panelGroup>
+                            <p:inputText id="valor" value="#{serieBoletoGuiaController.selected.valor}" title="#{bundle.CreateSerieBoletoGuiaTitle_valor}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_valor}"/>
+                            <p:tooltip for="valor" value="#{serieBoletoGuiaController.getComponentMessages('valor', bundle.CreateSerieBoletoGuiaHelpText_valor)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serie}" for="serie" />
+                        <h:panelGroup>
+                            <p:inputText id="serie" value="#{serieBoletoGuiaController.selected.serie}" title="#{bundle.CreateSerieBoletoGuiaTitle_serie}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serie}"/>
+                            <p:tooltip for="serie" value="#{serieBoletoGuiaController.getComponentMessages('serie', bundle.CreateSerieBoletoGuiaHelpText_serie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_termino}" for="termino" />
+                        <h:panelGroup>
+                            <p:inputText id="termino" value="#{serieBoletoGuiaController.selected.termino}" title="#{bundle.CreateSerieBoletoGuiaTitle_termino}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_termino}"/>
+                            <p:tooltip for="termino" value="#{serieBoletoGuiaController.getComponentMessages('termino', bundle.CreateSerieBoletoGuiaHelpText_termino)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_cantidad}" for="cantidad" />
+                        <h:panelGroup>
+                            <p:inputText id="cantidad" value="#{serieBoletoGuiaController.selected.cantidad}" title="#{bundle.CreateSerieBoletoGuiaTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_cantidad}"/>
+                            <p:tooltip for="cantidad" value="#{serieBoletoGuiaController.getComponentMessages('cantidad', bundle.CreateSerieBoletoGuiaHelpText_cantidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_total}" for="total" />
+                        <h:panelGroup>
+                            <p:inputText id="total" value="#{serieBoletoGuiaController.selected.total}" title="#{bundle.CreateSerieBoletoGuiaTitle_total}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_total}"/>
+                            <p:tooltip for="total" value="#{serieBoletoGuiaController.getComponentMessages('total', bundle.CreateSerieBoletoGuiaHelpText_total)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_nuevo}" for="nuevo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="nuevo" value="#{serieBoletoGuiaController.selected.nuevo}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_nuevo}"/>
+                            <p:tooltip for="nuevo" value="#{serieBoletoGuiaController.getComponentMessages('nuevo', bundle.CreateSerieBoletoGuiaHelpText_nuevo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{serieBoletoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:SerieBoletoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SerieBoletoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('SerieBoletoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

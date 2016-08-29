@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FeriadoLegalCreateDlg" widgetVar="FeriadoLegalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateFeriadoLegalTitle}" closeOnEscape="true">
+
+            <h:form id="FeriadoLegalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{feriadoLegalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{feriadoLegalController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{feriadoLegalController.getComponentMessages('trabajador', bundle.CreateFeriadoLegalHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_fechaIngresoFeriado}" for="fechaIngresoFeriado" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoFeriado" pattern="MM/dd/yyyy HH:mm:ss" value="#{feriadoLegalController.selected.fechaIngresoFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaIngresoFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaIngresoFeriado}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoFeriado" value="#{feriadoLegalController.getComponentMessages('fechaIngresoFeriado', bundle.CreateFeriadoLegalHelpText_fechaIngresoFeriado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_fechaDesdeFeriado}" for="fechaDesdeFeriado" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaDesdeFeriado" pattern="MM/dd/yyyy" value="#{feriadoLegalController.selected.fechaDesdeFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" showOn="button"/>
+                            <p:tooltip for="fechaDesdeFeriado" value="#{feriadoLegalController.getComponentMessages('fechaDesdeFeriado', bundle.CreateFeriadoLegalHelpText_fechaDesdeFeriado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_fechaHastaFeriado}" for="fechaHastaFeriado" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaHastaFeriado" pattern="MM/dd/yyyy" value="#{feriadoLegalController.selected.fechaHastaFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" showOn="button"/>
+                            <p:tooltip for="fechaHastaFeriado" value="#{feriadoLegalController.getComponentMessages('fechaHastaFeriado', bundle.CreateFeriadoLegalHelpText_fechaHastaFeriado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_diasHabiles}" for="diasHabiles" />
+                        <h:panelGroup>
+                            <p:inputText id="diasHabiles" value="#{feriadoLegalController.selected.diasHabiles}" title="#{bundle.CreateFeriadoLegalTitle_diasHabiles}"/>
+                            <p:tooltip for="diasHabiles" value="#{feriadoLegalController.getComponentMessages('diasHabiles', bundle.CreateFeriadoLegalHelpText_diasHabiles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_vacacionesProgresivas}" for="vacacionesProgresivas" />
+                        <h:panelGroup>
+                            <p:inputText id="vacacionesProgresivas" value="#{feriadoLegalController.selected.vacacionesProgresivas}" title="#{bundle.CreateFeriadoLegalTitle_vacacionesProgresivas}"/>
+                            <p:tooltip for="vacacionesProgresivas" value="#{feriadoLegalController.getComponentMessages('vacacionesProgresivas', bundle.CreateFeriadoLegalHelpText_vacacionesProgresivas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_domingosInhabiles}" for="domingosInhabiles" />
+                        <h:panelGroup>
+                            <p:inputText id="domingosInhabiles" value="#{feriadoLegalController.selected.domingosInhabiles}" title="#{bundle.CreateFeriadoLegalTitle_domingosInhabiles}"/>
+                            <p:tooltip for="domingosInhabiles" value="#{feriadoLegalController.getComponentMessages('domingosInhabiles', bundle.CreateFeriadoLegalHelpText_domingosInhabiles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_feriadoFraccionado}" for="feriadoFraccionado" />
+                        <h:panelGroup>
+                            <p:inputText id="feriadoFraccionado" value="#{feriadoLegalController.selected.feriadoFraccionado}" title="#{bundle.CreateFeriadoLegalTitle_feriadoFraccionado}"/>
+                            <p:tooltip for="feriadoFraccionado" value="#{feriadoLegalController.getComponentMessages('feriadoFraccionado', bundle.CreateFeriadoLegalHelpText_feriadoFraccionado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_saldoPendiente}" for="saldoPendiente" />
+                        <h:panelGroup>
+                            <p:inputText id="saldoPendiente" value="#{feriadoLegalController.selected.saldoPendiente}" title="#{bundle.CreateFeriadoLegalTitle_saldoPendiente}"/>
+                            <p:tooltip for="saldoPendiente" value="#{feriadoLegalController.getComponentMessages('saldoPendiente', bundle.CreateFeriadoLegalHelpText_saldoPendiente)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_valorFeriado}" for="valorFeriado" />
+                        <h:panelGroup>
+                            <p:inputText id="valorFeriado" value="#{feriadoLegalController.selected.valorFeriado}" title="#{bundle.CreateFeriadoLegalTitle_valorFeriado}"/>
+                            <p:tooltip for="valorFeriado" value="#{feriadoLegalController.getComponentMessages('valorFeriado', bundle.CreateFeriadoLegalHelpText_valorFeriado)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{feriadoLegalController.saveNew}" value="#{bundle.Save}" update="display,:FeriadoLegalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FeriadoLegalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FeriadoLegalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

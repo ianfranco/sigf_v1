@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorRolloUnidadCreateDlg" widgetVar="ValorRolloUnidadCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateValorRolloUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ValorRolloUnidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{valorRolloUnidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateValorRolloUnidadLabel_unidadNegocio}" for="unidadNegocio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="unidadNegocio" value="#{valorRolloUnidadController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateValorRolloUnidadRequiredMessage_unidadNegocio}" converter="unidadNegocioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{unidadNegocioController.items}"
+                                               var="unidadNegocioItem"
+                                               itemValue="#{unidadNegocioItem}"
+                                               itemLabel="#{unidadNegocioItem.idUnidadNegocio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="unidadNegocio" value="#{valorRolloUnidadController.getComponentMessages('unidadNegocio', bundle.CreateValorRolloUnidadHelpText_unidadNegocio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateValorRolloUnidadLabel_compra}" for="compra" />
+                        <h:panelGroup>
+                            <p:inputText id="compra" value="#{valorRolloUnidadController.selected.compra}" title="#{bundle.CreateValorRolloUnidadTitle_compra}" required="true" requiredMessage="#{bundle.CreateValorRolloUnidadRequiredMessage_compra}"/>
+                            <p:tooltip for="compra" value="#{valorRolloUnidadController.getComponentMessages('compra', bundle.CreateValorRolloUnidadHelpText_compra)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateValorRolloUnidadLabel_venta}" for="venta" />
+                        <h:panelGroup>
+                            <p:inputText id="venta" value="#{valorRolloUnidadController.selected.venta}" title="#{bundle.CreateValorRolloUnidadTitle_venta}" required="true" requiredMessage="#{bundle.CreateValorRolloUnidadRequiredMessage_venta}"/>
+                            <p:tooltip for="venta" value="#{valorRolloUnidadController.getComponentMessages('venta', bundle.CreateValorRolloUnidadHelpText_venta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorRolloUnidadController.saveNew}" value="#{bundle.Save}" update="display,:ValorRolloUnidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorRolloUnidadCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorRolloUnidadCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

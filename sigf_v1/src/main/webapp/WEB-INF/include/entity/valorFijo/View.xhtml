@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorFijoViewDlg" widgetVar="ValorFijoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewValorFijoTitle}" closeOnEscape="true">
+
+            <h:form id="ValorFijoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{valorFijoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewValorFijoLabel_idValorFijo}"/>
+                        <h:outputText value="#{valorFijoController.selected.idValorFijo}" title="#{bundle.ViewValorFijoTitle_idValorFijo}"/>
+
+                        <h:outputText value="#{bundle.ViewValorFijoLabel_nombreValor}"/>
+                        <h:outputText value="#{valorFijoController.selected.nombreValor}" title="#{bundle.ViewValorFijoTitle_nombreValor}"/>
+
+                        <h:outputText value="#{bundle.ViewValorFijoLabel_monto}"/>
+                        <h:outputText value="#{valorFijoController.selected.monto}" title="#{bundle.ViewValorFijoTitle_monto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ValorFijoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

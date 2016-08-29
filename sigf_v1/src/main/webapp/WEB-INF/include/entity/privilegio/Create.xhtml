@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrivilegioCreateDlg" widgetVar="PrivilegioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="PrivilegioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{privilegioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreatePrivilegioLabel_rol}" for="rol" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="rol" value="#{privilegioController.selected.rol}" required="true" requiredMessage="#{bundle.CreatePrivilegioRequiredMessage_rol}" converter="rolConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{rolController.items}"
+                                               var="rolItem"
+                                               itemValue="#{rolItem}"
+                                               itemLabel="#{rolItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="rol" value="#{privilegioController.getComponentMessages('rol', bundle.CreatePrivilegioHelpText_rol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreatePrivilegioLabel_nombrePrivilegio}" for="nombrePrivilegio" />
+                        <h:panelGroup>
+                            <p:inputText id="nombrePrivilegio" value="#{privilegioController.selected.nombrePrivilegio}" title="#{bundle.CreatePrivilegioTitle_nombrePrivilegio}" required="true" requiredMessage="#{bundle.CreatePrivilegioRequiredMessage_nombrePrivilegio}"/>
+                            <p:tooltip for="nombrePrivilegio" value="#{privilegioController.getComponentMessages('nombrePrivilegio', bundle.CreatePrivilegioHelpText_nombrePrivilegio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreatePrivilegioLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{privilegioController.selected.descripcion}" title="#{bundle.CreatePrivilegioTitle_descripcion}" required="true" requiredMessage="#{bundle.CreatePrivilegioRequiredMessage_descripcion}"/>
+                            <p:tooltip for="descripcion" value="#{privilegioController.getComponentMessages('descripcion', bundle.CreatePrivilegioHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{privilegioController.saveNew}" value="#{bundle.Save}" update="display,:PrivilegioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrivilegioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PrivilegioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

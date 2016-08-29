@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="GuiaListForm">
+
+        <p:panel header="#{bundle.ListGuiaTitle}">
+            <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('GuiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('GuiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('GuiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.GuiaMenuItem_bus}" icon="ui-icon-search"  actionListener="#{guiaController.prepareBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty guiaController.selected.bus}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_estadoGuia}" icon="ui-icon-search"  actionListener="#{guiaController.prepareEstadoGuia}" update=":EstadoGuiaViewForm" oncomplete="PF('EstadoGuiaViewDialog').show()" disabled="#{empty guiaController.selected.estadoGuia}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_procesoRecaudacion}" icon="ui-icon-search"  actionListener="#{guiaController.prepareProcesoRecaudacion}" update=":ProcesoRecaudacionViewForm" oncomplete="PF('ProcesoRecaudacionViewDialog').show()" disabled="#{empty guiaController.selected.procesoRecaudacion}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_trabajador}" icon="ui-icon-search"  actionListener="#{guiaController.prepareTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty guiaController.selected.trabajador}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_egresoGuias}" icon="ui-icon-search"  action="#{guiaController.navigateEgresoGuias}" disabled="#{empty guiaController.selected.egresoGuias}" ajax="false"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_serieBoletoGuias}" icon="ui-icon-search"  action="#{guiaController.navigateSerieBoletoGuias}" disabled="#{empty guiaController.selected.serieBoletoGuias}" ajax="false"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_ventaBoletoGuias}" icon="ui-icon-search"  action="#{guiaController.navigateVentaBoletoGuias}" disabled="#{empty guiaController.selected.ventaBoletoGuias}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{guiaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idGuia}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{guiaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{guiaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idGuia}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GuiaDataTableContextMenu" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GuiaDataTableContextMenu" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('GuiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idGuia}" filterBy="#{item.idGuia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_idGuia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idGuia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.bus.idBus}" filterBy="#{item.bus.idBus}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_bus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bus.idBus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estadoGuia.idEstadoGuia}" filterBy="#{item.estadoGuia.idEstadoGuia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_estadoGuia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadoGuia.idEstadoGuia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacion.idProcesoRecaudacion}" filterBy="#{item.procesoRecaudacion.idProcesoRecaudacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_procesoRecaudacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacion.idProcesoRecaudacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajador.idTrabajador}" filterBy="#{item.trabajador.idTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_trabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.idTrabajador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.folio}" filterBy="#{item.folio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_folio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.folio}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaGuia}" filterBy="#{item.fechaGuia}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_fechaGuia}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaGuia}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fechaIngresoGuia}" filterBy="#{item.fechaIngresoGuia}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_fechaIngresoGuia}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaIngresoGuia}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fechaRecaudacion}" filterBy="#{item.fechaRecaudacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_fechaRecaudacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaRecaudacion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.totalIngresos}" filterBy="#{item.totalIngresos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_totalIngresos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.totalIngresos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.totalEgresos}" filterBy="#{item.totalEgresos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_totalEgresos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.totalEgresos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.viajeEspecial}" filterBy="#{item.viajeEspecial}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_viajeEspecial}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.viajeEspecial}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.otrosIngresos}" filterBy="#{item.otrosIngresos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_otrosIngresos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.otrosIngresos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.saldo}" filterBy="#{item.saldo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_saldo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.saldo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.numeroVueltas}" filterBy="#{item.numeroVueltas}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_numeroVueltas}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numeroVueltas}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.turno}" filterBy="#{item.turno}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_turno}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.turno}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.observacion}" filterBy="#{item.observacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_observacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.observacion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.recaudada}" filterBy="#{item.recaudada}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_recaudada}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="recaudada" value="#{item.recaudada}" title="#{bundle.EditGuiaTitle_recaudada}"  disabled="true"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{guiaController.prepareCreate}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty guiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty guiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{guiaController.delete}" update=":growl,datalist" disabled="#{empty guiaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlCreateDlg" widgetVar="ControlCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateControlTitle}" closeOnEscape="true">
+
+            <h:form id="ControlCreateForm">
+
+                <h:panelGroup id="display" rendered="#{controlController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_tipoControl}" for="tipoControl" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoControl" value="#{controlController.selected.tipoControl}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_tipoControl}" converter="tipoControlConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoControlController.items}"
+                                               var="tipoControlItem"
+                                               itemValue="#{tipoControlItem}"
+                                               itemLabel="#{tipoControlItem.idTipoControl.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoControl" value="#{controlController.getComponentMessages('tipoControl', bundle.CreateControlHelpText_tipoControl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_nombreControl}" for="nombreControl" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreControl" value="#{controlController.selected.nombreControl}" title="#{bundle.CreateControlTitle_nombreControl}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_nombreControl}"/>
+                            <p:tooltip for="nombreControl" value="#{controlController.getComponentMessages('nombreControl', bundle.CreateControlHelpText_nombreControl)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud" />
+                        <h:panelGroup>
+                            <p:inputText id="latitud" value="#{controlController.selected.latitud}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}"/>
+                            <p:tooltip for="latitud" value="#{controlController.getComponentMessages('latitud', bundle.CreateControlHelpText_latitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud" />
+                        <h:panelGroup>
+                            <p:inputText id="longitud" value="#{controlController.selected.longitud}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}"/>
+                            <p:tooltip for="longitud" value="#{controlController.getComponentMessages('longitud', bundle.CreateControlHelpText_longitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_radio}" for="radio" />
+                        <h:panelGroup>
+                            <p:inputText id="radio" value="#{controlController.selected.radio}" title="#{bundle.CreateControlTitle_radio}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_radio}"/>
+                            <p:tooltip for="radio" value="#{controlController.getComponentMessages('radio', bundle.CreateControlHelpText_radio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlController.saveNew}" value="#{bundle.Save}" update="display,:ControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

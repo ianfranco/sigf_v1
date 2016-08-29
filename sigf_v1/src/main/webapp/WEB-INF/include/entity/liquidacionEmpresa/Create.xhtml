@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LiquidacionEmpresaCreateDlg" widgetVar="LiquidacionEmpresaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateLiquidacionEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="LiquidacionEmpresaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{liquidacionEmpresaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{liquidacionEmpresaController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{liquidacionEmpresaController.getComponentMessages('empresa', bundle.CreateLiquidacionEmpresaHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{liquidacionEmpresaController.selected.mes}" title="#{bundle.CreateLiquidacionEmpresaTitle_mes}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_mes}"/>
+                            <p:tooltip for="mes" value="#{liquidacionEmpresaController.getComponentMessages('mes', bundle.CreateLiquidacionEmpresaHelpText_mes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{liquidacionEmpresaController.selected.anio}" title="#{bundle.CreateLiquidacionEmpresaTitle_anio}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_anio}"/>
+                            <p:tooltip for="anio" value="#{liquidacionEmpresaController.getComponentMessages('anio', bundle.CreateLiquidacionEmpresaHelpText_anio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_fechaEmision}" for="fechaEmision" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaEmision" pattern="MM/dd/yyyy" value="#{liquidacionEmpresaController.selected.fechaEmision}" title="#{bundle.CreateLiquidacionEmpresaTitle_fechaEmision}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_fechaEmision}" showOn="button"/>
+                            <p:tooltip for="fechaEmision" value="#{liquidacionEmpresaController.getComponentMessages('fechaEmision', bundle.CreateLiquidacionEmpresaHelpText_fechaEmision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_fechaPago}" for="fechaPago" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaPago" pattern="MM/dd/yyyy" value="#{liquidacionEmpresaController.selected.fechaPago}" title="#{bundle.CreateLiquidacionEmpresaTitle_fechaPago}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_fechaPago}" showOn="button"/>
+                            <p:tooltip for="fechaPago" value="#{liquidacionEmpresaController.getComponentMessages('fechaPago', bundle.CreateLiquidacionEmpresaHelpText_fechaPago)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_totalAbonos}" for="totalAbonos" />
+                        <h:panelGroup>
+                            <p:inputText id="totalAbonos" value="#{liquidacionEmpresaController.selected.totalAbonos}" title="#{bundle.CreateLiquidacionEmpresaTitle_totalAbonos}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_totalAbonos}"/>
+                            <p:tooltip for="totalAbonos" value="#{liquidacionEmpresaController.getComponentMessages('totalAbonos', bundle.CreateLiquidacionEmpresaHelpText_totalAbonos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_totalCargos}" for="totalCargos" />
+                        <h:panelGroup>
+                            <p:inputText id="totalCargos" value="#{liquidacionEmpresaController.selected.totalCargos}" title="#{bundle.CreateLiquidacionEmpresaTitle_totalCargos}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_totalCargos}"/>
+                            <p:tooltip for="totalCargos" value="#{liquidacionEmpresaController.getComponentMessages('totalCargos', bundle.CreateLiquidacionEmpresaHelpText_totalCargos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateLiquidacionEmpresaLabel_saldo}" for="saldo" />
+                        <h:panelGroup>
+                            <p:inputText id="saldo" value="#{liquidacionEmpresaController.selected.saldo}" title="#{bundle.CreateLiquidacionEmpresaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateLiquidacionEmpresaRequiredMessage_saldo}"/>
+                            <p:tooltip for="saldo" value="#{liquidacionEmpresaController.getComponentMessages('saldo', bundle.CreateLiquidacionEmpresaHelpText_saldo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{liquidacionEmpresaController.saveNew}" value="#{bundle.Save}" update="display,:LiquidacionEmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LiquidacionEmpresaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LiquidacionEmpresaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

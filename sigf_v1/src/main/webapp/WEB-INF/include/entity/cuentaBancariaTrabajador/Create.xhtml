@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuentaBancariaTrabajadorCreateDlg" widgetVar="CuentaBancariaTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCuentaBancariaTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cuentaBancariaTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCuentaBancariaTrabajadorLabel_banco}" for="banco" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="banco" value="#{cuentaBancariaTrabajadorController.selected.banco}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaTrabajadorRequiredMessage_banco}" converter="bancoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{bancoController.items}"
+                                               var="bancoItem"
+                                               itemValue="#{bancoItem}"
+                                               itemLabel="#{bancoItem.idBanco.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="banco" value="#{cuentaBancariaTrabajadorController.getComponentMessages('banco', bundle.CreateCuentaBancariaTrabajadorHelpText_banco)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCuentaBancariaTrabajadorLabel_tipoCuentaBanco}" for="tipoCuentaBanco" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoCuentaBanco" value="#{cuentaBancariaTrabajadorController.selected.tipoCuentaBanco}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaTrabajadorRequiredMessage_tipoCuentaBanco}" converter="tipoCuentaBancoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoCuentaBancoController.items}"
+                                               var="tipoCuentaBancoItem"
+                                               itemValue="#{tipoCuentaBancoItem}"
+                                               itemLabel="#{tipoCuentaBancoItem.idTipoCuentaBanco.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoCuentaBanco" value="#{cuentaBancariaTrabajadorController.getComponentMessages('tipoCuentaBanco', bundle.CreateCuentaBancariaTrabajadorHelpText_tipoCuentaBanco)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCuentaBancariaTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{cuentaBancariaTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{cuentaBancariaTrabajadorController.getComponentMessages('trabajador', bundle.CreateCuentaBancariaTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCuentaBancariaTrabajadorLabel_numeroCuenta}" for="numeroCuenta" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuenta" value="#{cuentaBancariaTrabajadorController.selected.numeroCuenta}" title="#{bundle.CreateCuentaBancariaTrabajadorTitle_numeroCuenta}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaTrabajadorRequiredMessage_numeroCuenta}"/>
+                            <p:tooltip for="numeroCuenta" value="#{cuentaBancariaTrabajadorController.getComponentMessages('numeroCuenta', bundle.CreateCuentaBancariaTrabajadorHelpText_numeroCuenta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuentaBancariaTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:CuentaBancariaTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CuentaBancariaTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CuentaBancariaTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

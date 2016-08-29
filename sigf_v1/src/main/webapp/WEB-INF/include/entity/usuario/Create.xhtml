@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_rol}" for="rol" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="rol" value="#{usuarioController.selected.rol}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_rol}" converter="rolConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{rolController.items}"
+                                               var="rolItem"
+                                               itemValue="#{rolItem}"
+                                               itemLabel="#{rolItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="rol" value="#{usuarioController.getComponentMessages('rol', bundle.CreateUsuarioHelpText_rol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{usuarioController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{usuarioController.getComponentMessages('terminal', bundle.CreateUsuarioHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_rut}" for="rut" />
+                        <h:panelGroup>
+                            <p:inputText id="rut" value="#{usuarioController.selected.rut}" title="#{bundle.CreateUsuarioTitle_rut}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_rut}"/>
+                            <p:tooltip for="rut" value="#{usuarioController.getComponentMessages('rut', bundle.CreateUsuarioHelpText_rut)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_pass}" for="pass" />
+                        <h:panelGroup>
+                            <p:inputText id="pass" value="#{usuarioController.selected.pass}" title="#{bundle.CreateUsuarioTitle_pass}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_pass}"/>
+                            <p:tooltip for="pass" value="#{usuarioController.getComponentMessages('pass', bundle.CreateUsuarioHelpText_pass)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_nombres}" for="nombres" />
+                        <h:panelGroup>
+                            <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.CreateUsuarioTitle_nombres}"/>
+                            <p:tooltip for="nombres" value="#{usuarioController.getComponentMessages('nombres', bundle.CreateUsuarioHelpText_nombres)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_apellidoPaterno}" for="apellidoPaterno" />
+                        <h:panelGroup>
+                            <p:inputText id="apellidoPaterno" value="#{usuarioController.selected.apellidoPaterno}" title="#{bundle.CreateUsuarioTitle_apellidoPaterno}"/>
+                            <p:tooltip for="apellidoPaterno" value="#{usuarioController.getComponentMessages('apellidoPaterno', bundle.CreateUsuarioHelpText_apellidoPaterno)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_apellidoMaterno}" for="apellidoMaterno" />
+                        <h:panelGroup>
+                            <p:inputText id="apellidoMaterno" value="#{usuarioController.selected.apellidoMaterno}" title="#{bundle.CreateUsuarioTitle_apellidoMaterno}"/>
+                            <p:tooltip for="apellidoMaterno" value="#{usuarioController.getComponentMessages('apellidoMaterno', bundle.CreateUsuarioHelpText_apellidoMaterno)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_email}" for="email" />
+                        <h:panelGroup>
+                            <p:inputText id="email" value="#{usuarioController.selected.email}" title="#{bundle.CreateUsuarioTitle_email}"/>
+                            <p:tooltip for="email" value="#{usuarioController.getComponentMessages('email', bundle.CreateUsuarioHelpText_email)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_fechaIngresoUsuario}" for="fechaIngresoUsuario" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoUsuario" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.fechaIngresoUsuario}" title="#{bundle.CreateUsuarioTitle_fechaIngresoUsuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaIngresoUsuario}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoUsuario" value="#{usuarioController.getComponentMessages('fechaIngresoUsuario', bundle.CreateUsuarioHelpText_fechaIngresoUsuario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{usuarioController.selected.activo}" />
+                            <p:tooltip for="activo" value="#{usuarioController.getComponentMessages('activo', bundle.CreateUsuarioHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UsuarioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

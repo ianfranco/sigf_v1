@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InstitucionSaludEditDlg" widgetVar="InstitucionSaludEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditInstitucionSaludTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionSaludEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{institucionSaludController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditInstitucionSaludLabel_idInstitucionSalud}" for="idInstitucionSalud" />
+                        <h:panelGroup>
+                            <h:outputText id="idInstitucionSalud" value="#{institucionSaludController.selected.idInstitucionSalud}" />
+                            <p:tooltip for="idInstitucionSalud" value="#{institucionSaludController.getComponentMessages('idInstitucionSalud', bundle.EditInstitucionSaludHelpText_idInstitucionSalud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_nombreInstitucionSalud}" for="nombreInstitucionSalud" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreInstitucionSalud" value="#{institucionSaludController.selected.nombreInstitucionSalud}" title="#{bundle.EditInstitucionSaludTitle_nombreInstitucionSalud}" required="true" requiredMessage="#{bundle.EditInstitucionSaludRequiredMessage_nombreInstitucionSalud}"/>
+                            <p:tooltip for="nombreInstitucionSalud" value="#{institucionSaludController.getComponentMessages('nombreInstitucionSalud', bundle.EditInstitucionSaludHelpText_nombreInstitucionSalud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_comision}" for="comision" />
+                        <h:panelGroup>
+                            <p:inputText id="comision" value="#{institucionSaludController.selected.comision}" title="#{bundle.EditInstitucionSaludTitle_comision}"/>
+                            <p:tooltip for="comision" value="#{institucionSaludController.getComponentMessages('comision', bundle.EditInstitucionSaludHelpText_comision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_porcentajeDescuento}" for="porcentajeDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentajeDescuento" value="#{institucionSaludController.selected.porcentajeDescuento}" title="#{bundle.EditInstitucionSaludTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.EditInstitucionSaludRequiredMessage_porcentajeDescuento}"/>
+                            <p:tooltip for="porcentajeDescuento" value="#{institucionSaludController.getComponentMessages('porcentajeDescuento', bundle.EditInstitucionSaludHelpText_porcentajeDescuento)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionSaludController.save}" value="#{bundle.Save}" update="display,:InstitucionSaludListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionSaludEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionSaludEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

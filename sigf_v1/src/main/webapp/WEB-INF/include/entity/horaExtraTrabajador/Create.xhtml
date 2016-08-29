@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HoraExtraTrabajadorCreateDlg" widgetVar="HoraExtraTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHoraExtraTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HoraExtraTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{horaExtraTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{horaExtraTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateHoraExtraTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{horaExtraTrabajadorController.getComponentMessages('trabajador', bundle.CreateHoraExtraTrabajadorHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_cantidad}" for="cantidad" />
+                        <h:panelGroup>
+                            <p:inputText id="cantidad" value="#{horaExtraTrabajadorController.selected.cantidad}" title="#{bundle.CreateHoraExtraTrabajadorTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateHoraExtraTrabajadorRequiredMessage_cantidad}"/>
+                            <p:tooltip for="cantidad" value="#{horaExtraTrabajadorController.getComponentMessages('cantidad', bundle.CreateHoraExtraTrabajadorHelpText_cantidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_fecha}" for="fecha" />
+                        <h:panelGroup>
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{horaExtraTrabajadorController.selected.fecha}" title="#{bundle.CreateHoraExtraTrabajadorTitle_fecha}"  showOn="button"/>
+                            <p:tooltip for="fecha" value="#{horaExtraTrabajadorController.getComponentMessages('fecha', bundle.CreateHoraExtraTrabajadorHelpText_fecha)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horaExtraTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:HoraExtraTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HoraExtraTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HoraExtraTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

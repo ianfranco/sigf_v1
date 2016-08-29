@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OperadorTransporteEditDlg" widgetVar="OperadorTransporteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditOperadorTransporteTitle}" closeOnEscape="true">
+
+            <h:form id="OperadorTransporteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{operadorTransporteController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditOperadorTransporteLabel_idOperadorTransporte}" for="idOperadorTransporte" />
+                        <h:panelGroup>
+                            <h:outputText id="idOperadorTransporte" value="#{operadorTransporteController.selected.idOperadorTransporte}" />
+                            <p:tooltip for="idOperadorTransporte" value="#{operadorTransporteController.getComponentMessages('idOperadorTransporte', bundle.EditOperadorTransporteHelpText_idOperadorTransporte)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditOperadorTransporteLabel_rutOperador}" for="rutOperador" />
+                        <h:panelGroup>
+                            <p:inputText id="rutOperador" value="#{operadorTransporteController.selected.rutOperador}" title="#{bundle.EditOperadorTransporteTitle_rutOperador}" required="true" requiredMessage="#{bundle.EditOperadorTransporteRequiredMessage_rutOperador}"/>
+                            <p:tooltip for="rutOperador" value="#{operadorTransporteController.getComponentMessages('rutOperador', bundle.EditOperadorTransporteHelpText_rutOperador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditOperadorTransporteLabel_nombreOperador}" for="nombreOperador" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreOperador" value="#{operadorTransporteController.selected.nombreOperador}" title="#{bundle.EditOperadorTransporteTitle_nombreOperador}" required="true" requiredMessage="#{bundle.EditOperadorTransporteRequiredMessage_nombreOperador}"/>
+                            <p:tooltip for="nombreOperador" value="#{operadorTransporteController.getComponentMessages('nombreOperador', bundle.EditOperadorTransporteHelpText_nombreOperador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadorTransporteController.save}" value="#{bundle.Save}" update="display,:OperadorTransporteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OperadorTransporteEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('OperadorTransporteEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

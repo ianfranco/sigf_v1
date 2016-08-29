@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoFrecuenciaCreateDlg" widgetVar="PeriodoFrecuenciaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePeriodoFrecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoFrecuenciaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{periodoFrecuenciaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreatePeriodoFrecuenciaLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:calendar id="desde" pattern="HH:mm:ss" value="#{periodoFrecuenciaController.selected.desde}" title="#{bundle.CreatePeriodoFrecuenciaTitle_desde}" required="true" requiredMessage="#{bundle.CreatePeriodoFrecuenciaRequiredMessage_desde}" showOn="button"/>
+                            <p:tooltip for="desde" value="#{periodoFrecuenciaController.getComponentMessages('desde', bundle.CreatePeriodoFrecuenciaHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreatePeriodoFrecuenciaLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:calendar id="hasta" pattern="HH:mm:ss" value="#{periodoFrecuenciaController.selected.hasta}" title="#{bundle.CreatePeriodoFrecuenciaTitle_hasta}" required="true" requiredMessage="#{bundle.CreatePeriodoFrecuenciaRequiredMessage_hasta}" showOn="button"/>
+                            <p:tooltip for="hasta" value="#{periodoFrecuenciaController.getComponentMessages('hasta', bundle.CreatePeriodoFrecuenciaHelpText_hasta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodoFrecuenciaController.saveNew}" value="#{bundle.Save}" update="display,:PeriodoFrecuenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PeriodoFrecuenciaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PeriodoFrecuenciaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

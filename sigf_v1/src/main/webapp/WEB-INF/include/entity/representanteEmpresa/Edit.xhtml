@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RepresentanteEmpresaEditDlg" widgetVar="RepresentanteEmpresaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRepresentanteEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteEmpresaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{representanteEmpresaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRepresentanteEmpresaLabel_idRepresentanteEmpresa}" for="idRepresentanteEmpresa" />
+                        <h:panelGroup>
+                            <h:outputText id="idRepresentanteEmpresa" value="#{representanteEmpresaController.selected.idRepresentanteEmpresa}" />
+                            <p:tooltip for="idRepresentanteEmpresa" value="#{representanteEmpresaController.getComponentMessages('idRepresentanteEmpresa', bundle.EditRepresentanteEmpresaHelpText_idRepresentanteEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteEmpresaLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{representanteEmpresaController.selected.empresa}" required="true" requiredMessage="#{bundle.EditRepresentanteEmpresaRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{representanteEmpresaController.getComponentMessages('empresa', bundle.EditRepresentanteEmpresaHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteEmpresaLabel_representanteLegal}" for="representanteLegal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="representanteLegal" value="#{representanteEmpresaController.selected.representanteLegal}" required="true" requiredMessage="#{bundle.EditRepresentanteEmpresaRequiredMessage_representanteLegal}" converter="representanteLegalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{representanteLegalController.items}"
+                                               var="representanteLegalItem"
+                                               itemValue="#{representanteLegalItem}"
+                                               itemLabel="#{representanteLegalItem.idRepresentanteLegal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="representanteLegal" value="#{representanteEmpresaController.getComponentMessages('representanteLegal', bundle.EditRepresentanteEmpresaHelpText_representanteLegal)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{representanteEmpresaController.save}" value="#{bundle.Save}" update="display,:RepresentanteEmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RepresentanteEmpresaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RepresentanteEmpresaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

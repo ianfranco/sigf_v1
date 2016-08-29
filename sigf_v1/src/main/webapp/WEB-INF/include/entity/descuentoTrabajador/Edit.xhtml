@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DescuentoTrabajadorEditDlg" widgetVar="DescuentoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDescuentoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{descuentoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDescuentoTrabajadorLabel_idDescuentoTrabajador}" for="idDescuentoTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idDescuentoTrabajador" value="#{descuentoTrabajadorController.selected.idDescuentoTrabajador}" />
+                            <p:tooltip for="idDescuentoTrabajador" value="#{descuentoTrabajadorController.getComponentMessages('idDescuentoTrabajador', bundle.EditDescuentoTrabajadorHelpText_idDescuentoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLabel_nombreTipoDescuento}" for="nombreTipoDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoDescuento" value="#{descuentoTrabajadorController.selected.nombreTipoDescuento}" title="#{bundle.EditDescuentoTrabajadorTitle_nombreTipoDescuento}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorRequiredMessage_nombreTipoDescuento}"/>
+                            <p:tooltip for="nombreTipoDescuento" value="#{descuentoTrabajadorController.getComponentMessages('nombreTipoDescuento', bundle.EditDescuentoTrabajadorHelpText_nombreTipoDescuento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{descuentoTrabajadorController.selected.fechaIngreso}" title="#{bundle.EditDescuentoTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{descuentoTrabajadorController.getComponentMessages('fechaIngreso', bundle.EditDescuentoTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{descuentoTrabajadorController.selected.montoDefecto}" title="#{bundle.EditDescuentoTrabajadorTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{descuentoTrabajadorController.getComponentMessages('montoDefecto', bundle.EditDescuentoTrabajadorHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{descuentoTrabajadorController.save}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DescuentoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DescuentoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

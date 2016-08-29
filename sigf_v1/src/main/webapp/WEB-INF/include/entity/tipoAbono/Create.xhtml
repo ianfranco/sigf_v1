@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoAbonoCreateDlg" widgetVar="TipoAbonoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoAbonoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAbonoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoAbonoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_nombreTipoAbono}" for="nombreTipoAbono" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoAbono" value="#{tipoAbonoController.selected.nombreTipoAbono}" title="#{bundle.CreateTipoAbonoTitle_nombreTipoAbono}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_nombreTipoAbono}"/>
+                            <p:tooltip for="nombreTipoAbono" value="#{tipoAbonoController.getComponentMessages('nombreTipoAbono', bundle.CreateTipoAbonoHelpText_nombreTipoAbono)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.fechaIngreso}" title="#{bundle.CreateTipoAbonoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoAbonoController.getComponentMessages('fechaIngreso', bundle.CreateTipoAbonoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoAbonoController.selected.montoDefecto}" title="#{bundle.CreateTipoAbonoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoAbonoController.getComponentMessages('montoDefecto', bundle.CreateTipoAbonoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoAbonoController.saveNew}" value="#{bundle.Save}" update="display,:TipoAbonoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoAbonoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoAbonoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

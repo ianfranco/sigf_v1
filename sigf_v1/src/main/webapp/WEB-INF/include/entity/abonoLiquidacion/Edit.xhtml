@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AbonoLiquidacionEditDlg" widgetVar="AbonoLiquidacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAbonoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="AbonoLiquidacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{abonoLiquidacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAbonoLiquidacionLabel_idAbonoLiquidacion}" for="idAbonoLiquidacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idAbonoLiquidacion" value="#{abonoLiquidacionController.selected.idAbonoLiquidacion}" />
+                            <p:tooltip for="idAbonoLiquidacion" value="#{abonoLiquidacionController.getComponentMessages('idAbonoLiquidacion', bundle.EditAbonoLiquidacionHelpText_idAbonoLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAbonoLiquidacionLabel_abonoBus}" for="abonoBus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="abonoBus" value="#{abonoLiquidacionController.selected.abonoBus}" required="true" requiredMessage="#{bundle.EditAbonoLiquidacionRequiredMessage_abonoBus}" converter="abonoBusConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{abonoBusController.items}"
+                                               var="abonoBusItem"
+                                               itemValue="#{abonoBusItem}"
+                                               itemLabel="#{abonoBusItem.idAbonoBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="abonoBus" value="#{abonoLiquidacionController.getComponentMessages('abonoBus', bundle.EditAbonoLiquidacionHelpText_abonoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAbonoLiquidacionLabel_liquidacionEmpresa}" for="liquidacionEmpresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="liquidacionEmpresa" value="#{abonoLiquidacionController.selected.liquidacionEmpresa}" required="true" requiredMessage="#{bundle.EditAbonoLiquidacionRequiredMessage_liquidacionEmpresa}" converter="liquidacionEmpresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{liquidacionEmpresaController.items}"
+                                               var="liquidacionEmpresaItem"
+                                               itemValue="#{liquidacionEmpresaItem}"
+                                               itemLabel="#{liquidacionEmpresaItem.idLiquidacionEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="liquidacionEmpresa" value="#{abonoLiquidacionController.getComponentMessages('liquidacionEmpresa', bundle.EditAbonoLiquidacionHelpText_liquidacionEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAbonoLiquidacionLabel_montoAbono}" for="montoAbono" />
+                        <h:panelGroup>
+                            <p:inputText id="montoAbono" value="#{abonoLiquidacionController.selected.montoAbono}" title="#{bundle.EditAbonoLiquidacionTitle_montoAbono}" required="true" requiredMessage="#{bundle.EditAbonoLiquidacionRequiredMessage_montoAbono}"/>
+                            <p:tooltip for="montoAbono" value="#{abonoLiquidacionController.getComponentMessages('montoAbono', bundle.EditAbonoLiquidacionHelpText_montoAbono)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{abonoLiquidacionController.save}" value="#{bundle.Save}" update="display,:AbonoLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AbonoLiquidacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AbonoLiquidacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

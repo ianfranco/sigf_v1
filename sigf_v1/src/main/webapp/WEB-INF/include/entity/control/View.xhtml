@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlViewDlg" widgetVar="ControlViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewControlTitle}" closeOnEscape="true">
+
+            <h:form id="ControlViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{controlController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewControlLabel_idControl}"/>
+                        <h:outputText value="#{controlController.selected.idControl}" title="#{bundle.ViewControlTitle_idControl}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_tipoControl}"/>
+                        <h:outputText value="#{controlController.selected.tipoControl.idTipoControl}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_nombreControl}"/>
+                        <h:outputText value="#{controlController.selected.nombreControl}" title="#{bundle.ViewControlTitle_nombreControl}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_latitud}"/>
+                        <h:outputText value="#{controlController.selected.latitud}" title="#{bundle.ViewControlTitle_latitud}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_longitud}"/>
+                        <h:outputText value="#{controlController.selected.longitud}" title="#{bundle.ViewControlTitle_longitud}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_radio}"/>
+                        <h:outputText value="#{controlController.selected.radio}" title="#{bundle.ViewControlTitle_radio}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ControlViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

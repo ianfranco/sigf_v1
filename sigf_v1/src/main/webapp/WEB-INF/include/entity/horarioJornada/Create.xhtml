@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HorarioJornadaCreateDlg" widgetVar="HorarioJornadaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHorarioJornadaTitle}" closeOnEscape="true">
+
+            <h:form id="HorarioJornadaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{horarioJornadaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHorarioJornadaLabel_inicioHorario}" for="inicioHorario" />
+                        <h:panelGroup>
+                            <p:calendar id="inicioHorario" pattern="HH:mm:ss" value="#{horarioJornadaController.selected.inicioHorario}" title="#{bundle.CreateHorarioJornadaTitle_inicioHorario}" required="true" requiredMessage="#{bundle.CreateHorarioJornadaRequiredMessage_inicioHorario}" showOn="button"/>
+                            <p:tooltip for="inicioHorario" value="#{horarioJornadaController.getComponentMessages('inicioHorario', bundle.CreateHorarioJornadaHelpText_inicioHorario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioJornadaLabel_terminoHorario}" for="terminoHorario" />
+                        <h:panelGroup>
+                            <p:calendar id="terminoHorario" pattern="HH:mm:ss" value="#{horarioJornadaController.selected.terminoHorario}" title="#{bundle.CreateHorarioJornadaTitle_terminoHorario}" required="true" requiredMessage="#{bundle.CreateHorarioJornadaRequiredMessage_terminoHorario}" showOn="button"/>
+                            <p:tooltip for="terminoHorario" value="#{horarioJornadaController.getComponentMessages('terminoHorario', bundle.CreateHorarioJornadaHelpText_terminoHorario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioJornadaLabel_horarioVariable}" for="horarioVariable" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="horarioVariable" value="#{horarioJornadaController.selected.horarioVariable}" />
+                            <p:tooltip for="horarioVariable" value="#{horarioJornadaController.getComponentMessages('horarioVariable', bundle.CreateHorarioJornadaHelpText_horarioVariable)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horarioJornadaController.saveNew}" value="#{bundle.Save}" update="display,:HorarioJornadaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioJornadaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HorarioJornadaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

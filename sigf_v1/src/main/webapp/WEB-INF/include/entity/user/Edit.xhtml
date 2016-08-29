@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UserEditDlg" widgetVar="UserEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUserTitle}" closeOnEscape="true">
+
+            <h:form id="UserEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{userController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUserLabel_id}" for="id" />
+                        <h:panelGroup>
+                            <h:outputText id="id" value="#{userController.selected.id}" />
+                            <p:tooltip for="id" value="#{userController.getComponentMessages('id', bundle.EditUserHelpText_id)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_name}" for="name" />
+                        <h:panelGroup>
+                            <p:inputText id="name" value="#{userController.selected.name}" title="#{bundle.EditUserTitle_name}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_name}"/>
+                            <p:tooltip for="name" value="#{userController.getComponentMessages('name', bundle.EditUserHelpText_name)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_email}" for="email" />
+                        <h:panelGroup>
+                            <p:inputText id="email" value="#{userController.selected.email}" title="#{bundle.EditUserTitle_email}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_email}"/>
+                            <p:tooltip for="email" value="#{userController.getComponentMessages('email', bundle.EditUserHelpText_email)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_hashedPassword}" for="hashedPassword" />
+                        <h:panelGroup>
+                            <p:inputText id="hashedPassword" value="#{userController.selected.hashedPassword}" title="#{bundle.EditUserTitle_hashedPassword}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_hashedPassword}"/>
+                            <p:tooltip for="hashedPassword" value="#{userController.getComponentMessages('hashedPassword', bundle.EditUserHelpText_hashedPassword)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_salt}" for="salt" />
+                        <h:panelGroup>
+                            <p:inputText id="salt" value="#{userController.selected.salt}" title="#{bundle.EditUserTitle_salt}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_salt}"/>
+                            <p:tooltip for="salt" value="#{userController.getComponentMessages('salt', bundle.EditUserHelpText_salt)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_readonly}" for="readonly" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="readonly" value="#{userController.selected.readonly}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_readonly}"/>
+                            <p:tooltip for="readonly" value="#{userController.getComponentMessages('readonly', bundle.EditUserHelpText_readonly)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_admin}" for="admin" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="admin" value="#{userController.selected.admin}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_admin}"/>
+                            <p:tooltip for="admin" value="#{userController.getComponentMessages('admin', bundle.EditUserHelpText_admin)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_map}" for="map" />
+                        <h:panelGroup>
+                            <p:inputText id="map" value="#{userController.selected.map}" title="#{bundle.EditUserTitle_map}"/>
+                            <p:tooltip for="map" value="#{userController.getComponentMessages('map', bundle.EditUserHelpText_map)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_language}" for="language" />
+                        <h:panelGroup>
+                            <p:inputText id="language" value="#{userController.selected.language}" title="#{bundle.EditUserTitle_language}"/>
+                            <p:tooltip for="language" value="#{userController.getComponentMessages('language', bundle.EditUserHelpText_language)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_distanceUnit}" for="distanceUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="distanceUnit" value="#{userController.selected.distanceUnit}" title="#{bundle.EditUserTitle_distanceUnit}"/>
+                            <p:tooltip for="distanceUnit" value="#{userController.getComponentMessages('distanceUnit', bundle.EditUserHelpText_distanceUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_speedUnit}" for="speedUnit" />
+                        <h:panelGroup>
+                            <p:inputText id="speedUnit" value="#{userController.selected.speedUnit}" title="#{bundle.EditUserTitle_speedUnit}"/>
+                            <p:tooltip for="speedUnit" value="#{userController.getComponentMessages('speedUnit', bundle.EditUserHelpText_speedUnit)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_latitude}" for="latitude" />
+                        <h:panelGroup>
+                            <p:inputText id="latitude" value="#{userController.selected.latitude}" title="#{bundle.EditUserTitle_latitude}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_latitude}"/>
+                            <p:tooltip for="latitude" value="#{userController.getComponentMessages('latitude', bundle.EditUserHelpText_latitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_longitude}" for="longitude" />
+                        <h:panelGroup>
+                            <p:inputText id="longitude" value="#{userController.selected.longitude}" title="#{bundle.EditUserTitle_longitude}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_longitude}"/>
+                            <p:tooltip for="longitude" value="#{userController.getComponentMessages('longitude', bundle.EditUserHelpText_longitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUserLabel_zoom}" for="zoom" />
+                        <h:panelGroup>
+                            <p:inputText id="zoom" value="#{userController.selected.zoom}" title="#{bundle.EditUserTitle_zoom}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_zoom}"/>
+                            <p:tooltip for="zoom" value="#{userController.getComponentMessages('zoom', bundle.EditUserHelpText_zoom)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{userController.save}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UserEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UserEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

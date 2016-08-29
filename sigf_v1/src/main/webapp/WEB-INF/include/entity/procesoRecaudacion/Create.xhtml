@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcesoRecaudacionCreateDlg" widgetVar="ProcesoRecaudacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateProcesoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="ProcesoRecaudacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{procesoRecaudacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_usuario}" for="usuario" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="usuario" value="#{procesoRecaudacionController.selected.usuario}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_usuario}" converter="usuarioConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{usuarioController.items}"
+                                               var="usuarioItem"
+                                               itemValue="#{usuarioItem}"
+                                               itemLabel="#{usuarioItem.idUsario.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="usuario" value="#{procesoRecaudacionController.getComponentMessages('usuario', bundle.CreateProcesoRecaudacionHelpText_usuario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_nombreProceso}" for="nombreProceso" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreProceso" value="#{procesoRecaudacionController.selected.nombreProceso}" title="#{bundle.CreateProcesoRecaudacionTitle_nombreProceso}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_nombreProceso}"/>
+                            <p:tooltip for="nombreProceso" value="#{procesoRecaudacionController.getComponentMessages('nombreProceso', bundle.CreateProcesoRecaudacionHelpText_nombreProceso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_fechaCreacionProceso}" for="fechaCreacionProceso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaCreacionProceso" pattern="MM/dd/yyyy HH:mm:ss" value="#{procesoRecaudacionController.selected.fechaCreacionProceso}" title="#{bundle.CreateProcesoRecaudacionTitle_fechaCreacionProceso}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_fechaCreacionProceso}" showOn="button"/>
+                            <p:tooltip for="fechaCreacionProceso" value="#{procesoRecaudacionController.getComponentMessages('fechaCreacionProceso', bundle.CreateProcesoRecaudacionHelpText_fechaCreacionProceso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{procesoRecaudacionController.selected.activo}" />
+                            <p:tooltip for="activo" value="#{procesoRecaudacionController.getComponentMessages('activo', bundle.CreateProcesoRecaudacionHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesoRecaudacionController.saveNew}" value="#{bundle.Save}" update="display,:ProcesoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProcesoRecaudacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ProcesoRecaudacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

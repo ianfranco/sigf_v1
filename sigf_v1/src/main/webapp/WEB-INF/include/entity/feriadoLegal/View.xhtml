@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FeriadoLegalViewDlg" widgetVar="FeriadoLegalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewFeriadoLegalTitle}" closeOnEscape="true">
+
+            <h:form id="FeriadoLegalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{feriadoLegalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_idFeriadoLegal}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.idFeriadoLegal}" title="#{bundle.ViewFeriadoLegalTitle_idFeriadoLegal}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_trabajador}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_fechaIngresoFeriado}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.fechaIngresoFeriado}" title="#{bundle.ViewFeriadoLegalTitle_fechaIngresoFeriado}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_fechaDesdeFeriado}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.fechaDesdeFeriado}" title="#{bundle.ViewFeriadoLegalTitle_fechaDesdeFeriado}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_fechaHastaFeriado}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.fechaHastaFeriado}" title="#{bundle.ViewFeriadoLegalTitle_fechaHastaFeriado}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_diasHabiles}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.diasHabiles}" title="#{bundle.ViewFeriadoLegalTitle_diasHabiles}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_vacacionesProgresivas}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.vacacionesProgresivas}" title="#{bundle.ViewFeriadoLegalTitle_vacacionesProgresivas}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_domingosInhabiles}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.domingosInhabiles}" title="#{bundle.ViewFeriadoLegalTitle_domingosInhabiles}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_feriadoFraccionado}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.feriadoFraccionado}" title="#{bundle.ViewFeriadoLegalTitle_feriadoFraccionado}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_saldoPendiente}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.saldoPendiente}" title="#{bundle.ViewFeriadoLegalTitle_saldoPendiente}"/>
+
+                        <h:outputText value="#{bundle.ViewFeriadoLegalLabel_valorFeriado}"/>
+                        <h:outputText value="#{feriadoLegalController.selected.valorFeriado}" title="#{bundle.ViewFeriadoLegalTitle_valorFeriado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('FeriadoLegalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

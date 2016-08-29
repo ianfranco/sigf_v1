@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaBoletoViewDlg" widgetVar="VentaBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ventaBoletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_idVentaBoleto}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.idVentaBoleto}" title="#{bundle.ViewVentaBoletoTitle_idVentaBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_terminal}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.terminal.idTerminal}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_fechaVentaBoleto}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.fechaVentaBoleto}" title="#{bundle.ViewVentaBoletoTitle_fechaVentaBoleto}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_nombreComprador}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.nombreComprador}" title="#{bundle.ViewVentaBoletoTitle_nombreComprador}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_totalCompra}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.totalCompra}" title="#{bundle.ViewVentaBoletoTitle_totalCompra}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('VentaBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DescuentoTrabajadorLiquidacionEditDlg" widgetVar="DescuentoTrabajadorLiquidacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDescuentoTrabajadorLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoTrabajadorLiquidacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{descuentoTrabajadorLiquidacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_idDescuentoTrabajadorLiquidacion}" for="idDescuentoTrabajadorLiquidacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idDescuentoTrabajadorLiquidacion" value="#{descuentoTrabajadorLiquidacionController.selected.idDescuentoTrabajadorLiquidacion}" />
+                            <p:tooltip for="idDescuentoTrabajadorLiquidacion" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('idDescuentoTrabajadorLiquidacion', bundle.EditDescuentoTrabajadorLiquidacionHelpText_idDescuentoTrabajadorLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_descuentoTrabajador}" for="descuentoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="descuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.descuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_descuentoTrabajador}" converter="descuentoTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{descuentoTrabajadorController.items}"
+                                               var="descuentoTrabajadorItem"
+                                               itemValue="#{descuentoTrabajadorItem}"
+                                               itemLabel="#{descuentoTrabajadorItem.idDescuentoTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="descuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('descuentoTrabajador', bundle.EditDescuentoTrabajadorLiquidacionHelpText_descuentoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{descuentoTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('trabajador', bundle.EditDescuentoTrabajadorLiquidacionHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_fechaInicioDescuento}" for="fechaInicioDescuento" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioDescuento" pattern="MM/dd/yyyy" value="#{descuentoTrabajadorLiquidacionController.selected.fechaInicioDescuento}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" showOn="button"/>
+                            <p:tooltip for="fechaInicioDescuento" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('fechaInicioDescuento', bundle.EditDescuentoTrabajadorLiquidacionHelpText_fechaInicioDescuento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_fechaIngresoDescuento}" for="fechaIngresoDescuento" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoDescuento" pattern="MM/dd/yyyy HH:mm:ss" value="#{descuentoTrabajadorLiquidacionController.selected.fechaIngresoDescuento}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_fechaIngresoDescuento}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_fechaIngresoDescuento}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoDescuento" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('fechaIngresoDescuento', bundle.EditDescuentoTrabajadorLiquidacionHelpText_fechaIngresoDescuento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_numeroCuotas}" for="numeroCuotas" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_numeroCuotas}"/>
+                            <p:tooltip for="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('numeroCuotas', bundle.EditDescuentoTrabajadorLiquidacionHelpText_numeroCuotas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{descuentoTrabajadorLiquidacionController.selected.monto}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_monto}"/>
+                            <p:tooltip for="monto" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('monto', bundle.EditDescuentoTrabajadorLiquidacionHelpText_monto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDescuentoTrabajadorLiquidacionLabel_activoDescuentoTrabajador}" for="activoDescuentoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}"/>
+                            <p:tooltip for="activoDescuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('activoDescuentoTrabajador', bundle.EditDescuentoTrabajadorLiquidacionHelpText_activoDescuentoTrabajador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{descuentoTrabajadorLiquidacionController.save}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DescuentoTrabajadorLiquidacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DescuentoTrabajadorLiquidacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCargoBusTitle}" closeOnEscape="true">
+
+            <h:form id="CargoBusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargoBusController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_bus}" for="bus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="bus" value="#{cargoBusController.selected.bus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_bus}" converter="busConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{busController.items}"
+                                               var="busItem"
+                                               itemValue="#{busItem}"
+                                               itemLabel="#{busItem.idBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="bus" value="#{cargoBusController.getComponentMessages('bus', bundle.CreateCargoBusHelpText_bus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoCargo" value="#{cargoBusController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoCargoController.items}"
+                                               var="tipoCargoItem"
+                                               itemValue="#{tipoCargoItem}"
+                                               itemLabel="#{tipoCargoItem.idTipoCargo.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoCargo" value="#{cargoBusController.getComponentMessages('tipoCargo', bundle.CreateCargoBusHelpText_tipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_fechaIngresoCargoBus}" for="fechaIngresoCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoCargoBus" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargoBusController.selected.fechaIngresoCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaIngresoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaIngresoCargoBus}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoCargoBus" value="#{cargoBusController.getComponentMessages('fechaIngresoCargoBus', bundle.CreateCargoBusHelpText_fechaIngresoCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" showOn="button"/>
+                            <p:tooltip for="fechaInicioCargoBus" value="#{cargoBusController.getComponentMessages('fechaInicioCargoBus', bundle.CreateCargoBusHelpText_fechaInicioCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_numeroCuotasCargoBus}" for="numeroCuotasCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{cargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}"/>
+                            <p:tooltip for="numeroCuotasCargoBus" value="#{cargoBusController.getComponentMessages('numeroCuotasCargoBus', bundle.CreateCargoBusHelpText_numeroCuotasCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_montoCargoBus}" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{cargoBusController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}"/>
+                            <p:tooltip for="montoCargoBus" value="#{cargoBusController.getComponentMessages('montoCargoBus', bundle.CreateCargoBusHelpText_montoCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_activoCargoBus}" for="activoCargoBus" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activoCargoBus" value="#{cargoBusController.selected.activoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_activoCargoBus}"/>
+                            <p:tooltip for="activoCargoBus" value="#{cargoBusController.getComponentMessages('activoCargoBus', bundle.CreateCargoBusHelpText_activoCargoBus)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoBusController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

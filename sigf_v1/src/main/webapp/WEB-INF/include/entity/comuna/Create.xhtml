@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComunaCreateDlg" widgetVar="ComunaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateComunaTitle}" closeOnEscape="true">
+
+            <h:form id="ComunaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{comunaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateComunaLabel_region}" for="region" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="region" value="#{comunaController.selected.region}" required="true" requiredMessage="#{bundle.CreateComunaRequiredMessage_region}" converter="regionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{regionController.items}"
+                                               var="regionItem"
+                                               itemValue="#{regionItem}"
+                                               itemLabel="#{regionItem.idRegion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="region" value="#{comunaController.getComponentMessages('region', bundle.CreateComunaHelpText_region)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateComunaLabel_nombreComuna}" for="nombreComuna" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreComuna" value="#{comunaController.selected.nombreComuna}" title="#{bundle.CreateComunaTitle_nombreComuna}" required="true" requiredMessage="#{bundle.CreateComunaRequiredMessage_nombreComuna}"/>
+                            <p:tooltip for="nombreComuna" value="#{comunaController.getComponentMessages('nombreComuna', bundle.CreateComunaHelpText_nombreComuna)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comunaController.saveNew}" value="#{bundle.Save}" update="display,:ComunaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComunaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ComunaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DescuentoTrabajadorLiquidacionViewDlg" widgetVar="DescuentoTrabajadorLiquidacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoTrabajadorLiquidacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{descuentoTrabajadorLiquidacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_idDescuentoTrabajadorLiquidacion}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.idDescuentoTrabajadorLiquidacion}" title="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle_idDescuentoTrabajadorLiquidacion}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_descuentoTrabajador}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.descuentoTrabajador.idDescuentoTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_trabajador}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.trabajador.idTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_fechaInicioDescuento}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.fechaInicioDescuento}" title="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_fechaIngresoDescuento}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.fechaIngresoDescuento}" title="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle_fechaIngresoDescuento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_numeroCuotas}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle_numeroCuotas}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_monto}"/>
+                        <h:outputText value="#{descuentoTrabajadorLiquidacionController.selected.monto}" title="#{bundle.ViewDescuentoTrabajadorLiquidacionTitle_monto}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLiquidacionLabel_activoDescuentoTrabajador}"/>
+                        <h:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.activoDescuentoTrabajador}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DescuentoTrabajadorLiquidacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

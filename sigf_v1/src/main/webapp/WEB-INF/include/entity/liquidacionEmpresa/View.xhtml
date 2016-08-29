@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LiquidacionEmpresaViewDlg" widgetVar="LiquidacionEmpresaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewLiquidacionEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="LiquidacionEmpresaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{liquidacionEmpresaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_idLiquidacionEmpresa}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.idLiquidacionEmpresa}" title="#{bundle.ViewLiquidacionEmpresaTitle_idLiquidacionEmpresa}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_empresa}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.empresa.idEmpresa}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_mes}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.mes}" title="#{bundle.ViewLiquidacionEmpresaTitle_mes}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_anio}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.anio}" title="#{bundle.ViewLiquidacionEmpresaTitle_anio}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_fechaEmision}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.fechaEmision}" title="#{bundle.ViewLiquidacionEmpresaTitle_fechaEmision}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_fechaPago}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.fechaPago}" title="#{bundle.ViewLiquidacionEmpresaTitle_fechaPago}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_totalAbonos}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.totalAbonos}" title="#{bundle.ViewLiquidacionEmpresaTitle_totalAbonos}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_totalCargos}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.totalCargos}" title="#{bundle.ViewLiquidacionEmpresaTitle_totalCargos}"/>
+
+                        <h:outputText value="#{bundle.ViewLiquidacionEmpresaLabel_saldo}"/>
+                        <h:outputText value="#{liquidacionEmpresaController.selected.saldo}" title="#{bundle.ViewLiquidacionEmpresaTitle_saldo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('LiquidacionEmpresaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

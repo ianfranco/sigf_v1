@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HaberTrabajadorEditDlg" widgetVar="HaberTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{haberTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditHaberTrabajadorLabel_idHaberTrabajador}" for="idHaberTrabajador" />
+                        <h:panelGroup>
+                            <h:outputText id="idHaberTrabajador" value="#{haberTrabajadorController.selected.idHaberTrabajador}" />
+                            <p:tooltip for="idHaberTrabajador" value="#{haberTrabajadorController.getComponentMessages('idHaberTrabajador', bundle.EditHaberTrabajadorHelpText_idHaberTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLabel_nombreTipoHaber}" for="nombreTipoHaber" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoHaber" value="#{haberTrabajadorController.selected.nombreTipoHaber}" title="#{bundle.EditHaberTrabajadorTitle_nombreTipoHaber}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_nombreTipoHaber}"/>
+                            <p:tooltip for="nombreTipoHaber" value="#{haberTrabajadorController.getComponentMessages('nombreTipoHaber', bundle.EditHaberTrabajadorHelpText_nombreTipoHaber)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberTrabajadorController.selected.fechaIngreso}" title="#{bundle.EditHaberTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{haberTrabajadorController.getComponentMessages('fechaIngreso', bundle.EditHaberTrabajadorHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{haberTrabajadorController.selected.montoDefecto}" title="#{bundle.EditHaberTrabajadorTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{haberTrabajadorController.getComponentMessages('montoDefecto', bundle.EditHaberTrabajadorHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLabel_imponible}" for="imponible" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="imponible" value="#{haberTrabajadorController.selected.imponible}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_imponible}"/>
+                            <p:tooltip for="imponible" value="#{haberTrabajadorController.getComponentMessages('imponible', bundle.EditHaberTrabajadorHelpText_imponible)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{haberTrabajadorController.save}" value="#{bundle.Save}" update="display,:HaberTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

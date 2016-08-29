@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlAsistenciaCreateDlg" widgetVar="ControlAsistenciaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateControlAsistenciaTitle}" closeOnEscape="true">
+
+            <h:form id="ControlAsistenciaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{controlAsistenciaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateControlAsistenciaLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{controlAsistenciaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateControlAsistenciaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{controlAsistenciaController.getComponentMessages('trabajador', bundle.CreateControlAsistenciaHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlAsistenciaLabel_horarioEntrada}" for="horarioEntrada" />
+                        <h:panelGroup>
+                            <p:calendar id="horarioEntrada" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.horarioEntrada}" title="#{bundle.CreateControlAsistenciaTitle_horarioEntrada}" required="true" requiredMessage="#{bundle.CreateControlAsistenciaRequiredMessage_horarioEntrada}" showOn="button"/>
+                            <p:tooltip for="horarioEntrada" value="#{controlAsistenciaController.getComponentMessages('horarioEntrada', bundle.CreateControlAsistenciaHelpText_horarioEntrada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateControlAsistenciaLabel_horarioSalida}" for="horarioSalida" />
+                        <h:panelGroup>
+                            <p:calendar id="horarioSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.horarioSalida}" title="#{bundle.CreateControlAsistenciaTitle_horarioSalida}"  showOn="button"/>
+                            <p:tooltip for="horarioSalida" value="#{controlAsistenciaController.getComponentMessages('horarioSalida', bundle.CreateControlAsistenciaHelpText_horarioSalida)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlAsistenciaController.saveNew}" value="#{bundle.Save}" update="display,:ControlAsistenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlAsistenciaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlAsistenciaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

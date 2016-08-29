@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="JornadaLaboralEditDlg" widgetVar="JornadaLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="JornadaLaboralEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{jornadaLaboralController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditJornadaLaboralLabel_idJornadaLaboral}" for="idJornadaLaboral" />
+                        <h:panelGroup>
+                            <h:outputText id="idJornadaLaboral" value="#{jornadaLaboralController.selected.idJornadaLaboral}" />
+                            <p:tooltip for="idJornadaLaboral" value="#{jornadaLaboralController.getComponentMessages('idJornadaLaboral', bundle.EditJornadaLaboralHelpText_idJornadaLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_horarioJornada}" for="horarioJornada" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="horarioJornada" value="#{jornadaLaboralController.selected.horarioJornada}" required="true" requiredMessage="#{bundle.EditJornadaLaboralRequiredMessage_horarioJornada}" converter="horarioJornadaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{horarioJornadaController.items}"
+                                               var="horarioJornadaItem"
+                                               itemValue="#{horarioJornadaItem}"
+                                               itemLabel="#{horarioJornadaItem.idHorarioJornada.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="horarioJornada" value="#{jornadaLaboralController.getComponentMessages('horarioJornada', bundle.EditJornadaLaboralHelpText_horarioJornada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_nombreJornadaLaboral}" for="nombreJornadaLaboral" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreJornadaLaboral" value="#{jornadaLaboralController.selected.nombreJornadaLaboral}" title="#{bundle.EditJornadaLaboralTitle_nombreJornadaLaboral}" required="true" requiredMessage="#{bundle.EditJornadaLaboralRequiredMessage_nombreJornadaLaboral}"/>
+                            <p:tooltip for="nombreJornadaLaboral" value="#{jornadaLaboralController.getComponentMessages('nombreJornadaLaboral', bundle.EditJornadaLaboralHelpText_nombreJornadaLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_lunes}" for="lunes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="lunes" value="#{jornadaLaboralController.selected.lunes}" />
+                            <p:tooltip for="lunes" value="#{jornadaLaboralController.getComponentMessages('lunes', bundle.EditJornadaLaboralHelpText_lunes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_martes}" for="martes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="martes" value="#{jornadaLaboralController.selected.martes}" />
+                            <p:tooltip for="martes" value="#{jornadaLaboralController.getComponentMessages('martes', bundle.EditJornadaLaboralHelpText_martes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_miercoles}" for="miercoles" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="miercoles" value="#{jornadaLaboralController.selected.miercoles}" />
+                            <p:tooltip for="miercoles" value="#{jornadaLaboralController.getComponentMessages('miercoles', bundle.EditJornadaLaboralHelpText_miercoles)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_jueves}" for="jueves" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="jueves" value="#{jornadaLaboralController.selected.jueves}" />
+                            <p:tooltip for="jueves" value="#{jornadaLaboralController.getComponentMessages('jueves', bundle.EditJornadaLaboralHelpText_jueves)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_viernes}" for="viernes" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="viernes" value="#{jornadaLaboralController.selected.viernes}" />
+                            <p:tooltip for="viernes" value="#{jornadaLaboralController.getComponentMessages('viernes', bundle.EditJornadaLaboralHelpText_viernes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_sabado}" for="sabado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="sabado" value="#{jornadaLaboralController.selected.sabado}" />
+                            <p:tooltip for="sabado" value="#{jornadaLaboralController.getComponentMessages('sabado', bundle.EditJornadaLaboralHelpText_sabado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditJornadaLaboralLabel_domingo}" for="domingo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="domingo" value="#{jornadaLaboralController.selected.domingo}" />
+                            <p:tooltip for="domingo" value="#{jornadaLaboralController.getComponentMessages('domingo', bundle.EditJornadaLaboralHelpText_domingo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{jornadaLaboralController.save}" value="#{bundle.Save}" update="display,:JornadaLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('JornadaLaboralEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('JornadaLaboralEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

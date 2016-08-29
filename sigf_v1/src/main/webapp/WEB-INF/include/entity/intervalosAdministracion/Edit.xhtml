@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="IntervalosAdministracionEditDlg" widgetVar="IntervalosAdministracionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditIntervalosAdministracionTitle}" closeOnEscape="true">
+
+            <h:form id="IntervalosAdministracionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{intervalosAdministracionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_idIntervalosAdministracion}" for="idIntervalosAdministracion" />
+                        <h:panelGroup>
+                            <h:outputText id="idIntervalosAdministracion" value="#{intervalosAdministracionController.selected.idIntervalosAdministracion}" />
+                            <p:tooltip for="idIntervalosAdministracion" value="#{intervalosAdministracionController.getComponentMessages('idIntervalosAdministracion', bundle.EditIntervalosAdministracionHelpText_idIntervalosAdministracion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_nombreIntervaloAdministracion}" for="nombreIntervaloAdministracion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreIntervaloAdministracion" value="#{intervalosAdministracionController.selected.nombreIntervaloAdministracion}" title="#{bundle.EditIntervalosAdministracionTitle_nombreIntervaloAdministracion}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_nombreIntervaloAdministracion}"/>
+                            <p:tooltip for="nombreIntervaloAdministracion" value="#{intervalosAdministracionController.getComponentMessages('nombreIntervaloAdministracion', bundle.EditIntervalosAdministracionHelpText_nombreIntervaloAdministracion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:inputText id="desde" value="#{intervalosAdministracionController.selected.desde}" title="#{bundle.EditIntervalosAdministracionTitle_desde}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_desde}"/>
+                            <p:tooltip for="desde" value="#{intervalosAdministracionController.getComponentMessages('desde', bundle.EditIntervalosAdministracionHelpText_desde)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:inputText id="hasta" value="#{intervalosAdministracionController.selected.hasta}" title="#{bundle.EditIntervalosAdministracionTitle_hasta}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_hasta}"/>
+                            <p:tooltip for="hasta" value="#{intervalosAdministracionController.getComponentMessages('hasta', bundle.EditIntervalosAdministracionHelpText_hasta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{intervalosAdministracionController.save}" value="#{bundle.Save}" update="display,:IntervalosAdministracionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IntervalosAdministracionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('IntervalosAdministracionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

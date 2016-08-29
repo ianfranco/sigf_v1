@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AdministracionMensualEditDlg" widgetVar="AdministracionMensualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="AdministracionMensualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{administracionMensualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAdministracionMensualLabel_idAdministracionMensual}" for="idAdministracionMensual" />
+                        <h:panelGroup>
+                            <h:outputText id="idAdministracionMensual" value="#{administracionMensualController.selected.idAdministracionMensual}" />
+                            <p:tooltip for="idAdministracionMensual" value="#{administracionMensualController.getComponentMessages('idAdministracionMensual', bundle.EditAdministracionMensualHelpText_idAdministracionMensual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{administracionMensualController.selected.mes}" title="#{bundle.EditAdministracionMensualTitle_mes}" required="true" requiredMessage="#{bundle.EditAdministracionMensualRequiredMessage_mes}"/>
+                            <p:tooltip for="mes" value="#{administracionMensualController.getComponentMessages('mes', bundle.EditAdministracionMensualHelpText_mes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{administracionMensualController.selected.anio}" title="#{bundle.EditAdministracionMensualTitle_anio}" required="true" requiredMessage="#{bundle.EditAdministracionMensualRequiredMessage_anio}"/>
+                            <p:tooltip for="anio" value="#{administracionMensualController.getComponentMessages('anio', bundle.EditAdministracionMensualHelpText_anio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_valor}" for="valor" />
+                        <h:panelGroup>
+                            <p:inputText id="valor" value="#{administracionMensualController.selected.valor}" title="#{bundle.EditAdministracionMensualTitle_valor}" required="true" requiredMessage="#{bundle.EditAdministracionMensualRequiredMessage_valor}"/>
+                            <p:tooltip for="valor" value="#{administracionMensualController.getComponentMessages('valor', bundle.EditAdministracionMensualHelpText_valor)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{administracionMensualController.save}" value="#{bundle.Save}" update="display,:AdministracionMensualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AdministracionMensualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AdministracionMensualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

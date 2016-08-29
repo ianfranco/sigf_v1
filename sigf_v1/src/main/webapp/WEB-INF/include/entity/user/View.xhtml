@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewUserTitle}" closeOnEscape="true">
+
+            <h:form id="UserViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{userController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewUserLabel_id}"/>
+                        <h:outputText value="#{userController.selected.id}" title="#{bundle.ViewUserTitle_id}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_name}"/>
+                        <h:outputText value="#{userController.selected.name}" title="#{bundle.ViewUserTitle_name}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_email}"/>
+                        <h:outputText value="#{userController.selected.email}" title="#{bundle.ViewUserTitle_email}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_hashedPassword}"/>
+                        <h:outputText value="#{userController.selected.hashedPassword}" title="#{bundle.ViewUserTitle_hashedPassword}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_salt}"/>
+                        <h:outputText value="#{userController.selected.salt}" title="#{bundle.ViewUserTitle_salt}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_readonly}"/>
+                        <h:selectBooleanCheckbox id="readonly" value="#{userController.selected.readonly}" title="#{bundle.EditUserTitle_readonly}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_readonly}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_admin}"/>
+                        <h:selectBooleanCheckbox id="admin" value="#{userController.selected.admin}" title="#{bundle.EditUserTitle_admin}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_admin}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_map}"/>
+                        <h:outputText value="#{userController.selected.map}" title="#{bundle.ViewUserTitle_map}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_language}"/>
+                        <h:outputText value="#{userController.selected.language}" title="#{bundle.ViewUserTitle_language}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_distanceUnit}"/>
+                        <h:outputText value="#{userController.selected.distanceUnit}" title="#{bundle.ViewUserTitle_distanceUnit}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_speedUnit}"/>
+                        <h:outputText value="#{userController.selected.speedUnit}" title="#{bundle.ViewUserTitle_speedUnit}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_latitude}"/>
+                        <h:outputText value="#{userController.selected.latitude}" title="#{bundle.ViewUserTitle_latitude}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_longitude}"/>
+                        <h:outputText value="#{userController.selected.longitude}" title="#{bundle.ViewUserTitle_longitude}"/>
+
+                        <h:outputText value="#{bundle.ViewUserLabel_zoom}"/>
+                        <h:outputText value="#{userController.selected.zoom}" title="#{bundle.ViewUserTitle_zoom}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('UserViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

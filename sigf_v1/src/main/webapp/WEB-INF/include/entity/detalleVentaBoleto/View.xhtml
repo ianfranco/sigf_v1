@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleVentaBoletoViewDlg" widgetVar="DetalleVentaBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDetalleVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentaBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleVentaBoletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDetalleVentaBoletoLabel_idDetalleVentaBoleto}"/>
+                        <h:outputText value="#{detalleVentaBoletoController.selected.idDetalleVentaBoleto}" title="#{bundle.ViewDetalleVentaBoletoTitle_idDetalleVentaBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleVentaBoletoLabel_inventarioInterno}"/>
+                        <h:outputText value="#{detalleVentaBoletoController.selected.inventarioInterno.idInventarioInterno}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleVentaBoletoLabel_ventaBoleto}"/>
+                        <h:outputText value="#{detalleVentaBoletoController.selected.ventaBoleto.idVentaBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleVentaBoletoLabel_total}"/>
+                        <h:outputText value="#{detalleVentaBoletoController.selected.total}" title="#{bundle.ViewDetalleVentaBoletoTitle_total}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DetalleVentaBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

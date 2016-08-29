@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaBoletoCreateDlg" widgetVar="VentaBoletoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ventaBoletoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{ventaBoletoController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{ventaBoletoController.getComponentMessages('terminal', bundle.CreateVentaBoletoHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoLabel_fechaVentaBoleto}" for="fechaVentaBoleto" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaVentaBoleto" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaBoletoController.selected.fechaVentaBoleto}" title="#{bundle.CreateVentaBoletoTitle_fechaVentaBoleto}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_fechaVentaBoleto}" showOn="button"/>
+                            <p:tooltip for="fechaVentaBoleto" value="#{ventaBoletoController.getComponentMessages('fechaVentaBoleto', bundle.CreateVentaBoletoHelpText_fechaVentaBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoLabel_nombreComprador}" for="nombreComprador" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreComprador" value="#{ventaBoletoController.selected.nombreComprador}" title="#{bundle.CreateVentaBoletoTitle_nombreComprador}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_nombreComprador}"/>
+                            <p:tooltip for="nombreComprador" value="#{ventaBoletoController.getComponentMessages('nombreComprador', bundle.CreateVentaBoletoHelpText_nombreComprador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateVentaBoletoLabel_totalCompra}" for="totalCompra" />
+                        <h:panelGroup>
+                            <p:inputText id="totalCompra" value="#{ventaBoletoController.selected.totalCompra}" title="#{bundle.CreateVentaBoletoTitle_totalCompra}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_totalCompra}"/>
+                            <p:tooltip for="totalCompra" value="#{ventaBoletoController.getComponentMessages('totalCompra', bundle.CreateVentaBoletoHelpText_totalCompra)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoController.saveNew}" value="#{bundle.Save}" update="display,:VentaBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

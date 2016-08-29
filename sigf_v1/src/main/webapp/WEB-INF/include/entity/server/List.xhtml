@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ServerListForm">
+
+        <p:panel header="#{bundle.ListServerTitle}">
+            <p:contextMenu id="ServerDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ServerListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ServerListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ServerListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ServerListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{serverController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{serverController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{serverController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServerDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServerDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServerListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.registration}" filterBy="#{item.registration}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_registration}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="registration" value="#{item.registration}" title="#{bundle.EditServerTitle_registration}" required="true" requiredMessage="#{bundle.EditServerRequiredMessage_registration}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.map}" filterBy="#{item.map}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_map}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.map}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.bingKey}" filterBy="#{item.bingKey}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_bingKey}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bingKey}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mapUrl}" filterBy="#{item.mapUrl}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_mapUrl}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mapUrl}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.language}" filterBy="#{item.language}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServerTitle_language}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.language}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.distanceUnit}" filterBy="#{item.distanceUnit}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServerTitle_distanceUnit}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.distanceUnit}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.speedUnit}" filterBy="#{item.speedUnit}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServerTitle_speedUnit}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.speedUnit}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.latitude}" filterBy="#{item.latitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServerTitle_latitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.latitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.longitude}" filterBy="#{item.longitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServerTitle_longitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.longitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.zoom}" filterBy="#{item.zoom}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServerTitle_zoom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.zoom}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{serverController.prepareCreate}" update=":ServerCreateForm" oncomplete="PF('ServerCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ServerViewForm" oncomplete="PF('ServerViewDialog').show()" disabled="#{empty serverController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ServerEditForm" oncomplete="PF('ServerEditDialog').show()" disabled="#{empty serverController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{serverController.delete}" update=":growl,datalist" disabled="#{empty serverController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

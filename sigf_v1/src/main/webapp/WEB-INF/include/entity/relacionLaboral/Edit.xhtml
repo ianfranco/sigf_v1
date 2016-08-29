@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RelacionLaboralEditDlg" widgetVar="RelacionLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="RelacionLaboralEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{relacionLaboralController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRelacionLaboralLabel_idRelacionLaboral}" for="idRelacionLaboral" />
+                        <h:panelGroup>
+                            <h:outputText id="idRelacionLaboral" value="#{relacionLaboralController.selected.idRelacionLaboral}" />
+                            <p:tooltip for="idRelacionLaboral" value="#{relacionLaboralController.getComponentMessages('idRelacionLaboral', bundle.EditRelacionLaboralHelpText_idRelacionLaboral)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{relacionLaboralController.selected.empresa}" required="true" requiredMessage="#{bundle.EditRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{relacionLaboralController.getComponentMessages('empresa', bundle.EditRelacionLaboralHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_tipoContrato}" for="tipoContrato" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoContrato" value="#{relacionLaboralController.selected.tipoContrato}" required="true" requiredMessage="#{bundle.EditRelacionLaboralRequiredMessage_tipoContrato}" converter="tipoContratoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoContratoController.items}"
+                                               var="tipoContratoItem"
+                                               itemValue="#{tipoContratoItem}"
+                                               itemLabel="#{tipoContratoItem.idTipoContrato.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoContrato" value="#{relacionLaboralController.getComponentMessages('tipoContrato', bundle.EditRelacionLaboralHelpText_tipoContrato)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_tipoTrabajador}" for="tipoTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoTrabajador" value="#{relacionLaboralController.selected.tipoTrabajador}" required="true" requiredMessage="#{bundle.EditRelacionLaboralRequiredMessage_tipoTrabajador}" converter="tipoTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoTrabajadorController.items}"
+                                               var="tipoTrabajadorItem"
+                                               itemValue="#{tipoTrabajadorItem}"
+                                               itemLabel="#{tipoTrabajadorItem.idTipoTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoTrabajador" value="#{relacionLaboralController.getComponentMessages('tipoTrabajador', bundle.EditRelacionLaboralHelpText_tipoTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{relacionLaboralController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditRelacionLaboralRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{relacionLaboralController.getComponentMessages('trabajador', bundle.EditRelacionLaboralHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_fechaInicio}" for="fechaInicio" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{relacionLaboralController.selected.fechaInicio}" title="#{bundle.EditRelacionLaboralTitle_fechaInicio}"  showOn="button"/>
+                            <p:tooltip for="fechaInicio" value="#{relacionLaboralController.getComponentMessages('fechaInicio', bundle.EditRelacionLaboralHelpText_fechaInicio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_fechaFin}" for="fechaFin" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{relacionLaboralController.selected.fechaFin}" title="#{bundle.EditRelacionLaboralTitle_fechaFin}"  showOn="button"/>
+                            <p:tooltip for="fechaFin" value="#{relacionLaboralController.getComponentMessages('fechaFin', bundle.EditRelacionLaboralHelpText_fechaFin)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_tipoContrato_1}" for="tipoContrato_1" />
+                        <h:panelGroup>
+                            <p:inputText id="tipoContrato_1" value="#{relacionLaboralController.selected.tipoContrato_1}" title="#{bundle.EditRelacionLaboralTitle_tipoContrato_1}"/>
+                            <p:tooltip for="tipoContrato_1" value="#{relacionLaboralController.getComponentMessages('tipoContrato_1', bundle.EditRelacionLaboralHelpText_tipoContrato_1)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_sueldoBase}" for="sueldoBase" />
+                        <h:panelGroup>
+                            <p:inputText id="sueldoBase" value="#{relacionLaboralController.selected.sueldoBase}" title="#{bundle.EditRelacionLaboralTitle_sueldoBase}"/>
+                            <p:tooltip for="sueldoBase" value="#{relacionLaboralController.getComponentMessages('sueldoBase', bundle.EditRelacionLaboralHelpText_sueldoBase)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_rutaArchivoRespaldo}" for="rutaArchivoRespaldo" />
+                        <h:panelGroup>
+                            <p:inputText id="rutaArchivoRespaldo" value="#{relacionLaboralController.selected.rutaArchivoRespaldo}" title="#{bundle.EditRelacionLaboralTitle_rutaArchivoRespaldo}"/>
+                            <p:tooltip for="rutaArchivoRespaldo" value="#{relacionLaboralController.getComponentMessages('rutaArchivoRespaldo', bundle.EditRelacionLaboralHelpText_rutaArchivoRespaldo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRelacionLaboralLabel_estado}" for="estado" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="estado" value="#{relacionLaboralController.selected.estado}" />
+                            <p:tooltip for="estado" value="#{relacionLaboralController.getComponentMessages('estado', bundle.EditRelacionLaboralHelpText_estado)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{relacionLaboralController.save}" value="#{bundle.Save}" update="display,:RelacionLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RelacionLaboralEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RelacionLaboralEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

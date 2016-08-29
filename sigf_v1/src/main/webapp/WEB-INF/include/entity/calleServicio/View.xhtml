@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalleServicioViewDlg" widgetVar="CalleServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCalleServicioTitle}" closeOnEscape="true">
+
+            <h:form id="CalleServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{calleServicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCalleServicioLabel_idCalleServicio}"/>
+                        <h:outputText value="#{calleServicioController.selected.idCalleServicio}" title="#{bundle.ViewCalleServicioTitle_idCalleServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewCalleServicioLabel_calle}"/>
+                        <h:outputText value="#{calleServicioController.selected.calle.idCalle}"/>
+
+                        <h:outputText value="#{bundle.ViewCalleServicioLabel_servicio}"/>
+                        <h:outputText value="#{calleServicioController.selected.servicio.idServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewCalleServicioLabel_numeroOrden}"/>
+                        <h:outputText value="#{calleServicioController.selected.numeroOrden}" title="#{bundle.ViewCalleServicioTitle_numeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewCalleServicioLabel_sentido}"/>
+                        <h:selectBooleanCheckbox id="sentido" value="#{calleServicioController.selected.sentido}" title="#{bundle.EditCalleServicioTitle_sentido}"  disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CalleServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

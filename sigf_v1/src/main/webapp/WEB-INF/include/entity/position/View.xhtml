@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PositionViewDlg" widgetVar="PositionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewPositionTitle}" closeOnEscape="true">
+
+            <h:form id="PositionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{positionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_id}"/>
+                        <h:outputText value="#{positionController.selected.id}" title="#{bundle.ViewPositionTitle_id}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_device}"/>
+                        <h:outputText value="#{positionController.selected.device.name}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_protocol}"/>
+                        <h:outputText value="#{positionController.selected.protocol}" title="#{bundle.ViewPositionTitle_protocol}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_serverTime}"/>
+                        <h:outputText value="#{positionController.selected.serverTime}" title="#{bundle.ViewPositionTitle_serverTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_deviceTime}"/>
+                        <h:outputText value="#{positionController.selected.deviceTime}" title="#{bundle.ViewPositionTitle_deviceTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_fixTime}"/>
+                        <h:outputText value="#{positionController.selected.fixTime}" title="#{bundle.ViewPositionTitle_fixTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_valid}"/>
+                        <h:selectBooleanCheckbox id="valid" value="#{positionController.selected.valid}" title="#{bundle.EditPositionTitle_valid}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_valid}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_latitude}"/>
+                        <h:outputText value="#{positionController.selected.latitude}" title="#{bundle.ViewPositionTitle_latitude}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_longitude}"/>
+                        <h:outputText value="#{positionController.selected.longitude}" title="#{bundle.ViewPositionTitle_longitude}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_altitude}"/>
+                        <h:outputText value="#{positionController.selected.altitude}" title="#{bundle.ViewPositionTitle_altitude}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_speed}"/>
+                        <h:outputText value="#{positionController.selected.speed}" title="#{bundle.ViewPositionTitle_speed}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_course}"/>
+                        <h:outputText value="#{positionController.selected.course}" title="#{bundle.ViewPositionTitle_course}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_address}"/>
+                        <h:outputText value="#{positionController.selected.address}" title="#{bundle.ViewPositionTitle_address}"/>
+
+                        <h:outputText value="#{bundle.ViewPositionLabel_attributes}"/>
+                        <h:outputText value="#{positionController.selected.attributes}" title="#{bundle.ViewPositionTitle_attributes}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('PositionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

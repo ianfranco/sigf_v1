@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUsuarioLabel_idUsario}" for="idUsario" />
+                        <h:panelGroup>
+                            <h:outputText id="idUsario" value="#{usuarioController.selected.idUsario}" />
+                            <p:tooltip for="idUsario" value="#{usuarioController.getComponentMessages('idUsario', bundle.EditUsuarioHelpText_idUsario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_rol}" for="rol" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="rol" value="#{usuarioController.selected.rol}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_rol}" converter="rolConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{rolController.items}"
+                                               var="rolItem"
+                                               itemValue="#{rolItem}"
+                                               itemLabel="#{rolItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="rol" value="#{usuarioController.getComponentMessages('rol', bundle.EditUsuarioHelpText_rol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_terminal}" for="terminal" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="terminal" value="#{usuarioController.selected.terminal}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_terminal}" converter="terminalConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{terminalController.items}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem.idTerminal.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="terminal" value="#{usuarioController.getComponentMessages('terminal', bundle.EditUsuarioHelpText_terminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_rut}" for="rut" />
+                        <h:panelGroup>
+                            <p:inputText id="rut" value="#{usuarioController.selected.rut}" title="#{bundle.EditUsuarioTitle_rut}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_rut}"/>
+                            <p:tooltip for="rut" value="#{usuarioController.getComponentMessages('rut', bundle.EditUsuarioHelpText_rut)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_pass}" for="pass" />
+                        <h:panelGroup>
+                            <p:inputText id="pass" value="#{usuarioController.selected.pass}" title="#{bundle.EditUsuarioTitle_pass}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_pass}"/>
+                            <p:tooltip for="pass" value="#{usuarioController.getComponentMessages('pass', bundle.EditUsuarioHelpText_pass)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_nombres}" for="nombres" />
+                        <h:panelGroup>
+                            <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.EditUsuarioTitle_nombres}"/>
+                            <p:tooltip for="nombres" value="#{usuarioController.getComponentMessages('nombres', bundle.EditUsuarioHelpText_nombres)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_apellidoPaterno}" for="apellidoPaterno" />
+                        <h:panelGroup>
+                            <p:inputText id="apellidoPaterno" value="#{usuarioController.selected.apellidoPaterno}" title="#{bundle.EditUsuarioTitle_apellidoPaterno}"/>
+                            <p:tooltip for="apellidoPaterno" value="#{usuarioController.getComponentMessages('apellidoPaterno', bundle.EditUsuarioHelpText_apellidoPaterno)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_apellidoMaterno}" for="apellidoMaterno" />
+                        <h:panelGroup>
+                            <p:inputText id="apellidoMaterno" value="#{usuarioController.selected.apellidoMaterno}" title="#{bundle.EditUsuarioTitle_apellidoMaterno}"/>
+                            <p:tooltip for="apellidoMaterno" value="#{usuarioController.getComponentMessages('apellidoMaterno', bundle.EditUsuarioHelpText_apellidoMaterno)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_email}" for="email" />
+                        <h:panelGroup>
+                            <p:inputText id="email" value="#{usuarioController.selected.email}" title="#{bundle.EditUsuarioTitle_email}"/>
+                            <p:tooltip for="email" value="#{usuarioController.getComponentMessages('email', bundle.EditUsuarioHelpText_email)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_fechaIngresoUsuario}" for="fechaIngresoUsuario" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoUsuario" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.fechaIngresoUsuario}" title="#{bundle.EditUsuarioTitle_fechaIngresoUsuario}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_fechaIngresoUsuario}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoUsuario" value="#{usuarioController.getComponentMessages('fechaIngresoUsuario', bundle.EditUsuarioHelpText_fechaIngresoUsuario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{usuarioController.selected.activo}" />
+                            <p:tooltip for="activo" value="#{usuarioController.getComponentMessages('activo', bundle.EditUsuarioHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

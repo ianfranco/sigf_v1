@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CompraBoletoEditDlg" widgetVar="CompraBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="CompraBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{compraBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCompraBoletoLabel_idCompraBoleto}" for="idCompraBoleto" />
+                        <h:panelGroup>
+                            <h:outputText id="idCompraBoleto" value="#{compraBoletoController.selected.idCompraBoleto}" />
+                            <p:tooltip for="idCompraBoleto" value="#{compraBoletoController.getComponentMessages('idCompraBoleto', bundle.EditCompraBoletoHelpText_idCompraBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCompraBoletoLabel_folioFactura}" for="folioFactura" />
+                        <h:panelGroup>
+                            <p:inputText id="folioFactura" value="#{compraBoletoController.selected.folioFactura}" title="#{bundle.EditCompraBoletoTitle_folioFactura}" required="true" requiredMessage="#{bundle.EditCompraBoletoRequiredMessage_folioFactura}"/>
+                            <p:tooltip for="folioFactura" value="#{compraBoletoController.getComponentMessages('folioFactura', bundle.EditCompraBoletoHelpText_folioFactura)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCompraBoletoLabel_fechaCompraBoleto}" for="fechaCompraBoleto" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaCompraBoleto" pattern="MM/dd/yyyy HH:mm:ss" value="#{compraBoletoController.selected.fechaCompraBoleto}" title="#{bundle.EditCompraBoletoTitle_fechaCompraBoleto}" required="true" requiredMessage="#{bundle.EditCompraBoletoRequiredMessage_fechaCompraBoleto}" showOn="button"/>
+                            <p:tooltip for="fechaCompraBoleto" value="#{compraBoletoController.getComponentMessages('fechaCompraBoleto', bundle.EditCompraBoletoHelpText_fechaCompraBoleto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCompraBoletoLabel_total}" for="total" />
+                        <h:panelGroup>
+                            <p:inputText id="total" value="#{compraBoletoController.selected.total}" title="#{bundle.EditCompraBoletoTitle_total}" required="true" requiredMessage="#{bundle.EditCompraBoletoRequiredMessage_total}"/>
+                            <p:tooltip for="total" value="#{compraBoletoController.getComponentMessages('total', bundle.EditCompraBoletoHelpText_total)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{compraBoletoController.save}" value="#{bundle.Save}" update="display,:CompraBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CompraBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CompraBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

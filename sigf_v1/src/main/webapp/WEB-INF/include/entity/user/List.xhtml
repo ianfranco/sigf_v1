@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UserListForm">
+
+        <p:panel header="#{bundle.ListUserTitle}">
+            <p:contextMenu id="UserDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('UserListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('UserListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('UserListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('UserListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.UserMenuItem_userDevices}" icon="ui-icon-search"  action="#{userController.navigateUserDevices}" disabled="#{empty userController.selected.userDevices}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{userController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{userController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{userController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UserDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UserDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UserListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.name}" filterBy="#{item.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_name}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_email}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.email}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.hashedPassword}" filterBy="#{item.hashedPassword}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_hashedPassword}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.hashedPassword}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.salt}" filterBy="#{item.salt}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_salt}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.salt}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.readonly}" filterBy="#{item.readonly}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUserTitle_readonly}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="readonly" value="#{item.readonly}" title="#{bundle.EditUserTitle_readonly}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_readonly}" disabled="true"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.admin}" filterBy="#{item.admin}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_admin}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="admin" value="#{item.admin}" title="#{bundle.EditUserTitle_admin}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_admin}" disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.map}" filterBy="#{item.map}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_map}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.map}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.language}" filterBy="#{item.language}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_language}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.language}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.distanceUnit}" filterBy="#{item.distanceUnit}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_distanceUnit}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.distanceUnit}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.speedUnit}" filterBy="#{item.speedUnit}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_speedUnit}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.speedUnit}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.latitude}" filterBy="#{item.latitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_latitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.latitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.longitude}" filterBy="#{item.longitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_longitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.longitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.zoom}" filterBy="#{item.zoom}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUserTitle_zoom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.zoom}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{userController.prepareCreate}" update=":UserCreateForm" oncomplete="PF('UserCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":UserViewForm" oncomplete="PF('UserViewDialog').show()" disabled="#{empty userController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UserEditForm" oncomplete="PF('UserEditDialog').show()" disabled="#{empty userController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{userController.delete}" update=":growl,datalist" disabled="#{empty userController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

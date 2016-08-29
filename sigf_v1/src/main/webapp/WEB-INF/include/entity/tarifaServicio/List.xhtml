@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TarifaServicioListForm">
+
+        <p:panel header="#{bundle.ListTarifaServicioTitle}">
+            <p:contextMenu id="TarifaServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TarifaServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TarifaServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TarifaServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TarifaServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TarifaServicioMenuItem_boleto}" icon="ui-icon-search"  actionListener="#{tarifaServicioController.prepareBoleto}" update=":BoletoViewForm" oncomplete="PF('BoletoViewDialog').show()" disabled="#{empty tarifaServicioController.selected.boleto}"/>  
+                <p:menuitem value="#{bundle.TarifaServicioMenuItem_servicio}" icon="ui-icon-search"  actionListener="#{tarifaServicioController.prepareServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty tarifaServicioController.selected.servicio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tarifaServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTarifaServicio}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{tarifaServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tarifaServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTarifaServicio}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TarifaServicioDataTableContextMenu" listener="#{tarifaServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TarifaServicioDataTableContextMenu" listener="#{tarifaServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{tarifaServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TarifaServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTarifaServicio}" filterBy="#{item.idTarifaServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_idTarifaServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTarifaServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.boleto.idBoleto}" filterBy="#{item.boleto.idBoleto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_boleto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.boleto.idBoleto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicio.idServicio}" filterBy="#{item.servicio.idServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_servicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicio.idServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorTarifa}" filterBy="#{item.valorTarifa}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_valorTarifa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorTarifa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mes}" filterBy="#{item.mes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_mes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anio}" filterBy="#{item.anio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTarifaServicioTitle_anio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anio}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.activa}" filterBy="#{item.activa}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTarifaServicioTitle_activa}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="activa" value="#{item.activa}" title="#{bundle.EditTarifaServicioTitle_activa}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_activa}" disabled="true"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tarifaServicioController.prepareCreate}" update=":TarifaServicioCreateForm" oncomplete="PF('TarifaServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TarifaServicioViewForm" oncomplete="PF('TarifaServicioViewDialog').show()" disabled="#{empty tarifaServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TarifaServicioEditForm" oncomplete="PF('TarifaServicioEditDialog').show()" disabled="#{empty tarifaServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tarifaServicioController.delete}" update=":growl,datalist" disabled="#{empty tarifaServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

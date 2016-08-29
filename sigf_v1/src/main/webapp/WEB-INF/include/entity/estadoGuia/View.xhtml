@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoGuiaViewDlg" widgetVar="EstadoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEstadoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{estadoGuiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEstadoGuiaLabel_idEstadoGuia}"/>
+                        <h:outputText value="#{estadoGuiaController.selected.idEstadoGuia}" title="#{bundle.ViewEstadoGuiaTitle_idEstadoGuia}"/>
+
+                        <h:outputText value="#{bundle.ViewEstadoGuiaLabel_nombreEstado}"/>
+                        <h:outputText value="#{estadoGuiaController.selected.nombreEstado}" title="#{bundle.ViewEstadoGuiaTitle_nombreEstado}"/>
+
+                        <h:outputText value="#{bundle.ViewEstadoGuiaLabel_activo}"/>
+                        <h:selectBooleanCheckbox id="activo" value="#{estadoGuiaController.selected.activo}" title="#{bundle.EditEstadoGuiaTitle_activo}" required="true" requiredMessage="#{bundle.EditEstadoGuiaRequiredMessage_activo}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EstadoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionSaludViewDlg" widgetVar="InstitucionSaludViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInstitucionSaludTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionSaludViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{institucionSaludController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_idInstitucionSalud}"/>
+                        <h:outputText value="#{institucionSaludController.selected.idInstitucionSalud}" title="#{bundle.ViewInstitucionSaludTitle_idInstitucionSalud}"/>
+
+                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_nombreInstitucionSalud}"/>
+                        <h:outputText value="#{institucionSaludController.selected.nombreInstitucionSalud}" title="#{bundle.ViewInstitucionSaludTitle_nombreInstitucionSalud}"/>
+
+                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_comision}"/>
+                        <h:outputText value="#{institucionSaludController.selected.comision}" title="#{bundle.ViewInstitucionSaludTitle_comision}"/>
+
+                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_porcentajeDescuento}"/>
+                        <h:outputText value="#{institucionSaludController.selected.porcentajeDescuento}" title="#{bundle.ViewInstitucionSaludTitle_porcentajeDescuento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InstitucionSaludViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

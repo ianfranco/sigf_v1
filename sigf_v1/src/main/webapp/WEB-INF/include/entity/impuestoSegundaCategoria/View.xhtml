@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpuestoSegundaCategoriaViewDlg" widgetVar="ImpuestoSegundaCategoriaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewImpuestoSegundaCategoriaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpuestoSegundaCategoriaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{impuestoSegundaCategoriaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewImpuestoSegundaCategoriaLabel_idImpuestaSegundaCategoria}"/>
+                        <h:outputText value="#{impuestoSegundaCategoriaController.selected.idImpuestaSegundaCategoria}" title="#{bundle.ViewImpuestoSegundaCategoriaTitle_idImpuestaSegundaCategoria}"/>
+
+                        <h:outputText value="#{bundle.ViewImpuestoSegundaCategoriaLabel_desde}"/>
+                        <h:outputText value="#{impuestoSegundaCategoriaController.selected.desde}" title="#{bundle.ViewImpuestoSegundaCategoriaTitle_desde}"/>
+
+                        <h:outputText value="#{bundle.ViewImpuestoSegundaCategoriaLabel_hasta}"/>
+                        <h:outputText value="#{impuestoSegundaCategoriaController.selected.hasta}" title="#{bundle.ViewImpuestoSegundaCategoriaTitle_hasta}"/>
+
+                        <h:outputText value="#{bundle.ViewImpuestoSegundaCategoriaLabel_factor}"/>
+                        <h:outputText value="#{impuestoSegundaCategoriaController.selected.factor}" title="#{bundle.ViewImpuestoSegundaCategoriaTitle_factor}"/>
+
+                        <h:outputText value="#{bundle.ViewImpuestoSegundaCategoriaLabel_rebaja}"/>
+                        <h:outputText value="#{impuestoSegundaCategoriaController.selected.rebaja}" title="#{bundle.ViewImpuestoSegundaCategoriaTitle_rebaja}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ImpuestoSegundaCategoriaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FrecuenciaServicioViewDlg" widgetVar="FrecuenciaServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewFrecuenciaServicioTitle}" closeOnEscape="true">
+
+            <h:form id="FrecuenciaServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{frecuenciaServicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_idFrecuenciaServicio}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.idFrecuenciaServicio}" title="#{bundle.ViewFrecuenciaServicioTitle_idFrecuenciaServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_periodoFrecuencia}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.periodoFrecuencia.idPeriodoFrecuencia}"/>
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_servicio}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.servicio.idServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_tipoDemanda}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.tipoDemanda.idTipoDemanda}"/>
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_tipoDiaFrecuencia}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.tipoDiaFrecuencia.idTipoDiaFrecuencia}"/>
+
+                        <h:outputText value="#{bundle.ViewFrecuenciaServicioLabel_numeroBuses}"/>
+                        <h:outputText value="#{frecuenciaServicioController.selected.numeroBuses}" title="#{bundle.ViewFrecuenciaServicioTitle_numeroBuses}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('FrecuenciaServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegionCreateDlg" widgetVar="RegionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRegionTitle}" closeOnEscape="true">
+
+            <h:form id="RegionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{regionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateRegionLabel_numeroRegion}" for="numeroRegion" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroRegion" value="#{regionController.selected.numeroRegion}" title="#{bundle.CreateRegionTitle_numeroRegion}" required="true" requiredMessage="#{bundle.CreateRegionRequiredMessage_numeroRegion}"/>
+                            <p:tooltip for="numeroRegion" value="#{regionController.getComponentMessages('numeroRegion', bundle.CreateRegionHelpText_numeroRegion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateRegionLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{regionController.selected.nombre}" title="#{bundle.CreateRegionTitle_nombre}" required="true" requiredMessage="#{bundle.CreateRegionRequiredMessage_nombre}"/>
+                            <p:tooltip for="nombre" value="#{regionController.getComponentMessages('nombre', bundle.CreateRegionHelpText_nombre)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{regionController.saveNew}" value="#{bundle.Save}" update="display,:RegionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RegionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

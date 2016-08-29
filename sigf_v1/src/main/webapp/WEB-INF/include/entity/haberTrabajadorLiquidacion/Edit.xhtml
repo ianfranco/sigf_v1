@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HaberTrabajadorLiquidacionEditDlg" widgetVar="HaberTrabajadorLiquidacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditHaberTrabajadorLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorLiquidacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{haberTrabajadorLiquidacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_idHaberTrabajadorLiquidacion}" for="idHaberTrabajadorLiquidacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idHaberTrabajadorLiquidacion" value="#{haberTrabajadorLiquidacionController.selected.idHaberTrabajadorLiquidacion}" />
+                            <p:tooltip for="idHaberTrabajadorLiquidacion" value="#{haberTrabajadorLiquidacionController.getComponentMessages('idHaberTrabajadorLiquidacion', bundle.EditHaberTrabajadorLiquidacionHelpText_idHaberTrabajadorLiquidacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_haberTrabajador}" for="haberTrabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="haberTrabajador" value="#{haberTrabajadorLiquidacionController.selected.haberTrabajador}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_haberTrabajador}" converter="haberTrabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{haberTrabajadorController.items}"
+                                               var="haberTrabajadorItem"
+                                               itemValue="#{haberTrabajadorItem}"
+                                               itemLabel="#{haberTrabajadorItem.idHaberTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="haberTrabajador" value="#{haberTrabajadorLiquidacionController.getComponentMessages('haberTrabajador', bundle.EditHaberTrabajadorLiquidacionHelpText_haberTrabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{haberTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="trabajador" value="#{haberTrabajadorLiquidacionController.getComponentMessages('trabajador', bundle.EditHaberTrabajadorLiquidacionHelpText_trabajador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_fechaInicioHaber}" for="fechaInicioHaber" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioHaber" pattern="MM/dd/yyyy" value="#{haberTrabajadorLiquidacionController.selected.fechaInicioHaber}" title="#{bundle.EditHaberTrabajadorLiquidacionTitle_fechaInicioHaber}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_fechaInicioHaber}" showOn="button"/>
+                            <p:tooltip for="fechaInicioHaber" value="#{haberTrabajadorLiquidacionController.getComponentMessages('fechaInicioHaber', bundle.EditHaberTrabajadorLiquidacionHelpText_fechaInicioHaber)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_fechaIngresoHaber}" for="fechaIngresoHaber" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoHaber" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberTrabajadorLiquidacionController.selected.fechaIngresoHaber}" title="#{bundle.EditHaberTrabajadorLiquidacionTitle_fechaIngresoHaber}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_fechaIngresoHaber}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoHaber" value="#{haberTrabajadorLiquidacionController.getComponentMessages('fechaIngresoHaber', bundle.EditHaberTrabajadorLiquidacionHelpText_fechaIngresoHaber)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_numeroCuotas}" for="numeroCuotas" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotas" value="#{haberTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.EditHaberTrabajadorLiquidacionTitle_numeroCuotas}"/>
+                            <p:tooltip for="numeroCuotas" value="#{haberTrabajadorLiquidacionController.getComponentMessages('numeroCuotas', bundle.EditHaberTrabajadorLiquidacionHelpText_numeroCuotas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{haberTrabajadorLiquidacionController.selected.monto}" title="#{bundle.EditHaberTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_monto}"/>
+                            <p:tooltip for="monto" value="#{haberTrabajadorLiquidacionController.getComponentMessages('monto', bundle.EditHaberTrabajadorLiquidacionHelpText_monto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditHaberTrabajadorLiquidacionLabel_activoHaberTrabajador}" for="activoHaberTrabajador" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activoHaberTrabajador" value="#{haberTrabajadorLiquidacionController.selected.activoHaberTrabajador}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorLiquidacionRequiredMessage_activoHaberTrabajador}"/>
+                            <p:tooltip for="activoHaberTrabajador" value="#{haberTrabajadorLiquidacionController.getComponentMessages('activoHaberTrabajador', bundle.EditHaberTrabajadorLiquidacionHelpText_activoHaberTrabajador)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{haberTrabajadorLiquidacionController.save}" value="#{bundle.Save}" update="display,:HaberTrabajadorLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberTrabajadorLiquidacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberTrabajadorLiquidacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DescuentoTrabajadorLiquidacionListForm">
+
+        <p:panel header="#{bundle.ListDescuentoTrabajadorLiquidacionTitle}">
+            <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DescuentoTrabajadorLiquidacionMenuItem_descuentoTrabajador}" icon="ui-icon-search"  actionListener="#{descuentoTrabajadorLiquidacionController.prepareDescuentoTrabajador}" update=":DescuentoTrabajadorViewForm" oncomplete="PF('DescuentoTrabajadorViewDialog').show()" disabled="#{empty descuentoTrabajadorLiquidacionController.selected.descuentoTrabajador}"/>  
+                <p:menuitem value="#{bundle.DescuentoTrabajadorLiquidacionMenuItem_trabajador}" icon="ui-icon-search"  actionListener="#{descuentoTrabajadorLiquidacionController.prepareTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty descuentoTrabajadorLiquidacionController.selected.trabajador}"/>  
+                <p:menuitem value="#{bundle.DescuentoTrabajadorLiquidacionMenuItem_descuentoLiquidacions}" icon="ui-icon-search"  action="#{descuentoTrabajadorLiquidacionController.navigateDescuentoLiquidacions}" disabled="#{empty descuentoTrabajadorLiquidacionController.selected.descuentoLiquidacions}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{descuentoTrabajadorLiquidacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idDescuentoTrabajadorLiquidacion}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{descuentoTrabajadorLiquidacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{descuentoTrabajadorLiquidacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idDescuentoTrabajadorLiquidacion}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DescuentoTrabajadorLiquidacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDescuentoTrabajadorLiquidacion}" filterBy="#{item.idDescuentoTrabajadorLiquidacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_idDescuentoTrabajadorLiquidacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDescuentoTrabajadorLiquidacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descuentoTrabajador.idDescuentoTrabajador}" filterBy="#{item.descuentoTrabajador.idDescuentoTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_descuentoTrabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descuentoTrabajador.idDescuentoTrabajador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajador.idTrabajador}" filterBy="#{item.trabajador.idTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_trabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.idTrabajador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaInicioDescuento}" filterBy="#{item.fechaInicioDescuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicioDescuento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaIngresoDescuento}" filterBy="#{item.fechaIngresoDescuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_fechaIngresoDescuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngresoDescuento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroCuotas}" filterBy="#{item.numeroCuotas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_numeroCuotas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroCuotas}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.monto}" filterBy="#{item.monto}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.monto}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.activoDescuentoTrabajador}" filterBy="#{item.activoDescuentoTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{item.activoDescuentoTrabajador}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}" disabled="true"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{descuentoTrabajadorLiquidacionController.prepareCreate}" update=":DescuentoTrabajadorLiquidacionCreateForm" oncomplete="PF('DescuentoTrabajadorLiquidacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DescuentoTrabajadorLiquidacionViewForm" oncomplete="PF('DescuentoTrabajadorLiquidacionViewDialog').show()" disabled="#{empty descuentoTrabajadorLiquidacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DescuentoTrabajadorLiquidacionEditForm" oncomplete="PF('DescuentoTrabajadorLiquidacionEditDialog').show()" disabled="#{empty descuentoTrabajadorLiquidacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoTrabajadorLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty descuentoTrabajadorLiquidacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

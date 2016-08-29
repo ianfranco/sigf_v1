@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PositionListForm">
+
+        <p:panel header="#{bundle.ListPositionTitle}">
+            <p:contextMenu id="PositionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('PositionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('PositionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('PositionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('PositionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.PositionMenuItem_device}" icon="ui-icon-search"  actionListener="#{positionController.prepareDevice}" update=":DeviceViewForm" oncomplete="PF('DeviceViewDialog').show()" disabled="#{empty positionController.selected.device}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{positionController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{positionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{positionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PositionDataTableContextMenu" listener="#{positionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PositionDataTableContextMenu" listener="#{positionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{positionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PositionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.device.name}" filterBy="#{item.device.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_device}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.device.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.protocol}" filterBy="#{item.protocol}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_protocol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.protocol}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.serverTime}" filterBy="#{item.serverTime}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_serverTime}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.serverTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.deviceTime}" filterBy="#{item.deviceTime}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_deviceTime}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.deviceTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fixTime}" filterBy="#{item.fixTime}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPositionTitle_fixTime}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fixTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.valid}" filterBy="#{item.valid}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_valid}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="valid" value="#{item.valid}" title="#{bundle.EditPositionTitle_valid}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_valid}" disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.latitude}" filterBy="#{item.latitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_latitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.latitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.longitude}" filterBy="#{item.longitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_longitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.longitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.altitude}" filterBy="#{item.altitude}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_altitude}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.altitude}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.speed}" filterBy="#{item.speed}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_speed}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.speed}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.course}" filterBy="#{item.course}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_course}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.course}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.address}" filterBy="#{item.address}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_address}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.address}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.attributes}" filterBy="#{item.attributes}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListPositionTitle_attributes}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.attributes}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{positionController.prepareCreate}" update=":PositionCreateForm" oncomplete="PF('PositionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":PositionViewForm" oncomplete="PF('PositionViewDialog').show()" disabled="#{empty positionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PositionEditForm" oncomplete="PF('PositionEditDialog').show()" disabled="#{empty positionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{positionController.delete}" update=":growl,datalist" disabled="#{empty positionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

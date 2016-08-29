@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PositionEditDlg" widgetVar="PositionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPositionTitle}" closeOnEscape="true">
+
+            <h:form id="PositionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{positionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPositionLabel_id}" for="id" />
+                        <h:panelGroup>
+                            <h:outputText id="id" value="#{positionController.selected.id}" />
+                            <p:tooltip for="id" value="#{positionController.getComponentMessages('id', bundle.EditPositionHelpText_id)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_device}" for="device" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="device" value="#{positionController.selected.device}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_device}" converter="deviceConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{deviceController.items}"
+                                               var="deviceItem"
+                                               itemValue="#{deviceItem}"
+                                               itemLabel="#{deviceItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="device" value="#{positionController.getComponentMessages('device', bundle.EditPositionHelpText_device)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_protocol}" for="protocol" />
+                        <h:panelGroup>
+                            <p:inputText id="protocol" value="#{positionController.selected.protocol}" title="#{bundle.EditPositionTitle_protocol}"/>
+                            <p:tooltip for="protocol" value="#{positionController.getComponentMessages('protocol', bundle.EditPositionHelpText_protocol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_serverTime}" for="serverTime" />
+                        <h:panelGroup>
+                            <p:calendar id="serverTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{positionController.selected.serverTime}" title="#{bundle.EditPositionTitle_serverTime}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_serverTime}" showOn="button"/>
+                            <p:tooltip for="serverTime" value="#{positionController.getComponentMessages('serverTime', bundle.EditPositionHelpText_serverTime)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_deviceTime}" for="deviceTime" />
+                        <h:panelGroup>
+                            <p:calendar id="deviceTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{positionController.selected.deviceTime}" title="#{bundle.EditPositionTitle_deviceTime}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_deviceTime}" showOn="button"/>
+                            <p:tooltip for="deviceTime" value="#{positionController.getComponentMessages('deviceTime', bundle.EditPositionHelpText_deviceTime)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_fixTime}" for="fixTime" />
+                        <h:panelGroup>
+                            <p:calendar id="fixTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{positionController.selected.fixTime}" title="#{bundle.EditPositionTitle_fixTime}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_fixTime}" showOn="button"/>
+                            <p:tooltip for="fixTime" value="#{positionController.getComponentMessages('fixTime', bundle.EditPositionHelpText_fixTime)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_valid}" for="valid" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="valid" value="#{positionController.selected.valid}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_valid}"/>
+                            <p:tooltip for="valid" value="#{positionController.getComponentMessages('valid', bundle.EditPositionHelpText_valid)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_latitude}" for="latitude" />
+                        <h:panelGroup>
+                            <p:inputText id="latitude" value="#{positionController.selected.latitude}" title="#{bundle.EditPositionTitle_latitude}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_latitude}"/>
+                            <p:tooltip for="latitude" value="#{positionController.getComponentMessages('latitude', bundle.EditPositionHelpText_latitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_longitude}" for="longitude" />
+                        <h:panelGroup>
+                            <p:inputText id="longitude" value="#{positionController.selected.longitude}" title="#{bundle.EditPositionTitle_longitude}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_longitude}"/>
+                            <p:tooltip for="longitude" value="#{positionController.getComponentMessages('longitude', bundle.EditPositionHelpText_longitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_altitude}" for="altitude" />
+                        <h:panelGroup>
+                            <p:inputText id="altitude" value="#{positionController.selected.altitude}" title="#{bundle.EditPositionTitle_altitude}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_altitude}"/>
+                            <p:tooltip for="altitude" value="#{positionController.getComponentMessages('altitude', bundle.EditPositionHelpText_altitude)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_speed}" for="speed" />
+                        <h:panelGroup>
+                            <p:inputText id="speed" value="#{positionController.selected.speed}" title="#{bundle.EditPositionTitle_speed}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_speed}"/>
+                            <p:tooltip for="speed" value="#{positionController.getComponentMessages('speed', bundle.EditPositionHelpText_speed)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_course}" for="course" />
+                        <h:panelGroup>
+                            <p:inputText id="course" value="#{positionController.selected.course}" title="#{bundle.EditPositionTitle_course}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_course}"/>
+                            <p:tooltip for="course" value="#{positionController.getComponentMessages('course', bundle.EditPositionHelpText_course)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_address}" for="address" />
+                        <h:panelGroup>
+                            <p:inputText id="address" value="#{positionController.selected.address}" title="#{bundle.EditPositionTitle_address}"/>
+                            <p:tooltip for="address" value="#{positionController.getComponentMessages('address', bundle.EditPositionHelpText_address)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditPositionLabel_attributes}" for="attributes" />
+                        <h:panelGroup>
+                            <p:inputText id="attributes" value="#{positionController.selected.attributes}" title="#{bundle.EditPositionTitle_attributes}" required="true" requiredMessage="#{bundle.EditPositionRequiredMessage_attributes}"/>
+                            <p:tooltip for="attributes" value="#{positionController.getComponentMessages('attributes', bundle.EditPositionHelpText_attributes)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{positionController.save}" value="#{bundle.Save}" update="display,:PositionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PositionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PositionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

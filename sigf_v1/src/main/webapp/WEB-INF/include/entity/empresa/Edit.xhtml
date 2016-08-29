@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmpresaEditDlg" widgetVar="EmpresaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="EmpresaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{empresaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEmpresaLabel_idEmpresa}" for="idEmpresa" />
+                        <h:panelGroup>
+                            <h:outputText id="idEmpresa" value="#{empresaController.selected.idEmpresa}" />
+                            <p:tooltip for="idEmpresa" value="#{empresaController.getComponentMessages('idEmpresa', bundle.EditEmpresaHelpText_idEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_cajaCompensacion}" for="cajaCompensacion" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cajaCompensacion" value="#{empresaController.selected.cajaCompensacion}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_cajaCompensacion}" converter="cajaCompensacionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cajaCompensacionController.items}"
+                                               var="cajaCompensacionItem"
+                                               itemValue="#{cajaCompensacionItem}"
+                                               itemLabel="#{cajaCompensacionItem.idCajaCompensacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cajaCompensacion" value="#{empresaController.getComponentMessages('cajaCompensacion', bundle.EditEmpresaHelpText_cajaCompensacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_mutual}" for="mutual" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="mutual" value="#{empresaController.selected.mutual}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_mutual}" converter="mutualConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{mutualController.items}"
+                                               var="mutualItem"
+                                               itemValue="#{mutualItem}"
+                                               itemLabel="#{mutualItem.idMutual.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.EditEmpresaHelpText_mutual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_rutEmpresa}" for="rutEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.EditEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_rutEmpresa}"/>
+                            <p:tooltip for="rutEmpresa" value="#{empresaController.getComponentMessages('rutEmpresa', bundle.EditEmpresaHelpText_rutEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_nombreEmpresa}" for="nombreEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreEmpresa" value="#{empresaController.selected.nombreEmpresa}" title="#{bundle.EditEmpresaTitle_nombreEmpresa}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_nombreEmpresa}"/>
+                            <p:tooltip for="nombreEmpresa" value="#{empresaController.getComponentMessages('nombreEmpresa', bundle.EditEmpresaHelpText_nombreEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_giro}" for="giro" />
+                        <h:panelGroup>
+                            <p:inputText id="giro" value="#{empresaController.selected.giro}" title="#{bundle.EditEmpresaTitle_giro}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_giro}"/>
+                            <p:tooltip for="giro" value="#{empresaController.getComponentMessages('giro', bundle.EditEmpresaHelpText_giro)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_direccionEmpresa}" for="direccionEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="direccionEmpresa" value="#{empresaController.selected.direccionEmpresa}" title="#{bundle.EditEmpresaTitle_direccionEmpresa}"/>
+                            <p:tooltip for="direccionEmpresa" value="#{empresaController.getComponentMessages('direccionEmpresa', bundle.EditEmpresaHelpText_direccionEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_telefonoEmpresa}" for="telefonoEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="telefonoEmpresa" value="#{empresaController.selected.telefonoEmpresa}" title="#{bundle.EditEmpresaTitle_telefonoEmpresa}"/>
+                            <p:tooltip for="telefonoEmpresa" value="#{empresaController.getComponentMessages('telefonoEmpresa', bundle.EditEmpresaHelpText_telefonoEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_fax}" for="fax" />
+                        <h:panelGroup>
+                            <p:inputText id="fax" value="#{empresaController.selected.fax}" title="#{bundle.EditEmpresaTitle_fax}"/>
+                            <p:tooltip for="fax" value="#{empresaController.getComponentMessages('fax', bundle.EditEmpresaHelpText_fax)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_emailEmpresa}" for="emailEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.EditEmpresaTitle_emailEmpresa}"/>
+                            <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.EditEmpresaHelpText_emailEmpresa)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empresaController.save}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EmpresaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusDeviceCreateDlg" widgetVar="BusDeviceCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateBusDeviceTitle}" closeOnEscape="true">
+
+            <h:form id="BusDeviceCreateForm">
+
+                <h:panelGroup id="display" rendered="#{busDeviceController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateBusDeviceLabel_bus}" for="bus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="bus" value="#{busDeviceController.selected.bus}" required="true" requiredMessage="#{bundle.CreateBusDeviceRequiredMessage_bus}" converter="busConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{busController.items}"
+                                               var="busItem"
+                                               itemValue="#{busItem}"
+                                               itemLabel="#{busItem.idBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="bus" value="#{busDeviceController.getComponentMessages('bus', bundle.CreateBusDeviceHelpText_bus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateBusDeviceLabel_device}" for="device" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="device" value="#{busDeviceController.selected.device}" required="true" requiredMessage="#{bundle.CreateBusDeviceRequiredMessage_device}" converter="deviceConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{deviceController.items}"
+                                               var="deviceItem"
+                                               itemValue="#{deviceItem}"
+                                               itemLabel="#{deviceItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="device" value="#{busDeviceController.getComponentMessages('device', bundle.CreateBusDeviceHelpText_device)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateBusDeviceLabel_fechaRegistro}" for="fechaRegistro" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{busDeviceController.selected.fechaRegistro}" title="#{bundle.CreateBusDeviceTitle_fechaRegistro}" required="true" requiredMessage="#{bundle.CreateBusDeviceRequiredMessage_fechaRegistro}" showOn="button"/>
+                            <p:tooltip for="fechaRegistro" value="#{busDeviceController.getComponentMessages('fechaRegistro', bundle.CreateBusDeviceHelpText_fechaRegistro)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{busDeviceController.saveNew}" value="#{bundle.Save}" update="display,:BusDeviceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusDeviceCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BusDeviceCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

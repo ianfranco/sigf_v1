@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CuentaBancariaEmpresaEditDlg" widgetVar="CuentaBancariaEmpresaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCuentaBancariaEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaEmpresaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cuentaBancariaEmpresaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCuentaBancariaEmpresaLabel_idCuentaEmpresa}" for="idCuentaEmpresa" />
+                        <h:panelGroup>
+                            <h:outputText id="idCuentaEmpresa" value="#{cuentaBancariaEmpresaController.selected.idCuentaEmpresa}" />
+                            <p:tooltip for="idCuentaEmpresa" value="#{cuentaBancariaEmpresaController.getComponentMessages('idCuentaEmpresa', bundle.EditCuentaBancariaEmpresaHelpText_idCuentaEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaEmpresaLabel_banco}" for="banco" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="banco" value="#{cuentaBancariaEmpresaController.selected.banco}" required="true" requiredMessage="#{bundle.EditCuentaBancariaEmpresaRequiredMessage_banco}" converter="bancoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{bancoController.items}"
+                                               var="bancoItem"
+                                               itemValue="#{bancoItem}"
+                                               itemLabel="#{bancoItem.idBanco.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="banco" value="#{cuentaBancariaEmpresaController.getComponentMessages('banco', bundle.EditCuentaBancariaEmpresaHelpText_banco)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaEmpresaLabel_empresa}" for="empresa" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="empresa" value="#{cuentaBancariaEmpresaController.selected.empresa}" required="true" requiredMessage="#{bundle.EditCuentaBancariaEmpresaRequiredMessage_empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem.idEmpresa.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="empresa" value="#{cuentaBancariaEmpresaController.getComponentMessages('empresa', bundle.EditCuentaBancariaEmpresaHelpText_empresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaEmpresaLabel_tipoCuentaBanco}" for="tipoCuentaBanco" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoCuentaBanco" value="#{cuentaBancariaEmpresaController.selected.tipoCuentaBanco}" required="true" requiredMessage="#{bundle.EditCuentaBancariaEmpresaRequiredMessage_tipoCuentaBanco}" converter="tipoCuentaBancoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoCuentaBancoController.items}"
+                                               var="tipoCuentaBancoItem"
+                                               itemValue="#{tipoCuentaBancoItem}"
+                                               itemLabel="#{tipoCuentaBancoItem.idTipoCuentaBanco.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoCuentaBanco" value="#{cuentaBancariaEmpresaController.getComponentMessages('tipoCuentaBanco', bundle.EditCuentaBancariaEmpresaHelpText_tipoCuentaBanco)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaEmpresaLabel_numeroCuentaEmpresa}" for="numeroCuentaEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuentaEmpresa" value="#{cuentaBancariaEmpresaController.selected.numeroCuentaEmpresa}" title="#{bundle.EditCuentaBancariaEmpresaTitle_numeroCuentaEmpresa}" required="true" requiredMessage="#{bundle.EditCuentaBancariaEmpresaRequiredMessage_numeroCuentaEmpresa}"/>
+                            <p:tooltip for="numeroCuentaEmpresa" value="#{cuentaBancariaEmpresaController.getComponentMessages('numeroCuentaEmpresa', bundle.EditCuentaBancariaEmpresaHelpText_numeroCuentaEmpresa)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuentaBancariaEmpresaController.save}" value="#{bundle.Save}" update="display,:CuentaBancariaEmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CuentaBancariaEmpresaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CuentaBancariaEmpresaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrabajadorViewDlg" widgetVar="TrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="TrabajadorTabView">
+
+                        <p:tab id="TrabajadorTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_idTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.idTrabajador}" title="#{bundle.ViewTrabajadorTitle_idTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_comuna}"/>
+                                <h:outputText value="#{trabajadorController.selected.comuna.idComuna}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_grupoAsignacionTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.grupoAsignacionTrabajador.idGrupoAsignacionTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_institucionApv}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionApv.idInstitucionApv}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_institucionPrevision}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionPrevision.idInstitucionPrevision}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_institucionSalud}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionSalud.idInstitucionSalud}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_monedaPactadaInstitucionSalud}"/>
+                                <h:outputText value="#{trabajadorController.selected.monedaPactadaInstitucionSalud.idMonedaSalud}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_tipoCotizacionTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.tipoCotizacionTrabajador.idTipoCotizacionTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_rutTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.ViewTrabajadorTitle_rutTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_nombreTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.nombreTrabajador}" title="#{bundle.ViewTrabajadorTitle_nombreTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_apellidoPaternoTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.ViewTrabajadorTitle_apellidoPaternoTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_apellidoMaternoTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.ViewTrabajadorTitle_apellidoMaternoTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_fechaNacimientoTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.fechaNacimientoTrabajador}" title="#{bundle.ViewTrabajadorTitle_fechaNacimientoTrabajador}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_nacionalidad}"/>
+                                <h:selectBooleanCheckbox id="nacionalidad" value="#{trabajadorController.selected.nacionalidad}" title="#{bundle.EditTrabajadorTitle_nacionalidad}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_sexo}"/>
+                                <h:selectBooleanCheckbox id="sexo" value="#{trabajadorController.selected.sexo}" title="#{bundle.EditTrabajadorTitle_sexo}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_estadoCivil}"/>
+                                <h:outputText value="#{trabajadorController.selected.estadoCivil}" title="#{bundle.ViewTrabajadorTitle_estadoCivil}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_calleTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.calleTrabajador}" title="#{bundle.ViewTrabajadorTitle_calleTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_numeroDireccionTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.numeroDireccionTrabajador}" title="#{bundle.ViewTrabajadorTitle_numeroDireccionTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_telefonoFijoTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.telefonoFijoTrabajador}" title="#{bundle.ViewTrabajadorTitle_telefonoFijoTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_celularTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.celularTrabajador}" title="#{bundle.ViewTrabajadorTitle_celularTrabajador}"/>
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="TrabajadorTab2" title="#{bundle.TabHeaderPrefix} 2">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_emailTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.emailTrabajador}" title="#{bundle.ViewTrabajadorTitle_emailTrabajador}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_numeroCargas}"/>
+                                <h:outputText value="#{trabajadorController.selected.numeroCargas}" title="#{bundle.ViewTrabajadorTitle_numeroCargas}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_montoSalud}"/>
+                                <h:outputText value="#{trabajadorController.selected.montoSalud}" title="#{bundle.ViewTrabajadorTitle_montoSalud}"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_formaPagoApv}"/>
+                                <h:selectBooleanCheckbox id="formaPagoApv" value="#{trabajadorController.selected.formaPagoApv}" title="#{bundle.EditTrabajadorTitle_formaPagoApv}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_subsidioJoven}"/>
+                                <h:selectBooleanCheckbox id="subsidioJoven" value="#{trabajadorController.selected.subsidioJoven}" title="#{bundle.EditTrabajadorTitle_subsidioJoven}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewTrabajadorLabel_fechaIngresoTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.fechaIngresoTrabajador}" title="#{bundle.ViewTrabajadorTitle_fechaIngresoTrabajador}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TerminalCreateDlg" widgetVar="TerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="TerminalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{terminalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_nombreTerminal}" for="nombreTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTerminal" value="#{terminalController.selected.nombreTerminal}" title="#{bundle.CreateTerminalTitle_nombreTerminal}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_nombreTerminal}"/>
+                            <p:tooltip for="nombreTerminal" value="#{terminalController.getComponentMessages('nombreTerminal', bundle.CreateTerminalHelpText_nombreTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_direccionTerminal}" for="direccionTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="direccionTerminal" value="#{terminalController.selected.direccionTerminal}" title="#{bundle.CreateTerminalTitle_direccionTerminal}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_direccionTerminal}"/>
+                            <p:tooltip for="direccionTerminal" value="#{terminalController.getComponentMessages('direccionTerminal', bundle.CreateTerminalHelpText_direccionTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_superficie}" for="superficie" />
+                        <h:panelGroup>
+                            <p:inputText id="superficie" value="#{terminalController.selected.superficie}" title="#{bundle.CreateTerminalTitle_superficie}"/>
+                            <p:tooltip for="superficie" value="#{terminalController.getComponentMessages('superficie', bundle.CreateTerminalHelpText_superficie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_telefonoTerminal}" for="telefonoTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="telefonoTerminal" value="#{terminalController.selected.telefonoTerminal}" title="#{bundle.CreateTerminalTitle_telefonoTerminal}"/>
+                            <p:tooltip for="telefonoTerminal" value="#{terminalController.getComponentMessages('telefonoTerminal', bundle.CreateTerminalHelpText_telefonoTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_emailTerminal}" for="emailTerminal" />
+                        <h:panelGroup>
+                            <p:inputText id="emailTerminal" value="#{terminalController.selected.emailTerminal}" title="#{bundle.CreateTerminalTitle_emailTerminal}"/>
+                            <p:tooltip for="emailTerminal" value="#{terminalController.getComponentMessages('emailTerminal', bundle.CreateTerminalHelpText_emailTerminal)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_ubicacionLongitud}" for="ubicacionLongitud" />
+                        <h:panelGroup>
+                            <p:inputText id="ubicacionLongitud" value="#{terminalController.selected.ubicacionLongitud}" title="#{bundle.CreateTerminalTitle_ubicacionLongitud}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_ubicacionLongitud}"/>
+                            <p:tooltip for="ubicacionLongitud" value="#{terminalController.getComponentMessages('ubicacionLongitud', bundle.CreateTerminalHelpText_ubicacionLongitud)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTerminalLabel_ubicacionLatitud}" for="ubicacionLatitud" />
+                        <h:panelGroup>
+                            <p:inputText id="ubicacionLatitud" value="#{terminalController.selected.ubicacionLatitud}" title="#{bundle.CreateTerminalTitle_ubicacionLatitud}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_ubicacionLatitud}"/>
+                            <p:tooltip for="ubicacionLatitud" value="#{terminalController.getComponentMessages('ubicacionLatitud', bundle.CreateTerminalHelpText_ubicacionLatitud)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{terminalController.saveNew}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TerminalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

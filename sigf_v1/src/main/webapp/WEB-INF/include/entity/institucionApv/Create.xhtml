@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionApvCreateDlg" widgetVar="InstitucionApvCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInstitucionApvTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionApvCreateForm">
+
+                <h:panelGroup id="display" rendered="#{institucionApvController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateInstitucionApvLabel_nombreInstitucionApv}" for="nombreInstitucionApv" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreInstitucionApv" value="#{institucionApvController.selected.nombreInstitucionApv}" title="#{bundle.CreateInstitucionApvTitle_nombreInstitucionApv}" required="true" requiredMessage="#{bundle.CreateInstitucionApvRequiredMessage_nombreInstitucionApv}"/>
+                            <p:tooltip for="nombreInstitucionApv" value="#{institucionApvController.getComponentMessages('nombreInstitucionApv', bundle.CreateInstitucionApvHelpText_nombreInstitucionApv)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionApvController.saveNew}" value="#{bundle.Save}" update="display,:InstitucionApvListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionApvCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionApvCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

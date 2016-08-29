@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserDeviceViewDlg" widgetVar="UserDeviceViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewUserDeviceTitle}" closeOnEscape="true">
+
+            <h:form id="UserDeviceViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{userDeviceController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewUserDeviceLabel_idUserDevice}"/>
+                        <h:outputText value="#{userDeviceController.selected.idUserDevice}" title="#{bundle.ViewUserDeviceTitle_idUserDevice}"/>
+
+                        <h:outputText value="#{bundle.ViewUserDeviceLabel_device}"/>
+                        <h:outputText value="#{userDeviceController.selected.device.name}"/>
+
+                        <h:outputText value="#{bundle.ViewUserDeviceLabel_user}"/>
+                        <h:outputText value="#{userDeviceController.selected.user.name}"/>
+
+                        <h:outputText value="#{bundle.ViewUserDeviceLabel_read}"/>
+                        <h:selectBooleanCheckbox id="read" value="#{userDeviceController.selected.read}" title="#{bundle.EditUserDeviceTitle_read}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_read}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewUserDeviceLabel_write}"/>
+                        <h:selectBooleanCheckbox id="write" value="#{userDeviceController.selected.write}" title="#{bundle.EditUserDeviceTitle_write}" required="true" requiredMessage="#{bundle.EditUserDeviceRequiredMessage_write}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('UserDeviceViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

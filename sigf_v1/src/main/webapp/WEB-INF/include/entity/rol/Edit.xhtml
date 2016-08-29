@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolEditDlg" widgetVar="RolEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRolTitle}" closeOnEscape="true">
+
+            <h:form id="RolEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rolController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRolLabel_idRol}" for="idRol" />
+                        <h:panelGroup>
+                            <h:outputText id="idRol" value="#{rolController.selected.idRol}" />
+                            <p:tooltip for="idRol" value="#{rolController.getComponentMessages('idRol', bundle.EditRolHelpText_idRol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRolLabel_nombreRol}" for="nombreRol" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreRol" value="#{rolController.selected.nombreRol}" title="#{bundle.EditRolTitle_nombreRol}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_nombreRol}"/>
+                            <p:tooltip for="nombreRol" value="#{rolController.getComponentMessages('nombreRol', bundle.EditRolHelpText_nombreRol)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditRolLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{rolController.selected.descripcion}" title="#{bundle.EditRolTitle_descripcion}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_descripcion}"/>
+                            <p:tooltip for="descripcion" value="#{rolController.getComponentMessages('descripcion', bundle.EditRolHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolController.save}" value="#{bundle.Save}" update="display,:RolListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RolEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RolEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

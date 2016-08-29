@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MontoSindicatoTrabajadorViewDlg" widgetVar="MontoSindicatoTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewMontoSindicatoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="MontoSindicatoTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{montoSindicatoTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewMontoSindicatoTrabajadorLabel_idMontoSindicatoTrabajado}"/>
+                        <h:outputText value="#{montoSindicatoTrabajadorController.selected.idMontoSindicatoTrabajado}" title="#{bundle.ViewMontoSindicatoTrabajadorTitle_idMontoSindicatoTrabajado}"/>
+
+                        <h:outputText value="#{bundle.ViewMontoSindicatoTrabajadorLabel_sindicatoTrabajador}"/>
+                        <h:outputText value="#{montoSindicatoTrabajadorController.selected.sindicatoTrabajador.idSindicatoTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewMontoSindicatoTrabajadorLabel_montoSindicatoTrabajador}"/>
+                        <h:outputText value="#{montoSindicatoTrabajadorController.selected.montoSindicatoTrabajador}" title="#{bundle.ViewMontoSindicatoTrabajadorTitle_montoSindicatoTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewMontoSindicatoTrabajadorLabel_mesLiquidacion}"/>
+                        <h:outputText value="#{montoSindicatoTrabajadorController.selected.mesLiquidacion}" title="#{bundle.ViewMontoSindicatoTrabajadorTitle_mesLiquidacion}"/>
+
+                        <h:outputText value="#{bundle.ViewMontoSindicatoTrabajadorLabel_anioLiquidacion}"/>
+                        <h:outputText value="#{montoSindicatoTrabajadorController.selected.anioLiquidacion}" title="#{bundle.ViewMontoSindicatoTrabajadorTitle_anioLiquidacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('MontoSindicatoTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

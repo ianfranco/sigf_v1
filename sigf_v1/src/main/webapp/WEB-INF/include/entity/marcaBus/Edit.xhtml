@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MarcaBusEditDlg" widgetVar="MarcaBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="MarcaBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{marcaBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMarcaBusLabel_idMarcasBus}" for="idMarcasBus" />
+                        <h:panelGroup>
+                            <h:outputText id="idMarcasBus" value="#{marcaBusController.selected.idMarcasBus}" />
+                            <p:tooltip for="idMarcasBus" value="#{marcaBusController.getComponentMessages('idMarcasBus', bundle.EditMarcaBusHelpText_idMarcasBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditMarcaBusLabel_nombreMarcaBus}" for="nombreMarcaBus" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreMarcaBus" value="#{marcaBusController.selected.nombreMarcaBus}" title="#{bundle.EditMarcaBusTitle_nombreMarcaBus}" required="true" requiredMessage="#{bundle.EditMarcaBusRequiredMessage_nombreMarcaBus}"/>
+                            <p:tooltip for="nombreMarcaBus" value="#{marcaBusController.getComponentMessages('nombreMarcaBus', bundle.EditMarcaBusHelpText_nombreMarcaBus)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marcaBusController.save}" value="#{bundle.Save}" update="display,:MarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MarcaBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MarcaBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

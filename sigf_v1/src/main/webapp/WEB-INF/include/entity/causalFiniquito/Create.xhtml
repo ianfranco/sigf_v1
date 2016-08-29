@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CausalFiniquitoCreateDlg" widgetVar="CausalFiniquitoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCausalFiniquitoTitle}" closeOnEscape="true">
+
+            <h:form id="CausalFiniquitoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{causalFiniquitoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCausalFiniquitoLabel_idCausalFiniquito}" for="idCausalFiniquito" />
+                        <h:panelGroup>
+                            <p:inputText id="idCausalFiniquito" value="#{causalFiniquitoController.selected.idCausalFiniquito}" title="#{bundle.CreateCausalFiniquitoTitle_idCausalFiniquito}" required="true" requiredMessage="#{bundle.CreateCausalFiniquitoRequiredMessage_idCausalFiniquito}"/>
+                            <p:tooltip for="idCausalFiniquito" value="#{causalFiniquitoController.getComponentMessages('idCausalFiniquito', bundle.CreateCausalFiniquitoHelpText_idCausalFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCausalFiniquitoLabel_codigoCausalFiniquito}" for="codigoCausalFiniquito" />
+                        <h:panelGroup>
+                            <p:inputText id="codigoCausalFiniquito" value="#{causalFiniquitoController.selected.codigoCausalFiniquito}" title="#{bundle.CreateCausalFiniquitoTitle_codigoCausalFiniquito}" required="true" requiredMessage="#{bundle.CreateCausalFiniquitoRequiredMessage_codigoCausalFiniquito}"/>
+                            <p:tooltip for="codigoCausalFiniquito" value="#{causalFiniquitoController.getComponentMessages('codigoCausalFiniquito', bundle.CreateCausalFiniquitoHelpText_codigoCausalFiniquito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateCausalFiniquitoLabel_descripcionCausalFiniquito}" for="descripcionCausalFiniquito" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcionCausalFiniquito" value="#{causalFiniquitoController.selected.descripcionCausalFiniquito}" title="#{bundle.CreateCausalFiniquitoTitle_descripcionCausalFiniquito}" required="true" requiredMessage="#{bundle.CreateCausalFiniquitoRequiredMessage_descripcionCausalFiniquito}"/>
+                            <p:tooltip for="descripcionCausalFiniquito" value="#{causalFiniquitoController.getComponentMessages('descripcionCausalFiniquito', bundle.CreateCausalFiniquitoHelpText_descripcionCausalFiniquito)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{causalFiniquitoController.saveNew}" value="#{bundle.Save}" update="display,:CausalFiniquitoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CausalFiniquitoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CausalFiniquitoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

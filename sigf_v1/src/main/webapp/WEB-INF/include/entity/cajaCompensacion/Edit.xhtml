@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CajaCompensacionEditDlg" widgetVar="CajaCompensacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCajaCompensacionTitle}" closeOnEscape="true">
+
+            <h:form id="CajaCompensacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cajaCompensacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCajaCompensacionLabel_idCajaCompensacion}" for="idCajaCompensacion" />
+                        <h:panelGroup>
+                            <h:outputText id="idCajaCompensacion" value="#{cajaCompensacionController.selected.idCajaCompensacion}" />
+                            <p:tooltip for="idCajaCompensacion" value="#{cajaCompensacionController.getComponentMessages('idCajaCompensacion', bundle.EditCajaCompensacionHelpText_idCajaCompensacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCajaCompensacionLabel_nombreCajaCompensacion}" for="nombreCajaCompensacion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreCajaCompensacion" value="#{cajaCompensacionController.selected.nombreCajaCompensacion}" title="#{bundle.EditCajaCompensacionTitle_nombreCajaCompensacion}" required="true" requiredMessage="#{bundle.EditCajaCompensacionRequiredMessage_nombreCajaCompensacion}"/>
+                            <p:tooltip for="nombreCajaCompensacion" value="#{cajaCompensacionController.getComponentMessages('nombreCajaCompensacion', bundle.EditCajaCompensacionHelpText_nombreCajaCompensacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCajaCompensacionLabel_comision}" for="comision" />
+                        <h:panelGroup>
+                            <p:inputText id="comision" value="#{cajaCompensacionController.selected.comision}" title="#{bundle.EditCajaCompensacionTitle_comision}"/>
+                            <p:tooltip for="comision" value="#{cajaCompensacionController.getComponentMessages('comision', bundle.EditCajaCompensacionHelpText_comision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCajaCompensacionLabel_porcentajeDescuento}" for="porcentajeDescuento" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentajeDescuento" value="#{cajaCompensacionController.selected.porcentajeDescuento}" title="#{bundle.EditCajaCompensacionTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.EditCajaCompensacionRequiredMessage_porcentajeDescuento}"/>
+                            <p:tooltip for="porcentajeDescuento" value="#{cajaCompensacionController.getComponentMessages('porcentajeDescuento', bundle.EditCajaCompensacionHelpText_porcentajeDescuento)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cajaCompensacionController.save}" value="#{bundle.Save}" update="display,:CajaCompensacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CajaCompensacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CajaCompensacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

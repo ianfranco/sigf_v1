@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioViewDlg" widgetVar="ServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{servicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_idServicio}"/>
+                        <h:outputText value="#{servicioController.selected.idServicio}" title="#{bundle.ViewServicioTitle_idServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_terminal}"/>
+                        <h:outputText value="#{servicioController.selected.terminal.idTerminal}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_unidadNegocio}"/>
+                        <h:outputText value="#{servicioController.selected.unidadNegocio.idUnidadNegocio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_numeroServicio}"/>
+                        <h:outputText value="#{servicioController.selected.numeroServicio}" title="#{bundle.ViewServicioTitle_numeroServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_longitud}"/>
+                        <h:outputText value="#{servicioController.selected.longitud}" title="#{bundle.ViewServicioTitle_longitud}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_nombreServicio}"/>
+                        <h:outputText value="#{servicioController.selected.nombreServicio}" title="#{bundle.ViewServicioTitle_nombreServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_origenServicio}"/>
+                        <h:outputText value="#{servicioController.selected.origenServicio}" title="#{bundle.ViewServicioTitle_origenServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_destinoServicio}"/>
+                        <h:outputText value="#{servicioController.selected.destinoServicio}" title="#{bundle.ViewServicioTitle_destinoServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewServicioLabel_folioServicio}"/>
+                        <h:outputText value="#{servicioController.selected.folioServicio}" title="#{bundle.ViewServicioTitle_folioServicio}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
