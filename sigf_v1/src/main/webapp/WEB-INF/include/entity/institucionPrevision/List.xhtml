@@ -18,12 +18,12 @@
                 <p:menuitem value="#{bundle.InstitucionPrevisionMenuItem_trabajadors}" icon="ui-icon-search"  action="#{institucionPrevisionController.navigateTrabajadors}" disabled="#{empty institucionPrevisionController.selected.trabajadors}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{institucionPrevisionController.lazyItems}"
-                         lazy="true"
+                         value="#{institucionPrevisionController.items}"                         
                          var="item"
                          paginator="true"
                          rows="100"
-                         rowsPerPageTemplate="50,100,200"
+                         rowsPerPageTemplate="50,100,200"                         
+                         rowKey="#{item.idInstitucionPrevision}"
                          selectionMode="single"
                          selection="#{institucionPrevisionController.selected}">
                 <!--
@@ -36,10 +36,10 @@
                 -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstitucionPrevisionListForm:viewButton').click();"/>
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu" listener="#{institucionPrevisionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu" listener="#{institucionPrevisionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{institucionPrevisionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstitucionPrevisionListForm:viewButton').click();" listener="#{institucionPrevisionController.resetParents}"/>
 
                 <f:facet name="header">
                     Instituciones Previsionales

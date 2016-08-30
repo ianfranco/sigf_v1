@@ -17,12 +17,12 @@ import org.hibernate.Transaction;
  *
  * @author Ian Franco
  */
-public class TrabajadorDaoImpl implements TrabajadorDao{
+public class TrabajadorDaoImpl implements TrabajadorDao {
 
     @Override
     public List<Trabajador> findAll() {
         List<Trabajador> list = null;
-        
+
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Trabajador ";
@@ -40,10 +40,10 @@ public class TrabajadorDaoImpl implements TrabajadorDao{
     @Override
     public List<Trabajador> findByTerminal(Terminal terminal) {
         List<Trabajador> list = null;
-        
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Trabajador WHERE  terminal="+terminal.getIdTerminal()+" ORDER BY apellidoPaternoTrabajador ASC";
+        String sql = "FROM Trabajador WHERE  terminal=" + terminal.getIdTerminal() + " ORDER BY apellidoPaternoTrabajador ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -54,5 +54,23 @@ public class TrabajadorDaoImpl implements TrabajadorDao{
         }
         return list;
     }
-    
+
+    @Override
+    public void deactivated(Trabajador trabajador) {
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        
+        //trabajador.set
+        
+        try {
+
+           
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+    }
+
 }

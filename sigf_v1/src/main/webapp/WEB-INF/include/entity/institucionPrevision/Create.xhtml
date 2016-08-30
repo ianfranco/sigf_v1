@@ -15,7 +15,7 @@
                 <h:panelGroup id="display" rendered="#{institucionPrevisionController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateInstitucionPrevisionLabel_nombreInstitucionPrevision}" for="nombreInstitucionPrevision" />
+                        <p:outputLabel value="Nombre:" for="nombreInstitucionPrevision" />
                         <h:panelGroup>
                             <p:inputText id="nombreInstitucionPrevision" value="#{institucionPrevisionController.selected.nombreInstitucionPrevision}" title="#{bundle.CreateInstitucionPrevisionTitle_nombreInstitucionPrevision}" required="true" requiredMessage="#{bundle.CreateInstitucionPrevisionRequiredMessage_nombreInstitucionPrevision}"/>
                             <p:tooltip for="nombreInstitucionPrevision" value="#{institucionPrevisionController.getComponentMessages('nombreInstitucionPrevision', bundle.CreateInstitucionPrevisionHelpText_nombreInstitucionPrevision)}"/>

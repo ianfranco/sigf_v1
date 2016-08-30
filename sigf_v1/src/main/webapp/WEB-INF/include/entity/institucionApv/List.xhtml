@@ -16,13 +16,14 @@
                 <p:menuitem value="#{bundle.InstitucionApvMenuItem_trabajadors}" icon="ui-icon-search"  action="#{institucionApvController.navigateTrabajadors}" disabled="#{empty institucionApvController.selected.trabajadors}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{institucionApvController.lazyItems}"
+                         value="#{institucionApvController.items}"
                          lazy="true"
                          var="item"
                          paginator="true"
                          rows="100"
                          rowsPerPageTemplate="50,100,200"
                          selectionMode="single"
+                         rowKey="#{item.idInstitucionApv}"
                          selection="#{institucionApvController.selected}">
                 <!--
                          To disable Lazy Loading, please copy/replace the following lines above,

@@ -44,8 +44,7 @@
             <p:menuitem value="#{bundle.TrabajadorMenuItem_anticipoTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateAnticipoTrabajadors}" disabled="#{empty trabajadorController.selected.anticipoTrabajadors}" ajax="false"/>  
         </p:contextMenu>
         <p:dataTable id="datalist"
-                     value="#{trabajadorController.lazyItems}"
-                     lazy="true"
+                     value="#{trabajadorController.items}"                     
                      var="item"
                      paginator="true"
                      rows="100"
