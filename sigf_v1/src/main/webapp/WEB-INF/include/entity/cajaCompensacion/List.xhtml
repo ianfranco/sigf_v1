@@ -8,82 +8,85 @@
 
     <h:form id="CajaCompensacionListForm">
 
-        <p:panel header="#{bundle.ListCajaCompensacionTitle}">
-            <p:contextMenu id="CajaCompensacionDataTableContextMenu" for="datalist">  
-                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CajaCompensacionListForm:createButton').click();" icon="ui-icon-plus"/>
-                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CajaCompensacionListForm:viewButton').click();" icon="ui-icon-search"/>
-                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CajaCompensacionListForm:editButton').click();" icon="ui-icon-pencil"/>
-                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CajaCompensacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                <p:separator/>
-                <p:menuitem value="#{bundle.CajaCompensacionMenuItem_empresas}" icon="ui-icon-search"  action="#{cajaCompensacionController.navigateEmpresas}" disabled="#{empty cajaCompensacionController.selected.empresas}" ajax="false"/>  
-            </p:contextMenu>
-            <p:dataTable id="datalist"
-                         value="#{cajaCompensacionController.items}"
-                         lazy="false"
-                         rowKey="#{item.idCajaCompensacion}"
-                         var="item"
-                         paginator="true"
-                         rows="100"
-                         rowsPerPageTemplate="50,100,200"
-                         selectionMode="single"
-                         selection="#{cajaCompensacionController.selected}">
-                <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{cajaCompensacionController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idCajaCompensacion}"  <<< Remove this line
-                -->
+
+        <p:contextMenu id="CajaCompensacionDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CajaCompensacionListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CajaCompensacionListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CajaCompensacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CajaCompensacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+            <p:menuitem value="#{bundle.CajaCompensacionMenuItem_empresas}" icon="ui-icon-search"  action="#{cajaCompensacionController.navigateEmpresas}" disabled="#{empty cajaCompensacionController.selected.empresas}" ajax="false"/>  
+        </p:contextMenu>
+        <p:dataTable id="datalist"
+                     value="#{cajaCompensacionController.lazyItems}"
+                     lazy="true"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="50,100,200"
+                     selectionMode="single"
+                     selection="#{cajaCompensacionController.selected}">
+            <!--
+                     To disable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{cajaCompensacionController.items}"
+                     lazy="false"
+                     rowKey="HASH{item.idCajaCompensacion}"
+            -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaCompensacionDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaCompensacionDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CajaCompensacionListForm:viewButton').click();"/>
+            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaCompensacionDataTableContextMenu"/>
+            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaCompensacionDataTableContextMenu"/>
+            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('CajaCompensacionListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idCajaCompensacion}" filterBy="#{item.idCajaCompensacion}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListCajaCompensacionTitle_idCajaCompensacion}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idCajaCompensacion}"/>
-                </p:column>
+            <f:facet name="header">
+                Cajas de Compensación
+            </f:facet>
 
-
-                <p:column sortBy="#{item.nombreCajaCompensacion}" filterBy="#{item.nombreCajaCompensacion}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListCajaCompensacionTitle_nombreCajaCompensacion}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.nombreCajaCompensacion}"/>
-                </p:column>
+            <p:column sortBy="#{item.idCajaCompensacion}" filterBy="#{item.idCajaCompensacion}">
+                <f:facet name="header">
+                    <h:outputText value="N°"/>
+                </f:facet>
+                <h:outputText value="#{item.idCajaCompensacion}"/>
+            </p:column>
 
 
-                <p:column sortBy="#{item.comision}" filterBy="#{item.comision}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListCajaCompensacionTitle_comision}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.comision}"/>
-                </p:column>
+            <p:column sortBy="#{item.nombreCajaCompensacion}" filterBy="#{item.nombreCajaCompensacion}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputText value="#{item.nombreCajaCompensacion}"/>
+            </p:column>
 
 
-                <p:column sortBy="#{item.porcentajeDescuento}" filterBy="#{item.porcentajeDescuento}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListCajaCompensacionTitle_porcentajeDescuento}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.porcentajeDescuento}"/>
-                </p:column>
+            <p:column sortBy="#{item.comision}" filterBy="#{item.comision}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListCajaCompensacionTitle_comision}"/>
+                </f:facet>
+                <h:outputText value="#{item.comision}"/>
+            </p:column>
 
 
-            </p:dataTable>
+            <p:column sortBy="#{item.porcentajeDescuento}" filterBy="#{item.porcentajeDescuento}">
+                <f:facet name="header">
+                    <h:outputText value="Porcentaje"/>
+                </f:facet>
+                <h:outputText value="#{item.porcentajeDescuento}"/>
+            </p:column>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cajaCompensacionController.prepareCreate}" update=":CajaCompensacionCreateForm" oncomplete="PF('CajaCompensacionCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CajaCompensacionViewForm" oncomplete="PF('CajaCompensacionViewDialog').show()" disabled="#{empty cajaCompensacionController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CajaCompensacionEditForm" oncomplete="PF('CajaCompensacionEditDialog').show()" disabled="#{empty cajaCompensacionController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cajaCompensacionController.delete}" update=":growl,datalist" disabled="#{empty cajaCompensacionController.selected}">
-                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
 
-        </p:panel>
+        </p:dataTable>
+
+        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cajaCompensacionController.prepareCreate}" update=":CajaCompensacionCreateForm" oncomplete="PF('CajaCompensacionCreateDialog').show()"/>
+        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CajaCompensacionViewForm" oncomplete="PF('CajaCompensacionViewDialog').show()" disabled="#{empty cajaCompensacionController.selected}"/>
+        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CajaCompensacionEditForm" oncomplete="PF('CajaCompensacionEditDialog').show()" disabled="#{empty cajaCompensacionController.selected}"/>
+        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cajaCompensacionController.delete}" update=":growl,datalist" disabled="#{empty cajaCompensacionController.selected}">
+            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+        </p:commandButton>
+
+
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

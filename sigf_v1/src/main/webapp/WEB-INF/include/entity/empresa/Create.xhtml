@@ -8,12 +8,48 @@
 
     <ui:composition>
 
-        <p:dialog id="EmpresaCreateDlg" widgetVar="EmpresaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEmpresaTitle}" closeOnEscape="true">
+        <p:dialog id="EmpresaCreateDlg" widgetVar="EmpresaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear nueva Empresa" closeOnEscape="true">
 
             <h:form id="EmpresaCreateForm">
 
                 <h:panelGroup id="display" rendered="#{empresaController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Rut:" for="rutEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.CreateEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_rutEmpresa}"/>
+                            <p:tooltip for="rutEmpresa" value="#{empresaController.getComponentMessages('rutEmpresa', bundle.CreateEmpresaHelpText_rutEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Nombre:" for="nombreEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreEmpresa" value="#{empresaController.selected.nombreEmpresa}" title="#{bundle.CreateEmpresaTitle_nombreEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_nombreEmpresa}"/>
+                            <p:tooltip for="nombreEmpresa" value="#{empresaController.getComponentMessages('nombreEmpresa', bundle.CreateEmpresaHelpText_nombreEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Giro:" for="giro" />
+                        <h:panelGroup>
+                            <p:inputText id="giro" value="#{empresaController.selected.giro}" title="#{bundle.CreateEmpresaTitle_giro}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_giro}"/>
+                            <p:tooltip for="giro" value="#{empresaController.getComponentMessages('giro', bundle.CreateEmpresaHelpText_giro)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Dirección:" for="direccionEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="direccionEmpresa" value="#{empresaController.selected.direccionEmpresa}" title="#{bundle.CreateEmpresaTitle_direccionEmpresa}"/>
+                            <p:tooltip for="direccionEmpresa" value="#{empresaController.getComponentMessages('direccionEmpresa', bundle.CreateEmpresaHelpText_direccionEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Teléfono:" for="telefonoEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="telefonoEmpresa" value="#{empresaController.selected.telefonoEmpresa}" title="#{bundle.CreateEmpresaTitle_telefonoEmpresa}"/>
+                            <p:tooltip for="telefonoEmpresa" value="#{empresaController.getComponentMessages('telefonoEmpresa', bundle.CreateEmpresaHelpText_telefonoEmpresa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Email:" for="emailEmpresa" />
+                        <h:panelGroup>
+                            <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.CreateEmpresaTitle_emailEmpresa}"/>
+                            <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.CreateEmpresaHelpText_emailEmpresa)}"/>
+                        </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateEmpresaLabel_cajaCompensacion}" for="cajaCompensacion" />
                         <h:panelGroup>
@@ -22,7 +58,7 @@
                                 <f:selectItems value="#{cajaCompensacionController.items}"
                                                var="cajaCompensacionItem"
                                                itemValue="#{cajaCompensacionItem}"
-                                               itemLabel="#{cajaCompensacionItem.idCajaCompensacion.toString()}"
+                                               itemLabel="#{cajaCompensacionItem}"
                                                />
 
                             </p:selectOneMenu>
@@ -36,54 +72,13 @@
                                 <f:selectItems value="#{mutualController.items}"
                                                var="mutualItem"
                                                itemValue="#{mutualItem}"
-                                               itemLabel="#{mutualItem.idMutual.toString()}"
+                                               itemLabel="#{mutualItem}"
                                                />
 
                             </p:selectOneMenu>
                             <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.CreateEmpresaHelpText_mutual)}"/>
                         </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_rutEmpresa}" for="rutEmpresa" />
-                        <h:panelGroup>
-                            <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.CreateEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_rutEmpresa}"/>
-                            <p:tooltip for="rutEmpresa" value="#{empresaController.getComponentMessages('rutEmpresa', bundle.CreateEmpresaHelpText_rutEmpresa)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_nombreEmpresa}" for="nombreEmpresa" />
-                        <h:panelGroup>
-                            <p:inputText id="nombreEmpresa" value="#{empresaController.selected.nombreEmpresa}" title="#{bundle.CreateEmpresaTitle_nombreEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_nombreEmpresa}"/>
-                            <p:tooltip for="nombreEmpresa" value="#{empresaController.getComponentMessages('nombreEmpresa', bundle.CreateEmpresaHelpText_nombreEmpresa)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_giro}" for="giro" />
-                        <h:panelGroup>
-                            <p:inputText id="giro" value="#{empresaController.selected.giro}" title="#{bundle.CreateEmpresaTitle_giro}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_giro}"/>
-                            <p:tooltip for="giro" value="#{empresaController.getComponentMessages('giro', bundle.CreateEmpresaHelpText_giro)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_direccionEmpresa}" for="direccionEmpresa" />
-                        <h:panelGroup>
-                            <p:inputText id="direccionEmpresa" value="#{empresaController.selected.direccionEmpresa}" title="#{bundle.CreateEmpresaTitle_direccionEmpresa}"/>
-                            <p:tooltip for="direccionEmpresa" value="#{empresaController.getComponentMessages('direccionEmpresa', bundle.CreateEmpresaHelpText_direccionEmpresa)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_telefonoEmpresa}" for="telefonoEmpresa" />
-                        <h:panelGroup>
-                            <p:inputText id="telefonoEmpresa" value="#{empresaController.selected.telefonoEmpresa}" title="#{bundle.CreateEmpresaTitle_telefonoEmpresa}"/>
-                            <p:tooltip for="telefonoEmpresa" value="#{empresaController.getComponentMessages('telefonoEmpresa', bundle.CreateEmpresaHelpText_telefonoEmpresa)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_fax}" for="fax" />
-                        <h:panelGroup>
-                            <p:inputText id="fax" value="#{empresaController.selected.fax}" title="#{bundle.CreateEmpresaTitle_fax}"/>
-                            <p:tooltip for="fax" value="#{empresaController.getComponentMessages('fax', bundle.CreateEmpresaHelpText_fax)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEmpresaLabel_emailEmpresa}" for="emailEmpresa" />
-                        <h:panelGroup>
-                            <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.CreateEmpresaTitle_emailEmpresa}"/>
-                            <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.CreateEmpresaHelpText_emailEmpresa)}"/>
-                        </h:panelGroup>
+                        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{empresaController.saveNew}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaCreateDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>

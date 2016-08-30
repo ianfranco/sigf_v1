@@ -8,7 +8,7 @@
 
     <h:form id="ParametroCesantiaListForm">
 
-        <p:panel header="#{bundle.ListParametroCesantiaTitle}">
+        
             <p:contextMenu id="ParametroCesantiaDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ParametroCesantiaListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ParametroCesantiaListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -16,9 +16,8 @@
                 <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ParametroCesantiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{parametroCesantiaController.items}"
-                         lazy="false"
-                         rowKey="#{item.idParametroCesantia}"
+                         value="#{parametroCesantiaController.lazyItems}"
+                         lazy="true"
                          var="item"
                          paginator="true"
                          rows="100"
@@ -26,12 +25,12 @@
                          selectionMode="single"
                          selection="#{parametroCesantiaController.selected}">
                 <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
+                         To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
                 
-                         value="HASH{parametroCesantiaController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idParametroCesantia}"  <<< Remove this line
+                         value="HASH{parametroCesantiaController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idParametroCesantia}"
                 -->
 
 
@@ -40,9 +39,13 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('ParametroCesantiaListForm:viewButton').click();"/>
 
+                <f:facet name="header">
+                    Parámetro Cesantía
+                </f:facet>
+                
                 <p:column sortBy="#{item.idParametroCesantia}" filterBy="#{item.idParametroCesantia}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListParametroCesantiaTitle_idParametroCesantia}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{item.idParametroCesantia}"/>
                 </p:column>
@@ -66,14 +69,14 @@
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{parametroCesantiaController.prepareCreate}" update=":ParametroCesantiaCreateForm" oncomplete="PF('ParametroCesantiaCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ParametroCesantiaViewForm" oncomplete="PF('ParametroCesantiaViewDialog').show()" disabled="#{empty parametroCesantiaController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ParametroCesantiaEditForm" oncomplete="PF('ParametroCesantiaEditDialog').show()" disabled="#{empty parametroCesantiaController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{parametroCesantiaController.delete}" update=":growl,datalist" disabled="#{empty parametroCesantiaController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{parametroCesantiaController.prepareCreate}" update=":ParametroCesantiaCreateForm" oncomplete="PF('ParametroCesantiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ParametroCesantiaViewForm" oncomplete="PF('ParametroCesantiaViewDialog').show()" disabled="#{empty parametroCesantiaController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ParametroCesantiaEditForm" oncomplete="PF('ParametroCesantiaEditDialog').show()" disabled="#{empty parametroCesantiaController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{parametroCesantiaController.delete}" update=":growl,datalist" disabled="#{empty parametroCesantiaController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 
-        </p:panel>
+        
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

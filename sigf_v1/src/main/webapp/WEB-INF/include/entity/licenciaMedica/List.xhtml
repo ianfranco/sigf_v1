@@ -8,7 +8,7 @@
 
     <h:form id="LicenciaMedicaListForm">
 
-        <p:panel header="#{bundle.ListLicenciaMedicaTitle}">
+        
             <p:contextMenu id="LicenciaMedicaDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('LicenciaMedicaListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('LicenciaMedicaListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -18,9 +18,8 @@
                 <p:menuitem value="#{bundle.LicenciaMedicaMenuItem_trabajador}" icon="ui-icon-search"  actionListener="#{licenciaMedicaController.prepareTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty licenciaMedicaController.selected.trabajador}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{licenciaMedicaController.items}"
-                         lazy="false"
-                         rowKey="#{item.idLicenciaMedica}"
+                         value="#{licenciaMedicaController.lazyItems}"
+                         lazy="true"
                          var="item"
                          paginator="true"
                          rows="100"
@@ -28,12 +27,12 @@
                          selectionMode="single"
                          selection="#{licenciaMedicaController.selected}">
                 <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
+                         To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
                 
-                         value="HASH{licenciaMedicaController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idLicenciaMedica}"  <<< Remove this line
+                         value="HASH{licenciaMedicaController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idLicenciaMedica}"
                 -->
 
 
@@ -42,9 +41,13 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{licenciaMedicaController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('LicenciaMedicaListForm:viewButton').click();"/>
 
+                <f:facet name="header">
+                    Licencias Médicas
+                </f:facet>
+                
                 <p:column sortBy="#{item.idLicenciaMedica}" filterBy="#{item.idLicenciaMedica}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_idLicenciaMedica}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{item.idLicenciaMedica}"/>
                 </p:column>
@@ -60,7 +63,7 @@
 
                 <p:column sortBy="#{item.numeroLicencia}" filterBy="#{item.numeroLicencia}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_numeroLicencia}"/>
+                        <h:outputText value="N° Licencia"/>
                     </f:facet>
                     <h:outputText value="#{item.numeroLicencia}"/>
                 </p:column>
@@ -68,7 +71,7 @@
 
                 <p:column sortBy="#{item.fechaIngresoLicencia}" filterBy="#{item.fechaIngresoLicencia}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_fechaIngresoLicencia}"/>
+                        <h:outputText value="Fecha Ingreso"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaIngresoLicencia}">
                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
@@ -78,7 +81,7 @@
 
                 <p:column sortBy="#{item.fechaRecepcionLicencia}" filterBy="#{item.fechaRecepcionLicencia}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_fechaRecepcionLicencia}"/>
+                        <h:outputText value="Fecha Recepción"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaRecepcionLicencia}">
                         <f:convertDateTime pattern="MM/dd/yyyy" />
@@ -88,33 +91,33 @@
 
                 <p:column sortBy="#{item.fechaEmisionLicencia}" filterBy="#{item.fechaEmisionLicencia}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_fechaEmisionLicencia}"/>
+                        <h:outputText value="Fecha Emisión"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaEmisionLicencia}">
                         <f:convertDateTime pattern="MM/dd/yyyy" />
                     </h:outputText>
                 </p:column>
 
-                <!--
-                                    <p:column sortBy="#{item.fechaDesdeReposo}" filterBy="#{item.fechaDesdeReposo}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListLicenciaMedicaTitle_fechaDesdeReposo}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.fechaDesdeReposo}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                                        </h:outputText>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.fechaHastaReposo}" filterBy="#{item.fechaHastaReposo}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListLicenciaMedicaTitle_fechaHastaReposo}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.fechaHastaReposo}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                                        </h:outputText>
-                                    </p:column>
-                -->
+
+                <p:column sortBy="#{item.fechaDesdeReposo}" filterBy="#{item.fechaDesdeReposo}">
+                    <f:facet name="header">
+                        <h:outputText value="Inicio Reposo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaDesdeReposo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaHastaReposo}" filterBy="#{item.fechaHastaReposo}">
+                    <f:facet name="header">
+                        <h:outputText value="Fin Reposo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaHastaReposo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
                 <!--
                                     <p:column sortBy="#{item.diagnosticoLicencia}" filterBy="#{item.diagnosticoLicencia}">
                                         <f:facet name="header">
@@ -126,14 +129,14 @@
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{licenciaMedicaController.prepareCreate}" update=":LicenciaMedicaCreateForm" oncomplete="PF('LicenciaMedicaCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":LicenciaMedicaViewForm" oncomplete="PF('LicenciaMedicaViewDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LicenciaMedicaEditForm" oncomplete="PF('LicenciaMedicaEditDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{licenciaMedicaController.delete}" update=":growl,datalist" disabled="#{empty licenciaMedicaController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{licenciaMedicaController.prepareCreate}" update=":LicenciaMedicaCreateForm" oncomplete="PF('LicenciaMedicaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":LicenciaMedicaViewForm" oncomplete="PF('LicenciaMedicaViewDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LicenciaMedicaEditForm" oncomplete="PF('LicenciaMedicaEditDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{licenciaMedicaController.delete}" update=":growl,datalist" disabled="#{empty licenciaMedicaController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 
-        </p:panel>
+        
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

@@ -90,6 +90,12 @@
                             <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.EditEmpresaTitle_emailEmpresa}"/>
                             <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.EditEmpresaHelpText_emailEmpresa)}"/>
                         </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresacol}" for="empresacol" />
+                        <h:panelGroup>
+                            <p:inputText id="empresacol" value="#{empresaController.selected.empresacol}" title="#{bundle.EditEmpresaTitle_empresacol}"/>
+                            <p:tooltip for="empresacol" value="#{empresaController.getComponentMessages('empresacol', bundle.EditEmpresaHelpText_empresacol)}"/>
+                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{empresaController.save}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>

@@ -8,7 +8,7 @@
 
     <h:form id="InstitucionSaludListForm">
 
-        <p:panel header="#{bundle.ListInstitucionSaludTitle}">
+        
             <p:contextMenu id="InstitucionSaludDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('InstitucionSaludListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('InstitucionSaludListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -18,9 +18,8 @@
                 <p:menuitem value="#{bundle.InstitucionSaludMenuItem_trabajadors}" icon="ui-icon-search"  action="#{institucionSaludController.navigateTrabajadors}" disabled="#{empty institucionSaludController.selected.trabajadors}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{institucionSaludController.items}"
-                         lazy="false"
-                         rowKey="#{item.idInstitucionSalud}"
+                         value="#{institucionSaludController.lazyItems}"
+                         lazy="true"
                          var="item"
                          paginator="true"
                          rows="100"
@@ -28,12 +27,12 @@
                          selectionMode="single"
                          selection="#{institucionSaludController.selected}">
                 <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
+                         To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
                 
-                         value="HASH{institucionSaludController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idInstitucionSalud}"  <<< Remove this line
+                         value="HASH{institucionSaludController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idInstitucionSalud}"
                 -->
 
 
@@ -42,9 +41,13 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstitucionSaludListForm:viewButton').click();"/>
 
+                <f:facet name="header">
+                    Instituciones Salud
+                </f:facet>
+                
                 <p:column sortBy="#{item.idInstitucionSalud}" filterBy="#{item.idInstitucionSalud}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionSaludTitle_idInstitucionSalud}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{item.idInstitucionSalud}"/>
                 </p:column>
@@ -52,7 +55,7 @@
 
                 <p:column sortBy="#{item.nombreInstitucionSalud}" filterBy="#{item.nombreInstitucionSalud}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionSaludTitle_nombreInstitucionSalud}"/>
+                        <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreInstitucionSalud}"/>
                 </p:column>
@@ -60,30 +63,21 @@
 
                 <p:column sortBy="#{item.comision}" filterBy="#{item.comision}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionSaludTitle_comision}"/>
+                        <h:outputText value="Comisión"/>
                     </f:facet>
                     <h:outputText value="#{item.comision}"/>
                 </p:column>
 
-
-                <p:column sortBy="#{item.porcentajeDescuento}" filterBy="#{item.porcentajeDescuento}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionSaludTitle_porcentajeDescuento}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.porcentajeDescuento}"/>
-                </p:column>
-
-
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{institucionSaludController.prepareCreate}" update=":InstitucionSaludCreateForm" oncomplete="PF('InstitucionSaludCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty institucionSaludController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InstitucionSaludEditForm" oncomplete="PF('InstitucionSaludEditDialog').show()" disabled="#{empty institucionSaludController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{institucionSaludController.delete}" update=":growl,datalist" disabled="#{empty institucionSaludController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{institucionSaludController.prepareCreate}" update=":InstitucionSaludCreateForm" oncomplete="PF('InstitucionSaludCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty institucionSaludController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InstitucionSaludEditForm" oncomplete="PF('InstitucionSaludEditDialog').show()" disabled="#{empty institucionSaludController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{institucionSaludController.delete}" update=":growl,datalist" disabled="#{empty institucionSaludController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 
-        </p:panel>
+        
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

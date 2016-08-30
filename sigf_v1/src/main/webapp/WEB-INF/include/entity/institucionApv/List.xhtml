@@ -6,9 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <h:form id="InstitucionApvListForm">
-
-        <p:panel header="#{bundle.ListInstitucionApvTitle}">
+    <h:form id="InstitucionApvListForm">        
             <p:contextMenu id="InstitucionApvDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('InstitucionApvListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('InstitucionApvListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -18,9 +16,8 @@
                 <p:menuitem value="#{bundle.InstitucionApvMenuItem_trabajadors}" icon="ui-icon-search"  action="#{institucionApvController.navigateTrabajadors}" disabled="#{empty institucionApvController.selected.trabajadors}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{institucionApvController.items}"
-                         lazy="false"
-                         rowKey="#{item.idInstitucionApv}"
+                         value="#{institucionApvController.lazyItems}"
+                         lazy="true"
                          var="item"
                          paginator="true"
                          rows="100"
@@ -28,12 +25,12 @@
                          selectionMode="single"
                          selection="#{institucionApvController.selected}">
                 <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
+                         To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
                 
-                         value="HASH{institucionApvController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idInstitucionApv}"  <<< Remove this line
+                         value="HASH{institucionApvController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idInstitucionApv}"
                 -->
 
 
@@ -42,9 +39,13 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstitucionApvListForm:viewButton').click();"/>
 
+                <f:facet name="header">
+                    Instituciones APV
+                </f:facet>
+                
                 <p:column sortBy="#{item.idInstitucionApv}" filterBy="#{item.idInstitucionApv}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionApvTitle_idInstitucionApv}"/>
+                        <h:outputText value="NÂ°"/>
                     </f:facet>
                     <h:outputText value="#{item.idInstitucionApv}"/>
                 </p:column>
@@ -52,7 +53,7 @@
 
                 <p:column sortBy="#{item.nombreInstitucionApv}" filterBy="#{item.nombreInstitucionApv}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListInstitucionApvTitle_nombreInstitucionApv}"/>
+                        <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreInstitucionApv}"/>
                 </p:column>
@@ -60,14 +61,14 @@
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{institucionApvController.prepareCreate}" update=":InstitucionApvCreateForm" oncomplete="PF('InstitucionApvCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":InstitucionApvViewForm" oncomplete="PF('InstitucionApvViewDialog').show()" disabled="#{empty institucionApvController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InstitucionApvEditForm" oncomplete="PF('InstitucionApvEditDialog').show()" disabled="#{empty institucionApvController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{institucionApvController.delete}" update=":growl,datalist" disabled="#{empty institucionApvController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{institucionApvController.prepareCreate}" update=":InstitucionApvCreateForm" oncomplete="PF('InstitucionApvCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":InstitucionApvViewForm" oncomplete="PF('InstitucionApvViewDialog').show()" disabled="#{empty institucionApvController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InstitucionApvEditForm" oncomplete="PF('InstitucionApvEditDialog').show()" disabled="#{empty institucionApvController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{institucionApvController.delete}" update=":growl,datalist" disabled="#{empty institucionApvController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 
-        </p:panel>
+        
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 
