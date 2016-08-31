@@ -1,8 +1,7 @@
 package com.areatecnica.sigf_v1.converters;
 
-
 import com.areatecnica.sigf_v1.dao.AbstractDao;
-import com.areatecnica.sigf_v1.entities.GrupoAsignacionTrabajador;
+import com.areatecnica.sigf_v1.entities.GastoAdministracionMensual;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,8 +11,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@FacesConverter(value = "grupoAsignacionTrabajadorConverter")
-public class GrupoAsignacionTrabajadorConverter implements Converter {
+@FacesConverter(value = "gastosAdministracionMensualConverter")
+public class GastoAdministracionMensualConverter implements Converter {
 
     @Inject
     private AbstractDao dao;
@@ -44,11 +43,11 @@ public class GrupoAsignacionTrabajadorConverter implements Converter {
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof GrupoAsignacionTrabajador) {
-            GrupoAsignacionTrabajador o = (GrupoAsignacionTrabajador) object;
-            return getStringKey(o.getIdGrupoAsignacionTrabajador());
+        if (object instanceof GastoAdministracionMensual) {
+            GastoAdministracionMensual o = (GastoAdministracionMensual) object;
+            return getStringKey(o.getIdGastoAdministracionMensual());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), GrupoAsignacionTrabajador.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), GastoAdministracionMensual.class.getName()});
             return null;
         }
     }

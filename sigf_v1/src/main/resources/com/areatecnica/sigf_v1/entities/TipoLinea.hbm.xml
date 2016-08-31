@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-08-2016 4:14:05 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.TipoLinea" table="tipo_linea" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idTipoLinea" type="java.lang.Integer">
+            <column name="id_tipo_linea" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreTipoLinea" type="string">
+            <column name="nombre_tipo_linea" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

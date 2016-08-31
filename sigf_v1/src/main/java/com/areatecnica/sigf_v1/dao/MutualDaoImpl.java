@@ -19,8 +19,20 @@ import org.hibernate.Transaction;
 public class MutualDaoImpl implements GenericDao<Mutual>{
 
     @Override
-    public Object findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Mutual findById(int id) {
+        Mutual mutual = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Mutual WHERE idMutual=" + id;
+        try {
+            mutual = (Mutual) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return mutual;
     }
 
     @Override

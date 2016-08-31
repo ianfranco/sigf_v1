@@ -27,7 +27,7 @@ public class BancoDaoImpl implements GenericDao<Banco>{
     public List<Banco> findAll() {
         List<Banco> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Banco";
         try {

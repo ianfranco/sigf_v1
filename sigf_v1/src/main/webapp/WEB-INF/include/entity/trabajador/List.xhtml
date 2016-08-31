@@ -113,29 +113,21 @@
                 <h:outputText value="#{item.celularTrabajador}"/>
             </p:column>
 
-            <p:column sortBy="#{item.institucionPrevision.idInstitucionPrevision}" filterBy="#{item.institucionPrevision.idInstitucionPrevision}">
+            <p:column sortBy="#{item.institucionPrevision.nombreInstitucionPrevision}" filterBy="#{item.institucionPrevision.nombreInstitucionPrevision}">
                 <f:facet name="header">
                     <h:outputText value="Previsión"/>
                 </f:facet>
-                <h:outputText value="#{item.institucionPrevision.idInstitucionPrevision}"/>
+                <h:outputText value="#{item.institucionPrevision.nombreInstitucionPrevision}"/>
             </p:column>
 
 
-            <p:column sortBy="#{item.institucionSalud.idInstitucionSalud}" filterBy="#{item.institucionSalud.idInstitucionSalud}">
+            <p:column sortBy="#{item.institucionSalud.nombreInstitucionSalud}" filterBy="#{item.institucionSalud.nombreInstitucionSalud}">
                 <f:facet name="header">
                     <h:outputText value="Salud"/>
                 </f:facet>
-                <h:outputText value="#{item.institucionSalud.idInstitucionSalud}"/>
+                <h:outputText value="#{item.institucionSalud.nombreInstitucionSalud}"/>
             </p:column>
-
-            
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Tipo"/>
-                </f:facet>
-                <h:outputText value="#{item.institucionSalud.idInstitucionSalud}"/>
-            </p:column>
-            
+                        
             <!--
                                 <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">
                                     <f:facet name="header">

@@ -4,6 +4,7 @@ package com.areatecnica.sigf_v1.converters;
 import com.areatecnica.sigf_v1.dao.AbstractDao;
 import com.areatecnica.sigf_v1.entities.CajaCompensacion;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.CajaCompensacionDaoImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.convert.FacesConverter;
@@ -16,14 +17,15 @@ import javax.faces.convert.Converter;
 public class CajaCompensacionConverter implements Converter {
 
     @Inject
-    private AbstractDao dao;
+    private CajaCompensacionDaoImpl dao;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
-        return this.dao.find(getKey(value));
+        dao = new CajaCompensacionDaoImpl();
+        return this.dao.findById(getKey(value));
     }
 
     java.lang.Integer getKey(String value) {

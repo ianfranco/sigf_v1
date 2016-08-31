@@ -17,6 +17,12 @@
                     <h:panelGrid columns="2" >                        
                         <p:fieldset legend="Información Personal" style="height: 100%" >
                             <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="Cód.:" for="codigoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="codigoTrabajador" value="#{trabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>
+                                    <p:tooltip for="codigoTrabajador" value="Código trabajador"/>
+                                </h:panelGroup>
+
                                 <p:outputLabel value="Rut:" for="rutTrabajador" />
                                 <h:panelGroup>
                                     <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}"/>
@@ -47,11 +53,35 @@
                                     <p:tooltip for="fechaNacimientoTrabajador" value="#{trabajadorController.getComponentMessages('fechaNacimientoTrabajador', bundle.CreateTrabajadorHelpText_fechaNacimientoTrabajador)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="Nacionalidad:" for="nacionalidad" />
-                                <h:panelGroup>                                    
-                                    <p:selectOneRadio id="nacionalidad" value="#{trabajadorController.selected.nacionalidad}">                                        
-                                        <f:selectItem itemLabel="Chilena" itemValue="1" />
-                                        <f:selectItem itemLabel="Extranjero" itemValue="2" />
+                                <p:outputLabel value="Dirección:" for="calleTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="calleTrabajador" value="#{trabajadorController.selected.calleTrabajador}" />                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N°:" for="numeroDireccionTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroDireccionTrabajador" value="#{trabajadorController.selected.numeroDireccionTrabajador}" />                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Comuna:" for="comuna" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="comuna" value="#{trabajadorController.selected.comuna}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_comuna}" converter="comunaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{comunaController.items}"
+                                                       var="comunaItem"
+                                                       itemValue="#{comunaItem}"
+                                                       itemLabel="#{comunaItem.idComuna.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="comuna" value="#{trabajadorController.getComponentMessages('comuna', bundle.CreateTrabajadorHelpText_comuna)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="País:" for="nacionalidad" />
+                                <h:panelGroup>     
+                                    <p:selectOneRadio id="nacionalidad" value="#{trabajadorController.nacionalidad}" required="true">
+                                        <f:selectItem itemLabel="Chile" itemValue="1" />
+                                        <f:selectItem itemLabel="Extranjero" itemValue="0" />
                                     </p:selectOneRadio>
 
                                     <p:tooltip for="nacionalidad" value="#{trabajadorController.getComponentMessages('nacionalidad', bundle.CreateTrabajadorHelpText_nacionalidad)}"/>
@@ -59,18 +89,20 @@
 
                                 <p:outputLabel value="Sexo:" for="sexo" />
                                 <h:panelGroup>
-                                    <p:selectOneRadio id="sexo" value="#{trabajadorController.selected.sexo}">                                        
-                                        <f:selectItem itemLabel="Masculino" itemValue="1" />
-                                        <f:selectItem itemLabel="Femenino" itemValue="2" />
-                                    </p:selectOneRadio>                                    
+                                    <p:selectOneRadio id="sexo" value="#{trabajadorController.sexo}" required="true">
+                                        <f:selectItem itemLabel="Hombre" itemValue="1" />
+                                        <f:selectItem itemLabel="Mujer" itemValue="0" />
+                                    </p:selectOneRadio>                                                                 
                                     <p:tooltip for="sexo" value="#{trabajadorController.getComponentMessages('sexo', bundle.CreateTrabajadorHelpText_sexo)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="Dirección:" for="direccionTrabajador" />
+                                <p:outputLabel value="Estado Civil:" for="estadoCivil" />
                                 <h:panelGroup>
-                                    <p:inputText id="direccionTrabajador" value="#{trabajadorController.selected.direccionTrabajador}" title="#{bundle.CreateTrabajadorTitle_direccionTrabajador}"/>
-                                    <p:tooltip for="direccionTrabajador" value="#{trabajadorController.getComponentMessages('direccionTrabajador', bundle.CreateTrabajadorHelpText_direccionTrabajador)}"/>
+                                    <p:inputText id="estadoCivil" value="#{trabajadorController.selected.estadoCivil}" />
+                                    <p:tooltip for="estadoCivil" value="Seleccione el estado civil"/>
                                 </h:panelGroup>
+
+
 
                                 <p:outputLabel value="Teléfono:" for="telefonoFijoTrabajador" />
                                 <h:panelGroup>
@@ -105,20 +137,26 @@
                             <h:panelGrid columns="1">
 
                                 <p:fieldset legend="Información Previsional" style="height: 100%">
-                                    <p:panelGrid columns="2">
+                                    <p:panelGrid columns="2" columnClasses="column">
+
                                         <p:outputLabel value="Previsión:" for="institucionPrevision" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="institucionPrevision" value="#{trabajadorController.selected.institucionPrevision}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_institucionPrevision}" converter="institucionPrevisionConverter">
+                                            <p:selectOneMenu id="institucionPrevision" value="#{trabajadorController.selected.institucionPrevision}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_institucionPrevision}" converter="institucionPrevisionConverter" disabled="#{trabajadorController.regimen}">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                                 <f:selectItems value="#{institucionPrevisionController.items}"
                                                                var="institucionPrevisionItem"
                                                                itemValue="#{institucionPrevisionItem}"
-                                                               itemLabel="#{institucionPrevisionItem.idInstitucionPrevision.toString()}"
+                                                               itemLabel="#{institucionPrevisionItem}"
                                                                />
 
                                             </p:selectOneMenu>
                                             <p:tooltip for="institucionPrevision" value="#{trabajadorController.getComponentMessages('institucionPrevision', bundle.CreateTrabajadorHelpText_institucionPrevision)}"/>
                                         </h:panelGroup>
+                                        
+                                        <p:outputLabel value="IPS (Ex-INP):" for="ips" />                                        
+                                        <p:selectBooleanCheckbox id="ips" value="#{trabajadorController.regimen}">
+                                            <p:ajax update="institucionPrevision" />
+                                        </p:selectBooleanCheckbox>
 
                                         <p:outputLabel value="APV:" for="institucionApv" />
                                         <h:panelGroup>
@@ -127,7 +165,7 @@
                                                 <f:selectItems value="#{institucionApvController.items}"
                                                                var="institucionApvItem"
                                                                itemValue="#{institucionApvItem}"
-                                                               itemLabel="#{institucionApvItem.idInstitucionApv.toString()}"
+                                                               itemLabel="#{institucionApvItem}"
                                                                />
 
                                             </p:selectOneMenu>
@@ -147,7 +185,7 @@
                                                 <f:selectItems value="#{tipoCotizacionTrabajadorController.items}"
                                                                var="tipoCotizacionTrabajadorItem"
                                                                itemValue="#{tipoCotizacionTrabajadorItem}"
-                                                               itemLabel="#{tipoCotizacionTrabajadorItem.idTipoCotizacionTrabajador.toString()}"
+                                                               itemLabel="#{tipoCotizacionTrabajadorItem}"
                                                                />
 
                                             </p:selectOneMenu>
@@ -159,15 +197,21 @@
 
 
                                 <p:fieldset legend="Informacion Salud" style="height: 100%">
-                                    <p:panelGrid columns="2">
+                                    <p:panelGrid columns="2" columnClasses="column">
+
+                                        <p:outputLabel value="Fonasa:" for="fonasa" />                                        
+                                        <p:selectBooleanCheckbox id="fonasa" value="#{trabajadorController.fonasa}">
+                                            <p:ajax update="institucionSalud, monedaPactadaInstitucionSalud, montoSalud" />
+                                        </p:selectBooleanCheckbox>
+
                                         <p:outputLabel value="Salud:" for="institucionSalud" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="institucionSalud" value="#{trabajadorController.selected.institucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_institucionSalud}" converter="institucionSaludConverter">
+                                            <p:selectOneMenu id="institucionSalud" value="#{trabajadorController.selected.institucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_institucionSalud}" converter="institucionSaludConverter" disabled="#{trabajadorController.fonasa}">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                                 <f:selectItems value="#{institucionSaludController.items}"
                                                                var="institucionSaludItem"
                                                                itemValue="#{institucionSaludItem}"
-                                                               itemLabel="#{institucionSaludItem.idInstitucionSalud.toString()}"
+                                                               itemLabel="#{institucionSaludItem}"
                                                                />
 
                                             </p:selectOneMenu>
@@ -176,36 +220,32 @@
 
                                         <p:outputLabel value="Moneda:" for="monedaPactadaInstitucionSalud" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="monedaPactadaInstitucionSalud" value="#{trabajadorController.selected.monedaPactadaInstitucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_monedaPactadaInstitucionSalud}" converter="monedaPactadaInstitucionSaludConverter">
+                                            <p:selectOneMenu id="monedaPactadaInstitucionSalud" value="#{trabajadorController.selected.monedaPactadaInstitucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_monedaPactadaInstitucionSalud}" converter="monedaPactadaInstitucionSaludConverter" disabled="#{trabajadorController.fonasa}">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                                 <f:selectItems value="#{monedaPactadaInstitucionSaludController.items}"
                                                                var="monedaPactadaInstitucionSaludItem"
                                                                itemValue="#{monedaPactadaInstitucionSaludItem}"
-                                                               itemLabel="#{monedaPactadaInstitucionSaludItem.idMonedaSalud.toString()}"
+                                                               itemLabel="#{monedaPactadaInstitucionSaludItem}"
                                                                />
 
                                             </p:selectOneMenu>
                                             <p:tooltip for="monedaPactadaInstitucionSalud" value="#{trabajadorController.getComponentMessages('monedaPactadaInstitucionSalud', bundle.CreateTrabajadorHelpText_monedaPactadaInstitucionSalud)}"/>
                                         </h:panelGroup>
 
-                                        <p:outputLabel value="Monto ($):" for="montoSalud" />
+                                        <p:outputLabel value="Monto:" for="montoSalud" />
                                         <h:panelGroup>
-                                            <p:inputText id="montoSalud" value="#{trabajadorController.selected.montoSalud}" title="#{bundle.CreateTrabajadorTitle_montoSalud}"/>
+                                            <p:inputText id="montoSalud" value="#{trabajadorController.selected.montoSalud}" title="#{bundle.CreateTrabajadorTitle_montoSalud}" disabled="#{trabajadorController.fonasa}"/>
                                             <p:tooltip for="montoSalud" value="#{trabajadorController.getComponentMessages('montoSalud', bundle.CreateTrabajadorHelpText_montoSalud)}"/>
                                         </h:panelGroup>
 
-                                        <p:outputLabel value="Subsidio Joven:" for="subsidioJoven" />
-                                        <h:panelGroup>
-                                            <p:selectBooleanCheckbox id="subsidioJoven" value="#{trabajadorController.selected.subsidioJoven}" />
-                                            <p:tooltip for="subsidioJoven" value="#{trabajadorController.getComponentMessages('subsidioJoven', bundle.CreateTrabajadorHelpText_subsidioJoven)}"/>
-                                        </h:panelGroup>
+
 
                                     </p:panelGrid>
                                 </p:fieldset>
 
 
                                 <p:fieldset legend="Asignación Familiar" style="height: 100%">
-                                    <p:panelGrid columns="2">
+                                    <p:panelGrid columns="2" columnClasses="column">
 
                                         <p:outputLabel value="N° de Cargas" for="numeroCargas" />
                                         <h:panelGroup>
@@ -214,22 +254,22 @@
                                         </h:panelGroup>
 
 
-                                        <p:outputLabel value="Grupo:" for="grupoAsignacionTrabajador" />
+                                        <p:outputLabel value="Grupo:" for="AsignacionTrabajador" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="grupoAsignacionTrabajador" value="#{trabajadorController.selected.grupoAsignacionTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="grupoAsignacionTrabajadorConverter">
+                                            <p:selectOneMenu id="AsignacionTrabajador" value="#{trabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="asignacionFamiliarConverter">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                                <f:selectItems value="#{grupoAsignacionTrabajadorController.items}"
-                                                               var="grupoAsignacionTrabajadorItem"
-                                                               itemValue="#{grupoAsignacionTrabajadorItem}"
-                                                               itemLabel="#{grupoAsignacionTrabajadorItem.idGrupoAsignacionTrabajador.toString()}"
+                                                <f:selectItems value="#{asignacionFamiliarController.items}"
+                                                               var="asignacionTrabajadorItem"
+                                                               itemValue="#{asignacionTrabajadorItem}"
+                                                               itemLabel="#{asignacionTrabajadorItem}"
                                                                />
 
                                             </p:selectOneMenu>
-                                            <p:tooltip for="grupoAsignacionTrabajador" value="#{trabajadorController.getComponentMessages('grupoAsignacionTrabajador', bundle.CreateTrabajadorHelpText_grupoAsignacionTrabajador)}"/>
+                                            <p:tooltip for="AsignacionTrabajador" value="#{trabajadorController.getComponentMessages('grupoAsignacionTrabajador', bundle.CreateTrabajadorHelpText_grupoAsignacionTrabajador)}"/>
                                         </h:panelGroup>
                                     </p:panelGrid>
 
-                                </p:fieldset>
+                                </p:fieldset>                                
 
                             </h:panelGrid>
                         </h:panelGrid>

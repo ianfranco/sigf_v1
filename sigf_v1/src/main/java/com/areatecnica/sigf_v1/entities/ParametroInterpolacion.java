@@ -1,7 +1,8 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,13 +22,13 @@ public class ParametroInterpolacion  implements java.io.Serializable {
 
      private Integer idParametroInterpolacion;
      private String nombreParametro;
-     private float valorParametro;
+     private BigDecimal valorParametro;
      private String unidadParametro;
 
     public ParametroInterpolacion() {
     }
 
-    public ParametroInterpolacion(String nombreParametro, float valorParametro, String unidadParametro) {
+    public ParametroInterpolacion(String nombreParametro, BigDecimal valorParametro, String unidadParametro) {
        this.nombreParametro = nombreParametro;
        this.valorParametro = valorParametro;
        this.unidadParametro = unidadParametro;
@@ -56,12 +57,12 @@ public class ParametroInterpolacion  implements java.io.Serializable {
     }
 
     
-    @Column(name="valor_parametro", nullable=false, precision=6, scale=3)
-    public float getValorParametro() {
+    @Column(name="valor_parametro", nullable=false, precision=9, scale=5)
+    public BigDecimal getValorParametro() {
         return this.valorParametro;
     }
     
-    public void setValorParametro(float valorParametro) {
+    public void setValorParametro(BigDecimal valorParametro) {
         this.valorParametro = valorParametro;
     }
 

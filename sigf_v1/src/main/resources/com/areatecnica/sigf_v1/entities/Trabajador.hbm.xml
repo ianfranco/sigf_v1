@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 31-08-2016 4:14:05 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.areatecnica.sigf_v1.entities.Trabajador" table="trabajador" catalog="sigf_v1" optimistic-lock="version">
         <id name="idTrabajador" type="java.lang.Integer">
             <column name="id_trabajador" />
             <generator class="identity" />
         </id>
+        <many-to-one name="asignacionFamiliar" class="com.areatecnica.sigf_v1.entities.AsignacionFamiliar" fetch="select">
+            <column name="id_asignacion_familiar" not-null="true" />
+        </many-to-one>
         <many-to-one name="comuna" class="com.areatecnica.sigf_v1.entities.Comuna" fetch="select">
             <column name="id_comuna" not-null="true" />
-        </many-to-one>
-        <many-to-one name="grupoAsignacionTrabajador" class="com.areatecnica.sigf_v1.entities.GrupoAsignacionTrabajador" fetch="select">
-            <column name="id_grupo_asignacion" not-null="true" />
         </many-to-one>
         <many-to-one name="institucionApv" class="com.areatecnica.sigf_v1.entities.InstitucionApv" fetch="select">
             <column name="id_institucion_apv" not-null="true" />
@@ -29,6 +29,9 @@
         <many-to-one name="tipoCotizacionTrabajador" class="com.areatecnica.sigf_v1.entities.TipoCotizacionTrabajador" fetch="select">
             <column name="id_tipo_cotizacion_trabajador" not-null="true" />
         </many-to-one>
+        <property name="codigoTrabajador" type="int">
+            <column name="codigo_trabajador" not-null="true" />
+        </property>
         <property name="rutTrabajador" type="string">
             <column name="rut_trabajador" length="9" not-null="true" unique="true" />
         </property>
@@ -76,6 +79,9 @@
         </property>
         <property name="formaPagoApv" type="java.lang.Boolean">
             <column name="forma_pago_apv" />
+        </property>
+        <property name="montoApv" type="java.lang.Integer">
+            <column name="monto_apv" />
         </property>
         <property name="subsidioJoven" type="java.lang.Boolean">
             <column name="subsidio_joven" />
@@ -131,11 +137,11 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.HoraExtraTrabajador" />
         </set>
-        <set name="cargasTrabajadors" table="cargas_trabajador" inverse="true" lazy="true" fetch="select">
+        <set name="cargaTrabajadors" table="carga_trabajador" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_trabajador" not-null="true" />
             </key>
-            <one-to-many class="com.areatecnica.sigf_v1.entities.CargasTrabajador" />
+            <one-to-many class="com.areatecnica.sigf_v1.entities.CargaTrabajador" />
         </set>
         <set name="feriadoLegals" table="feriado_legal" inverse="true" lazy="true" fetch="select">
             <key>

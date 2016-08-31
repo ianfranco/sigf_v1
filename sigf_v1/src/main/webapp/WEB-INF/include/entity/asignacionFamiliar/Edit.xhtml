@@ -51,11 +51,6 @@
                             <p:tooltip for="hasta" value="#{asignacionFamiliarController.getComponentMessages('hasta', bundle.EditAsignacionFamiliarHelpText_hasta)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_anio}" for="anio" />
-                        <h:panelGroup>
-                            <p:inputText id="anio" value="#{asignacionFamiliarController.selected.anio}" title="#{bundle.EditAsignacionFamiliarTitle_anio}"/>
-                            <p:tooltip for="anio" value="#{asignacionFamiliarController.getComponentMessages('anio', bundle.EditAsignacionFamiliarHelpText_anio)}"/>
-                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{asignacionFamiliarController.save}" value="#{bundle.Save}" update="display,:AsignacionFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AsignacionFamiliarEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>

@@ -6,7 +6,6 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.BancoDaoImpl;
 import com.areatecnica.sigf_v1.dao.CajaCompensacionDaoImpl;
 import com.areatecnica.sigf_v1.entities.CajaCompensacion;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
@@ -23,7 +22,7 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "institucionPrevisionController")
+@Named(value = "cajaCompensacionController")
 @SessionScoped
 public class CajaCompensacionController implements Serializable {
 

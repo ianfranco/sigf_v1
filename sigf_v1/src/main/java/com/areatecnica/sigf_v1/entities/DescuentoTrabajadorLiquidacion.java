@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;

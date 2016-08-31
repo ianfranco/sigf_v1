@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class Departamento  implements java.io.Serializable {
      private Integer idDepartamento;
      private String nombre;
      private Boolean activo;
-     private Set<GastosAdministracionMensual> gastosAdministracionMensuals = new HashSet<GastosAdministracionMensual>(0);
+     private Set<GastoAdministracionMensual> gastoAdministracionMensuals = new HashSet<GastoAdministracionMensual>(0);
 
     public Departamento() {
     }
@@ -35,10 +35,10 @@ public class Departamento  implements java.io.Serializable {
     public Departamento(String nombre) {
         this.nombre = nombre;
     }
-    public Departamento(String nombre, Boolean activo, Set<GastosAdministracionMensual> gastosAdministracionMensuals) {
+    public Departamento(String nombre, Boolean activo, Set<GastoAdministracionMensual> gastoAdministracionMensuals) {
        this.nombre = nombre;
        this.activo = activo;
-       this.gastosAdministracionMensuals = gastosAdministracionMensuals;
+       this.gastoAdministracionMensuals = gastoAdministracionMensuals;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -74,12 +74,12 @@ public class Departamento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="departamento")
-    public Set<GastosAdministracionMensual> getGastosAdministracionMensuals() {
-        return this.gastosAdministracionMensuals;
+    public Set<GastoAdministracionMensual> getGastoAdministracionMensuals() {
+        return this.gastoAdministracionMensuals;
     }
     
-    public void setGastosAdministracionMensuals(Set<GastosAdministracionMensual> gastosAdministracionMensuals) {
-        this.gastosAdministracionMensuals = gastosAdministracionMensuals;
+    public void setGastoAdministracionMensuals(Set<GastoAdministracionMensual> gastoAdministracionMensuals) {
+        this.gastoAdministracionMensuals = gastoAdministracionMensuals;
     }
 
 

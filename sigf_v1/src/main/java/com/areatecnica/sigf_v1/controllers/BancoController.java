@@ -22,7 +22,7 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "institucionPrevisionController")
+@Named(value = "bancoController")
 @SessionScoped
 public class BancoController implements Serializable {
 

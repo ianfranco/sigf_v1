@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class ParentescoCarga  implements java.io.Serializable {
 
      private Integer idParentescoCarga;
      private String nombreParentescoCarga;
-     private Set<CargasTrabajador> cargasTrabajadors = new HashSet<CargasTrabajador>(0);
+     private Set<CargaTrabajador> cargaTrabajadors = new HashSet<CargaTrabajador>(0);
 
     public ParentescoCarga() {
     }
@@ -34,9 +34,9 @@ public class ParentescoCarga  implements java.io.Serializable {
     public ParentescoCarga(String nombreParentescoCarga) {
         this.nombreParentescoCarga = nombreParentescoCarga;
     }
-    public ParentescoCarga(String nombreParentescoCarga, Set<CargasTrabajador> cargasTrabajadors) {
+    public ParentescoCarga(String nombreParentescoCarga, Set<CargaTrabajador> cargaTrabajadors) {
        this.nombreParentescoCarga = nombreParentescoCarga;
-       this.cargasTrabajadors = cargasTrabajadors;
+       this.cargaTrabajadors = cargaTrabajadors;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -62,12 +62,12 @@ public class ParentescoCarga  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="parentescoCarga")
-    public Set<CargasTrabajador> getCargasTrabajadors() {
-        return this.cargasTrabajadors;
+    public Set<CargaTrabajador> getCargaTrabajadors() {
+        return this.cargaTrabajadors;
     }
     
-    public void setCargasTrabajadors(Set<CargasTrabajador> cargasTrabajadors) {
-        this.cargasTrabajadors = cargasTrabajadors;
+    public void setCargaTrabajadors(Set<CargaTrabajador> cargaTrabajadors) {
+        this.cargaTrabajadors = cargaTrabajadors;
     }
 
 

@@ -24,11 +24,11 @@
             <p:menuitem value="#{bundle.EmpresaMenuItem_representanteEmpresas}" icon="ui-icon-search"  action="#{empresaController.navigateRepresentanteEmpresas}" disabled="#{empty empresaController.selected.representanteEmpresas}" ajax="false"/>  
         </p:contextMenu>
         <p:dataTable id="datalist"
-                     value="#{empresaController.lazyItems}"
-                     lazy="true"
+                     value="#{empresaController.items}"                     
                      var="item"
                      paginator="true"
                      rows="100"
+                     rowKey="#{item.idEmpresa}"
                      rowsPerPageTemplate="50,100,200"
                      selectionMode="single"
                      selection="#{empresaController.selected}"
@@ -75,23 +75,6 @@
                 <h:outputText value="#{item.nombreEmpresa}"/>
             </p:column>
 
-
-            <p:column sortBy="#{item.giro}" filterBy="#{item.giro}">
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListEmpresaTitle_giro}"/>
-                </f:facet>
-                <h:outputText value="#{item.giro}"/>
-            </p:column>
-
-
-            <p:column sortBy="#{item.direccionEmpresa}" filterBy="#{item.direccionEmpresa}">
-                <f:facet name="header">
-                    <h:outputText value="Dirección"/>
-                </f:facet>
-                <h:outputText value="#{item.direccionEmpresa}"/>
-            </p:column>
-
-
             <p:column sortBy="#{item.telefonoEmpresa}" filterBy="#{item.telefonoEmpresa}">
                 <f:facet name="header">
                     <h:outputText value="Teléfono"/>
@@ -106,19 +89,19 @@
                 <h:outputText value="#{item.emailEmpresa}"/>
             </p:column>
 
-            <p:column sortBy="#{item.cajaCompensacion.idCajaCompensacion}" filterBy="#{item.cajaCompensacion.idCajaCompensacion}">
+            <p:column sortBy="#{item.cajaCompensacion.nombreCajaCompensacion}" filterBy="#{item.cajaCompensacion.nombreCajaCompensacion}">
                 <f:facet name="header">
                     <h:outputText value="Caja Comp."/>
                 </f:facet>
-                <h:outputText value="#{item.cajaCompensacion.idCajaCompensacion}"/>
+                <h:outputText value="#{item.cajaCompensacion.nombreCajaCompensacion}"/>
             </p:column>
 
 
-            <p:column sortBy="#{item.mutual.idMutual}" filterBy="#{item.mutual.idMutual}">
+            <p:column sortBy="#{item.mutual.nombreMutual}" filterBy="#{item.mutual.nombreMutual}">
                 <f:facet name="header">
                     <h:outputText value="#{bundle.ListEmpresaTitle_mutual}"/>
                 </f:facet>
-                <h:outputText value="#{item.mutual.idMutual}"/>
+                <h:outputText value="#{item.mutual.nombreMutual}"/>
             </p:column>
 
             <!--
@@ -132,14 +115,7 @@
             <!--
                                 
             -->
-            <!--
-                                <p:column sortBy="#{item.empresacol}" filterBy="#{item.empresacol}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListEmpresaTitle_empresacol}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.empresacol}"/>
-                                </p:column>
-            -->
+            
 
         </p:dataTable>
 

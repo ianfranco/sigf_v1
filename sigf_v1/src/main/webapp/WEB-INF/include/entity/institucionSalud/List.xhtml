@@ -18,14 +18,16 @@
                 <p:menuitem value="#{bundle.InstitucionSaludMenuItem_trabajadors}" icon="ui-icon-search"  action="#{institucionSaludController.navigateTrabajadors}" disabled="#{empty institucionSaludController.selected.trabajadors}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{institucionSaludController.lazyItems}"
+                         value="#{institucionSaludController.items}"
                          lazy="true"
                          var="item"
                          paginator="true"
+                         rowKey="#{item.idInstitucionSalud}"
                          rows="100"
                          rowsPerPageTemplate="50,100,200"
                          selectionMode="single"
-                         selection="#{institucionSaludController.selected}">
+                         selection="#{institucionSaludController.selected}"
+                         emptyMessage="No se han encontrado registros">
                 <!--
                          To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -58,14 +60,6 @@
                         <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreInstitucionSalud}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.comision}" filterBy="#{item.comision}">
-                    <f:facet name="header">
-                        <h:outputText value="Comisión"/>
-                    </f:facet>
-                    <h:outputText value="#{item.comision}"/>
                 </p:column>
 
             </p:dataTable>

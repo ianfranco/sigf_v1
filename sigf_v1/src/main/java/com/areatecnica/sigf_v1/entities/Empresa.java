@@ -1,7 +1,8 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -33,8 +34,9 @@ public class Empresa  implements java.io.Serializable {
      private String giro;
      private String direccionEmpresa;
      private String telefonoEmpresa;
-     private String fax;
+     private String celularEmpresa;
      private String emailEmpresa;
+     private BigDecimal porcentajeMutual;
      private Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas = new HashSet<CuentaBancariaEmpresa>(0);
      private Set<LiquidacionEmpresa> liquidacionEmpresas = new HashSet<LiquidacionEmpresa>(0);
      private Set<RelacionLaboral> relacionLaborals = new HashSet<RelacionLaboral>(0);
@@ -45,14 +47,15 @@ public class Empresa  implements java.io.Serializable {
     }
 
 	
-    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro) {
+    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro, BigDecimal porcentajeMutual) {
         this.cajaCompensacion = cajaCompensacion;
         this.mutual = mutual;
         this.rutEmpresa = rutEmpresa;
         this.nombreEmpresa = nombreEmpresa;
         this.giro = giro;
+        this.porcentajeMutual = porcentajeMutual;
     }
-    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro, String direccionEmpresa, String telefonoEmpresa, String fax, String emailEmpresa, Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas, Set<LiquidacionEmpresa> liquidacionEmpresas, Set<RelacionLaboral> relacionLaborals, Set<Bus> buses, Set<RepresentanteEmpresa> representanteEmpresas) {
+    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro, String direccionEmpresa, String telefonoEmpresa, String celularEmpresa, String emailEmpresa, BigDecimal porcentajeMutual, Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas, Set<LiquidacionEmpresa> liquidacionEmpresas, Set<RelacionLaboral> relacionLaborals, Set<Bus> buses, Set<RepresentanteEmpresa> representanteEmpresas) {
        this.cajaCompensacion = cajaCompensacion;
        this.mutual = mutual;
        this.rutEmpresa = rutEmpresa;
@@ -60,8 +63,9 @@ public class Empresa  implements java.io.Serializable {
        this.giro = giro;
        this.direccionEmpresa = direccionEmpresa;
        this.telefonoEmpresa = telefonoEmpresa;
-       this.fax = fax;
+       this.celularEmpresa = celularEmpresa;
        this.emailEmpresa = emailEmpresa;
+       this.porcentajeMutual = porcentajeMutual;
        this.cuentaBancariaEmpresas = cuentaBancariaEmpresas;
        this.liquidacionEmpresas = liquidacionEmpresas;
        this.relacionLaborals = relacionLaborals;
@@ -152,13 +156,13 @@ public class Empresa  implements java.io.Serializable {
     }
 
     
-    @Column(name="fax")
-    public String getFax() {
-        return this.fax;
+    @Column(name="celular_empresa")
+    public String getCelularEmpresa() {
+        return this.celularEmpresa;
     }
     
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setCelularEmpresa(String celularEmpresa) {
+        this.celularEmpresa = celularEmpresa;
     }
 
     
@@ -169,6 +173,16 @@ public class Empresa  implements java.io.Serializable {
     
     public void setEmailEmpresa(String emailEmpresa) {
         this.emailEmpresa = emailEmpresa;
+    }
+
+    
+    @Column(name="porcentaje_mutual", nullable=false, precision=9)
+    public BigDecimal getPorcentajeMutual() {
+        return this.porcentajeMutual;
+    }
+    
+    public void setPorcentajeMutual(BigDecimal porcentajeMutual) {
+        this.porcentajeMutual = porcentajeMutual;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="empresa")

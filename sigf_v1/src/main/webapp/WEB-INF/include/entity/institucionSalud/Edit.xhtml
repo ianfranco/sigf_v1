@@ -27,17 +27,6 @@
                             <p:tooltip for="nombreInstitucionSalud" value="#{institucionSaludController.getComponentMessages('nombreInstitucionSalud', bundle.EditInstitucionSaludHelpText_nombreInstitucionSalud)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_comision}" for="comision" />
-                        <h:panelGroup>
-                            <p:inputText id="comision" value="#{institucionSaludController.selected.comision}" title="#{bundle.EditInstitucionSaludTitle_comision}"/>
-                            <p:tooltip for="comision" value="#{institucionSaludController.getComponentMessages('comision', bundle.EditInstitucionSaludHelpText_comision)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_porcentajeDescuento}" for="porcentajeDescuento" />
-                        <h:panelGroup>
-                            <p:inputText id="porcentajeDescuento" value="#{institucionSaludController.selected.porcentajeDescuento}" title="#{bundle.EditInstitucionSaludTitle_porcentajeDescuento}" required="true" requiredMessage="#{bundle.EditInstitucionSaludRequiredMessage_porcentajeDescuento}"/>
-                            <p:tooltip for="porcentajeDescuento" value="#{institucionSaludController.getComponentMessages('porcentajeDescuento', bundle.EditInstitucionSaludHelpText_porcentajeDescuento)}"/>
-                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{institucionSaludController.save}" value="#{bundle.Save}" update="display,:InstitucionSaludListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionSaludEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>

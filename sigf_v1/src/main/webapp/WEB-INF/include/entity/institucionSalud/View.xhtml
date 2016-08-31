@@ -21,11 +21,6 @@
                         <h:outputText value="#{bundle.ViewInstitucionSaludLabel_nombreInstitucionSalud}"/>
                         <h:outputText value="#{institucionSaludController.selected.nombreInstitucionSalud}" title="#{bundle.ViewInstitucionSaludTitle_nombreInstitucionSalud}"/>
 
-                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_comision}"/>
-                        <h:outputText value="#{institucionSaludController.selected.comision}" title="#{bundle.ViewInstitucionSaludTitle_comision}"/>
-
-                        <h:outputText value="#{bundle.ViewInstitucionSaludLabel_porcentajeDescuento}"/>
-                        <h:outputText value="#{institucionSaludController.selected.porcentajeDescuento}" title="#{bundle.ViewInstitucionSaludTitle_porcentajeDescuento}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PF('InstitucionSaludViewDialog').hide()"/>
                 </h:panelGroup>

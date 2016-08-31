@@ -15,15 +15,15 @@
                 <h:panelGroup id="display" rendered="#{asignacionFamiliarController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_codigoAsignacionFamiliar}" for="codigoAsignacionFamiliar" />
-                        <h:panelGroup>
-                            <p:inputText id="codigoAsignacionFamiliar" value="#{asignacionFamiliarController.selected.codigoAsignacionFamiliar}" title="#{bundle.CreateAsignacionFamiliarTitle_codigoAsignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_codigoAsignacionFamiliar}"/>
-                            <p:tooltip for="codigoAsignacionFamiliar" value="#{asignacionFamiliarController.getComponentMessages('codigoAsignacionFamiliar', bundle.CreateAsignacionFamiliarHelpText_codigoAsignacionFamiliar)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_tramo}" for="tramo" />
-                        <h:panelGroup>
-                            <p:inputText id="tramo" value="#{asignacionFamiliarController.selected.tramo}" title="#{bundle.CreateAsignacionFamiliarTitle_tramo}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_tramo}"/>
+                        <h:panelGroup>                            
+                            <p:selectOneMenu id="tramo" value="#{asignacionFamiliarController.selected.tramo}" style="width:125px" required="true" requiredMessage="Debe seleccionar el tramo">
+                                <f:selectItem itemLabel="A" itemValue="1" />
+                                <f:selectItem itemLabel="B" itemValue="2" />
+                                <f:selectItem itemLabel="C" itemValue="3" />
+                                <f:selectItem itemLabel="D" itemValue="4" />
+                            </p:selectOneMenu>
+
                             <p:tooltip for="tramo" value="#{asignacionFamiliarController.getComponentMessages('tramo', bundle.CreateAsignacionFamiliarHelpText_tramo)}"/>
                         </h:panelGroup>
 
@@ -45,11 +45,6 @@
                             <p:tooltip for="hasta" value="#{asignacionFamiliarController.getComponentMessages('hasta', bundle.CreateAsignacionFamiliarHelpText_hasta)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_anio}" for="anio" />
-                        <h:panelGroup>
-                            <p:inputText id="anio" value="#{asignacionFamiliarController.selected.anio}" title="#{bundle.CreateAsignacionFamiliarTitle_anio}"/>
-                            <p:tooltip for="anio" value="#{asignacionFamiliarController.getComponentMessages('anio', bundle.CreateAsignacionFamiliarHelpText_anio)}"/>
-                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{asignacionFamiliarController.saveNew}" value="#{bundle.Save}" update="display,:AsignacionFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AsignacionFamiliarCreateDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>

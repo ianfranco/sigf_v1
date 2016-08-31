@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class CargaRetroactiva  implements java.io.Serializable {
 
 
      private Integer idCargaRetroactiva;
-     private CargasTrabajador cargasTrabajador;
+     private CargaTrabajador cargaTrabajador;
      private Trabajador trabajador;
      private int mesLiquidacion;
      private int anioLiquidacion;
@@ -32,8 +32,8 @@ public class CargaRetroactiva  implements java.io.Serializable {
     public CargaRetroactiva() {
     }
 
-    public CargaRetroactiva(CargasTrabajador cargasTrabajador, Trabajador trabajador, int mesLiquidacion, int anioLiquidacion, int montoRetroactivo) {
-       this.cargasTrabajador = cargasTrabajador;
+    public CargaRetroactiva(CargaTrabajador cargaTrabajador, Trabajador trabajador, int mesLiquidacion, int anioLiquidacion, int montoRetroactivo) {
+       this.cargaTrabajador = cargaTrabajador;
        this.trabajador = trabajador;
        this.mesLiquidacion = mesLiquidacion;
        this.anioLiquidacion = anioLiquidacion;
@@ -54,12 +54,12 @@ public class CargaRetroactiva  implements java.io.Serializable {
 
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_carga_trabajador", nullable=false)
-    public CargasTrabajador getCargasTrabajador() {
-        return this.cargasTrabajador;
+    public CargaTrabajador getCargaTrabajador() {
+        return this.cargaTrabajador;
     }
     
-    public void setCargasTrabajador(CargasTrabajador cargasTrabajador) {
-        this.cargasTrabajador = cargasTrabajador;
+    public void setCargaTrabajador(CargaTrabajador cargaTrabajador) {
+        this.cargaTrabajador = cargaTrabajador;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

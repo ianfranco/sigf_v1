@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 31-08-2016 3:45:07 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.areatecnica.sigf_v1.entities.GastosAdministracionMensual" table="gastos_administracion_mensual" catalog="sigf_v1" optimistic-lock="version">
         <id name="idGastosAdministracionMensual" type="java.lang.Integer">
@@ -14,8 +14,8 @@
         <property name="mes" type="int">
             <column name="mes" not-null="true" />
         </property>
-        <property name="anio" type="int">
-            <column name="anio" not-null="true" />
+        <property name="a&#241;o" type="int">
+            <column name="a&#241;o" not-null="true" />
         </property>
         <property name="numeroFolio" type="int">
             <column name="numero_folio" not-null="true" />

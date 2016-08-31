@@ -8,6 +8,7 @@ package com.areatecnica.sigf_v1.dao;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,6 +29,12 @@ public class EmpresaDaoImpl implements EmpresaDao{
         
         try{            
             list = session.createQuery(sql).list();
+            
+            for(Empresa e:list){
+                Hibernate.initialize(e.getCajaCompensacion());
+                Hibernate.initialize(e.getMutual());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             e.printStackTrace();

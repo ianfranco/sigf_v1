@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -26,6 +26,7 @@ public class ObservacionTrabajador  implements java.io.Serializable {
 
 
      private Integer idObservacionTrabajador;
+     private TipoObservacion tipoObservacion;
      private Trabajador trabajador;
      private Date fecha;
      private Date fechaIngreso;
@@ -35,7 +36,8 @@ public class ObservacionTrabajador  implements java.io.Serializable {
     public ObservacionTrabajador() {
     }
 
-    public ObservacionTrabajador(Trabajador trabajador, Date fecha, Date fechaIngreso, String descripcion, String detalle) {
+    public ObservacionTrabajador(TipoObservacion tipoObservacion, Trabajador trabajador, Date fecha, Date fechaIngreso, String descripcion, String detalle) {
+       this.tipoObservacion = tipoObservacion;
        this.trabajador = trabajador;
        this.fecha = fecha;
        this.fechaIngreso = fechaIngreso;
@@ -53,6 +55,16 @@ public class ObservacionTrabajador  implements java.io.Serializable {
     
     public void setIdObservacionTrabajador(Integer idObservacionTrabajador) {
         this.idObservacionTrabajador = idObservacionTrabajador;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_tipo_observacion", nullable=false)
+    public TipoObservacion getTipoObservacion() {
+        return this.tipoObservacion;
+    }
+    
+    public void setTipoObservacion(TipoObservacion tipoObservacion) {
+        this.tipoObservacion = tipoObservacion;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

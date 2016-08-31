@@ -45,7 +45,7 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/BusDevice.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/DetalleVentaBoleto.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Egreso.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/Empresa.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/Empresa.hbm.xml"/>    
     <mapping resource="com/areatecnica/sigf_v1/entities/Despacho.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/HaberTrabajadorLiquidacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/FrecuenciaServicio.hbm.xml"/>
@@ -63,7 +63,6 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/Usuario.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/DescuentoTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ServicioProcesoRecaudacion.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/GrupoAsignacionTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/CentroCostoTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/EgresoRecaudacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Traccar.hbm.xml"/>
@@ -95,11 +94,14 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/ProcesoRecaudacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/RepresentanteEmpresa.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/JornadaLaboral.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/TipoLinea.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ParametroCesantia.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoAbono.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoDiaFrecuencia.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/UserDevice.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/TipoInstitucionApv.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/EstadoGuia.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/TipoObservacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoControl.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Servicio.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Boleto.hbm.xml"/>
@@ -116,8 +118,7 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/ValorRolloUnidad.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/MontoSindicatoTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Calle.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/MarcaBus.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/GastosAdministracionMensual.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/MarcaBus.hbm.xml"/>    
     <mapping resource="com/areatecnica/sigf_v1/entities/Sindicato.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ValorFijo.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TarifaServicio.hbm.xml"/>
@@ -127,12 +128,13 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/InstitucionSalud.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/RelacionLaboral.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoCotizacionTrabajador.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/GastoAdministracionMensual.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/CargoLiquidacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ContratoUnidad.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoCarga.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ParametroInterpolacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TipoEstacionalidad.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/CargasTrabajador.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/CargaTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ControlHorarioServicio.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/LiquidacionEmpresa.hbm.xml"/>
   </session-factory>

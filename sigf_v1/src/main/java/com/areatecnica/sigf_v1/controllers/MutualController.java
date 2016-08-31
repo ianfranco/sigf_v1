@@ -23,7 +23,7 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "institucionPrevisionController")
+@Named(value = "mutualController")
 @SessionScoped
 public class MutualController implements Serializable {
 

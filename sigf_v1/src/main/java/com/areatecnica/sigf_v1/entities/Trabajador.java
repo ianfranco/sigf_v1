@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -32,13 +32,14 @@ public class Trabajador  implements java.io.Serializable {
 
 
      private Integer idTrabajador;
+     private AsignacionFamiliar asignacionFamiliar;
      private Comuna comuna;
-     private GrupoAsignacionTrabajador grupoAsignacionTrabajador;
      private InstitucionApv institucionApv;
      private InstitucionPrevision institucionPrevision;
      private InstitucionSalud institucionSalud;
      private MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud;
      private TipoCotizacionTrabajador tipoCotizacionTrabajador;
+     private int codigoTrabajador;
      private String rutTrabajador;
      private String nombreTrabajador;
      private String apellidoPaternoTrabajador;
@@ -55,6 +56,7 @@ public class Trabajador  implements java.io.Serializable {
      private Integer numeroCargas;
      private BigDecimal montoSalud;
      private Boolean formaPagoApv;
+     private Integer montoApv;
      private Boolean subsidioJoven;
      private Date fechaIngresoTrabajador;
      private Set<ObservacionTrabajador> observacionTrabajadors = new HashSet<ObservacionTrabajador>(0);
@@ -65,7 +67,7 @@ public class Trabajador  implements java.io.Serializable {
      private Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions = new HashSet<HaberTrabajadorLiquidacion>(0);
      private Set<ControlAsistencia> controlAsistencias = new HashSet<ControlAsistencia>(0);
      private Set<HoraExtraTrabajador> horaExtraTrabajadors = new HashSet<HoraExtraTrabajador>(0);
-     private Set<CargasTrabajador> cargasTrabajadors = new HashSet<CargasTrabajador>(0);
+     private Set<CargaTrabajador> cargaTrabajadors = new HashSet<CargaTrabajador>(0);
      private Set<FeriadoLegal> feriadoLegals = new HashSet<FeriadoLegal>(0);
      private Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions = new HashSet<DescuentoTrabajadorLiquidacion>(0);
      private Set<CargaRetroactiva> cargaRetroactivas = new HashSet<CargaRetroactiva>(0);
@@ -82,28 +84,30 @@ public class Trabajador  implements java.io.Serializable {
     }
 
 	
-    public Trabajador(Comuna comuna, GrupoAsignacionTrabajador grupoAsignacionTrabajador, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaIngresoTrabajador) {
+    public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaIngresoTrabajador) {
+        this.asignacionFamiliar = asignacionFamiliar;
         this.comuna = comuna;
-        this.grupoAsignacionTrabajador = grupoAsignacionTrabajador;
         this.institucionApv = institucionApv;
         this.institucionPrevision = institucionPrevision;
         this.institucionSalud = institucionSalud;
         this.monedaPactadaInstitucionSalud = monedaPactadaInstitucionSalud;
         this.tipoCotizacionTrabajador = tipoCotizacionTrabajador;
+        this.codigoTrabajador = codigoTrabajador;
         this.rutTrabajador = rutTrabajador;
         this.nombreTrabajador = nombreTrabajador;
         this.apellidoPaternoTrabajador = apellidoPaternoTrabajador;
         this.apellidoMaternoTrabajador = apellidoMaternoTrabajador;
         this.fechaIngresoTrabajador = fechaIngresoTrabajador;
     }
-    public Trabajador(Comuna comuna, GrupoAsignacionTrabajador grupoAsignacionTrabajador, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Boolean subsidioJoven, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargasTrabajador> cargasTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
+    public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Integer montoApv, Boolean subsidioJoven, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargaTrabajador> cargaTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
+       this.asignacionFamiliar = asignacionFamiliar;
        this.comuna = comuna;
-       this.grupoAsignacionTrabajador = grupoAsignacionTrabajador;
        this.institucionApv = institucionApv;
        this.institucionPrevision = institucionPrevision;
        this.institucionSalud = institucionSalud;
        this.monedaPactadaInstitucionSalud = monedaPactadaInstitucionSalud;
        this.tipoCotizacionTrabajador = tipoCotizacionTrabajador;
+       this.codigoTrabajador = codigoTrabajador;
        this.rutTrabajador = rutTrabajador;
        this.nombreTrabajador = nombreTrabajador;
        this.apellidoPaternoTrabajador = apellidoPaternoTrabajador;
@@ -120,6 +124,7 @@ public class Trabajador  implements java.io.Serializable {
        this.numeroCargas = numeroCargas;
        this.montoSalud = montoSalud;
        this.formaPagoApv = formaPagoApv;
+       this.montoApv = montoApv;
        this.subsidioJoven = subsidioJoven;
        this.fechaIngresoTrabajador = fechaIngresoTrabajador;
        this.observacionTrabajadors = observacionTrabajadors;
@@ -130,7 +135,7 @@ public class Trabajador  implements java.io.Serializable {
        this.haberTrabajadorLiquidacions = haberTrabajadorLiquidacions;
        this.controlAsistencias = controlAsistencias;
        this.horaExtraTrabajadors = horaExtraTrabajadors;
-       this.cargasTrabajadors = cargasTrabajadors;
+       this.cargaTrabajadors = cargaTrabajadors;
        this.feriadoLegals = feriadoLegals;
        this.descuentoTrabajadorLiquidacions = descuentoTrabajadorLiquidacions;
        this.cargaRetroactivas = cargaRetroactivas;
@@ -157,6 +162,16 @@ public class Trabajador  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_asignacion_familiar", nullable=false)
+    public AsignacionFamiliar getAsignacionFamiliar() {
+        return this.asignacionFamiliar;
+    }
+    
+    public void setAsignacionFamiliar(AsignacionFamiliar asignacionFamiliar) {
+        this.asignacionFamiliar = asignacionFamiliar;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comuna", nullable=false)
     public Comuna getComuna() {
         return this.comuna;
@@ -164,16 +179,6 @@ public class Trabajador  implements java.io.Serializable {
     
     public void setComuna(Comuna comuna) {
         this.comuna = comuna;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_grupo_asignacion", nullable=false)
-    public GrupoAsignacionTrabajador getGrupoAsignacionTrabajador() {
-        return this.grupoAsignacionTrabajador;
-    }
-    
-    public void setGrupoAsignacionTrabajador(GrupoAsignacionTrabajador grupoAsignacionTrabajador) {
-        this.grupoAsignacionTrabajador = grupoAsignacionTrabajador;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -224,6 +229,16 @@ public class Trabajador  implements java.io.Serializable {
     
     public void setTipoCotizacionTrabajador(TipoCotizacionTrabajador tipoCotizacionTrabajador) {
         this.tipoCotizacionTrabajador = tipoCotizacionTrabajador;
+    }
+
+    
+    @Column(name="codigo_trabajador", nullable=false)
+    public int getCodigoTrabajador() {
+        return this.codigoTrabajador;
+    }
+    
+    public void setCodigoTrabajador(int codigoTrabajador) {
+        this.codigoTrabajador = codigoTrabajador;
     }
 
     
@@ -387,6 +402,16 @@ public class Trabajador  implements java.io.Serializable {
     }
 
     
+    @Column(name="monto_apv")
+    public Integer getMontoApv() {
+        return this.montoApv;
+    }
+    
+    public void setMontoApv(Integer montoApv) {
+        this.montoApv = montoApv;
+    }
+
+    
     @Column(name="subsidio_joven")
     public Boolean getSubsidioJoven() {
         return this.subsidioJoven;
@@ -479,12 +504,12 @@ public class Trabajador  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="trabajador")
-    public Set<CargasTrabajador> getCargasTrabajadors() {
-        return this.cargasTrabajadors;
+    public Set<CargaTrabajador> getCargaTrabajadors() {
+        return this.cargaTrabajadors;
     }
     
-    public void setCargasTrabajadors(Set<CargasTrabajador> cargasTrabajadors) {
-        this.cargasTrabajadors = cargasTrabajadors;
+    public void setCargaTrabajadors(Set<CargaTrabajador> cargaTrabajadors) {
+        this.cargaTrabajadors = cargaTrabajadors;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="trabajador")

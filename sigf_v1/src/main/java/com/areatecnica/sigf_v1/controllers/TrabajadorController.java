@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -31,12 +32,26 @@ public class TrabajadorController implements Serializable {
     private List<Trabajador> items;
     private Trabajador selected;
 
+    //helpers
+    private String nacionalidad;
+    private String sexo;
+    private boolean regimen;
+    private boolean fonasa;
+
     /**
      * Creates a new instance of TrabajadorController
      */
     public TrabajadorController() {
         this.trabajadorDao = new TrabajadorDaoImpl();
         this.items = this.trabajadorDao.findAll();
+    }
+
+    @PostConstruct
+    public void init() {
+        nacionalidad = "1";
+        sexo = "1";
+        fonasa = true;
+        regimen = false;
     }
 
     public List<Trabajador> getItems() {
@@ -55,9 +70,45 @@ public class TrabajadorController implements Serializable {
         this.selected = selected;
     }
 
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+    
+    
+    public boolean isFonasa() {
+        return fonasa;
+    }
+
+    public void setFonasa(boolean fonasa) {
+        this.fonasa = fonasa;
+    }
+    
+    
+    public boolean getRegimen() {
+        return regimen;
+    }
+
+    public void setRegimen(boolean regimen) {
+        this.regimen = regimen;
+    }
+
     public Trabajador prepareCreate(ActionEvent event) {
         Trabajador newTrabajador;
-        newTrabajador = new Trabajador();
+        newTrabajador = new Trabajador();        
+        newTrabajador.setNacionalidad(true);
+        newTrabajador.setSexo(true);
         this.selected = newTrabajador;
         return newTrabajador;
     }
@@ -97,17 +148,17 @@ public class TrabajadorController implements Serializable {
 
         }
     }
-    
-    public void resetParents(){
-        
-    }
-    
-    public void delete(){
-        
+
+    public void resetParents() {
+
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage){
+    public void delete() {
+
+    }
+
+    public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-    
+
 }

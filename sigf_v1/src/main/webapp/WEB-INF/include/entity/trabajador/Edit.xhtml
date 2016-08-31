@@ -216,12 +216,12 @@
 
                                         <p:outputLabel value="Grupo:" for="grupoAsignacionTrabajador" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="grupoAsignacionTrabajador" value="#{trabajadorController.selected.grupoAsignacionTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="grupoAsignacionTrabajadorConverter">
+                                            <p:selectOneMenu id="grupoAsignacionTrabajador" value="#{trabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="asignacionFamiliarConverter">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                                <f:selectItems value="#{grupoAsignacionTrabajadorController.items}"
-                                                               var="grupoAsignacionTrabajadorItem"
-                                                               itemValue="#{grupoAsignacionTrabajadorItem}"
-                                                               itemLabel="#{grupoAsignacionTrabajadorItem.idGrupoAsignacionTrabajador.toString()}"
+                                                <f:selectItems value="#{asignacionFamiliarController.items}"
+                                                               var="asignacionTrabajadorItem"
+                                                               itemValue="#{asignacionTrabajadorItem}"
+                                                               itemLabel="#{asignacionTrabajadorItem}"
                                                                />
 
                                             </p:selectOneMenu>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-08-2016 23:51:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 31-08-2016 4:14:05 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.areatecnica.sigf_v1.entities.FiniquitoRelacionLaboral" table="finiquito_relacion_laboral" catalog="sigf_v1" optimistic-lock="version">
         <id name="idFiniquitoRelacionLaboral" type="int">
@@ -23,11 +23,11 @@
         <property name="montoFiniquito" type="int">
             <column name="monto_finiquito" not-null="true" />
         </property>
-        <property name="anioServicio" type="java.lang.Integer">
-            <column name="anio_servicio" />
+        <property name="aniosServicio" type="java.lang.Integer">
+            <column name="anios_servicio" />
         </property>
-        <property name="anioAdicionales" type="java.lang.Integer">
-            <column name="anio_adicionales" />
+        <property name="aniosAdicionales" type="java.lang.Integer">
+            <column name="anios_adicionales" />
         </property>
     </class>
 </hibernate-mapping>

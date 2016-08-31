@@ -1,7 +1,7 @@
 package com.areatecnica.sigf_v1.converters;
 
 import com.areatecnica.sigf_v1.dao.AbstractDao;
-import com.areatecnica.sigf_v1.entities.CargasTrabajador;
+import com.areatecnica.sigf_v1.entities.CargaTrabajador;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 @FacesConverter(value = "cargasTrabajadorConverter")
-public class CargasTrabajadorConverter implements Converter {
+public class CargaTrabajadorConverter implements Converter {
 
     @Inject
     private AbstractDao dao;
@@ -43,11 +43,11 @@ public class CargasTrabajadorConverter implements Converter {
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof CargasTrabajador) {
-            CargasTrabajador o = (CargasTrabajador) object;
-            return getStringKey(o.getIdCargasTrabajador());
+        if (object instanceof CargaTrabajador) {
+            CargaTrabajador o = (CargaTrabajador) object;
+            return getStringKey(o.getIdCargaTrabajador());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), CargasTrabajador.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), CargaTrabajador.class.getName()});
             return null;
         }
     }

@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 28-08-2016 23:51:18 by Hibernate Tools 4.3.1
+// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,8 +29,8 @@ public class FiniquitoRelacionLaboral  implements java.io.Serializable {
      private Date fechaFiniquito;
      private Date fechaRegistroFiniquito;
      private int montoFiniquito;
-     private Integer anioServicio;
-     private Integer anioAdicionales;
+     private Integer aniosServicio;
+     private Integer aniosAdicionales;
 
     public FiniquitoRelacionLaboral() {
     }
@@ -43,15 +43,15 @@ public class FiniquitoRelacionLaboral  implements java.io.Serializable {
         this.fechaFiniquito = fechaFiniquito;
         this.montoFiniquito = montoFiniquito;
     }
-    public FiniquitoRelacionLaboral(int idFiniquitoRelacionLaboral, CausalFiniquito causalFiniquito, RelacionLaboral relacionLaboral, Date fechaFiniquito, Date fechaRegistroFiniquito, int montoFiniquito, Integer anioServicio, Integer anioAdicionales) {
+    public FiniquitoRelacionLaboral(int idFiniquitoRelacionLaboral, CausalFiniquito causalFiniquito, RelacionLaboral relacionLaboral, Date fechaFiniquito, Date fechaRegistroFiniquito, int montoFiniquito, Integer aniosServicio, Integer aniosAdicionales) {
        this.idFiniquitoRelacionLaboral = idFiniquitoRelacionLaboral;
        this.causalFiniquito = causalFiniquito;
        this.relacionLaboral = relacionLaboral;
        this.fechaFiniquito = fechaFiniquito;
        this.fechaRegistroFiniquito = fechaRegistroFiniquito;
        this.montoFiniquito = montoFiniquito;
-       this.anioServicio = anioServicio;
-       this.anioAdicionales = anioAdicionales;
+       this.aniosServicio = aniosServicio;
+       this.aniosAdicionales = aniosAdicionales;
     }
    
      @Id 
@@ -117,23 +117,23 @@ public class FiniquitoRelacionLaboral  implements java.io.Serializable {
     }
 
     
-    @Column(name="anio_servicio")
-    public Integer getAnioServicio() {
-        return this.anioServicio;
+    @Column(name="anios_servicio")
+    public Integer getAniosServicio() {
+        return this.aniosServicio;
     }
     
-    public void setAnioServicio(Integer anioServicio) {
-        this.anioServicio = anioServicio;
+    public void setAniosServicio(Integer aniosServicio) {
+        this.aniosServicio = aniosServicio;
     }
 
     
-    @Column(name="anio_adicionales")
-    public Integer getAnioAdicionales() {
-        return this.anioAdicionales;
+    @Column(name="anios_adicionales")
+    public Integer getAniosAdicionales() {
+        return this.aniosAdicionales;
     }
     
-    public void setAnioAdicionales(Integer anioAdicionales) {
-        this.anioAdicionales = anioAdicionales;
+    public void setAniosAdicionales(Integer aniosAdicionales) {
+        this.aniosAdicionales = aniosAdicionales;
     }
 
 
