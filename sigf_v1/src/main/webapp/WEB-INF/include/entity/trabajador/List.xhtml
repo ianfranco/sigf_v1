@@ -15,8 +15,7 @@
             <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
             <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
             <p:separator/>
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_comuna}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty trabajadorController.selected.comuna}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_grupoAsignacionTrabajador}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareGrupoAsignacionTrabajador}" update=":GrupoAsignacionTrabajadorViewForm" oncomplete="PF('GrupoAsignacionTrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected.grupoAsignacionTrabajador}"/>  
+            <p:menuitem value="#{bundle.TrabajadorMenuItem_comuna}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty trabajadorController.selected.comuna}"/>              
             <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionApv}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionApv}" update=":InstitucionApvViewForm" oncomplete="PF('InstitucionApvViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionApv}"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionPrevision}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionPrevision}" update=":InstitucionPrevisionViewForm" oncomplete="PF('InstitucionPrevisionViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionPrevision}"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionSalud}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionSalud}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionSalud}"/>  
@@ -29,8 +28,7 @@
             <p:menuitem value="#{bundle.TrabajadorMenuItem_relacionLaborals}" icon="ui-icon-search"  action="#{trabajadorController.navigateRelacionLaborals}" disabled="#{empty trabajadorController.selected.relacionLaborals}" ajax="false"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_haberTrabajadorLiquidacions}" icon="ui-icon-search"  action="#{trabajadorController.navigateHaberTrabajadorLiquidacions}" disabled="#{empty trabajadorController.selected.haberTrabajadorLiquidacions}" ajax="false"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_controlAsistencias}" icon="ui-icon-search"  action="#{trabajadorController.navigateControlAsistencias}" disabled="#{empty trabajadorController.selected.controlAsistencias}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_horaExtraTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateHoraExtraTrabajadors}" disabled="#{empty trabajadorController.selected.horaExtraTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_cargasTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateCargasTrabajadors}" disabled="#{empty trabajadorController.selected.cargasTrabajadors}" ajax="false"/>  
+            <p:menuitem value="#{bundle.TrabajadorMenuItem_horaExtraTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateHoraExtraTrabajadors}" disabled="#{empty trabajadorController.selected.horaExtraTrabajadors}" ajax="false"/>              
             <p:menuitem value="#{bundle.TrabajadorMenuItem_feriadoLegals}" icon="ui-icon-search"  action="#{trabajadorController.navigateFeriadoLegals}" disabled="#{empty trabajadorController.selected.feriadoLegals}" ajax="false"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_descuentoTrabajadorLiquidacions}" icon="ui-icon-search"  action="#{trabajadorController.navigateDescuentoTrabajadorLiquidacions}" disabled="#{empty trabajadorController.selected.descuentoTrabajadorLiquidacions}" ajax="false"/>  
             <p:menuitem value="#{bundle.TrabajadorMenuItem_cargaRetroactivas}" icon="ui-icon-search"  action="#{trabajadorController.navigateCargaRetroactivas}" disabled="#{empty trabajadorController.selected.cargaRetroactivas}" ajax="false"/>  
@@ -51,7 +49,8 @@
                      rowsPerPageTemplate="50,100,200"
                      selectionMode="single"
                      selection="#{trabajadorController.selected}"
-                     emptyMessage="No se han encontrado registros">
+                     emptyMessage="No se han encontrado registros"
+                     rowKey="#{item.idTrabajador}">
             <!--
                      To disable Lazy Loading, please copy/replace the following lines above,
                      and be sure to replace the word HASH with the # symbol:
@@ -168,14 +167,6 @@
                                         <h:outputText value="#{bundle.ListTrabajadorTitle_calleTrabajador}"/>
                                     </f:facet>
                                     <h:outputText value="#{item.calleTrabajador}"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.numeroDireccionTrabajador}" filterBy="#{item.numeroDireccionTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_numeroDireccionTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.numeroDireccionTrabajador}"/>
                                 </p:column>
             -->
             <!--

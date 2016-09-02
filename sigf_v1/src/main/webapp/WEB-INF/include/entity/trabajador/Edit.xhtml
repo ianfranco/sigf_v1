@@ -66,11 +66,7 @@
                                     <p:tooltip for="sexo" value="#{trabajadorController.getComponentMessages('sexo', bundle.CreateTrabajadorHelpText_sexo)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="Dirección:" for="direccionTrabajador" />
-                                <h:panelGroup>
-                                    <p:inputText id="direccionTrabajador" value="#{trabajadorController.selected.direccionTrabajador}" title="#{bundle.CreateTrabajadorTitle_direccionTrabajador}"/>
-                                    <p:tooltip for="direccionTrabajador" value="#{trabajadorController.getComponentMessages('direccionTrabajador', bundle.CreateTrabajadorHelpText_direccionTrabajador)}"/>
-                                </h:panelGroup>
+
 
                                 <p:outputLabel value="Teléfono:" for="telefonoFijoTrabajador" />
                                 <h:panelGroup>
@@ -214,9 +210,9 @@
                                         </h:panelGroup>
 
 
-                                        <p:outputLabel value="Grupo:" for="grupoAsignacionTrabajador" />
+                                        <p:outputLabel value="Grupo:" for="AsignacionTrabajador" />
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="grupoAsignacionTrabajador" value="#{trabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="asignacionFamiliarConverter">
+                                            <p:selectOneMenu id="AsignacionTrabajador" value="#{trabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_grupoAsignacionTrabajador}" converter="asignacionFamiliarConverter">
                                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                                 <f:selectItems value="#{asignacionFamiliarController.items}"
                                                                var="asignacionTrabajadorItem"
@@ -225,7 +221,7 @@
                                                                />
 
                                             </p:selectOneMenu>
-                                            <p:tooltip for="grupoAsignacionTrabajador" value="#{trabajadorController.getComponentMessages('grupoAsignacionTrabajador', bundle.CreateTrabajadorHelpText_grupoAsignacionTrabajador)}"/>
+                                            <p:tooltip for="AsignacionTrabajador" value="#{trabajadorController.getComponentMessages('grupoAsignacionTrabajador', bundle.CreateTrabajadorHelpText_grupoAsignacionTrabajador)}"/>
                                         </h:panelGroup>
                                     </p:panelGrid>
 

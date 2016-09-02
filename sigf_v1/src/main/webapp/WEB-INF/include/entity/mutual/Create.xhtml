@@ -15,7 +15,7 @@
                 <h:panelGroup id="display" rendered="#{mutualController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateMutualLabel_nombreMutual}" for="nombreMutual" />
+                        <p:outputLabel value="Nombre:" for="nombreMutual" />
                         <h:panelGroup>
                             <p:inputText id="nombreMutual" value="#{mutualController.selected.nombreMutual}" title="#{bundle.CreateMutualTitle_nombreMutual}" required="true" requiredMessage="#{bundle.CreateMutualRequiredMessage_nombreMutual}"/>
                             <p:tooltip for="nombreMutual" value="#{mutualController.getComponentMessages('nombreMutual', bundle.CreateMutualHelpText_nombreMutual)}"/>

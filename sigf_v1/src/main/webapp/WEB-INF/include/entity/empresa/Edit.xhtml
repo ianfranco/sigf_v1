@@ -21,34 +21,6 @@
                             <p:tooltip for="idEmpresa" value="#{empresaController.getComponentMessages('idEmpresa', bundle.EditEmpresaHelpText_idEmpresa)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditEmpresaLabel_cajaCompensacion}" for="cajaCompensacion" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="cajaCompensacion" value="#{empresaController.selected.cajaCompensacion}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_cajaCompensacion}" converter="cajaCompensacionConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{cajaCompensacionController.items}"
-                                               var="cajaCompensacionItem"
-                                               itemValue="#{cajaCompensacionItem}"
-                                               itemLabel="#{cajaCompensacionItem.idCajaCompensacion.toString()}"
-                                               />
-
-                            </p:selectOneMenu>
-                            <p:tooltip for="cajaCompensacion" value="#{empresaController.getComponentMessages('cajaCompensacion', bundle.EditEmpresaHelpText_cajaCompensacion)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.EditEmpresaLabel_mutual}" for="mutual" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="mutual" value="#{empresaController.selected.mutual}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_mutual}" converter="mutualConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{mutualController.items}"
-                                               var="mutualItem"
-                                               itemValue="#{mutualItem}"
-                                               itemLabel="#{mutualItem.idMutual.toString()}"
-                                               />
-
-                            </p:selectOneMenu>
-                            <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.EditEmpresaHelpText_mutual)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.EditEmpresaLabel_rutEmpresa}" for="rutEmpresa" />
                         <h:panelGroup>
                             <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.EditEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_rutEmpresa}"/>
@@ -79,18 +51,46 @@
                             <p:tooltip for="telefonoEmpresa" value="#{empresaController.getComponentMessages('telefonoEmpresa', bundle.EditEmpresaHelpText_telefonoEmpresa)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditEmpresaLabel_fax}" for="fax" />
-                        <h:panelGroup>
-                            <p:inputText id="fax" value="#{empresaController.selected.fax}" title="#{bundle.EditEmpresaTitle_fax}"/>
-                            <p:tooltip for="fax" value="#{empresaController.getComponentMessages('fax', bundle.EditEmpresaHelpText_fax)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.EditEmpresaLabel_emailEmpresa}" for="emailEmpresa" />
                         <h:panelGroup>
                             <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.EditEmpresaTitle_emailEmpresa}"/>
                             <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.EditEmpresaHelpText_emailEmpresa)}"/>
                         </h:panelGroup>
-                     
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_cajaCompensacion}" for="cajaCompensacion" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cajaCompensacion" value="#{empresaController.selected.cajaCompensacion}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_cajaCompensacion}" converter="cajaCompensacionConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cajaCompensacionController.items}"
+                                               var="cajaCompensacionItem"
+                                               itemValue="#{cajaCompensacionItem}"
+                                               itemLabel="#{cajaCompensacionItem.idCajaCompensacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cajaCompensacion" value="#{empresaController.getComponentMessages('cajaCompensacion', bundle.EditEmpresaHelpText_cajaCompensacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_mutual}" for="mutual" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="mutual" value="#{empresaController.selected.mutual}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_mutual}" converter="mutualConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{mutualController.items}"
+                                               var="mutualItem"
+                                               itemValue="#{mutualItem}"
+                                               itemLabel="#{mutualItem.idMutual.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.EditEmpresaHelpText_mutual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="% Mutual:" for="porcentaje" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentaje" value="#{empresaController.selected.porcentajeMutual}" required="true" requiredMessage="Debe ingresar el valor"/>
+                            <p:tooltip for="porcentaje" value="Ingrese la información"/>
+                        </h:panelGroup>
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{empresaController.save}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>

@@ -79,6 +79,12 @@
                             <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.CreateEmpresaHelpText_mutual)}"/>
                         </h:panelGroup>
                         
+                        <p:outputLabel value="% Mutual:" for="porcentaje" />
+                        <h:panelGroup>
+                            <p:inputText id="porcentaje" value="#{empresaController.selected.porcentajeMutual}" required="true" requiredMessage="Debe ingresar el valor"/>
+                            <p:tooltip for="porcentaje" value="Ingrese la información"/>
+                        </h:panelGroup>
+                        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{empresaController.saveNew}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaCreateDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>

@@ -104,19 +104,6 @@
                 <h:outputText value="#{item.mutual.nombreMutual}"/>
             </p:column>
 
-            <!--
-                                <p:column sortBy="#{item.fax}" filterBy="#{item.fax}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListEmpresaTitle_fax}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.fax}"/>
-                                </p:column>
-            -->
-            <!--
-                                
-            -->
-            
-
         </p:dataTable>
 
         <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{empresaController.prepareCreate}" update=":EmpresaCreateForm" oncomplete="PF('EmpresaCreateDialog').show()"/>

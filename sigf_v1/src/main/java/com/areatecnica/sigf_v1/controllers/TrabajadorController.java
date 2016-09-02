@@ -44,14 +44,16 @@ public class TrabajadorController implements Serializable {
     public TrabajadorController() {
         this.trabajadorDao = new TrabajadorDaoImpl();
         this.items = this.trabajadorDao.findAll();
+        this.selected = new Trabajador();
     }
 
     @PostConstruct
     public void init() {
+        this.selected = new Trabajador();
         nacionalidad = "1";
         sexo = "1";
         fonasa = true;
-        regimen = false;
+        regimen = true;
     }
 
     public List<Trabajador> getItems() {
@@ -114,18 +116,23 @@ public class TrabajadorController implements Serializable {
     }
 
     public void saveNew() {
+        System.err.println("ENTRA AL MÉTODO");
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
-            try {
+            /*try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(selected);
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Trabajador");
-            }
+            }*/
+            System.err.println("TRABAJADOR"+this.selected.getApellidoMaternoTrabajador());
+            System.err.println("TRABAJADOR"+this.selected.getNombreTrabajador());
+            System.err.println("TRABAJADOR"+this.selected.getCodigoTrabajador());
+            System.err.println("TRABAJADOR"+this.selected.getRutTrabajador());
         } else {
 
         }
