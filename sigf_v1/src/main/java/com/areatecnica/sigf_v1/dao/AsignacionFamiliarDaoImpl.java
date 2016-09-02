@@ -21,7 +21,19 @@ public class AsignacionFamiliarDaoImpl implements GenericDao<AsignacionFamiliar>
 
     @Override
     public AsignacionFamiliar findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        AsignacionFamiliar asignacionFamiliar = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM AsignacionFamiliar WHERE idAsignacionFamiliar=" + id;
+        try {
+            asignacionFamiliar = (AsignacionFamiliar) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return asignacionFamiliar;
     }
 
     @Override

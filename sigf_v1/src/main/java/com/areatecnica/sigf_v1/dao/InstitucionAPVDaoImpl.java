@@ -20,8 +20,20 @@ import org.hibernate.Transaction;
 public class InstitucionAPVDaoImpl implements GenericDao<InstitucionApv>{
 
     @Override
-    public Object findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public InstitucionApv findById(int id) {
+        InstitucionApv institucionApv = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM InstitucionApv WHERE idInstitucionApv=" + id;
+        try {
+            institucionApv = (InstitucionApv) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return institucionApv;
     }
 
     @Override

@@ -78,6 +78,12 @@ public class Trabajador implements java.io.Serializable {
 
     public Trabajador() {
     }
+    
+    public Trabajador(boolean defecto){
+        this.nacionalidad = true;
+        this.estadoCivil = 2;
+        this.sexo = true;
+    }
 
     public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaIngresoTrabajador) {
         this.asignacionFamiliar = asignacionFamiliar;

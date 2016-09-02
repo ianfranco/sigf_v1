@@ -18,5 +18,5 @@ public interface TrabajadorDao {
     public List<Trabajador> findAll();    
     public List<Trabajador> findByTerminal(Terminal terminal);
     public void deactivated(Trabajador trabajador);
-    
+    public int maxId();
 }

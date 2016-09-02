@@ -9,6 +9,7 @@ import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,6 +30,17 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         try {
 
             list = session.createQuery(sql).list();
+            
+            for(Trabajador t:list){
+                Hibernate.initialize(t.getAsignacionFamiliar());
+                Hibernate.initialize(t.getInstitucionPrevision());
+                Hibernate.initialize(t.getInstitucionApv());
+                Hibernate.initialize(t.getInstitucionSalud());
+                Hibernate.initialize(t.getTipoCotizacionTrabajador());
+                Hibernate.initialize(t.getComuna());
+                Hibernate.initialize(t.getMonedaPactadaInstitucionSalud());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -71,6 +83,22 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
             tx.rollback();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int maxId() {
+        int maxId = 0;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            maxId = (Integer)session.createQuery("SELECT MAX(codigoTrabajador) FROM Trabajador").uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return maxId+1;
     }
 
 }

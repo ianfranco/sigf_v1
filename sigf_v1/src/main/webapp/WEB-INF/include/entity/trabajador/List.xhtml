@@ -15,31 +15,7 @@
             <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
             <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
             <p:separator/>
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_comuna}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty trabajadorController.selected.comuna}"/>              
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionApv}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionApv}" update=":InstitucionApvViewForm" oncomplete="PF('InstitucionApvViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionApv}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionPrevision}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionPrevision}" update=":InstitucionPrevisionViewForm" oncomplete="PF('InstitucionPrevisionViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionPrevision}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_institucionSalud}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareInstitucionSalud}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty trabajadorController.selected.institucionSalud}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_monedaPactadaInstitucionSalud}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareMonedaPactadaInstitucionSalud}" update=":MonedaPactadaInstitucionSaludViewForm" oncomplete="PF('MonedaPactadaInstitucionSaludViewDialog').show()" disabled="#{empty trabajadorController.selected.monedaPactadaInstitucionSalud}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_tipoCotizacionTrabajador}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTipoCotizacionTrabajador}" update=":TipoCotizacionTrabajadorViewForm" oncomplete="PF('TipoCotizacionTrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected.tipoCotizacionTrabajador}"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_observacionTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateObservacionTrabajadors}" disabled="#{empty trabajadorController.selected.observacionTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_licenciaMedicas}" icon="ui-icon-search"  action="#{trabajadorController.navigateLicenciaMedicas}" disabled="#{empty trabajadorController.selected.licenciaMedicas}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_despachos}" icon="ui-icon-search"  action="#{trabajadorController.navigateDespachos}" disabled="#{empty trabajadorController.selected.despachos}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_centroCostoTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateCentroCostoTrabajadors}" disabled="#{empty trabajadorController.selected.centroCostoTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_relacionLaborals}" icon="ui-icon-search"  action="#{trabajadorController.navigateRelacionLaborals}" disabled="#{empty trabajadorController.selected.relacionLaborals}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_haberTrabajadorLiquidacions}" icon="ui-icon-search"  action="#{trabajadorController.navigateHaberTrabajadorLiquidacions}" disabled="#{empty trabajadorController.selected.haberTrabajadorLiquidacions}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_controlAsistencias}" icon="ui-icon-search"  action="#{trabajadorController.navigateControlAsistencias}" disabled="#{empty trabajadorController.selected.controlAsistencias}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_horaExtraTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateHoraExtraTrabajadors}" disabled="#{empty trabajadorController.selected.horaExtraTrabajadors}" ajax="false"/>              
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_feriadoLegals}" icon="ui-icon-search"  action="#{trabajadorController.navigateFeriadoLegals}" disabled="#{empty trabajadorController.selected.feriadoLegals}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_descuentoTrabajadorLiquidacions}" icon="ui-icon-search"  action="#{trabajadorController.navigateDescuentoTrabajadorLiquidacions}" disabled="#{empty trabajadorController.selected.descuentoTrabajadorLiquidacions}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_cargaRetroactivas}" icon="ui-icon-search"  action="#{trabajadorController.navigateCargaRetroactivas}" disabled="#{empty trabajadorController.selected.cargaRetroactivas}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_formaPagoTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateFormaPagoTrabajadors}" disabled="#{empty trabajadorController.selected.formaPagoTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_cuentaBancariaTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateCuentaBancariaTrabajadors}" disabled="#{empty trabajadorController.selected.cuentaBancariaTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_guias}" icon="ui-icon-search"  action="#{trabajadorController.navigateGuias}" disabled="#{empty trabajadorController.selected.guias}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_jornadaTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateJornadaTrabajadors}" disabled="#{empty trabajadorController.selected.jornadaTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_diaTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateDiaTrabajadors}" disabled="#{empty trabajadorController.selected.diaTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorTerminals}" icon="ui-icon-search"  action="#{trabajadorController.navigateTrabajadorTerminals}" disabled="#{empty trabajadorController.selected.trabajadorTerminals}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_sindicatoTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateSindicatoTrabajadors}" disabled="#{empty trabajadorController.selected.sindicatoTrabajadors}" ajax="false"/>  
-            <p:menuitem value="#{bundle.TrabajadorMenuItem_anticipoTrabajadors}" icon="ui-icon-search"  action="#{trabajadorController.navigateAnticipoTrabajadors}" disabled="#{empty trabajadorController.selected.anticipoTrabajadors}" ajax="false"/>  
+            
         </p:contextMenu>
         <p:dataTable id="datalist"
                      value="#{trabajadorController.items}"                     
@@ -70,11 +46,11 @@
                 Lista de Trabajadores
             </f:facet>
             
-            <p:column sortBy="#{item.idTrabajador}" filterBy="#{item.idTrabajador}">
+            <p:column sortBy="#{item.codigoTrabajador}" filterBy="#{item.codigoTrabajador}">
                 <f:facet name="header">
                     <h:outputText value="Cód."/>
                 </f:facet>
-                <h:outputText value="#{item.idTrabajador}"/>
+                <h:outputText value="#{item.codigoTrabajador}"/>
             </p:column>
 
             <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}">
@@ -233,7 +209,7 @@
 
         </p:dataTable>
 
-        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}"  update=":TrabajadorCreateForm" oncomplete="PF('TrabajadorCreateDialog').show()"/>
+        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}"  update=":TrabajadorCreateForm" oncomplete="PF('TrabajadorCreateDialog').show()" actionListener="#{trabajadorController.prepareCreate}"/>
         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected}"/>
         <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}"/>
         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{trabajadorController.delete}" update=":growl,datalist" disabled="#{empty trabajadorController.selected}">

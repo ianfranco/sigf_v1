@@ -27,7 +27,7 @@ public class MonedaPactadaInstitucionSaludImpl implements GenericDao<MonedaPacta
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM MonedaPactadaInstitucionSalud WHERE idMonedaPactadaInstitucionSalud=" + id;
+        String sql = "FROM MonedaPactadaInstitucionSalud WHERE idMonedaSalud=" + id;
         try {
             monedaPactada = (MonedaPactadaInstitucionSalud) session.createQuery(sql).uniqueResult();
             tx.commit();

@@ -22,6 +22,7 @@ public class ComunaConverter implements Converter {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
+        dao = new ComunaDaoImpl();
         return this.dao.findById(getKey(value));
     }
 
