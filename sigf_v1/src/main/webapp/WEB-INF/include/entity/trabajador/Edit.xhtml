@@ -18,13 +18,16 @@
                         <p:ajax event="reorder" listener="#{dashboardModel.handleReorder}" update="growl" />
 
                         <p:panel id="personal" header="Datos Personales" style="margin: 10px;">
-                            <p:panelGrid columns="2" columnClasses="column">
+                            <p:panelGrid columns="4" columnClasses="value, label">
                                 <p:outputLabel value="Cód.:" for="codigoTrabajador" />
                                 <h:panelGroup>
                                     <p:inputText id="codigoTrabajador" value="#{trabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>
                                     <p:tooltip for="codigoTrabajador" value="Código trabajador"/>
                                 </h:panelGroup>
 
+                                <p:outputLabel/>
+                                <p:outputLabel/>
+                                
                                 <p:outputLabel value="Rut:" for="rutTrabajador" />
                                 <h:panelGroup>
                                     <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}"/>

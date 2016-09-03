@@ -17,5 +17,5 @@ import java.util.List;
 public interface EmpresaDao {
     
     public List<Empresa> findAll();
-    
+    public Empresa findById(int id);
 }

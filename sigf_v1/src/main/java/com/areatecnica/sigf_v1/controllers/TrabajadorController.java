@@ -18,6 +18,7 @@ import com.areatecnica.sigf_v1.entities.InstitucionApv;
 import com.areatecnica.sigf_v1.entities.InstitucionPrevision;
 import com.areatecnica.sigf_v1.entities.InstitucionSalud;
 import com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -31,6 +32,8 @@ import javax.faces.event.ActionEvent;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -58,6 +61,8 @@ public class TrabajadorController implements Serializable {
     private boolean regimen;
     private boolean fonasa;
     private boolean ahorro;
+    private boolean validaRut;
+    private boolean skip;
 
     //Entidades
     private InstitucionSalud saludFonasa;
@@ -65,6 +70,7 @@ public class TrabajadorController implements Serializable {
     private MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud;
     private AsignacionFamiliar asignacionFamiliar;
     private InstitucionPrevision institucionPrevision;
+    private RelacionLaboral relacionLaboral;
 
     /**
      * Creates a new instance of TrabajadorController
@@ -143,6 +149,22 @@ public class TrabajadorController implements Serializable {
         this.ahorro = ahorro;
     }
 
+    public RelacionLaboral getRelacionLaboral() {
+        return relacionLaboral;
+    }
+
+    public void setRelacionLaboral(RelacionLaboral relacionLaboral) {
+        this.relacionLaboral = relacionLaboral;
+    }
+
+    public boolean isValidaRut() {
+        return validaRut;
+    }
+
+    public void setValidaRut(boolean validaRut) {
+        this.validaRut = validaRut;
+    }
+
     public Trabajador prepareCreate(ActionEvent event) {
         nacionalidad = "1";
         estadoCivil = "1";
@@ -165,6 +187,8 @@ public class TrabajadorController implements Serializable {
         Trabajador newTrabajador;
         newTrabajador = new Trabajador(true);
 
+        this.relacionLaboral = new RelacionLaboral();
+
         this.selected = newTrabajador;
         this.selected.setCodigoTrabajador(trabajadorDao.maxId());
         this.selected.setInstitucionSalud(saludFonasa);
@@ -185,9 +209,16 @@ public class TrabajadorController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
+            System.err.println("EMPRESA SELECCIONADA:" + this.relacionLaboral.getFechaInicio());
             try {
                 this.selected.setFechaIngresoTrabajador(new Date());
                 session.saveOrUpdate(this.selected);
+
+                this.relacionLaboral.setEstado(true);
+                this.relacionLaboral.setTrabajador(selected);
+
+                session.saveOrUpdate(this.relacionLaboral);
+
                 tx.commit();
                 this.items.add(selected);
 
@@ -226,14 +257,13 @@ public class TrabajadorController implements Serializable {
         System.err.println("SETEA VALORES");
         if (this.selected != null) {
             System.err.println("correctos valores");
-            
-            if(this.selected.getNacionalidad()){
+
+            if (this.selected.getNacionalidad()) {
                 nacionalidad = String.valueOf("1");
-            }else{
+            } else {
                 nacionalidad = String.valueOf("0");
             }
-            
-            
+
             estadoCivil = String.valueOf(this.selected.getEstadoCivil());
 
             if (this.selected.getSexo()) {
@@ -250,14 +280,14 @@ public class TrabajadorController implements Serializable {
                 ahorro = false;
             }
 
-            if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98){
+            if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98) {
                 regimen = false;
             }
-            
+
             System.err.println("IMPRIME VALORES:");
-            System.err.println("Nacionalidad:"+nacionalidad);
-            System.err.println("Estado Civil:"+estadoCivil);
-            System.err.println("Sexo:"+sexo);
+            System.err.println("Nacionalidad:" + nacionalidad);
+            System.err.println("Estado Civil:" + estadoCivil);
+            System.err.println("Sexo:" + sexo);
         }
     }
 
@@ -268,7 +298,7 @@ public class TrabajadorController implements Serializable {
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-
+    
     public void updateInstitucionPrevision() {
 
         switch (this.selected.getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador()) {
@@ -295,6 +325,55 @@ public class TrabajadorController implements Serializable {
 
     public void updateAhorro() {
         ahorro = !ahorro;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        /*if (skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        } else {
+            
+        }*/
+        return event.getNewStep();
+    }
+
+    public void validarRut() {
+        validaRut = false;
+
+        String rut = this.selected.getRutTrabajador();
+
+        try {
+            rut = rut.toUpperCase();
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                validaRut = true;
+            }else{
+                this.selected.setRutTrabajador("");
+                JsfUtil.addErrorMessage("Rut Mal Formado");
+            }
+
+        } catch (java.lang.NumberFormatException e) {
+            
+        } catch (Exception e) {
+            
+        }
     }
 
 }

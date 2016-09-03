@@ -19,6 +19,29 @@ import org.hibernate.Transaction;
  */
 public class EmpresaDaoImpl implements EmpresaDao{
 
+    
+    @Override
+    public Empresa findById(int id) {
+        Empresa empresa = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Empresa WHERE idEmpresa=" + id;
+        try {
+
+            empresa = (Empresa) session.createQuery(sql).uniqueResult();
+           
+            Hibernate.initialize(empresa.getMutual());
+            Hibernate.initialize(empresa.getCajaCompensacion());
+            
+            tx.commit();
+        } catch (HibernateException e) {            
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return empresa;
+    }
+    
     @Override
     public List<Empresa> findAll() {
         List<Empresa> list = null;
@@ -42,5 +65,6 @@ public class EmpresaDaoImpl implements EmpresaDao{
         }
         return list;
     }
+
     
 }

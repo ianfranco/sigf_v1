@@ -37,7 +37,7 @@ public class DashboardView implements Serializable {
         DashboardColumn column3 = new DefaultDashboardColumn();
          
         column1.addWidget("personal");
-        column2.addWidget("previsional");         
+        column1.addWidget("previsional");         
         column2.addWidget("salud");
         column2.addWidget("varios");         
         column3.addWidget("politics");

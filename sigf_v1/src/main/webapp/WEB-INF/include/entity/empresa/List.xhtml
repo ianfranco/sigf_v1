@@ -9,19 +9,7 @@
     <h:form id="EmpresaListForm">
 
 
-        <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist">  
-            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EmpresaListForm:createButton').click();" icon="ui-icon-plus"/>
-            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EmpresaListForm:viewButton').click();" icon="ui-icon-search"/>
-            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EmpresaListForm:editButton').click();" icon="ui-icon-pencil"/>
-            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EmpresaListForm:deleteButton').click();" icon="ui-icon-trash"/>
-            <p:separator/>
-            <p:menuitem value="#{bundle.EmpresaMenuItem_cajaCompensacion}" icon="ui-icon-search"  actionListener="#{empresaController.prepareCajaCompensacion}" update=":CajaCompensacionViewForm" oncomplete="PF('CajaCompensacionViewDialog').show()" disabled="#{empty empresaController.selected.cajaCompensacion}"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_mutual}" icon="ui-icon-search"  actionListener="#{empresaController.prepareMutual}" update=":MutualViewForm" oncomplete="PF('MutualViewDialog').show()" disabled="#{empty empresaController.selected.mutual}"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_cuentaBancariaEmpresas}" icon="ui-icon-search"  action="#{empresaController.navigateCuentaBancariaEmpresas}" disabled="#{empty empresaController.selected.cuentaBancariaEmpresas}" ajax="false"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_liquidacionEmpresas}" icon="ui-icon-search"  action="#{empresaController.navigateLiquidacionEmpresas}" disabled="#{empty empresaController.selected.liquidacionEmpresas}" ajax="false"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_relacionLaborals}" icon="ui-icon-search"  action="#{empresaController.navigateRelacionLaborals}" disabled="#{empty empresaController.selected.relacionLaborals}" ajax="false"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_buses}" icon="ui-icon-search"  action="#{empresaController.navigateBuses}" disabled="#{empty empresaController.selected.buses}" ajax="false"/>  
-            <p:menuitem value="#{bundle.EmpresaMenuItem_representanteEmpresas}" icon="ui-icon-search"  action="#{empresaController.navigateRepresentanteEmpresas}" disabled="#{empty empresaController.selected.representanteEmpresas}" ajax="false"/>  
+        <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist">              
         </p:contextMenu>
         <p:dataTable id="datalist"
                      value="#{empresaController.items}"                     
