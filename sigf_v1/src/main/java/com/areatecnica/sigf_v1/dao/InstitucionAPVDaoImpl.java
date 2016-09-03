@@ -42,7 +42,7 @@ public class InstitucionAPVDaoImpl implements GenericDao<InstitucionApv>{
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM InstitucionApv";
+        String sql = "FROM InstitucionApv WHERE idInstitucionApv <1000 ";
         try {
 
             list = session.createQuery(sql).list();

@@ -24,6 +24,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
@@ -70,21 +71,12 @@ public class TrabajadorController implements Serializable {
      */
     public TrabajadorController() {
         this.trabajadorDao = new TrabajadorDaoImpl();
-
         this.items = this.trabajadorDao.findAll();
-        this.selected = new Trabajador();
-
     }
 
     @PostConstruct
     public void init() {
-        this.selected = new Trabajador();
-        nacionalidad = "1";
-        estadoCivil = "1";
-        sexo = "1";
-        fonasa = true;
-        ahorro = false;
-        regimen = true;
+
     }
 
     public List<Trabajador> getItems() {
@@ -152,11 +144,18 @@ public class TrabajadorController implements Serializable {
     }
 
     public Trabajador prepareCreate(ActionEvent event) {
+        nacionalidad = "1";
+        estadoCivil = "1";
+        sexo = "1";
+        fonasa = true;
+        ahorro = false;
+        regimen = true;
+
         this.institucionSaludDaoImpl = new InstitucionSaludDaoImpl();
         this.institucionAPVDaoImpl = new InstitucionAPVDaoImpl();
         this.monedaPactadaInstitucionSaludImpl = new MonedaPactadaInstitucionSaludImpl();
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
-        
+        this.institucionPrevisionDaoImpl = new InstitucionPrevisionDaoImpl();
 
         this.saludFonasa = this.institucionSaludDaoImpl.findById(7);
         this.institucionApv = this.institucionAPVDaoImpl.findById(1000);
@@ -175,6 +174,7 @@ public class TrabajadorController implements Serializable {
         this.selected.setNumeroCargas(0);
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
+        this.selected.setFechaIngresoTrabajador(new Date());
 
         return newTrabajador;
     }
@@ -184,7 +184,9 @@ public class TrabajadorController implements Serializable {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
+            System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
             try {
+                this.selected.setFechaIngresoTrabajador(new Date());
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(selected);
@@ -206,7 +208,7 @@ public class TrabajadorController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                this.items.add(selected);
+                //this.items.add(selected);
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Trabajador");
@@ -218,6 +220,45 @@ public class TrabajadorController implements Serializable {
 
     public void resetParents() {
 
+    }
+
+    public void setDefaultValues() {
+        System.err.println("SETEA VALORES");
+        if (this.selected != null) {
+            System.err.println("correctos valores");
+            
+            if(this.selected.getNacionalidad()){
+                nacionalidad = String.valueOf("1");
+            }else{
+                nacionalidad = String.valueOf("0");
+            }
+            
+            
+            estadoCivil = String.valueOf(this.selected.getEstadoCivil());
+
+            if (this.selected.getSexo()) {
+                sexo = "1";
+            } else {
+                sexo = "0";
+            }
+
+            if (this.selected.getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                fonasa = true;
+            }
+
+            if (this.selected.getInstitucionApv().getIdInstitucionApv() == 1000) {
+                ahorro = false;
+            }
+
+            if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98){
+                regimen = false;
+            }
+            
+            System.err.println("IMPRIME VALORES:");
+            System.err.println("Nacionalidad:"+nacionalidad);
+            System.err.println("Estado Civil:"+estadoCivil);
+            System.err.println("Sexo:"+sexo);
+        }
     }
 
     public void delete() {
@@ -242,7 +283,7 @@ public class TrabajadorController implements Serializable {
                 regimen = true;
                 if (this.selected.getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador() == 3) {
                     this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(99);
-                }else{
+                } else {
                     this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(100);
                 }
                 this.selected.setInstitucionPrevision(institucionPrevision);

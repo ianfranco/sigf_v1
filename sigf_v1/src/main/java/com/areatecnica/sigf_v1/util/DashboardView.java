@@ -40,7 +40,7 @@ public class DashboardView implements Serializable {
         column2.addWidget("previsional");         
         column2.addWidget("salud");
         column2.addWidget("varios");         
-        //column3.addWidget("politics");
+        column3.addWidget("politics");
  
         model.addColumn(column1);
         model.addColumn(column2);

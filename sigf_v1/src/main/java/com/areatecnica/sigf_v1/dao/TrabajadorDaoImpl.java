@@ -93,10 +93,15 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         Transaction tx = session.beginTransaction();
         try {
             maxId = (Integer)session.createQuery("SELECT MAX(codigoTrabajador) FROM Trabajador").uniqueResult();
+            
+            
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();
+        } catch (NullPointerException f) {
+            return 1;
         }
         return maxId+1;
     }

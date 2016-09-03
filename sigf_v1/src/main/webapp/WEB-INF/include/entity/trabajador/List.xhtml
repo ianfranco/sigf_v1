@@ -210,8 +210,8 @@
         </p:dataTable>
 
         <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}"  update=":TrabajadorCreateForm" oncomplete="PF('TrabajadorCreateDialog').show()" actionListener="#{trabajadorController.prepareCreate}"/>
-        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected}"/>
-        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}"/>
+        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected}" actionListener="#{trabajadorController.setDefaultValues}"/>
+        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}" actionListener="#{trabajadorController.setDefaultValues}"/>
         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{trabajadorController.delete}" update=":growl,datalist" disabled="#{empty trabajadorController.selected}">
             <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
         </p:commandButton>
