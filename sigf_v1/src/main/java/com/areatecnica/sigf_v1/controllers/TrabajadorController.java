@@ -14,11 +14,14 @@ import com.areatecnica.sigf_v1.dao.MonedaPactadaInstitucionSaludImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
+import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.InstitucionApv;
 import com.areatecnica.sigf_v1.entities.InstitucionPrevision;
 import com.areatecnica.sigf_v1.entities.InstitucionSalud;
 import com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.entities.TipoContrato;
+import com.areatecnica.sigf_v1.entities.TipoTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -32,7 +35,6 @@ import javax.faces.event.ActionEvent;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -71,6 +73,12 @@ public class TrabajadorController implements Serializable {
     private AsignacionFamiliar asignacionFamiliar;
     private InstitucionPrevision institucionPrevision;
     private RelacionLaboral relacionLaboral;
+    
+    private Empresa empresa;
+    private TipoContrato tipoContrato;
+    private TipoTrabajador tipoTrabajador;
+    private Date inicioContrato;
+    private Date finContrato;
 
     /**
      * Creates a new instance of TrabajadorController
@@ -78,6 +86,9 @@ public class TrabajadorController implements Serializable {
     public TrabajadorController() {
         this.trabajadorDao = new TrabajadorDaoImpl();
         this.items = this.trabajadorDao.findAll();
+        this.relacionLaboral = new RelacionLaboral();
+        this.relacionLaboral.setSueldoBase(0);
+        System.err.println("SUELDO BASE:"+this.relacionLaboral.getSueldoBase());
     }
 
     @PostConstruct
@@ -164,6 +175,59 @@ public class TrabajadorController implements Serializable {
     public void setValidaRut(boolean validaRut) {
         this.validaRut = validaRut;
     }
+    
+    public void updateAhorro() {
+        ahorro = !ahorro;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+    
+    
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public TipoContrato getTipoContrato() {
+        return tipoContrato;
+    }
+
+    public void setTipoContrato(TipoContrato tipoContrato) {
+        this.tipoContrato = tipoContrato;
+    }
+
+    public TipoTrabajador getTipoTrabajador() {
+        return tipoTrabajador;
+    }
+
+    public void setTipoTrabajador(TipoTrabajador tipoTrabajador) {
+        this.tipoTrabajador = tipoTrabajador;
+    }
+
+    public Date getInicioContrato() {
+        return inicioContrato;
+    }
+
+    public void setInicioContrato(Date inicioContrato) {
+        this.inicioContrato = inicioContrato;
+    }
+
+    public Date getFinContrato() {
+        return finContrato;
+    }
+
+    public void setFinContrato(Date finContrato) {
+        this.finContrato = finContrato;
+    }
 
     public Trabajador prepareCreate(ActionEvent event) {
         nacionalidad = "1";
@@ -187,7 +251,7 @@ public class TrabajadorController implements Serializable {
         Trabajador newTrabajador;
         newTrabajador = new Trabajador(true);
 
-        this.relacionLaboral = new RelacionLaboral();
+        
 
         this.selected = newTrabajador;
         this.selected.setCodigoTrabajador(trabajadorDao.maxId());
@@ -199,7 +263,7 @@ public class TrabajadorController implements Serializable {
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
-
+        
         return newTrabajador;
     }
 
@@ -209,13 +273,23 @@ public class TrabajadorController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
-            System.err.println("EMPRESA SELECCIONADA:" + this.relacionLaboral.getFechaInicio());
+            System.err.println("SUELDO:" + this.relacionLaboral.getSueldoBase());
+            System.err.println("Tipo Trabajador:"+this.tipoTrabajador);
+            System.err.println("Fechas:"+this.inicioContrato+" - "+this.finContrato);
+            System.err.println("EMPRESA:"+this.empresa);
+            System.err.println("Tipo Contrato"+this.tipoContrato);
+            
             try {
                 this.selected.setFechaIngresoTrabajador(new Date());
                 session.saveOrUpdate(this.selected);
 
                 this.relacionLaboral.setEstado(true);
                 this.relacionLaboral.setTrabajador(selected);
+                this.relacionLaboral.setEmpresa(empresa);
+                this.relacionLaboral.setTipoContrato(tipoContrato);
+                this.relacionLaboral.setTipoTrabajador(tipoTrabajador);
+                this.relacionLaboral.setFechaFin(finContrato);
+                this.relacionLaboral.setFechaInicio(inicioContrato);
 
                 session.saveOrUpdate(this.relacionLaboral);
 
@@ -323,17 +397,7 @@ public class TrabajadorController implements Serializable {
         }
     }
 
-    public void updateAhorro() {
-        ahorro = !ahorro;
-    }
-
-    public boolean isSkip() {
-        return skip;
-    }
-
-    public void setSkip(boolean skip) {
-        this.skip = skip;
-    }
+    
 
     public String onFlowProcess(FlowEvent event) {
         /*if (skip) {
@@ -375,5 +439,6 @@ public class TrabajadorController implements Serializable {
             
         }
     }
+
 
 }

@@ -261,7 +261,7 @@
                                 <h:panelGrid columns="2" columnClasses="column">
                                     <p:outputLabel value="Empresa:" for="empresa" />
                                     <h:panelGroup>
-                                        <p:selectOneMenu id="empresa" value="#{trabajadorController.relacionLaboral.empresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
+                                        <p:selectOneMenu id="empresa" value="#{trabajadorController.empresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
                                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                             <f:selectItems value="#{empresaController.items}"
                                                            var="empresaItem"
@@ -273,7 +273,7 @@
 
                                     <p:outputLabel value="Tipo:" for="tipoTrabajador" />
                                     <h:panelGroup>
-                                        <p:selectOneMenu id="tipoTrabajador" value="#{trabajadorController.relacionLaboral.tipoTrabajador}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoTrabajador}" converter="tipoTrabajadorConverter">
+                                        <p:selectOneMenu id="tipoTrabajador" value="#{trabajadorController.tipoTrabajador}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoTrabajador}" converter="tipoTrabajadorConverter">
                                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                             <f:selectItems value="#{tipoTrabajadorController.items}"
                                                            var="tipoTrabajadorItem"
@@ -285,7 +285,7 @@
 
                                     <p:outputLabel value="Contrato:" for="tipoContrato" />
                                     <h:panelGroup>
-                                        <p:selectOneMenu id="tipoContrato" value="#{trabajadorController.relacionLaboral.tipoContrato}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoContrato}" converter="tipoContratoConverter">
+                                        <p:selectOneMenu id="tipoContrato" value="#{trabajadorController.tipoContrato}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoContrato}" converter="tipoContratoConverter">
                                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                             <f:selectItems value="#{tipoContratoController.items}"
                                                            var="tipoContratoItem"
@@ -297,12 +297,12 @@
 
                                     <p:outputLabel value="Inicio:" for="fechaInicio" />
                                     <h:panelGroup>
-                                        <p:calendar id="fechaInicio" pattern="dd/MM/yyyy" value="#{trabajadorController.relacionLaboral.fechaInicio}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}"  showOn="button"/>                                        
+                                        <p:calendar id="fechaInicio" pattern="dd/MM/yyyy" value="#{trabajadorController.inicioContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}"  showOn="button"/>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Término:" for="fechaFin" />
                                     <h:panelGroup>
-                                        <p:calendar id="fechaFin" pattern="dd/MM/yyyy" value="#{trabajadorController.relacionLaboral.fechaFin}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}"  showOn="button"/>                                        
+                                        <p:calendar id="fechaFin" pattern="dd/MM/yyyy" value="#{trabajadorController.finContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}"  showOn="button"/>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_sueldoBase}" for="sueldoBase" />
