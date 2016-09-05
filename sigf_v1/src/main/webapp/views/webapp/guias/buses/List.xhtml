@@ -259,9 +259,9 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Empresa" for="idEmpresa" />
-                        <p:selectOneMenu id="idEmpresa" value="#{selectEmpresaController.selected.empresa}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idEmpresa}" converter="empresaConverter">
+                        <p:selectOneMenu id="idEmpresa" value="#{registroBusesController.selected.empresa}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idEmpresa}" converter="empresaConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{empresaController.items}"
+                            <f:selectItems value="#{selectEmpresaController.items}"
                                            var="idEmpresaItem"
                                            itemValue="#{idEmpresaItem}"
                                            itemLabel="#{idEmpresaItem}"
