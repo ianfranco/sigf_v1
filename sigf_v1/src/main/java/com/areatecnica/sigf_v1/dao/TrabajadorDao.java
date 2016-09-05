@@ -15,8 +15,11 @@ import java.util.List;
  */
 public interface TrabajadorDao {
     
-    public List<Trabajador> findAll();    
+    public List<Trabajador> findAll();
     public List<Trabajador> findByTerminal(Terminal terminal);
+    public Trabajador findByRut(String rut);
+    public Trabajador findByCodigo(int codigo);
+    public boolean existeTrabajador(String rut);
     public void deactivated(Trabajador trabajador);
     public int maxId();
 }

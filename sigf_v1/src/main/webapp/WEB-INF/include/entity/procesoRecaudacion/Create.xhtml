@@ -15,14 +15,14 @@
                 <h:panelGroup id="display" rendered="#{procesoRecaudacionController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_usuario}" for="usuario" />
+                        <p:outputLabel value="Recaudador:" for="usuario" />
                         <h:panelGroup>
                             <p:selectOneMenu id="usuario" value="#{procesoRecaudacionController.selected.usuario}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_usuario}" converter="usuarioConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{usuarioController.items}"
                                                var="usuarioItem"
                                                itemValue="#{usuarioItem}"
-                                               itemLabel="#{usuarioItem.idUsario.toString()}"
+                                               itemLabel="#{usuarioItem}"
                                                />
 
                             </p:selectOneMenu>
@@ -37,7 +37,7 @@
 
                         <p:outputLabel value="#{bundle.CreateProcesoRecaudacionLabel_fechaCreacionProceso}" for="fechaCreacionProceso" />
                         <h:panelGroup>
-                            <p:calendar id="fechaCreacionProceso" pattern="MM/dd/yyyy HH:mm:ss" value="#{procesoRecaudacionController.selected.fechaCreacionProceso}" title="#{bundle.CreateProcesoRecaudacionTitle_fechaCreacionProceso}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_fechaCreacionProceso}" showOn="button"/>
+                            <p:calendar id="fechaCreacionProceso" pattern="dd/MM/yyyy HH:mm:ss" value="#{procesoRecaudacionController.selected.fechaCreacionProceso}" title="#{bundle.CreateProcesoRecaudacionTitle_fechaCreacionProceso}" required="true" requiredMessage="#{bundle.CreateProcesoRecaudacionRequiredMessage_fechaCreacionProceso}" showOn="button"/>
                             <p:tooltip for="fechaCreacionProceso" value="#{procesoRecaudacionController.getComponentMessages('fechaCreacionProceso', bundle.CreateProcesoRecaudacionHelpText_fechaCreacionProceso)}"/>
                         </h:panelGroup>
 

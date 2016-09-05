@@ -91,7 +91,7 @@ public class MonedaPactadaInstitucionSaludController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:Trabajador");
+                System.err.println("SAVE:Moneda");
             }
         } else {
 

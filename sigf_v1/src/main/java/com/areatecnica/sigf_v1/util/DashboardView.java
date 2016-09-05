@@ -27,24 +27,32 @@ import org.primefaces.model.DefaultDashboardModel;
 @SessionScoped
 public class DashboardView implements Serializable {
 
-    private DashboardModel model;
+    private DashboardModel modelMain;
+    private DashboardModel modelPrevision;
      
     @PostConstruct
     public void init() {
-        model = new DefaultDashboardModel();
+        modelMain = new DefaultDashboardModel();
+        modelPrevision = new DefaultDashboardModel();
+        
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
         DashboardColumn column3 = new DefaultDashboardColumn();
          
+        
+        
         column1.addWidget("personal");
-        column1.addWidget("previsional");         
+        column2.addWidget("previsional");         
         column2.addWidget("salud");
         column2.addWidget("varios");         
         column3.addWidget("politics");
  
-        model.addColumn(column1);
-        model.addColumn(column2);
-        model.addColumn(column3);
+        modelMain.addColumn(column1);
+        modelMain.addColumn(column2);
+        modelMain.addColumn(column3);
+        
+        
+        
     }
      
     public void handleReorder(DashboardReorderEvent event) {
@@ -72,7 +80,7 @@ public class DashboardView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
      
-    public DashboardModel getModel() {
-        return model;
+    public DashboardModel getModelMain() {
+        return modelMain;
     }
 }

@@ -19,6 +19,7 @@
 .column {
     font-weight: bold;
     background-color: menu;
+    vertical-align: top;
 }
 
 .label {
@@ -46,6 +47,10 @@
 .grid {
     width:33%;
     padding:4px;
+}
+
+.foo {
+    vertical-align: top;
 }
 
 @media print {#UNIQUE_ID-ghostery {display:none !important}}

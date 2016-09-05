@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ComunaListForm">
+
+            <p:panel header="#{bundle.ListComunaTitle}">
+                <p:contextMenu id="ComunaDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ComunaListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ComunaListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ComunaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ComunaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.ComunaMenuItem_calleCollection}" icon="ui-icon-search"  action="#{comunaController.navigateCalleCollection}" disabled="#{empty comunaController.selected.calleCollection}" ajax="false"/>  
+                    <p:menuitem value="#{bundle.ComunaMenuItem_idRegion}" icon="ui-icon-search"  actionListener="#{comunaController.prepareIdRegion}" update=":RegionViewForm" oncomplete="PF('RegionViewDialog').show()" disabled="#{empty comunaController.selected.idRegion}"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{comunaController.items}"
+                             var="item"
+                             rowKey="#{item.idComuna}"
+                             paginator="true"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{comunaController.selected}">
+
+                    <p:ajax event="rowSelect"   update=":ComunaListForm:createButton :ComunaListForm:viewButton :ComunaListForm:editButton :ComunaListForm:deleteButton :ComunaListForm:ComunaDataTableContextMenu" listener="#{comunaController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update=":ComunaListForm:createButton :ComunaListForm:viewButton :ComunaListForm:editButton :ComunaListForm:deleteButton :ComunaListForm:ComunaDataTableContextMenu" listener="#{comunaController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('ComunaListForm:viewButton').click();"/>
+
+                    <p:column sortBy="#{item.idComuna}" filterBy="#{item.idComuna}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListComunaTitle_idComuna}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idComuna}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreComuna}" filterBy="#{item.nombreComuna}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListComunaTitle_nombreComuna}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreComuna}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.idRegion.idRegion}" filterBy="#{item.idRegion.idRegion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListComunaTitle_idRegion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idRegion.idRegion}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{comunaController.prepareCreate}" update=":ComunaCreateForm" oncomplete="PF('ComunaCreateDialog').show()"/>
+                <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty comunaController.selected}"/>
+                <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ComunaEditForm" oncomplete="PF('ComunaEditDialog').show()" disabled="#{empty comunaController.selected}"/>
+                <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{comunaController.delete}" update=":growl,datalist" disabled="#{empty comunaController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+    </ui:define>
+
+    <p:dialog id="ComunaCreateDlg" widgetVar="ComunaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateComunaTitle}" closeOnEscape="true">
+
+        <h:form id="ComunaCreateForm">
+
+            <h:panelGroup id="display" rendered="#{comunaController.selected != null}">
+                <p:panelGrid columns="2" columnClasses="column">
+
+                    <p:outputLabel value="#{bundle.CreateComunaLabel_nombreComuna}" for="nombreComuna" />
+                    <p:inputText id="nombreComuna" value="#{comunaController.selected.nombreComuna}" title="#{bundle.CreateComunaTitle_nombreComuna}" required="true" requiredMessage="#{bundle.CreateComunaRequiredMessage_nombreComuna}" size="45" maxlength="45"/>
+
+                    <p:outputLabel value="#{bundle.CreateComunaLabel_idRegion}" for="idRegion" />
+                    <p:selectOneMenu id="idRegion" value="#{comunaController.selected.idRegion}" required="true" requiredMessage="#{bundle.CreateComunaRequiredMessage_idRegion}" converter="regionConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{regionController.items}"
+                                       var="idRegionItem"
+                                       itemValue="#{idRegionItem}"
+                                       itemLabel="#{idRegionItem.idRegion.toString()}"
+                                       />
+
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{comunaController.saveNew}" value="#{bundle.Save}" update="display,:ComunaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComunaCreateDialog'));">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+                <p:commandButton value="#{bundle.Cancel}" onclick="PF('ComunaCreateDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog id="ComunaEditDlg" widgetVar="ComunaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditComunaTitle}" closeOnEscape="true">
+
+        <h:form id="ComunaEditForm">
+
+            <h:panelGroup id="display">
+                <p:panelGrid  columns="2" columnClasses="column" rendered="#{comunaController.selected != null}">
+
+
+                    <h:outputLabel value="#{bundle.EditComunaLabel_idComuna}" for="idComuna" />
+                    <h:outputText id="idComuna" value="#{comunaController.selected.idComuna}" />
+
+                    <p:outputLabel value="#{bundle.EditComunaLabel_nombreComuna}" for="nombreComuna" />
+                    <p:inputText id="nombreComuna" value="#{comunaController.selected.nombreComuna}" title="#{bundle.EditComunaTitle_nombreComuna}" required="true" requiredMessage="#{bundle.EditComunaRequiredMessage_nombreComuna}" size="45" maxlength="45"/>
+
+                    <p:outputLabel value="#{bundle.EditComunaLabel_idRegion}" for="idRegion" />
+                    <p:selectOneMenu id="idRegion" value="#{comunaController.selected.idRegion}" required="true" requiredMessage="#{bundle.EditComunaRequiredMessage_idRegion}" converter="regionConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{regionController.items}"
+                                       var="idRegionItem"
+                                       itemValue="#{idRegionItem}"
+                                       itemLabel="#{idRegionItem.idRegion.toString()}"
+                                       />
+
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{comunaController.save}" value="#{bundle.Save}" update="display,:ComunaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComunaEditDialog'));">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+                <p:commandButton value="#{bundle.Cancel}" onclick="PF('ComunaEditDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog id="ComunaViewDlg" widgetVar="ComunaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewComunaTitle}" closeOnEscape="true">
+
+        <h:form id="ComunaViewForm">
+
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" columnClasses="column" rendered="#{comunaController.selected != null}">
+
+                    <h:outputText value="#{bundle.ViewComunaLabel_idComuna}"/>
+                    <h:outputText value="#{comunaController.selected.idComuna}" title="#{bundle.ViewComunaTitle_idComuna}"/>
+
+                    <h:outputText value="#{bundle.ViewComunaLabel_nombreComuna}"/>
+                    <h:outputText value="#{comunaController.selected.nombreComuna}" title="#{bundle.ViewComunaTitle_nombreComuna}"/>
+
+                    <h:outputText value="#{bundle.ViewComunaLabel_idRegion}"/>
+                    <h:outputText value="#{comunaController.selected.idRegion.idRegion}"/>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Close}" onclick="PF('ComunaViewDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+</ui:composition>

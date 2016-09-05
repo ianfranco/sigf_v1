@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateGuias.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ServicioListForm">
+            <p:contextMenu id="ServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ServicioListForm:editButton').click();" icon="ui-icon-pencil"/>                
+                <p:separator/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{registroServiciosController.items}"
+                         var="item"
+                         rowKey="#{item.idServicio}"
+                         paginator="true"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{registroServiciosController.selected}"
+                         emptyMessage="No se han encontrado SERVICIOS en la base de datos"
+                         rowIndexVar="rowIndex">
+
+                <p:ajax event="rowSelect"   update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" />
+                <p:ajax event="rowUnselect" update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" />
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicioListForm:viewButton').click();"/>
+
+                <f:facet name="header">
+                    Lista de Servicios
+                </f:facet>
+
+                <p:column style="text-align: center; width: 60px;">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+                
+                <p:column sortBy="#{item.numeroServicio}" filterBy="#{item.numeroServicio}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="N° de Servicio"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroServicio}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.nombreServicio}" filterBy="#{item.nombreServicio}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreServicio}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.longitud}" filterBy="#{item.longitud}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_longitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.longitud}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminal.nombreTerminal}" filterBy="#{item.terminal.nombreTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Terminal"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminal.nombreTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocio}" filterBy="#{item.unidad}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocio}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{registroServiciosController.prepareCreate}" update=":ServicioCreateForm" oncomplete="PF('ServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty registroServiciosController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ServicioEditForm" oncomplete="PF('ServicioEditDialog').show()" disabled="#{empty registroServiciosController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroServiciosController.delete}" update=":growl,datalist" disabled="#{empty registroServiciosController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                <p:printer target="datalist" />
+            </p:commandButton>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+        <p:dialog id="ServicioCreateDlg" widgetVar="ServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo" closeOnEscape="true">
+
+            <h:form id="ServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{registroServiciosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="N° de Servicio" for="numeroServicio" />
+                        <p:inputText id="numeroServicio" value="#{registroServiciosController.selected.numeroServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_numeroServicio}"/>
+
+                        <p:outputLabel value="Nombre" for="nombreServicio" />
+                        <p:inputText id="nombreServicio" value="#{registroServiciosController.selected.nombreServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el nombre del servicio" size="60"/>
+
+                        <p:outputLabel value="Origen" for="origenServicio" />
+                        <p:inputText id="origenServicio" value="#{registroServiciosController.selected.origenServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el origen" size="45"/>
+
+                        <p:outputLabel value="Destino" for="destinoServicio" />
+                        <p:inputText id="destinoServicio" value="#{registroServiciosController.selected.destinoServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el destino" size="45"/>
+
+
+                        <p:outputLabel value="Longitud[KM]:" for="longitud" />
+                        <p:inputText id="longitud" value="#{registroServiciosController.selected.longitud}" title="#{bundle.CreateServicioTitle_longitud}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_longitud}" size="10"/>
+
+                        <p:outputLabel value="Terminal" for="idTerminal" />
+                        <p:selectOneMenu id="idTerminal" value="#{registroServiciosController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_idTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroTerminalesController.items}"
+                                           var="idTerminalItem"
+                                           itemValue="#{idTerminalItem}"
+                                           itemLabel="#{idTerminalItem.nombreTerminal}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Unidad de Negocio" for="idUnidad" />
+                        <p:selectOneMenu id="idUnidad" value="#{registroServiciosController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_idUnidad}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="idUnidadItem"
+                                           itemValue="#{idUnidadItem}"
+                                           itemLabel="#{idUnidadItem}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroServiciosController.saveNew}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ServicioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="ServicioEditDlg" widgetVar="ServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición" closeOnEscape="true">
+
+            <h:form id="ServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroServiciosController.selected != null}">
+
+                        <p:outputLabel value="N° de Servicio" for="numeroServicio" />
+                        <p:inputText id="numeroServicio" value="#{registroServiciosController.selected.numeroServicio}" title="#{bundle.EditServicioTitle_numeroServicio}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_numeroServicio}"/>
+
+                        <p:outputLabel value="Nombre" for="numeroServicio" />
+                        <p:inputText id="nombreServicio" value="#{registroServiciosController.selected.nombreServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el nombre del servicio" size="60"/>
+
+                        <p:outputLabel value="Origen" for="numeroServicio" />
+                        <p:inputText id="origenServicio" value="#{registroServiciosController.selected.origenServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el origen" size="45"/>
+
+                        <p:outputLabel value="Destino" for="numeroServicio" />
+                        <p:inputText id="destinoServicio" value="#{registroServiciosController.selected.destinoServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" required="true" requiredMessage="Debe ingresar el destino" size="45"/>
+
+                        <p:outputLabel value="Longitud" for="longitud" />
+                        <p:inputText id="longitud" value="#{registroServiciosController.selected.longitud}" title="#{bundle.EditServicioTitle_longitud}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_longitud}" size="10"/>
+
+                        <p:outputLabel value="Terminal" for="idTerminal" />
+                        <p:selectOneMenu id="idTerminal" value="#{registroServiciosController.selected.terminal}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_idTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroTerminalesController.items}"
+                                           var="idTerminalItem"
+                                           itemValue="#{idTerminalItem}"
+                                           itemLabel="#{idTerminalItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Unidad de Negocio" for="idUnidad" />
+                        <p:selectOneMenu id="idUnidad" value="#{registroServiciosController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_idUnidad}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="idUnidadItem"
+                                           itemValue="#{idUnidadItem}"
+                                           itemLabel="#{idUnidadItem}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroServiciosController.save}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ServicioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="ServicioViewDlg" widgetVar="ServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Servicio" closeOnEscape="true">
+
+            <h:form id="ServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{registroServiciosController.selected != null}">
+
+                        <h:outputText value="N° de Servicio"/>
+                        <h:outputText value="#{registroServiciosController.selected.numeroServicio}" title="#{bundle.ViewServicioTitle_numeroServicio}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText id="nombreServicio" value="#{registroServiciosController.selected.nombreServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" />
+
+                        <h:outputText value="Origen"/>
+                        <h:outputText id="origenServicio" value="#{registroServiciosController.selected.origenServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" />
+
+                        <h:outputText value="Destino" />
+                        <h:outputText id="destinoServicio" value="#{registroServiciosController.selected.destinoServicio}" title="#{bundle.CreateServicioTitle_numeroServicio}" />
+
+                        <h:outputText value="Longitud"/>
+                        <h:outputText value="#{registroServiciosController.selected.longitud}" title="#{bundle.ViewServicioTitle_longitud}"/>
+
+                        <h:outputText value="Terminal"/>
+                        <h:outputText value="#{registroServiciosController.selected.terminal}"/>
+
+                        <h:outputText value="Unidad de Negocio"/>
+                        <h:outputText value="#{registroServiciosController.selected.unidadNegocio}"/>
+
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('ServicioViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

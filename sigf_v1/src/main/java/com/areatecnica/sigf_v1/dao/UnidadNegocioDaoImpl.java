@@ -36,5 +36,24 @@ public class UnidadNegocioDaoImpl implements UnidadNegocioDao{
         }
         return list;
     }
+
+    @Override
+    public UnidadNegocio findById(int id) {
+        UnidadNegocio unidad = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM UnidadNegocio WHERE idUnidadNegocio=" + id;
+        try {
+
+            unidad = (UnidadNegocio) session.createQuery(sql).uniqueResult();
+            
+            tx.commit();
+        } catch (HibernateException e) {            
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return unidad;
+    }
     
 }

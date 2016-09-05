@@ -30,8 +30,8 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         try {
 
             list = session.createQuery(sql).list();
-            
-            for(Trabajador t:list){
+
+            for (Trabajador t : list) {
                 Hibernate.initialize(t.getAsignacionFamiliar());
                 Hibernate.initialize(t.getInstitucionPrevision());
                 Hibernate.initialize(t.getInstitucionApv());
@@ -40,7 +40,7 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
                 Hibernate.initialize(t.getComuna());
                 Hibernate.initialize(t.getMonedaPactadaInstitucionSalud());
             }
-            
+
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -69,15 +69,13 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
 
     @Override
     public void deactivated(Trabajador trabajador) {
-        
+
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        
+
         //trabajador.set
-        
         try {
 
-           
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -92,10 +90,8 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-            maxId = (Integer)session.createQuery("SELECT MAX(codigoTrabajador) FROM Trabajador").uniqueResult();
-            
-            
-            
+            maxId = (Integer) session.createQuery("SELECT MAX(codigoTrabajador) FROM Trabajador").uniqueResult();
+
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -103,7 +99,76 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         } catch (NullPointerException f) {
             return 1;
         }
-        return maxId+1;
+        return maxId + 1;
+    }
+
+    @Override
+    public Trabajador findByRut(String rut) {
+        Trabajador trabajador = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Trabajador WHERE rutTrabajador =" + rut;
+        try {
+            trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        } catch (NullPointerException f) {
+
+        }
+        return trabajador;
+    }
+
+    @Override
+    public boolean existeTrabajador(String rut) {
+        Trabajador trabajador = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Trabajador WHERE rutTrabajador ='" + rut + "'";
+        try {
+            trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
+            tx.commit();
+
+            if (trabajador == null) {
+                return false;
+            }
+
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public Trabajador findByCodigo(int codigo) {
+        Trabajador trabajador = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Trabajador WHERE codigoTrabajador=" + codigo;
+        try {
+            trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
+
+            Hibernate.initialize(trabajador.getAsignacionFamiliar());
+            Hibernate.initialize(trabajador.getInstitucionPrevision());
+            Hibernate.initialize(trabajador.getInstitucionApv());
+            Hibernate.initialize(trabajador.getInstitucionSalud());
+            Hibernate.initialize(trabajador.getTipoCotizacionTrabajador());
+            Hibernate.initialize(trabajador.getComuna());
+            Hibernate.initialize(trabajador.getMonedaPactadaInstitucionSalud());
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        } catch (NullPointerException f) {
+
+        }
+        return trabajador;
     }
 
 }

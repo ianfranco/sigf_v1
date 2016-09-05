@@ -15,20 +15,20 @@
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{procesoRecaudacionController.selected != null}">
 
 
-                        <h:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_idProcesoRecaudacion}" for="idProcesoRecaudacion" />
+                        <h:outputLabel value="N°:" for="idProcesoRecaudacion" />
                         <h:panelGroup>
                             <h:outputText id="idProcesoRecaudacion" value="#{procesoRecaudacionController.selected.idProcesoRecaudacion}" />
                             <p:tooltip for="idProcesoRecaudacion" value="#{procesoRecaudacionController.getComponentMessages('idProcesoRecaudacion', bundle.EditProcesoRecaudacionHelpText_idProcesoRecaudacion)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_usuario}" for="usuario" />
+                        <p:outputLabel value="Recaudador:" for="usuario" />
                         <h:panelGroup>
                             <p:selectOneMenu id="usuario" value="#{procesoRecaudacionController.selected.usuario}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_usuario}" converter="usuarioConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{usuarioController.items}"
                                                var="usuarioItem"
                                                itemValue="#{usuarioItem}"
-                                               itemLabel="#{usuarioItem.idUsario.toString()}"
+                                               itemLabel="#{usuarioItem}"
                                                />
 
                             </p:selectOneMenu>
@@ -39,12 +39,6 @@
                         <h:panelGroup>
                             <p:inputText id="nombreProceso" value="#{procesoRecaudacionController.selected.nombreProceso}" title="#{bundle.EditProcesoRecaudacionTitle_nombreProceso}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_nombreProceso}"/>
                             <p:tooltip for="nombreProceso" value="#{procesoRecaudacionController.getComponentMessages('nombreProceso', bundle.EditProcesoRecaudacionHelpText_nombreProceso)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_fechaCreacionProceso}" for="fechaCreacionProceso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaCreacionProceso" pattern="MM/dd/yyyy HH:mm:ss" value="#{procesoRecaudacionController.selected.fechaCreacionProceso}" title="#{bundle.EditProcesoRecaudacionTitle_fechaCreacionProceso}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_fechaCreacionProceso}" showOn="button"/>
-                            <p:tooltip for="fechaCreacionProceso" value="#{procesoRecaudacionController.getComponentMessages('fechaCreacionProceso', bundle.EditProcesoRecaudacionHelpText_fechaCreacionProceso)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_activo}" for="activo" />

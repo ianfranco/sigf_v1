@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateGuias.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TerminalListForm">
+
+
+            <p:contextMenu id="TerminalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TerminalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TerminalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>                
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{registroTerminalesController.items}"
+                         var="item"
+                         rowKey="#{item.idTerminal}"
+                         paginator="true"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{registroTerminalesController.selected}"
+                         emptyMessage="No se han encontrado TERMINALES en la base de datos">
+
+                <p:ajax event="rowSelect"   update=":TerminalListForm:createButton :TerminalListForm:viewButton :TerminalListForm:editButton :TerminalListForm:deleteButton :TerminalListForm:TerminalDataTableContextMenu" listener="#{registroTerminalesController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TerminalListForm:createButton :TerminalListForm:viewButton :TerminalListForm:editButton :TerminalListForm:deleteButton :TerminalListForm:TerminalDataTableContextMenu" listener="#{registroTerminalesController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TerminalListForm:viewButton').click();"/>
+
+                <f:facet name="header">
+                    Lista de Terminales
+                </f:facet>
+
+                <p:column filterBy="#{item.idTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreTerminal}" filterBy="#{item.nombreTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.direccionTerminal}" filterBy="#{item.direccionTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Dirección"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccionTerminal}"/>
+                </p:column>
+                
+
+                <p:column sortBy="#{item.telefonoTerminal}" filterBy="#{item.telefonoTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Teléfono"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefonoTerminal}"/>
+                </p:column>
+               
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{registroTerminalesController.prepareCreate}" update=":TerminalCreateForm" oncomplete="PF('TerminalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty registroTerminalesController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TerminalEditForm" oncomplete="PF('TerminalEditDialog').show()" disabled="#{empty registroTerminalesController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroTerminalesController.delete}" update=":growl,datalist" disabled="#{empty registroTerminalesController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                <p:printer target="datalist" />
+            </p:commandButton>
+
+
+
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="TerminalCreateDlg" widgetVar="TerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo" closeOnEscape="true">
+
+            <h:form id="TerminalCreateForm">
+                <h:panelGroup id="display" rendered="#{registroTerminalesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Nombre" for="nombreTerminal" />
+                        <p:inputText id="nombreTerminal" value="#{registroTerminalesController.selected.nombreTerminal}" title="#{bundle.CreateTerminalTitle_nombreTerminal}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_nombreTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Dirección" for="direccionTerminal" />
+                        <p:inputText id="direccionTerminal" value="#{registroTerminalesController.selected.direccionTerminal}" title="#{bundle.CreateTerminalTitle_direccionTerminal}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_direccionTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Ubicación" for="ubicacion"/>
+                        <p:gmap id="ubicacion" center="-33.07640382976732, -71.45355834960935" zoom="10" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" >
+                            <p:ajax event="markerDrag" listener="#{registroTerminalesController.onMarkerDrag}" update=":growl, longitud, latitud"/>
+                        </p:gmap>
+                        
+                        <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud" />
+                        <p:inputText id="latitud" size="10" value="#{registroTerminalesController.lat}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud" />
+                        <p:inputText id="longitud" size="10" value="#{registroTerminalesController.lng}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="Superficie" for="superficie" />
+                        <p:inputText id="superficie" value="#{registroTerminalesController.selected.superficie}" title="#{bundle.CreateTerminalTitle_superficie}"/>
+
+                        <p:outputLabel value="Teléfono" for="telefonoTerminal" />
+                        <p:inputText id="telefonoTerminal" value="#{registroTerminalesController.selected.telefonoTerminal}" title="#{bundle.CreateTerminalTitle_telefonoTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Email" for="emailTerminal" />
+                        <p:inputText id="emailTerminal" value="#{registroTerminalesController.selected.emailTerminal}" title="#{bundle.CreateTerminalTitle_emailTerminal}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroTerminalesController.saveNew}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                        
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('TerminalCreateDialog').hide()" />
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="TerminalViewDlg" widgetVar="TerminalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Terminal" closeOnEscape="true">
+
+            <h:form id="TerminalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{registroTerminalesController.selected != null}">
+
+                        <h:outputText value="N°"/>
+                        <h:outputText value="#{registroTerminalesController.selected.idTerminal}" title="#{bundle.ViewTerminalTitle_idTerminal}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{registroTerminalesController.selected.nombreTerminal}" title="#{bundle.ViewTerminalTitle_nombreTerminal}"/>
+
+                        <h:outputText value="Dirección"/>
+                        <h:outputText value="#{registroTerminalesController.selected.direccionTerminal}" title="#{bundle.ViewTerminalTitle_direccionTerminal}"/>
+
+                        <h:outputText value="Ubicación" />
+                        <p:gmap id="ubicacion2" center="#{registroTerminalesController.selected.ubicacionLatitud}, #{registroTerminalesController.selected.ubicacionLongitud}" zoom="10" draggable="false" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" />                            
+                        
+                        
+                        <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud2" />
+                        <p:inputText id="latitud2" size="10" value="#{registroTerminalesController.selected.ubicacionLatitud}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud2" />
+                        <p:inputText id="longitud2" size="10" value="#{registroTerminalesController.selected.ubicacionLongitud}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
+                        
+                        <h:outputText value="Superficie"/>
+                        <h:outputText value="#{registroTerminalesController.selected.superficie}" title="#{bundle.ViewTerminalTitle_superficie}"/>
+
+                        <h:outputText value="Teléfono"/>
+                        <h:outputText value="#{registroTerminalesController.selected.telefonoTerminal}" title="#{bundle.ViewTerminalTitle_telefonoTerminal}"/>
+
+                        <h:outputText value="Email"/>
+                        <h:outputText value="#{registroTerminalesController.selected.emailTerminal}" title="#{bundle.ViewTerminalTitle_emailTerminal}"/>
+                        
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('TerminalViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panelGrid>                    
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="TerminalEditDlg" widgetVar="TerminalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición" closeOnEscape="true">
+
+            <h:form id="TerminalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroTerminalesController.selected != null}">
+                        <h:outputLabel value="N°" for="idTerminal" />
+                        <h:outputText id="idTerminal" value="#{registroTerminalesController.selected.idTerminal}" />
+
+                        <p:outputLabel value="Nombre" for="nombreTerminal" />
+                        <p:inputText id="nombreTerminal" value="#{registroTerminalesController.selected.nombreTerminal}" title="#{bundle.EditTerminalTitle_nombreTerminal}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_nombreTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Dirección" for="direccionTerminal" />
+                        <p:inputText id="direccionTerminal" value="#{registroTerminalesController.selected.direccionTerminal}" title="#{bundle.EditTerminalTitle_direccionTerminal}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_direccionTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Ubicación" for="ubicacion1"/>
+                        <p:gmap id="ubicacion1" center="#{registroTerminalesController.selected.ubicacionLatitud}  , #{registroTerminalesController.selected.ubicacionLongitud}" zoom="10" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" >
+                            <p:ajax event="markerDrag" listener="#{registroTerminalesController.onMarkerDrag}" update=":growl, longitud1, latitud1"/>
+                        </p:gmap>
+                        
+                        <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud1" />
+                        <p:inputText id="latitud1" size="10" value="#{registroTerminalesController.selected.ubicacionLatitud}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud1" />
+                        <p:inputText id="longitud1" size="10" value="#{registroTerminalesController.selected.ubicacionLongitud}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
+                        
+                        <p:outputLabel value="Superficie" for="superficie" />
+                        <p:inputText id="superficie" value="#{registroTerminalesController.selected.superficie}" title="#{bundle.EditTerminalTitle_superficie}"/>
+
+                        <p:outputLabel value="Teléfono" for="telefonoTerminal" />
+                        <p:inputText id="telefonoTerminal" value="#{registroTerminalesController.selected.telefonoTerminal}" title="#{bundle.EditTerminalTitle_telefonoTerminal}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Email" for="emailTerminal" />
+                        <p:inputText id="emailTerminal" value="#{registroTerminalesController.selected.emailTerminal}" title="#{bundle.EditTerminalTitle_emailTerminal}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroTerminalesController.save}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('TerminalEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <script type="text/javascript">
+            var currentMarker = null;
+
+            function handlePointClick(event) {
+                if (currentMarker === null) {
+                    document.getElementById('lat').value = event.latLng.lat();
+
+                    document.getElementById('lng').value = event.latLng.lng();
+
+                    jQuery('#latitud').val(event.latLng.lat());
+                    jQuery('#longitud').val(event.latLng.lng());
+
+                    currentMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                    });
+
+                    PF('map').addOverlay(currentMarker);
+
+                    PF('dlg').show();
+                }
+            }
+
+            function markerAddComplete() {
+                currentMarker = null;
+                PF('dlg').hide();
+            }
+
+            function cancel() {
+                PF('dlg').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+
+                jQuery('#latitud').val("0.0");
+                jQuery('#longitud').val("0.0");
+
+
+                return false;
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

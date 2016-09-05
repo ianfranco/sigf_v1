@@ -6,7 +6,12 @@
 package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
+import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
+import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -16,7 +21,44 @@ public class EgresoRecaudacionDaoImpl implements EgresoRecaudacionDao {
 
     @Override
     public List<EgresoRecaudacion> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<EgresoRecaudacion> list = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        
+        String sql = "FROM EgresoRecaudacion ";
+        
+        try{
+            list = session.createQuery(sql).list();   
+            
+            tx.commit();
+        } catch (HibernateException e){
+            e.printStackTrace();
+            tx.rollback();
+        } 
+        
+        return list;
+    }
+
+    @Override
+    public List<EgresoRecaudacion> findByProceso(ProcesoRecaudacion procesoRecaudacion) {
+        List<EgresoRecaudacion> list = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        
+        String sql = "FROM EgresoRecaudacion WHERE idProcesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion();
+        
+        try{
+            list = session.createQuery(sql).list();   
+            
+            tx.commit();
+        } catch (HibernateException e){
+            e.printStackTrace();
+            tx.rollback();
+        } 
+        
+        return list;
     }
     
 }

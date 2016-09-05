@@ -117,6 +117,7 @@
                                             <f:selectItem itemLabel="Casado" itemValue="1" />
                                             <f:selectItem itemLabel="Separado" itemValue="2" />
                                             <f:selectItem itemLabel="Viudo" itemValue="3" />
+                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageContrato}"/>
                                         </p:selectOneRadio>
                                     </h:panelGroup>
 
@@ -261,13 +262,14 @@
                                 <h:panelGrid columns="2" columnClasses="column">
                                     <p:outputLabel value="Empresa:" for="empresa" />
                                     <h:panelGroup>
-                                        <p:selectOneMenu id="empresa" value="#{trabajadorController.empresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
+                                        <p:selectOneMenu id="empresa" value="#{trabajadorController.selectedEmpresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
                                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                             <f:selectItems value="#{empresaController.items}"
                                                            var="empresaItem"
                                                            itemValue="#{empresaItem}"
                                                            itemLabel="#{empresaItem}"
                                                            />
+                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageEmpresa}"/>
                                         </p:selectOneMenu>                                        
                                     </h:panelGroup>
 
@@ -280,6 +282,7 @@
                                                            itemValue="#{tipoTrabajadorItem}"
                                                            itemLabel="#{tipoTrabajadorItem}"
                                                            />
+                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageTipo}"/>
                                         </p:selectOneMenu>                                        
                                     </h:panelGroup>
 
@@ -292,22 +295,29 @@
                                                            itemValue="#{tipoContratoItem}"
                                                            itemLabel="#{tipoContratoItem}"
                                                            />
+                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageContrato}"/>
                                         </p:selectOneMenu>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Inicio:" for="fechaInicio" />
                                     <h:panelGroup>
-                                        <p:calendar id="fechaInicio" pattern="dd/MM/yyyy" value="#{trabajadorController.inicioContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}"  showOn="button"/>                                        
+                                        <p:inputText id="fechaInicio" value="#{trabajadorController.selectedInicioContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            <p:ajax event="blur" update="growl" listener="#{trabajadorController.addMessageInicio}"/>
+                                        </p:inputText>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Término:" for="fechaFin" />
                                     <h:panelGroup>
-                                        <p:calendar id="fechaFin" pattern="dd/MM/yyyy" value="#{trabajadorController.finContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}"  showOn="button"/>                                        
+                                        <p:inputText id="fechaFin" value="#{trabajadorController.selectedFinContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}">
+                                            <p:ajax event="blur" update="growl" listener="#{trabajadorController.addMessageTermino}"/>
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:inputText>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_sueldoBase}" for="sueldoBase" />
                                     <h:panelGroup>
-                                        <p:inputText id="sueldoBase" value="#{trabajadorController.relacionLaboral.sueldoBase}" title="#{bundle.CreateRelacionLaboralTitle_sueldoBase}"/>                                        
+                                        <p:inputText id="sueldoBase" value="#{trabajadorController.sueldo}" title="#{bundle.CreateRelacionLaboralTitle_sueldoBase}"/>                                        
                                     </h:panelGroup>
 
                                 </h:panelGrid>

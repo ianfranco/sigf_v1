@@ -15,5 +15,6 @@ import java.util.List;
 public interface ModeloMarcaBusDao {
     
     public List<ModeloMarcaBus> findAll();
+    public ModeloMarcaBus findById(int id);
     
 }

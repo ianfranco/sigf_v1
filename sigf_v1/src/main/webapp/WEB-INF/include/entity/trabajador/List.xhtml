@@ -12,8 +12,7 @@
         <p:contextMenu id="TrabajadorDataTableContextMenu" for="datalist">  
             <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
             <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
-            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
-            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>            
             <p:separator/>
             
         </p:contextMenu>
@@ -37,9 +36,9 @@
             -->
 
 
-            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
-            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
-            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{trabajadorController.resetParents}"/>
+            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
+            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
+            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton" listener="#{trabajadorController.resetParents}"/>
             <p:ajax event="rowDblselect" onsuccess="document.getElementById('TrabajadorListForm:viewButton').click();"/>
 
             <f:facet name="header">
@@ -211,12 +210,7 @@
 
         <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}"  update=":TrabajadorCreateForm" oncomplete="PF('TrabajadorCreateDialog').show()" actionListener="#{trabajadorController.prepareCreate}"/>
         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected}" actionListener="#{trabajadorController.setDefaultValues}"/>
-        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}" actionListener="#{trabajadorController.setDefaultValues}"/>
-        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{trabajadorController.delete}" update=":growl,datalist" disabled="#{empty trabajadorController.selected}">
-            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-        </p:commandButton>
-
-
+        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}" actionListener="#{trabajadorController.setDefaultValues}"/>       
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

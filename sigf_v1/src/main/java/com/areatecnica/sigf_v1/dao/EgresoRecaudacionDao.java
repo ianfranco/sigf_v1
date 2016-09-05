@@ -6,6 +6,7 @@
 package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
+import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ import java.util.List;
 public interface EgresoRecaudacionDao {
     
     public List<EgresoRecaudacion> findAll();
-    
+    public List<EgresoRecaudacion> findByProceso(ProcesoRecaudacion procesoRecaudacion);
 }

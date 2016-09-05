@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateGuias.xhtml">
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="GuiaCreateForm">
+
+            <h:panelGroup id="display" >
+                <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;">
+                    <h:panelGrid columns="8">
+                        <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />
+                        <p:calendar id="fechaRecaudacion" value="#{registroGuiaController.fechaRecaudacion}" showOn="button" pattern="dd/MM/yyyy" disabled="#{registroGuiaController.estado}" size="9"/>
+
+                        <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
+                        <p:selectOneMenu id="procesoRecaudacion" value="#{registroGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="#{registroGuiaController.estado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroGuiaController.procesoRecaudacionItems}"
+                                           var="procesoItem"
+                                           itemValue="#{procesoItem}"
+                                           itemLabel="#{procesoItem}"
+                                           />
+                        </p:selectOneMenu>
+                        <p:commandButton actionListener="#{registroGuiaController.init}" value="Aceptar" update="display,:growl" >
+
+                        </p:commandButton>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel header="Datos Guías" style="margin-left: 4px;margin-right: 4px;margin-top: 4px;">
+                    <h:panelGrid columns="10" style="margin-left: 15px;margin-top: 5px;">
+                        <p:outputLabel value="N° Folio:" for="folio" />
+                        <h:panelGroup>
+                            <p:inputText id="folio" value="#{registroGuiaController.selected.folio}" required="true" requiredMessage="Debe ingresar el folio de la guía" size="7"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Fecha:" for="fechaGuia" style="margin-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" required="true" requiredMessage="Debe ingresar la fecha" showOn="button" size="9"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="N° Bus" for="bus" style="margin-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.bus}" required="true" requiredMessage="Debe ingresar el Bus" converter="busConverter" >
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{registroBusesController.items}"
+                                               var="busItem"
+                                               itemValue="#{busItem}"
+                                               itemLabel="#{busItem.idBus.toString()}"
+                                               />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="N° Conductor:" for="trabajador" style="margin-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.trabajador}" required="true" requiredMessage="Debe ingresar el Conductor" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{trabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                               />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Total Ingresos:" for="totalIngresos" style="margin-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:inputText id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" />
+                        </h:panelGroup>
+
+
+                    </h:panelGrid>
+                </p:panel>
+                <h:panelGrid columns="1" >
+
+                    <p:dashboard id="board" model="#{dashboardGuia.model}">                        
+
+                        <p:panel id="datosGuias" header="Datos Guía" style="margin: 5px;width: 700px;height: 200px">
+                            <h:panelGrid columns="4" style="margin-left: 15px;margin-top: 5px;">
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
+                                <h:panelGroup>
+                                    <p:inputText id="totalEgresos" value="#{registroGuiaController.selected.totalEgresos}" />                                
+                                </h:panelGroup>
+
+
+                                <p:outputLabel value="Saldo:" for="saldo" />
+                                <h:panelGroup>
+                                    <p:inputText id="saldo" value="#{registroGuiaController.selected.saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}"/>                                
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N° Vueltas:" for="numeroVueltas" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroVueltas" value="#{registroGuiaController.selected.numeroVueltas}" />                                
+                                </h:panelGroup>
+
+
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="egresos" header="Egresos" style="margin: 5px;width: 700px;">
+                            <p:dataTable id="datalist"
+                                         value="#{recaudacionIndividual.itemsEgresoGuia}"
+                                         var="item"
+                                         rowKey="#{item.idEgresoGuia}"
+                                         rowIndexVar="rowIndex"
+                                         widgetVar="dataList"
+                                         emptyMessage="No se han encontrado registros"
+                                         >
+
+                                <p:column width="30" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="N°"/>
+                                    </f:facet>
+                                    <h:outputText value="#{rowIndex+1}"/>
+                                </p:column>
+
+                                <p:column width="130" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.egresoTerminal.egreso.nombreEgreso}"/>
+                                </p:column>
+
+                                <p:column width="130" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor"/>
+                                    </f:facet>
+                                    <p:inputText value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;">
+                                        <p:ajax event="blur" update=":GuiaListForm:totales22" listener="#{recaudacionIndividual.setTotal}" ></p:ajax>
+                                    </p:inputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+
+                        <p:panel id="ingresadas" header="Ingresadas" style="margin: 5px;width: 600px;">
+                            <p:dataTable id="datalist2"
+                                         value="#{recaudacionIndividual.itemsEgresoGuia}"
+                                         var="item"
+                                         rowKey="#{item.idEgresoGuia}"
+                                         rowIndexVar="rowIndex"
+                                         widgetVar="dataList"
+                                         emptyMessage="No se han encontrado registros"
+                                         >
+
+                                <p:column width="30" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="N°"/>
+                                    </f:facet>
+                                    <h:outputText value="#{rowIndex+1}"/>
+                                </p:column>
+
+                                <p:column width="130" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.egresoTerminal.egreso.nombreEgreso}"/>
+                                </p:column>
+
+                                <p:column width="130" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor"/>
+                                    </f:facet>
+                                    <p:inputText value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;">
+                                        <p:ajax event="blur" update=":GuiaListForm:totales22" listener="#{recaudacionIndividual.setTotal}" ></p:ajax>
+                                    </p:inputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel id="info" header="Información:"  style="margin: 5px;width: 600px;height: 200px">
+
+                        </p:panel>
+
+                    </p:dashboard>
+
+
+                </h:panelGrid>
+                <p:panel header="Información" style="margin-left: 4px;margin-right: 4px;height: 100%">
+                    Acá se mostrarán información respecto a la guía
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="Nombre Conductor"/>
+                        <p:outputLabel value="Ian Franco Concha"/>
+
+                        <p:outputLabel value="Empleador"/>
+                        <p:outputLabel value="Nombre Empleador"/>
+
+                        <p:outputLabel value="Patente"/>
+                        <p:outputLabel value="XF2524"/>
+
+                        <p:outputLabel value="Año"/>
+                        <p:outputLabel value="2016"/>
+                    </p:panelGrid>
+                </p:panel>
+
+
+            </h:panelGroup>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

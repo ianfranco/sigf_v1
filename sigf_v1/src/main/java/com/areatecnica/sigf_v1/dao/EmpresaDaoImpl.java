@@ -66,5 +66,23 @@ public class EmpresaDaoImpl implements EmpresaDao{
         return list;
     }
 
+    @Override
+    public List<Empresa> findAllClean() {
+        List<Empresa> list = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();        
+        String sql = "FROM Empresa e ORDER BY e.nombreEmpresa ASC";
+        
+        try{            
+            list = session.createQuery(sql).list();                        
+            tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+        return list;
+    }
+
     
 }

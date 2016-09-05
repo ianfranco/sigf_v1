@@ -7,9 +7,7 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
-import com.areatecnica.sigf_v1.dao.BancoDaoImpl;
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
-import com.areatecnica.sigf_v1.entities.Banco;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

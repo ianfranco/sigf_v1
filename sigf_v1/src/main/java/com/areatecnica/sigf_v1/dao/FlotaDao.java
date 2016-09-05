@@ -16,5 +16,6 @@ import java.util.List;
 public interface FlotaDao {
     
     public List<Flota> findAll();
+    public Flota findById(int id);
     
 }

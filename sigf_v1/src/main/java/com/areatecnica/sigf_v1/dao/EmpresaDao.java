@@ -17,5 +17,6 @@ import java.util.List;
 public interface EmpresaDao {
     
     public List<Empresa> findAll();
+    public List<Empresa> findAllClean();
     public Empresa findById(int id);
 }

@@ -8,7 +8,8 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">NintendO64</property>
     <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.current_session_context_class">thread</property>    
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <mapping resource="com/areatecnica/sigf_v1/entities/Bus.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/User.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/AbonoLiquidacion.hbm.xml"/>
@@ -45,7 +46,7 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/BusDevice.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/DetalleVentaBoleto.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Egreso.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/Empresa.hbm.xml"/>    
+    <mapping resource="com/areatecnica/sigf_v1/entities/Empresa.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Despacho.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/HaberTrabajadorLiquidacion.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/FrecuenciaServicio.hbm.xml"/>
@@ -118,7 +119,7 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/ValorRolloUnidad.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/MontoSindicatoTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Calle.hbm.xml"/>
-    <mapping resource="com/areatecnica/sigf_v1/entities/MarcaBus.hbm.xml"/>    
+    <mapping resource="com/areatecnica/sigf_v1/entities/MarcaBus.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/Sindicato.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ValorFijo.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/TarifaServicio.hbm.xml"/>

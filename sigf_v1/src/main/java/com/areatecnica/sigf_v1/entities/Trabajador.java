@@ -617,7 +617,7 @@ public class Trabajador implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "testing.Trabajador[ idTrabajador=" + idTrabajador + " ]";
+        return apellidoPaternoTrabajador+" "+apellidoMaternoTrabajador+" "+nombreTrabajador.substring(0, 1)+".";
     }
 
 }

@@ -73,7 +73,7 @@ public class EmpresaController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:Empresa");
+                System.err.println("SAVE:Empresa");
             }
         } else {
 
@@ -91,7 +91,7 @@ public class EmpresaController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:Trabajador");
+                System.err.println("SAVE:Empresa");
             }
         } else {
 

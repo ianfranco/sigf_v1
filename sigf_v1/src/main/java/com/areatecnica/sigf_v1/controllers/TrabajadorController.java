@@ -11,6 +11,7 @@ import com.areatecnica.sigf_v1.dao.InstitucionAPVDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionPrevisionDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionSaludDaoImpl;
 import com.areatecnica.sigf_v1.dao.MonedaPactadaInstitucionSaludImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
@@ -52,6 +53,7 @@ public class TrabajadorController implements Serializable {
     private MonedaPactadaInstitucionSaludImpl monedaPactadaInstitucionSaludImpl;
     private AsignacionFamiliarDaoImpl asignacionFamiliarDaoImpl;
     private InstitucionPrevisionDaoImpl institucionPrevisionDaoImpl;
+    private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
 
     private List<Trabajador> items;
     private Trabajador selected;
@@ -65,6 +67,8 @@ public class TrabajadorController implements Serializable {
     private boolean ahorro;
     private boolean validaRut;
     private boolean skip;
+    private int sueldo;
+    
 
     //Entidades
     private InstitucionSalud saludFonasa;
@@ -73,12 +77,12 @@ public class TrabajadorController implements Serializable {
     private AsignacionFamiliar asignacionFamiliar;
     private InstitucionPrevision institucionPrevision;
     private RelacionLaboral relacionLaboral;
-    
-    private Empresa empresa;
+
+    private Empresa selectedEmpresa;
     private TipoContrato tipoContrato;
     private TipoTrabajador tipoTrabajador;
-    private Date inicioContrato;
-    private Date finContrato;
+    private Date selectedInicioContrato;
+    private Date selectedFinContrato;
 
     /**
      * Creates a new instance of TrabajadorController
@@ -88,7 +92,6 @@ public class TrabajadorController implements Serializable {
         this.items = this.trabajadorDao.findAll();
         this.relacionLaboral = new RelacionLaboral();
         this.relacionLaboral.setSueldoBase(0);
-        System.err.println("SUELDO BASE:"+this.relacionLaboral.getSueldoBase());
     }
 
     @PostConstruct
@@ -175,7 +178,7 @@ public class TrabajadorController implements Serializable {
     public void setValidaRut(boolean validaRut) {
         this.validaRut = validaRut;
     }
-    
+
     public void updateAhorro() {
         ahorro = !ahorro;
     }
@@ -187,14 +190,13 @@ public class TrabajadorController implements Serializable {
     public void setSkip(boolean skip) {
         this.skip = skip;
     }
-    
-    
-    public Empresa getEmpresa() {
-        return empresa;
+
+    public Empresa getSelectedEmpresa() {
+        return selectedEmpresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public void setSelectedEmpresa(Empresa selectedEmpresa) {
+        this.selectedEmpresa = selectedEmpresa;
     }
 
     public TipoContrato getTipoContrato() {
@@ -213,20 +215,28 @@ public class TrabajadorController implements Serializable {
         this.tipoTrabajador = tipoTrabajador;
     }
 
-    public Date getInicioContrato() {
-        return inicioContrato;
+    public Date getSelectedInicioContrato() {
+        return selectedInicioContrato;
     }
 
-    public void setInicioContrato(Date inicioContrato) {
-        this.inicioContrato = inicioContrato;
+    public void setSelectedInicioContrato(Date selectedInicioContrato) {
+        this.selectedInicioContrato = selectedInicioContrato;
     }
 
-    public Date getFinContrato() {
-        return finContrato;
+    public Date getSelectedFinContrato() {
+        return selectedFinContrato;
     }
 
-    public void setFinContrato(Date finContrato) {
-        this.finContrato = finContrato;
+    public void setSelectedFinContrato(Date selectedFinContrato) {
+        this.selectedFinContrato = selectedFinContrato;
+    }
+
+    public int getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(int sueldo) {
+        this.sueldo = sueldo;
     }
 
     public Trabajador prepareCreate(ActionEvent event) {
@@ -251,8 +261,6 @@ public class TrabajadorController implements Serializable {
         Trabajador newTrabajador;
         newTrabajador = new Trabajador(true);
 
-        
-
         this.selected = newTrabajador;
         this.selected.setCodigoTrabajador(trabajadorDao.maxId());
         this.selected.setInstitucionSalud(saludFonasa);
@@ -263,7 +271,7 @@ public class TrabajadorController implements Serializable {
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
-        
+
         return newTrabajador;
     }
 
@@ -274,30 +282,47 @@ public class TrabajadorController implements Serializable {
 
             System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
             System.err.println("SUELDO:" + this.relacionLaboral.getSueldoBase());
-            System.err.println("Tipo Trabajador:"+this.tipoTrabajador);
-            System.err.println("Fechas:"+this.inicioContrato+" - "+this.finContrato);
-            System.err.println("EMPRESA:"+this.empresa);
-            System.err.println("Tipo Contrato"+this.tipoContrato);
-            
+            System.err.println("Tipo Trabajador:" + this.tipoTrabajador);
+            System.err.println("Fechas:" + this.selectedInicioContrato + " - " + this.selectedFinContrato);
+            System.err.println("EMPRESA:" + this.selectedEmpresa);
+            System.err.println("Tipo Contrato" + this.tipoContrato);
+
             try {
                 this.selected.setFechaIngresoTrabajador(new Date());
+                this.selected.setEstadoCivil(Short.parseShort(estadoCivil));
+                if (sexo.equals("1")) {
+                    this.selected.setSexo(true);
+                } else {
+                    this.selected.setSexo(false);
+                }
+
+                if (nacionalidad.equals("1")) {
+                    this.selected.setNacionalidad(true);
+                } else {
+                    this.selected.setNacionalidad(false);
+                }
+
                 session.saveOrUpdate(this.selected);
 
                 this.relacionLaboral.setEstado(true);
                 this.relacionLaboral.setTrabajador(selected);
-                this.relacionLaboral.setEmpresa(empresa);
+                this.relacionLaboral.setEmpresa(this.selectedEmpresa);
                 this.relacionLaboral.setTipoContrato(tipoContrato);
                 this.relacionLaboral.setTipoTrabajador(tipoTrabajador);
-                this.relacionLaboral.setFechaFin(finContrato);
-                this.relacionLaboral.setFechaInicio(inicioContrato);
+                this.relacionLaboral.setFechaFin(selectedFinContrato);
+                this.relacionLaboral.setFechaInicio(selectedInicioContrato);
+                this.relacionLaboral.setSueldoBase(sueldo);
 
                 session.saveOrUpdate(this.relacionLaboral);
 
                 tx.commit();
                 this.items.add(selected);
 
+                this.selected = null;
+
             } catch (HibernateException e) {
-                System.err.println("NULL:Trabajador");
+                System.err.println("Error SAVE:Trabajador");
+                System.err.println(e.getMessage());
             }
 
         } else {
@@ -327,11 +352,9 @@ public class TrabajadorController implements Serializable {
 
     }
 
-    public void setDefaultValues() {
-        System.err.println("SETEA VALORES");
+    public void setDefaultValues() {        
         if (this.selected != null) {
-            System.err.println("correctos valores");
-
+                        
             if (this.selected.getNacionalidad()) {
                 nacionalidad = String.valueOf("1");
             } else {
@@ -356,12 +379,7 @@ public class TrabajadorController implements Serializable {
 
             if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98) {
                 regimen = false;
-            }
-
-            System.err.println("IMPRIME VALORES:");
-            System.err.println("Nacionalidad:" + nacionalidad);
-            System.err.println("Estado Civil:" + estadoCivil);
-            System.err.println("Sexo:" + sexo);
+            }            
         }
     }
 
@@ -372,7 +390,7 @@ public class TrabajadorController implements Serializable {
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-    
+
     public void updateInstitucionPrevision() {
 
         switch (this.selected.getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador()) {
@@ -396,8 +414,6 @@ public class TrabajadorController implements Serializable {
                 regimen = false;
         }
     }
-
-    
 
     public String onFlowProcess(FlowEvent event) {
         /*if (skip) {
@@ -428,17 +444,42 @@ public class TrabajadorController implements Serializable {
             }
             if (dv == (char) (s != 0 ? s + 47 : 75)) {
                 validaRut = true;
-            }else{
+
+                if (trabajadorDao.existeTrabajador(rut)) {
+                    this.selected.setRutTrabajador("");
+                    JsfUtil.addErrorMessage("El rut se encuentra registrado");
+                }
+
+            } else {
                 this.selected.setRutTrabajador("");
                 JsfUtil.addErrorMessage("Rut Mal Formado");
             }
 
         } catch (java.lang.NumberFormatException e) {
-            
+
         } catch (Exception e) {
-            
+
         }
     }
 
+    public void addMessageContrato() {
+        JsfUtil.addSuccessMessage("Estado Civil:" + estadoCivil);
+    }
+
+    public void addMessageEmpresa() {
+        JsfUtil.addSuccessMessage("Empresa:" + selectedEmpresa.toString());
+    }
+
+    public void addMessageTipo() {
+        JsfUtil.addSuccessMessage("Tipo:" + tipoTrabajador);
+    }
+
+    public void addMessageInicio() {
+        JsfUtil.addSuccessMessage("Inicio:" + selectedInicioContrato);
+    }
+
+    public void addMessageTermino() {
+        JsfUtil.addSuccessMessage("Tipo:" + selectedFinContrato);
+    }
 
 }

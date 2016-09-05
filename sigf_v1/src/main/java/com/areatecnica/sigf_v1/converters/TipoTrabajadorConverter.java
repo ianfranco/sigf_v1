@@ -1,6 +1,5 @@
 package com.areatecnica.sigf_v1.converters;
 
-import com.areatecnica.sigf_v1.dao.AbstractDao;
 import com.areatecnica.sigf_v1.entities.TipoTrabajador;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.TipoTrabajadorDaoImpl;

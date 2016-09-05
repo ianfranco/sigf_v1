@@ -35,5 +35,24 @@ public class FlotaDaoImpl implements FlotaDao{
         }
         return list;
     }
+
+    @Override
+    public Flota findById(int id) {
+        Flota flota = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Flota WHERE idFlota=" + id;
+        try {
+
+            flota = (Flota) session.createQuery(sql).uniqueResult();
+            
+            tx.commit();
+        } catch (HibernateException e) {            
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return flota;
+    }
     
 }

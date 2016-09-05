@@ -53,4 +53,6 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         return list;
     }
     
+    
+    
 }

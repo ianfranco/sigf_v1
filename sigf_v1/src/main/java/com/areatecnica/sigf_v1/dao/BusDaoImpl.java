@@ -40,7 +40,7 @@ public class BusDaoImpl implements BusDao {
                 Hibernate.initialize(b.getUnidadNegocio());
                 Hibernate.initialize(b.getFlota());
                 Hibernate.initialize(b.getModeloMarcaBus());
-                Hibernate.initialize(b.getModeloMarcaBus().getMarcaBus());
+                //Hibernate.initialize(b.getModeloMarcaBus().getMarcaBus());
             }
 
             tx.commit();

@@ -15,5 +15,6 @@ import java.util.List;
 public interface UnidadNegocioDao {
     
     public List<UnidadNegocio> findAll();
+    public UnidadNegocio findById(int id);
     
 }

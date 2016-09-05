@@ -6,7 +6,6 @@
 package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
-import com.areatecnica.sigf_v1.entities.Banco;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;

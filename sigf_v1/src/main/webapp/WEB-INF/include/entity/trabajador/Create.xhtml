@@ -14,7 +14,7 @@
 
                 <h:panelGroup id="display" >
 
-                    <p:dashboard id="board" model="#{dashboardModel.model}">
+                    <p:dashboard id="board" model="#{dashboardModel.modelMain}">
                         <p:ajax event="reorder" listener="#{dashboardModel.handleReorder}" update="growl" />
 
                         <p:panel id="personal" header="Datos Personales" style="margin: 10px;">

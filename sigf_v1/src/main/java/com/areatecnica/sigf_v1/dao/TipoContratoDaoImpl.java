@@ -29,6 +29,7 @@ public class TipoContratoDaoImpl implements GenericDao<TipoContrato>{
         try {
             tipoContrato = (TipoContrato) session.createQuery(sql).uniqueResult();
             tx.commit();
+            System.err.println("tipo de contrato obtenido:"+tipoContrato);
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();

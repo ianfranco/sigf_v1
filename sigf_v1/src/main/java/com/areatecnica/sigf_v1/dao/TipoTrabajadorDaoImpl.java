@@ -29,6 +29,7 @@ public class TipoTrabajadorDaoImpl implements GenericDao<TipoTrabajador>{
         String sql = "FROM TipoTrabajador WHERE idTipoTrabajador=" + id;
         try {
             tipoTrabajador = (TipoTrabajador) session.createQuery(sql).uniqueResult();
+            //System.err.println("tipo trabajador:"+tipoTrabajador.getNombreTipoTrabajador());
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

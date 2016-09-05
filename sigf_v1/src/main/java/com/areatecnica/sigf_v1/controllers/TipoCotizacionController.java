@@ -74,7 +74,7 @@ public class TipoCotizacionController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:InstitucionPrevision");
+                System.err.println("SAVE:TipoCotizacion");
             }
         } else {
 
@@ -92,7 +92,7 @@ public class TipoCotizacionController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:Trabajador");
+                System.err.println("SAVE:TipoCotizacion");
             }
         } else {
 

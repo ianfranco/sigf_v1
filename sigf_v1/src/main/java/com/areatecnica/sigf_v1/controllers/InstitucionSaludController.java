@@ -72,7 +72,7 @@ public class InstitucionSaludController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:InstitucionPrevision");
+                System.err.println("SAVE:Salud");
             }
         } else {
 
@@ -90,7 +90,7 @@ public class InstitucionSaludController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("NULL:Trabajador");
+                System.err.println("SAVE:Salud");
             }
         } else {
 

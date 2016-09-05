@@ -15,22 +15,20 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{procesoRecaudacionController.selected != null}">
 
-                        <h:outputText value="#{bundle.ViewProcesoRecaudacionLabel_idProcesoRecaudacion}"/>
+                        <h:outputText value="N°:"/>
                         <h:outputText value="#{procesoRecaudacionController.selected.idProcesoRecaudacion}" title="#{bundle.ViewProcesoRecaudacionTitle_idProcesoRecaudacion}"/>
 
-                        <h:outputText value="#{bundle.ViewProcesoRecaudacionLabel_usuario}"/>
-                        <h:outputText value="#{procesoRecaudacionController.selected.usuario.idUsario}"/>
+                        <h:outputText value="Recaudador:"/>
+                        <h:outputText value="#{procesoRecaudacionController.selected.usuario}"/>
 
                         <h:outputText value="#{bundle.ViewProcesoRecaudacionLabel_nombreProceso}"/>
                         <h:outputText value="#{procesoRecaudacionController.selected.nombreProceso}" title="#{bundle.ViewProcesoRecaudacionTitle_nombreProceso}"/>
 
                         <h:outputText value="#{bundle.ViewProcesoRecaudacionLabel_fechaCreacionProceso}"/>
                         <h:outputText value="#{procesoRecaudacionController.selected.fechaCreacionProceso}" title="#{bundle.ViewProcesoRecaudacionTitle_fechaCreacionProceso}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
-
-                        <h:outputText value="#{bundle.ViewProcesoRecaudacionLabel_activo}"/>
-                        <h:selectBooleanCheckbox id="activo" value="#{procesoRecaudacionController.selected.activo}" title="#{bundle.EditProcesoRecaudacionTitle_activo}"  disabled="true"/>
+                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PF('ProcesoRecaudacionViewDialog').hide()"/>
                 </h:panelGroup>

@@ -15,8 +15,7 @@ import java.util.List;
 public interface UsuarioDao {
 
     public Usuario findByUsuario(Usuario usuario);
-
-    public Usuario login(Usuario usuario);
-    
+    public Usuario findById(int id);
+    public Usuario login(Usuario usuario);    
     public List<Usuario> findAll();
 }

@@ -9,29 +9,284 @@
 
     <ui:define name="content" class="ui-corner-all" >
 
-        <h:form id="TrabajadorCreateForm">
+        <h:form id="TrabajadorFichaFormDisplay">
+            <p:tabView>
+                <p:tab title="Código">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelCódigo">                        
+                        <p:outputLabel value="Código:" for="busquedaCodigo" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <p:inputText id="busquedaCodigo" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Código" value="#{fichaTrabajadorController.codigo}" >
+                            <p:ajax event="blur" update="growl" listener="#{fichaTrabajadorController.setMessage}"/>
+                        </p:inputText>
+                        <p:commandButton id="buscarCodigo" value="Buscar" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorFichaFormDisplay:display,growl"/>
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Rut">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelRut">
+                        <p:outputLabel value="Rut:" for="busquedaRut" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <p:inputText id="busquedaRut" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"  value="#{fichaTrabajadorController.rut}"/>
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Empresa">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelEmpresa"> 
+                        <p:outputLabel value="Empresa:" for="busquedaEmpresa" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="busquedaEmpresa" value="#{fichaTrabajadorController.empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem}"
+                                               />
+                                <p:ajax event="valueChange" update="growl" listener="#{fichaTrabajadorController.addMessageEmpresa}"/>
+                            </p:selectOneMenu>                                        
+                        </h:panelGroup>
+                        <p:commandButton id="buscarEmpresa" value="Cargar Datos" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorFichaFormDisplay:display"/>
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
 
-            <p:panel id="datos" widgetVar="datos" header="Datos" >
-                <h:panelGrid columns="8" columnClasses="value" id="panelServicio2">                        
-                    <p:outputLabel value="Código:" for="busquedaCodigo" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
-                    <p:inputText id="busquedaCodigo" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Bruto"/>
 
-                    <p:outputLabel value="Rut:" for="busquedaRut" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
-                    <p:inputText id="busquedaRut" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Bruto"/>
-
-                </h:panelGrid>
-            </p:panel>
             <p:separator class="ui-priority-primary" />
             <h:panelGroup id="display" >
+                <h:panelGrid columns="1">
+                    <p:dashboard id="board" model="#{dashboardModel.modelMain}">
+                        <p:ajax event="reorder" listener="#{dashboardModel.handleReorder}" update="growl" />
 
-                
+                        <p:panel id="personal" header="Datos Personales" style="margin: 10px;">
+                            <h:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="Cód.:" for="codigoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="codigoTrabajador" value="#{fichaTrabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Rut:" for="rutTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="rutTrabajador" value="#{fichaTrabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}"/>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Nombres" for="nombreTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="nombreTrabajador" value="#{fichaTrabajadorController.selected.nombreTrabajador}" title="#{bundle.CreateTrabajadorTitle_nombreTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_nombreTrabajador}" size="30"/>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Apellido P." for="apellidoPaternoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="apellidoPaternoTrabajador" value="#{fichaTrabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoPaternoTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_apellidoPaternoTrabajador}" size="30"/>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Apellido M.:" for="apellidoMaternoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="apellidoMaternoTrabajador" value="#{fichaTrabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoMaternoTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_apellidoMaternoTrabajador}" size="30"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="F.Nacimiento:" for="fechaNacimientoTrabajador" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaNacimientoTrabajador" pattern="MM/dd/yyyy" value="#{fichaTrabajadorController.selected.fechaNacimientoTrabajador}" title="#{bundle.CreateTrabajadorTitle_fechaNacimientoTrabajador}"  showOn="button"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Dirección:" for="calleTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="calleTrabajador" value="#{fichaTrabajadorController.selected.calleTrabajador}" size="35"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N°/Depto:" for="numeroDireccionTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroDireccionTrabajador" value="#{fichaTrabajadorController.selected.numeroDireccionTrabajador}" size="15"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Comuna:" for="comuna" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="comuna" value="#{fichaTrabajadorController.selected.comuna}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_comuna}" converter="comunaConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{comunaController.items}"
+                                                       var="comunaItem"
+                                                       itemValue="#{comunaItem}"
+                                                       itemLabel="#{comunaItem}"
+                                                       />
+
+                                    </p:selectOneMenu>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="País:" for="nacionalidad" />
+                                <h:panelGroup>     
+                                    <p:selectOneRadio id="nacionalidad" value="#{fichaTrabajadorController.nacionalidad}" required="true">
+                                        <f:selectItem itemLabel="Chile" itemValue="1" />
+                                        <f:selectItem itemLabel="Extranjero" itemValue="0" />
+                                    </p:selectOneRadio>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Sexo:" for="sexo" />
+                                <h:panelGroup>
+                                    <p:selectOneRadio id="sexo" value="#{fichaTrabajadorController.sexo}" required="true">
+                                        <f:selectItem itemLabel="Hombre" itemValue="1" />
+                                        <f:selectItem itemLabel="Mujer" itemValue="0" />
+                                    </p:selectOneRadio>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Estado Civil:" for="estadoCivil" />
+                                <h:panelGroup>
+                                    <p:selectOneRadio id="estadoCivil" value="#{fichaTrabajadorController.estadoCivil}" required="true">
+                                        <f:selectItem itemLabel="Soltero" itemValue="0" />
+                                        <f:selectItem itemLabel="Casado" itemValue="1" />
+                                        <f:selectItem itemLabel="Separado" itemValue="2" />
+                                        <f:selectItem itemLabel="Viudo" itemValue="3" />
+                                    </p:selectOneRadio>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Teléfono:" for="telefonoFijoTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="telefonoFijoTrabajador" value="#{fichaTrabajadorController.selected.telefonoFijoTrabajador}" title="#{bundle.CreateTrabajadorTitle_telefonoFijoTrabajador}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Celular:" for="celularTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="celularTrabajador" value="#{fichaTrabajadorController.selected.celularTrabajador}" title="#{bundle.CreateTrabajadorTitle_celularTrabajador}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Email:" for="emailTrabajador" />
+                                <h:panelGroup>
+                                    <p:inputText id="emailTrabajador" value="#{fichaTrabajadorController.selected.emailTrabajador}" title="#{bundle.CreateTrabajadorTitle_emailTrabajador}"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="previsional" header="Previsión" style="margin: 10px;">
+                            <h:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="Tipo Cotización:" for="tipoCotizacionTrabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="tipoCotizacionTrabajador" value="#{fichaTrabajadorController.selected.tipoCotizacionTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_tipoCotizacionTrabajador}" converter="tipoCotizacionTrabajadorConverter" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{tipoCotizacionTrabajadorController.items}"
+                                                       var="tipoCotizacionTrabajadorItem"
+                                                       itemValue="#{tipoCotizacionTrabajadorItem}"
+                                                       itemLabel="#{tipoCotizacionTrabajadorItem}"
+                                                       />
+                                        <p:ajax event="valueChange" listener="#{fichaTrabajadorController.updateInstitucionPrevision}" update="institucionPrevision"/>
+                                    </p:selectOneMenu>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="AFP:" for="institucionPrevision" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionPrevision" value="#{fichaTrabajadorController.selected.institucionPrevision}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_institucionPrevision}" converter="institucionPrevisionConverter" disabled="#{fichaTrabajadorController.regimen}">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionPrevisionController.items}"
+                                                       var="institucionPrevisionItem"
+                                                       itemValue="#{institucionPrevisionItem}"
+                                                       itemLabel="#{institucionPrevisionItem}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Ahorro Voluntario" for="ips" />                                        
+                                <p:selectBooleanCheckbox id="ips" value="#{fichaTrabajadorController.ahorro}">
+                                    <p:ajax update="institucionApv,montoAPV" event="valueChange" listener="#{fichaTrabajadorController.ahorro}"/>
+                                </p:selectBooleanCheckbox>
+
+                                <p:outputLabel value="APV:" for="institucionApv" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionApv" value="#{fichaTrabajadorController.selected.institucionApv}" required="true" converter="institucionApvConverter" disabled="#{fichaTrabajadorController.updateAhorro()}">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionApvController.items}"
+                                                       var="institucionApvItem"
+                                                       itemValue="#{institucionApvItem}"
+                                                       itemLabel="#{institucionApvItem}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Monto APV:" for="montoAPV" />
+                                <h:panelGroup>
+                                    <p:inputText id="montoAPV" value="#{fichaTrabajadorController.selected.montoApv}" disabled="#{fichaTrabajadorController.updateAhorro()}"/>
+                                    <p:tooltip for="montoAPV" value="Ingrese el monto de la APV"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                        <p:panel id="salud" header="Salud" style="margin: 10px;">
+                            <h:panelGrid columns="2" columnClasses="column" >
+
+                                <p:outputLabel value="Fonasa:" for="fonasa" />                                        
+                                <p:selectBooleanCheckbox id="fonasa" value="#{fichaTrabajadorController.fonasa}">
+                                    <p:ajax update="institucionSalud, monedaPactadaInstitucionSalud, montoSalud" />
+                                </p:selectBooleanCheckbox>
+
+                                <p:outputLabel value="Salud:" for="institucionSalud" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="institucionSalud" value="#{fichaTrabajadorController.selected.institucionSalud}" required="true" converter="institucionSaludConverter" disabled="#{fichaTrabajadorController.fonasa}">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{institucionSaludController.items}"
+                                                       var="institucionSaludItem"
+                                                       itemValue="#{institucionSaludItem}"
+                                                       itemLabel="#{institucionSaludItem}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Moneda:" for="monedaPactadaInstitucionSalud" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="monedaPactadaInstitucionSalud" value="#{fichaTrabajadorController.selected.monedaPactadaInstitucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_monedaPactadaInstitucionSalud}" converter="monedaPactadaInstitucionSaludConverter" disabled="#{fichaTrabajadorController.fonasa}">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{monedaPactadaInstitucionSaludController.items}"
+                                                       var="monedaPactadaInstitucionSaludItem"
+                                                       itemValue="#{monedaPactadaInstitucionSaludItem}"
+                                                       itemLabel="#{monedaPactadaInstitucionSaludItem}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Monto:" for="montoSalud" />
+                                <h:panelGroup>
+                                    <p:inputText id="montoSalud" value="#{fichaTrabajadorController.selected.montoSalud}"  disabled="#{fichaTrabajadorController.fonasa}"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="varios" header="Asignación Familiar" style="margin: 10px;">
+                            <h:panelGrid columns="2" columnClasses="column">
+
+                                <p:outputLabel value="N° de Cargas" for="numeroCargas" />
+                                <h:panelGroup>
+                                    <p:inputText id="numeroCargas" value="#{fichaTrabajadorController.selected.numeroCargas}" size="20"/>
+                                </h:panelGroup>
 
 
-                <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorCreateDialog'));">
-                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
-                </p:commandButton>
+                                <p:outputLabel value="Grupo:" for="AsignacionTrabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="AsignacionTrabajador" value="#{fichaTrabajadorController.selected.asignacionFamiliar}" required="true" converter="asignacionFamiliarConverter">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{asignacionFamiliarController.items}"
+                                                       var="asignacionTrabajadorItem"
+                                                       itemValue="#{asignacionTrabajadorItem}"
+                                                       itemLabel="#{asignacionTrabajadorItem}"
+                                                       />
 
-                <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="politics" header="Fotografía" style="margin: 10px;width: 320px;">
+                            <p:graphicImage name="user.png" library="images" width="300" height="300" style="align-content: center"/>
+                        </p:panel>
+                    </p:dashboard>
+
+                    <h:panelGroup >
+                        <p:commandButton actionListener="#{fichaTrabajadorController.save}" value="#{bundle.Save}" update=":TrabajadorFichaFormDisplay:display,:growl" process="@parent">
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="#{bundle.Cancel}" update=":TrabajadorFichaFormDisplay:display" process="@this" immediate="true" resetValues="true"/>
+                    </h:panelGroup>
+
+
+                </h:panelGrid>
+
+
             </h:panelGroup>
 
         </h:form>

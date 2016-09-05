@@ -68,4 +68,24 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return list;
     }
 
+    @Override
+    public Usuario findById(int id) {
+        Usuario usuario = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Usuario WHERE idUsuario = "+id;
+        try {
+            usuario = (Usuario) session.createQuery(sql).uniqueResult();
+            Hibernate.initialize(usuario.getTerminal());
+            Hibernate.initialize(usuario.getRol());
+            tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            tx.rollback();
+            
+        }
+        return usuario;
+    }
+
 }
