@@ -7,6 +7,7 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.Guia;
+import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import java.util.Date;
 import java.util.List;
@@ -17,15 +18,12 @@ import java.util.List;
  */
 public interface GuiaDao {
     
-    public List<Guia> findAll();
-    
+    public List<Guia> findAll();    
     public List<Guia> findByFecha(Date fecha);
-    
-    public List<Guia> findByFechaAndTerminal(Date fecha, Terminal terminal);
-    
-    public Guia findByFolio (int folio);
-    
+    public List<Guia> findByFechaAndProceso(Date fecha, ProcesoRecaudacion procesoRecaudacion);
+    public List<Guia> findByFechaAndTerminal(Date fecha, Terminal terminal);    
+    public List<Guia> findByBusAndEstado(Bus bus, boolean estado);
+    public Guia findByFolio (int folio);    
     public Guia findByBusAndFecha(Bus bus, Date fecha);
     
-    public List<Guia> findByBusAndEstado(Bus bus, boolean estado);
 }

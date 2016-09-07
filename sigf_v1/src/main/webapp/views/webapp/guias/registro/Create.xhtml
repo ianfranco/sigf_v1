@@ -7,70 +7,52 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="./../templateGuias.xhtml">
     <ui:define name="content" class="ui-corner-all" >
+
         <h:form id="GuiaCreateForm">
+            <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;" >
+                <h:panelGrid columns="8">
+                    <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />                        
+                    <p:calendar id="fechaRecaudacion" value="#{registroGuiaController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="9" />
 
+                    <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
+                    <p:selectOneMenu id="procesoRecaudacion" value="#{registroGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" >
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{registroGuiaController.procesoRecaudacionItems}"
+                                       var="procesoItem"
+                                       itemValue="#{procesoItem}"
+                                       itemLabel="#{procesoItem}"
+                                       />
+                    </p:selectOneMenu>
+                    <p:commandButton id="value2" ajax="true"  value="Aceptar" update="GuiaData:panelDatos, GuiaData:egresos" style="width:80px" actionListener="#{registroGuiaController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+        <h:form id="GuiaData">
+            <p:hotkey bind="ctrl+enter" update="growl" actionListener="#{registroGuiaController.resetParents}" oncomplete="PF('dlg1').show();"/>
             <h:panelGroup id="display" >
-                <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;">
-                    <h:panelGrid columns="8">
-                        <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />
-                        <p:calendar id="fechaRecaudacion" value="#{registroGuiaController.fechaRecaudacion}" showOn="button" pattern="dd/MM/yyyy" disabled="#{registroGuiaController.estado}" size="9"/>
-
-                        <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
-                        <p:selectOneMenu id="procesoRecaudacion" value="#{registroGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="#{registroGuiaController.estado}">
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{registroGuiaController.procesoRecaudacionItems}"
-                                           var="procesoItem"
-                                           itemValue="#{procesoItem}"
-                                           itemLabel="#{procesoItem}"
-                                           />
-                        </p:selectOneMenu>
-                        <p:commandButton actionListener="#{registroGuiaController.init}" value="Aceptar" update="display,:growl" >
-
+                <p:panel id="panelDatos" header="#{registroGuiaController.stringHeader}" style="margin-left: 4px;margin-right: 4px;margin-top: 4px;">
+                    <h:panelGrid columns="12" style="margin-left: 15px;margin-top: 5px;">
+                        
+                        <p:commandButton value="Datos" onclick="PF('dlg1').show();">
+                            
                         </p:commandButton>
-
-                    </h:panelGrid>
-                </p:panel>
-                <p:panel header="Datos Guías" style="margin-left: 4px;margin-right: 4px;margin-top: 4px;">
-                    <h:panelGrid columns="10" style="margin-left: 15px;margin-top: 5px;">
+                        
                         <p:outputLabel value="N° Folio:" for="folio" />
-                        <h:panelGroup>
-                            <p:inputText id="folio" value="#{registroGuiaController.selected.folio}" required="true" requiredMessage="Debe ingresar el folio de la guía" size="7"/>
-                        </h:panelGroup>
+                        <p:inputText id="folio" value="#{registroGuiaController.selected.folio}" required="true" requiredMessage="Debe ingresar el folio de la guía" size="7" onfocus="this.setSelectionRange(0, this.value.length)"/>
 
                         <p:outputLabel value="Fecha:" for="fechaGuia" style="margin-left: 10px;"/>
-                        <h:panelGroup>
-                            <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" required="true" requiredMessage="Debe ingresar la fecha" showOn="button" size="9"/>
-                        </h:panelGroup>
+                        <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" required="true" requiredMessage="Debe ingresar la fecha" showOn="button" size="9" mask="true"/>
 
                         <p:outputLabel value="N° Bus" for="bus" style="margin-left: 10px;"/>
-                        <h:panelGroup>
-                            <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.bus}" required="true" requiredMessage="Debe ingresar el Bus" converter="busConverter" >
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{registroBusesController.items}"
-                                               var="busItem"
-                                               itemValue="#{busItem}"
-                                               itemLabel="#{busItem.idBus.toString()}"
-                                               />
-                            </p:selectOneMenu>
-                        </h:panelGroup>
+                        <p:inputText id="bus" value="#{registroGuiaController.numeroBus}" required="true" requiredMessage="Debe ingresar el N° del Bus" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
 
                         <p:outputLabel value="N° Conductor:" for="trabajador" style="margin-left: 10px;"/>
-                        <h:panelGroup>
-                            <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.trabajador}" required="true" requiredMessage="Debe ingresar el Conductor" converter="trabajadorConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{trabajadorController.items}"
-                                               var="trabajadorItem"
-                                               itemValue="#{trabajadorItem}"
-                                               itemLabel="#{trabajadorItem.codigoTrabajador}"
-                                               />
-                            </p:selectOneMenu>
-                        </h:panelGroup>
+                        <p:inputText id="trabajador" value="#{registroGuiaController.codigoConductor}" required="true" requiredMessage="Debe ingresar el Código del Conductor" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
 
                         <p:outputLabel value="Total Ingresos:" for="totalIngresos" style="margin-left: 10px;"/>
-                        <h:panelGroup>
-                            <p:inputText id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" />
-                        </h:panelGroup>
-
+                        <p:inputText id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
 
                     </h:panelGrid>
                 </p:panel>
@@ -103,7 +85,7 @@
 
                         <p:panel id="egresos" header="Egresos" style="margin: 5px;width: 700px;">
                             <p:dataTable id="datalist"
-                                         value="#{recaudacionIndividual.itemsEgresoGuia}"
+                                         value="#{registroGuiaController.egresosGuiaItems}"
                                          var="item"
                                          rowKey="#{item.idEgresoGuia}"
                                          rowIndexVar="rowIndex"
@@ -122,7 +104,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Nombre"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.egresoTerminal.egreso.nombreEgreso}"/>
+                                    <h:outputText value="#{item.egresoRecaudacion.egreso.nombreEgreso}"/>
                                 </p:column>
 
                                 <p:column width="130" style="text-align: center; font-weight: bold;">
@@ -130,7 +112,7 @@
                                         <h:outputText value="Valor"/>
                                     </f:facet>
                                     <p:inputText value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;">
-                                        <p:ajax event="blur" update=":GuiaListForm:totales22" listener="#{recaudacionIndividual.setTotal}" ></p:ajax>
+
                                     </p:inputText>
                                 </p:column>
                             </p:dataTable>
@@ -143,7 +125,7 @@
                                          rowKey="#{item.idEgresoGuia}"
                                          rowIndexVar="rowIndex"
                                          widgetVar="dataList"
-                                         emptyMessage="No se han encontrado registros"
+                                         emptyMessage="No se han encontrado registros" 
                                          >
 
                                 <p:column width="30" style="text-align: center; font-weight: bold;">
@@ -194,10 +176,14 @@
                         <p:outputLabel value="2016"/>
                     </p:panelGrid>
                 </p:panel>
-
-
             </h:panelGroup>
         </h:form>
+
+        <p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
+            <h:form id="formDialog">
+                <h:outputText value="Resistance to PrimeFaces is futile!" />
+            </h:form>
+        </p:dialog>
 
     </ui:define>
 

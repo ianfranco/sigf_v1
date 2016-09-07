@@ -50,7 +50,7 @@ public class UsuarioConverter implements Converter {
         }
         if (object instanceof Usuario) {
             Usuario o = (Usuario) object;
-            return getStringKey(o.getIdUsario());
+            return getStringKey(o.getIdUsuario());
         } else {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Usuario.class.getName()});
             return null;

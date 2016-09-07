@@ -15,12 +15,6 @@
                 <h:panelGroup id="display" rendered="#{egresoRecaudacionController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_idEgresoRecaudacion}" for="idEgresoRecaudacion" />
-                        <h:panelGroup>
-                            <p:inputText id="idEgresoRecaudacion" value="#{egresoRecaudacionController.selected.idEgresoRecaudacion}" title="#{bundle.CreateEgresoRecaudacionTitle_idEgresoRecaudacion}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_idEgresoRecaudacion}"/>
-                            <p:tooltip for="idEgresoRecaudacion" value="#{egresoRecaudacionController.getComponentMessages('idEgresoRecaudacion', bundle.CreateEgresoRecaudacionHelpText_idEgresoRecaudacion)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_egreso}" for="egreso" />
                         <h:panelGroup>
                             <p:selectOneMenu id="egreso" value="#{egresoRecaudacionController.selected.egreso}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_egreso}" converter="egresoConverter">
@@ -28,27 +22,13 @@
                                 <f:selectItems value="#{egresoController.items}"
                                                var="egresoItem"
                                                itemValue="#{egresoItem}"
-                                               itemLabel="#{egresoItem.idEgreso.toString()}"
+                                               itemLabel="#{egresoItem}"
                                                />
 
                             </p:selectOneMenu>
                             <p:tooltip for="egreso" value="#{egresoRecaudacionController.getComponentMessages('egreso', bundle.CreateEgresoRecaudacionHelpText_egreso)}"/>
                         </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_procesoRecaudacion}" for="procesoRecaudacion" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="procesoRecaudacion" value="#{egresoRecaudacionController.selected.procesoRecaudacion}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_procesoRecaudacion}" converter="procesoRecaudacionConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{procesoRecaudacionController.items}"
-                                               var="procesoRecaudacionItem"
-                                               itemValue="#{procesoRecaudacionItem}"
-                                               itemLabel="#{procesoRecaudacionItem.idProcesoRecaudacion.toString()}"
-                                               />
-
-                            </p:selectOneMenu>
-                            <p:tooltip for="procesoRecaudacion" value="#{egresoRecaudacionController.getComponentMessages('procesoRecaudacion', bundle.CreateEgresoRecaudacionHelpText_procesoRecaudacion)}"/>
-                        </h:panelGroup>
-
+                       
                         <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_valorDefectoEgreso}" for="valorDefectoEgreso" />
                         <h:panelGroup>
                             <p:inputText id="valorDefectoEgreso" value="#{egresoRecaudacionController.selected.valorDefectoEgreso}" title="#{bundle.CreateEgresoRecaudacionTitle_valorDefectoEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_valorDefectoEgreso}"/>
@@ -59,12 +39,6 @@
                         <h:panelGroup>
                             <p:inputText id="porcentaje" value="#{egresoRecaudacionController.selected.porcentaje}" title="#{bundle.CreateEgresoRecaudacionTitle_porcentaje}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_porcentaje}"/>
                             <p:tooltip for="porcentaje" value="#{egresoRecaudacionController.getComponentMessages('porcentaje', bundle.CreateEgresoRecaudacionHelpText_porcentaje)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_numeroOrdenEgreso}" for="numeroOrdenEgreso" />
-                        <h:panelGroup>
-                            <p:inputText id="numeroOrdenEgreso" value="#{egresoRecaudacionController.selected.numeroOrdenEgreso}" title="#{bundle.CreateEgresoRecaudacionTitle_numeroOrdenEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_numeroOrdenEgreso}"/>
-                            <p:tooltip for="numeroOrdenEgreso" value="#{egresoRecaudacionController.getComponentMessages('numeroOrdenEgreso', bundle.CreateEgresoRecaudacionHelpText_numeroOrdenEgreso)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_activo}" for="activo" />

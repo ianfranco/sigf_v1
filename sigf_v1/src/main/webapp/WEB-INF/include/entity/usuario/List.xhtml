@@ -23,7 +23,7 @@
             <p:dataTable id="datalist"
                          value="#{usuarioController.items}"
                          lazy="false"
-                         rowKey="#{item.idUsario}"
+                         rowKey="#{item.idUsuario}"
                          var="item"
                          paginator="true"
                          rows="100"
@@ -45,11 +45,11 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{usuarioController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idUsario}" filterBy="#{item.idUsario}">
+                <p:column sortBy="#{item.idUsuario}" filterBy="#{item.idUsuario}">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListUsuarioTitle_idUsario}"/>
                     </f:facet>
-                    <h:outputText value="#{item.idUsario}"/>
+                    <h:outputText value="#{item.idUsuario}"/>
                 </p:column>
 
 

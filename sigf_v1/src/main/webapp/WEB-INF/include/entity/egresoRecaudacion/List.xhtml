@@ -7,109 +7,127 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <h:form id="EgresoRecaudacionListForm">
-
-        <p:panel header="#{bundle.ListEgresoRecaudacionTitle}">
-            <p:contextMenu id="EgresoRecaudacionDataTableContextMenu" for="datalist">  
-                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoRecaudacionListForm:createButton').click();" icon="ui-icon-plus"/>
-                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoRecaudacionListForm:viewButton').click();" icon="ui-icon-search"/>
-                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoRecaudacionListForm:editButton').click();" icon="ui-icon-pencil"/>
-                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoRecaudacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                <p:separator/>
-                <p:menuitem value="#{bundle.EgresoRecaudacionMenuItem_egreso}" icon="ui-icon-search"  actionListener="#{egresoRecaudacionController.prepareEgreso}" update=":EgresoViewForm" oncomplete="PF('EgresoViewDialog').show()" disabled="#{empty egresoRecaudacionController.selected.egreso}"/>  
-                <p:menuitem value="#{bundle.EgresoRecaudacionMenuItem_procesoRecaudacion}" icon="ui-icon-search"  actionListener="#{egresoRecaudacionController.prepareProcesoRecaudacion}" update=":ProcesoRecaudacionViewForm" oncomplete="PF('ProcesoRecaudacionViewDialog').show()" disabled="#{empty egresoRecaudacionController.selected.procesoRecaudacion}"/>  
-                <p:menuitem value="#{bundle.EgresoRecaudacionMenuItem_egresoGuias}" icon="ui-icon-search"  action="#{egresoRecaudacionController.navigateEgresoGuias}" disabled="#{empty egresoRecaudacionController.selected.egresoGuias}" ajax="false"/>  
-            </p:contextMenu>
-            <p:dataTable id="datalist"
-                         value="#{egresoRecaudacionController.items}"
-                         lazy="false"
-                         rowKey="#{item.idEgresoRecaudacion}"
-                         var="item"
-                         paginator="true"
-                         rows="100"
-                         rowsPerPageTemplate="50,100,200"
-                         selectionMode="single"
-                         selection="#{egresoRecaudacionController.selected}">
-                <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
+        <p:contextMenu id="EgresoRecaudacionDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoRecaudacionListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoRecaudacionListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoRecaudacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoRecaudacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>                
+        </p:contextMenu>
+        <p:panel id="seleccion" header="Selección" style="margin-bottom: 5px;">
+            <h:panelGrid columns="4">                
+                <p:outputLabel value="Proceso:" for="procesoRecaudacion" />
+                <h:panelGroup>
+                    <p:selectOneMenu id="procesoRecaudacion" value="#{egresoRecaudacionController.pr}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_procesoRecaudacion}" converter="procesoRecaudacionConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{procesoRecaudacionController.items}"
+                                       var="procesoRecaudacionItem"
+                                       itemValue="#{procesoRecaudacionItem}"
+                                       itemLabel="#{procesoRecaudacionItem}"
+                                       />
+                        <p:ajax event="valueChange" listener="#{egresoRecaudacionController.init}" update="datalist"/>
+                    </p:selectOneMenu>
+                    <p:tooltip for="procesoRecaudacion" value="#{egresoRecaudacionController.getComponentMessages('procesoRecaudacion', bundle.CreateEgresoRecaudacionHelpText_procesoRecaudacion)}"/>
+                </h:panelGroup>
+                                
                 
-                         value="HASH{egresoRecaudacionController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idEgresoRecaudacion}"  <<< Remove this line
-                -->
-
-
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoRecaudacionDataTableContextMenu" listener="#{egresoRecaudacionController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoRecaudacionDataTableContextMenu" listener="#{egresoRecaudacionController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoRecaudacionController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoRecaudacionListForm:viewButton').click();"/>
-
-                <p:column sortBy="#{item.idEgresoRecaudacion}" filterBy="#{item.idEgresoRecaudacion}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_idEgresoRecaudacion}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idEgresoRecaudacion}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.egreso.idEgreso}" filterBy="#{item.egreso.idEgreso}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_egreso}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.egreso.idEgreso}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.procesoRecaudacion.idProcesoRecaudacion}" filterBy="#{item.procesoRecaudacion.idProcesoRecaudacion}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_procesoRecaudacion}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.procesoRecaudacion.idProcesoRecaudacion}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.valorDefectoEgreso}" filterBy="#{item.valorDefectoEgreso}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_valorDefectoEgreso}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.valorDefectoEgreso}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.porcentaje}" filterBy="#{item.porcentaje}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_porcentaje}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.porcentaje}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.numeroOrdenEgreso}" filterBy="#{item.numeroOrdenEgreso}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_numeroOrdenEgreso}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.numeroOrdenEgreso}"/>
-                </p:column>
-
-                <!--
-                                    <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_activo}"/>
-                                        </f:facet>
-                                        <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{bundle.EditEgresoRecaudacionTitle_activo}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_activo}" disabled="true"/>
-                                    </p:column>
-                -->
-
-            </p:dataTable>
-
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoRecaudacionController.prepareCreate}" update=":EgresoRecaudacionCreateForm" oncomplete="PF('EgresoRecaudacionCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EgresoRecaudacionViewForm" oncomplete="PF('EgresoRecaudacionViewDialog').show()" disabled="#{empty egresoRecaudacionController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoRecaudacionEditForm" oncomplete="PF('EgresoRecaudacionEditDialog').show()" disabled="#{empty egresoRecaudacionController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty egresoRecaudacionController.selected}">
-                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
-
+            </h:panelGrid>
         </p:panel>
+        <p:dataTable id="datalist"
+                     value="#{egresoRecaudacionController.items}"
+                     lazy="false"
+                     rowKey="#{item.idEgresoRecaudacion}"
+                     var="item"
+                     paginator="true"                     
+                     rowsPerPageTemplate="50,100,200"
+                     selectionMode="single"
+                     selection="#{egresoRecaudacionController.selected}"
+                     draggableRows="true"
+                     emptyMessage="No se han encontrado registros">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{egresoRecaudacionController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.idEgresoRecaudacion}"  <<< Remove this line
+            -->
+
+
+            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoRecaudacionDataTableContextMenu" listener="#{egresoRecaudacionController.resetParents}"/>
+            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoRecaudacionDataTableContextMenu" listener="#{egresoRecaudacionController.resetParents}"/>
+            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoRecaudacionController.resetParents}"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoRecaudacionListForm:viewButton').click();"/>
+            <p:ajax event="rowReorder" listener="#{egresoRecaudacionController.onRowReorder}" update="growl" />
+
+            <f:facet name="header">
+                Egresos x Recaudación
+            </f:facet>
+
+            <p:column sortBy="#{item.idEgresoRecaudacion}" filterBy="#{item.idEgresoRecaudacion}">
+                <f:facet name="header">
+                    <h:outputText value="N°"/>
+                </f:facet>
+                <h:outputText value="#{item.idEgresoRecaudacion}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.egreso.idEgreso}" filterBy="#{item.egreso.idEgreso}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_egreso}"/>
+                </f:facet>
+                <h:outputText value="#{item.egreso.idEgreso}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.procesoRecaudacion.idProcesoRecaudacion}" filterBy="#{item.procesoRecaudacion.idProcesoRecaudacion}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_procesoRecaudacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.procesoRecaudacion.idProcesoRecaudacion}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.valorDefectoEgreso}" filterBy="#{item.valorDefectoEgreso}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_valorDefectoEgreso}"/>
+                </f:facet>
+                <h:outputText value="#{item.valorDefectoEgreso}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.porcentaje}" filterBy="#{item.porcentaje}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_porcentaje}"/>
+                </f:facet>
+                <h:outputText value="#{item.porcentaje}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.numeroOrdenEgreso}" filterBy="#{item.numeroOrdenEgreso}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_numeroOrdenEgreso}"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroOrdenEgreso}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_activo}"/>
+                </f:facet>
+                <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{bundle.EditEgresoRecaudacionTitle_activo}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_activo}" disabled="true"/>
+            </p:column>
+
+        </p:dataTable>
+
+        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoRecaudacionController.prepareCreate}" update=":EgresoRecaudacionCreateForm" oncomplete="PF('EgresoRecaudacionCreateDialog').show()"/>
+        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":EgresoRecaudacionViewForm" oncomplete="PF('EgresoRecaudacionViewDialog').show()" disabled="#{empty egresoRecaudacionController.selected}"/>
+        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoRecaudacionEditForm" oncomplete="PF('EgresoRecaudacionEditDialog').show()" disabled="#{empty egresoRecaudacionController.selected}"/>
+        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty egresoRecaudacionController.selected}">
+            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+        </p:commandButton>
+
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

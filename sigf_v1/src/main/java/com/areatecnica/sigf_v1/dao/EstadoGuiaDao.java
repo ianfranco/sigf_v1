@@ -15,5 +15,6 @@ import java.util.List;
 public interface EstadoGuiaDao {
     
     public List<EstadoGuia> findAll();
+    public EstadoGuia findById(int id);
     
 }

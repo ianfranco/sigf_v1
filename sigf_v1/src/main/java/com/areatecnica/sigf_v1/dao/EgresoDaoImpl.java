@@ -5,7 +5,7 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
-import com.areatecnica.sigf_v1.entities.EstadoGuia;
+import com.areatecnica.sigf_v1.entities.Egreso;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -14,43 +14,43 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author Ian Franco
+ * @author ianfr
  */
-public class EstadoGuiaDaoImpl implements EstadoGuiaDao {
+public class EgresoDaoImpl implements GenericDao<Egreso>{
 
     @Override
-    public List<EstadoGuia> findAll() {
-        List<EstadoGuia> list = null;
+    public Egreso findById(int id) {
+        Egreso egreso = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM EstadoGuia e ";
-
+        String sql = "FROM Egreso WHERE idEgreso=" + id;
         try {
+            egreso = (Egreso) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return egreso;
+    }
+
+    @Override
+    public List<Egreso> findAll() {
+        List<Egreso> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Egreso";
+        try {
+
             list = session.createQuery(sql).list();
             tx.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             tx.rollback();
+            e.printStackTrace();
         }
         return list;
     }
-
-    @Override
-    public EstadoGuia findById(int id) {
-        EstadoGuia estadoGuia = null;
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-        String sql = "FROM EstadoGuia WHERE idEstadoGuia=" + id;
-        try {
-            estadoGuia = (EstadoGuia) session.createQuery(sql).uniqueResult();
-            tx.commit();
-        } catch (HibernateException e) {
-            tx.rollback();
-            e.printStackTrace();
-        }
-        return estadoGuia;
-    }
-
+    
 }

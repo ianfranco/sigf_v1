@@ -66,7 +66,7 @@ public class RecaudacionIndividual implements Serializable {
      */
     public RecaudacionIndividual() {
         this.busDao = new BusDaoImpl();
-        this.itemsBus = this.busDao.findAll();
+        //this.itemsBus = this.busDao.findAll();
         this.fechaRecaudacion = new Date();
         /*this.egresoTerminalDao = new EgresoRecaudacionDaoImpl();
         this.itemsEgresoRecaudacion = this.egresoTerminalDao.findByProceso(procesoRecaudacion);*/

@@ -4,8 +4,8 @@
 <!-- Generated 31-08-2016 4:14:05 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.areatecnica.sigf_v1.entities.Usuario" table="usuario" catalog="sigf_v1" optimistic-lock="version">
-        <id name="idUsario" type="java.lang.Integer">
-            <column name="id_usario" />
+        <id name="idUsuario" type="java.lang.Integer">
+            <column name="id_usuario" />
             <generator class="identity" />
         </id>
         <many-to-one name="rol" class="com.areatecnica.sigf_v1.entities.Rol" fetch="select">

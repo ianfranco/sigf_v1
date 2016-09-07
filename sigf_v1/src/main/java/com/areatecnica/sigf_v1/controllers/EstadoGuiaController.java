@@ -6,8 +6,10 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.CajaCompensacionDaoImpl;
-import com.areatecnica.sigf_v1.entities.CajaCompensacion;
+import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
+import com.areatecnica.sigf_v1.dao.EstadoGuiaDaoImpl;
+import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
+import com.areatecnica.sigf_v1.entities.EstadoGuia;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -22,43 +24,43 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "cajaCompensacionController")
+@Named(value = "estadoGuiaController")
 @SessionScoped
-public class CajaCompensacionController implements Serializable {
+public class EstadoGuiaController implements Serializable {
 
-    private CajaCompensacionDaoImpl cajaCompensacionDao;
-    private List<CajaCompensacion> items;
-    private CajaCompensacion selected;
+    private EstadoGuiaDaoImpl estadoGuiaDao;
+    private List<EstadoGuia> items;
+    private EstadoGuia selected;
     
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public CajaCompensacionController() {        
-        this.cajaCompensacionDao = new CajaCompensacionDaoImpl();
-        this.items = this.cajaCompensacionDao.findAll();
+    public EstadoGuiaController() {        
+        this.estadoGuiaDao = new EstadoGuiaDaoImpl();
+        this.items = this.estadoGuiaDao.findAll();
     }
 
-    public List<CajaCompensacion> getItems() {
+    public List<EstadoGuia> getItems() {
         return items;
     }
 
-    public void setItems(List<CajaCompensacion> items) {
+    public void setItems(List<EstadoGuia> items) {
         this.items = items;
     }
 
-    public CajaCompensacion getSelected() {
+    public EstadoGuia getSelected() {
         return selected;
     }
 
-    public void setSelected(CajaCompensacion selected) {
+    public void setSelected(EstadoGuia selected) {
         this.selected = selected;
     }
     
-     public CajaCompensacion prepareCreate(ActionEvent event) {
-        CajaCompensacion newCajaCompensacion;
-        newCajaCompensacion = new CajaCompensacion();
-        this.selected = newCajaCompensacion;
-        return newCajaCompensacion;
+     public EstadoGuia prepareCreate(ActionEvent event) {
+        EstadoGuia newEstadoGuia;
+        newEstadoGuia = new EstadoGuia();
+        this.selected = newEstadoGuia;
+        return newEstadoGuia;
     }
 
     public void saveNew() {
@@ -72,7 +74,7 @@ public class CajaCompensacionController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("SAVE:Caja");
+                System.err.println("NULL:EstadoGuia");
             }
         } else {
 
@@ -87,9 +89,9 @@ public class CajaCompensacionController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                
+
             } catch (HibernateException e) {
-                System.err.println("SAVE:Caja");
+                System.err.println("NULL:EstadoGuia");
             }
         } else {
 

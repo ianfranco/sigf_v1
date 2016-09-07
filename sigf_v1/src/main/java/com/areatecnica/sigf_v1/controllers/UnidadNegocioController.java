@@ -89,8 +89,6 @@ public class UnidadNegocioController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                this.items.add(selected);
-
             } catch (HibernateException e) {
                 System.err.println("NULL:UnidadNegocio");
             }

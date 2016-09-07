@@ -7,6 +7,7 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.Guia;
+import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
@@ -71,10 +72,10 @@ public class GuiaDaoImpl implements GuiaDao {
         try {
 
             list = session.createQuery(sql).list();
-            for (Guia g: list){
+            for (Guia g : list) {
                 Hibernate.initialize(g.getTrabajador());
                 Hibernate.initialize(g.getBus());
-                Hibernate.initialize(g.getEstadoGuia());                
+                Hibernate.initialize(g.getEstadoGuia());
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -114,7 +115,7 @@ public class GuiaDaoImpl implements GuiaDao {
             if (guia != null) {
                 Hibernate.initialize(guia.getTrabajador());
                 Hibernate.initialize(guia.getBus());
-                Hibernate.initialize(guia.getEstadoGuia());                
+                Hibernate.initialize(guia.getEstadoGuia());
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -130,16 +131,34 @@ public class GuiaDaoImpl implements GuiaDao {
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE bus=" + bus.getIdBus()+" AND recaudada = "+estado;
+        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND recaudada = " + estado;
         try {
             list = session.createQuery(sql).list();
-            
-            for (Guia g:list){
+
+            for (Guia g : list) {
                 Hibernate.initialize(g.getTrabajador());
                 Hibernate.initialize(g.getBus());
                 Hibernate.initialize(g.getEstadoGuia());
             }
-                        
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public List<Guia> findByFechaAndProceso(Date fecha, ProcesoRecaudacion procesoRecaudacion) {
+        List<Guia> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE fechaRecaudacion = '" + format.format(fecha)+"' AND procesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion();
+        try {
+
+            list = session.createQuery(sql).list();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

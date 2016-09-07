@@ -19,17 +19,13 @@ import java.util.List;
 public interface BusDao {
     
     public List<Bus> findAll();
-    
-    public List<Bus> findByTerminal(Terminal terminal);
-    
-    public List<Bus> findByIdTerminal(int idTerminal);
-    
-    public List<Bus> findByServicio(Servicio servicio);
-    
-    public List<Bus> findByEmpresa(Empresa empresa);
-    
-    public List<Bus> findByFlota(Flota flota);
-    
+    public List<Bus> findAllClean();
+    public List<Bus> findByTerminal(Terminal terminal);    
+    public List<Bus> findByIdTerminal(int idTerminal);    
+    public List<Bus> findByServicio(Servicio servicio);    
+    public List<Bus> findByEmpresa(Empresa empresa);    
+    public List<Bus> findByFlota(Flota flota);    
     public Bus findByNumero(int numeroBus);
+    public Bus findById(int id);
     
 }

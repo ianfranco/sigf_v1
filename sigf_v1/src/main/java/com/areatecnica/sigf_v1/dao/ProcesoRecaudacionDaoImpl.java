@@ -5,8 +5,6 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
-import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
-import com.areatecnica.sigf_v1.entities.Banco;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
@@ -44,7 +42,7 @@ public class ProcesoRecaudacionDaoImpl implements GenericDao<ProcesoRecaudacion>
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM ProcesoRecaudacion";
+        String sql = "FROM ProcesoRecaudacion ORDER BY nombreProceso ASC";
         try {
 
             list = session.createQuery(sql).list();

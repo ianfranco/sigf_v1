@@ -171,4 +171,24 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         return trabajador;
     }
 
+    @Override
+    public Trabajador findById(int id) {
+        Trabajador trabajador = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Trabajador WHERE idTrabajador=" + id;
+        try {
+            trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        } catch (NullPointerException f) {
+
+        }
+        return trabajador;
+    }
+
 }

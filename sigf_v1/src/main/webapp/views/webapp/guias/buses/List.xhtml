@@ -60,7 +60,7 @@
                     <h:outputText value="#{item.unidadNegocio.numeroUnidadNegocio}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.patente}" filterBy="#{item.patente}" style="width: 110px;text-align: center;">
+                <p:column sortBy="#{item.patente}" filterBy="#{item.patente}" style="width: 110px;text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListBusTitle_patente}"/>
                     </f:facet>
@@ -68,15 +68,9 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" style="width: 350px;">
+                <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" style="width: 350px;" filterStyle="width: 340px;">
                     <f:facet name="header">
                         <h:outputText value="Empresa"/>
-                    </f:facet>
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('dataList').filter()">
-                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{registroBusesController.forFilterEmpresa}"/>
-                        </p:selectOneMenu>
                     </f:facet>
                     <h:outputText value="#{item.empresa}"/>
                 </p:column>
@@ -324,31 +318,31 @@
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{registroBusesController.selected != null}">
                         <h:outputText value="N° Bus"/>
                         <h:outputText value="#{registroBusesController.selected.numeroBus}" title="#{bundle.ViewBusTitle_numeroBus}"/>
-                        
+
                         <h:outputText value="Unidad de Negocio"/>
                         <h:outputText value="#{registroBusesController.selected.unidadNegocio}"/>
-                        
+
                         <h:outputText value="#{bundle.ViewBusLabel_patente}"/>
                         <h:outputText value="#{registroBusesController.selected.patente}" title="#{bundle.ViewBusTitle_patente}"/>
 
                         <h:outputText value="Terminal"/>
                         <h:outputText value="#{registroBusesController.selected.terminal}"/>
-                        
+
                         <h:outputText value="Empresa"/>
                         <h:outputText value="#{registroBusesController.selected.empresa}"/>
 
                         <h:outputText value="Flota"/>
                         <h:outputText value="#{registroBusesController.selected.flota}"/>
-                        
+
                         <h:outputText value="Año:"/>
                         <h:outputText value="#{registroBusesController.selected.anio}" title="#{bundle.ViewBusTitle_año}"/>
-                        
+
                         <h:outputText value="Revisión Técnica:"/>
                         <h:outputText value="#{registroBusesController.selected.anio}" title="#{bundle.ViewBusTitle_año}"/>
 
                         <h:outputText value="Modelo"/>
                         <h:outputText value="#{registroBusesController.selected.modeloMarcaBus}"/>
-                        
+
                         <h:outputText value="N° Motor"/>
                         <h:outputText value="#{registroBusesController.selected.numeroMotor}" title="#{bundle.ViewBusTitle_numeroMotor}"/>
 
@@ -357,7 +351,7 @@
 
                         <h:outputText value="Carrocería"/>
                         <h:outputText value="#{registroBusesController.selected.carroceria}" title="#{bundle.ViewBusTitle_carroceria}"/>
-                        
+
                         <h:outputText value=""/>
                         <h:panelGrid columns="2">
                             <p:commandButton value="#{bundle.Close}" onclick="PF('BusViewDialog').hide()" icon="ui-icon-print"/>

@@ -19,11 +19,11 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/views/webapp/remuneraciones/indexRemuneraciones.xhtml</welcome-file>
+        <welcome-file>faces/views/webapp/guias/indexGuias.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>  
         <param-name>primefaces.THEME</param-name>  
-        <param-value>start</param-value>  
+        <param-value>bootstrap</param-value>  
     </context-param>
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>

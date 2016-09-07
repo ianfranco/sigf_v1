@@ -7,7 +7,6 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.ProcesoRecaudacionDaoImpl;
-import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -74,7 +73,7 @@ public class ProcesoRecaudacionController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(selected);
-
+                this.selected = null;
             } catch (HibernateException e) {
                 System.err.println("NULL:ProcesoRecaudacion");
             }
@@ -91,8 +90,6 @@ public class ProcesoRecaudacionController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                this.items.add(selected);
-
             } catch (HibernateException e) {
                 System.err.println("NULL:ProcesoRecaudacion");
             }

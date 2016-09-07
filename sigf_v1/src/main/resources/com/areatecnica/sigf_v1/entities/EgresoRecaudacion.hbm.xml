@@ -4,9 +4,9 @@
 <!-- Generated 31-08-2016 4:14:05 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.areatecnica.sigf_v1.entities.EgresoRecaudacion" table="egreso_recaudacion" catalog="sigf_v1" optimistic-lock="version">
-        <id name="idEgresoRecaudacion" type="int">
+        <id name="idEgresoRecaudacion" type="java.lang.Integer">
             <column name="id_egreso_recaudacion" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="egreso" class="com.areatecnica.sigf_v1.entities.Egreso" fetch="select">
             <column name="id_egreso" not-null="true" />

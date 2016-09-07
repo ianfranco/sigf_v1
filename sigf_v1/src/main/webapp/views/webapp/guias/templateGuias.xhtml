@@ -41,14 +41,16 @@
 
                             <p:submenu label="Guías">
                                 <p:menuitem value="Nuevo Proceso" outcome="#{appBean.basePath}webapp/guias/registro/Create" />
+                                <p:menuitem value="Registro" outcome="#{appBean.basePath}webapp/guias/registro/List" />
                                 <p:menuitem value="Listar Proceso" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
                                 <p:menuitem value="Busqueda de Guías" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
+                                <p:menuitem value="Procesos de Recaudación" outcome="#{appBean.basePath}webapp/guias/procesorecaudacion/List" />                                
                                 <p:submenu label="Recaudación">
                                     <p:menuitem value="Procesos" outcome="#{appBean.basePath}webapp/guias/recaudacion/index"/>
                                     <p:menuitem value="Recaudadores" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
-
+                                    <p:menuitem value="Egresos X Recaudación" outcome="#{appBean.basePath}webapp/guias/egresorecaudacion/index"/>
                                     <p:submenu label="Egresos">                           
-                                        <p:menuitem value="Definición" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasretroactivas" />                                    
+                                        <p:menuitem value="Definición" outcome="#{appBean.basePath}webapp/guias/egresos/index" />                                    
                                     </p:submenu>
                                     <p:submenu label="Avanzados">                                    
                                     </p:submenu>                                
@@ -59,6 +61,7 @@
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/buses/List" />                                
                                 <p:submenu label="Informes">
                                     <p:menuitem value="Guías x Bus" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                            
+                                    <p:menuitem value="Dialogo" outcome="#{appBean.basePathWEB}include/entity/abonoBus/Create" />
                                 </p:submenu>
                                 <p:submenu label="Avanzado">
 
@@ -105,9 +108,9 @@
 
             </p:layoutUnit>
 
-<!--            <p:layoutUnit position="west" size="200" header="Información" resizable="true" closable="true" collapsible="true">
-                <h:outputText value="West unit content." />
-            </p:layoutUnit>-->
+            <!--            <p:layoutUnit position="west" size="200" header="Información" resizable="true" closable="true" collapsible="true">
+                            <h:outputText value="West unit content." />
+                        </p:layoutUnit>-->
 
             <p:layoutUnit position="south" size="30" resizable="true" closable="true" collapsible="true" >
                 <ui:insert name="footer"/>

@@ -67,6 +67,13 @@
                     </f:facet>
                     <h:outputText value="#{item.telefonoTerminal}"/>
                 </p:column>
+                
+                <p:column sortBy="#{item.emailTerminal}" filterBy="#{item.emailTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Email"/>
+                    </f:facet>
+                    <h:outputText value="#{item.emailTerminal}"/>
+                </p:column>
                
             </p:dataTable>
 

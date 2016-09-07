@@ -6,8 +6,8 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.CajaCompensacionDaoImpl;
-import com.areatecnica.sigf_v1.entities.CajaCompensacion;
+import com.areatecnica.sigf_v1.dao.EgresoDaoImpl;
+import com.areatecnica.sigf_v1.entities.Egreso;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -22,43 +22,43 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "cajaCompensacionController")
+@Named(value = "egresoController")
 @SessionScoped
-public class CajaCompensacionController implements Serializable {
+public class EgresoController implements Serializable {
 
-    private CajaCompensacionDaoImpl cajaCompensacionDao;
-    private List<CajaCompensacion> items;
-    private CajaCompensacion selected;
+    private EgresoDaoImpl egresoDao;
+    private List<Egreso> items;
+    private Egreso selected;
     
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public CajaCompensacionController() {        
-        this.cajaCompensacionDao = new CajaCompensacionDaoImpl();
-        this.items = this.cajaCompensacionDao.findAll();
+    public EgresoController() {        
+        this.egresoDao = new EgresoDaoImpl();
+        this.items = this.egresoDao.findAll();
     }
 
-    public List<CajaCompensacion> getItems() {
+    public List<Egreso> getItems() {
         return items;
     }
 
-    public void setItems(List<CajaCompensacion> items) {
+    public void setItems(List<Egreso> items) {
         this.items = items;
     }
 
-    public CajaCompensacion getSelected() {
+    public Egreso getSelected() {
         return selected;
     }
 
-    public void setSelected(CajaCompensacion selected) {
+    public void setSelected(Egreso selected) {
         this.selected = selected;
     }
     
-     public CajaCompensacion prepareCreate(ActionEvent event) {
-        CajaCompensacion newCajaCompensacion;
-        newCajaCompensacion = new CajaCompensacion();
-        this.selected = newCajaCompensacion;
-        return newCajaCompensacion;
+     public Egreso prepareCreate(ActionEvent event) {
+        Egreso newEgreso;
+        newEgreso = new Egreso();
+        this.selected = newEgreso;
+        return newEgreso;
     }
 
     public void saveNew() {
@@ -70,9 +70,9 @@ public class CajaCompensacionController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(selected);
-
+                this.selected = null;
             } catch (HibernateException e) {
-                System.err.println("SAVE:Caja");
+                System.err.println("NULL:Egreso");
             }
         } else {
 
@@ -87,9 +87,8 @@ public class CajaCompensacionController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                
             } catch (HibernateException e) {
-                System.err.println("SAVE:Caja");
+                System.err.println("NULL:Egreso");
             }
         } else {
 

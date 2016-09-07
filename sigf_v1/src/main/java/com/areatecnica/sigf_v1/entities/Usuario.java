@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 )
 public class Usuario implements java.io.Serializable {
 
-    private Integer idUsario;
+    private Integer idUsuario;
     private Rol rol;
     private Terminal terminal;
     private String rut;
@@ -68,13 +68,13 @@ public class Usuario implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
 
-    @Column(name = "id_usario", unique = true, nullable = false)
-    public Integer getIdUsario() {
-        return this.idUsario;
+    @Column(name = "id_usuario", unique = true, nullable = false)
+    public Integer getIdUsuario() {
+        return this.idUsuario;
     }
 
-    public void setIdUsario(Integer idUsario) {
-        this.idUsario = idUsario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -191,7 +191,7 @@ public class Usuario implements java.io.Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idUsario != null ? idUsario.hashCode() : 0);
+        hash += (idUsuario != null ? idUsuario.hashCode() : 0);
         return hash;
     }
 
@@ -202,7 +202,7 @@ public class Usuario implements java.io.Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.idUsario == null && other.idUsario != null) || (this.idUsario != null && !this.idUsario.equals(other.idUsario))) {
+        if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
         return true;

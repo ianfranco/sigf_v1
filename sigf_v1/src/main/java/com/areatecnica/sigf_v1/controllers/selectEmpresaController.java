@@ -73,7 +73,7 @@ public class selectEmpresaController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("SAVE:Empresa");
+                System.err.println("SAVE:Egreso");
             }
         } else {
 
@@ -88,10 +88,9 @@ public class selectEmpresaController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-                this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("SAVE:Empresa");
+                System.err.println("SAVE:Egreso");
             }
         } else {
 

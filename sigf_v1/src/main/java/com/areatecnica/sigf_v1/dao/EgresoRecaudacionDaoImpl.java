@@ -47,7 +47,7 @@ public class EgresoRecaudacionDaoImpl implements EgresoRecaudacionDao {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         
-        String sql = "FROM EgresoRecaudacion WHERE idProcesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion();
+        String sql = "FROM EgresoRecaudacion WHERE procesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion();
         
         try{
             list = session.createQuery(sql).list();   

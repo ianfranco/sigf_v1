@@ -19,6 +19,7 @@ public interface TrabajadorDao {
     public List<Trabajador> findByTerminal(Terminal terminal);
     public Trabajador findByRut(String rut);
     public Trabajador findByCodigo(int codigo);
+    public Trabajador findById(int id);
     public boolean existeTrabajador(String rut);
     public void deactivated(Trabajador trabajador);
     public int maxId();
