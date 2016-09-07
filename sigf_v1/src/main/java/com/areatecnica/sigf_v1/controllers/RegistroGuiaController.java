@@ -276,9 +276,11 @@ public class RegistroGuiaController implements Serializable {
         this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
         
-        /*for(ServicioProcesoRecaudacion spr:this.setServicioProcesoRecaudacion){
-            //System.err.println("SPR:"+spr.getServicio().getBusServicios().getTerminal().getBuses().size());
-        }*/
+        
+        
+        for(ServicioProcesoRecaudacion spr:this.setServicioProcesoRecaudacion){
+            System.err.println("SPR:"+spr.getServicio().getBusServicios());
+        }
         
         this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
         this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);

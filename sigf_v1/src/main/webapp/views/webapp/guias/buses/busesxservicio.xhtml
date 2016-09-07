@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateGuias.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content" class="ui-corner-all" >        
+        <h:form id="BusServicioListForm">            
+
+            <p:dataTable id="datalist"
+                         value="#{registroBusServicioController.listOfMaps}"
+                         var="item"
+                         rowIndexVar="rowIndex"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"                         
+                         scrollWidth="true"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         
+                         emptyMessage="No se han encontrado BUSES en la base de datos">
+
+
+                <f:facet name="header">
+                    Detalle de Servicios X Bus
+                </f:facet>
+
+
+                <p:columns value="#{registroBusServicioController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{registroBusServicioController.resultsHeader.get(col)}" columnIndexVar="col" style="text-align: center">
+                    #{item[key]}
+                </p:columns>
+
+                <p:column style="text-align: left;padding-right: 20px; width: 60px;">
+                    <f:facet name="header">
+                        <h:outputText value="EDITAR"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-pencil" value="Editar" id="edit" update=":BusServicioEditForm" oncomplete="PF('BusServicioEditDialog').show()" ajax="true"/>
+                    
+                </p:column>
+                
+                
+            </p:dataTable>
+
+            
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+    
+    
+    
+    <p:dialog id="BusServicioEditDlg" widgetVar="BusServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición" closeOnEscape="true">
+
+            <h:form id="BusServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" >
+                            <p:outputLabel value="Servicio" />
+                            <p:outputLabel value="" />
+                        
+                        <c:forEach items="#{registroBusServicioController.itemsServicio}" var="item">
+                           
+                            <p:outputLabel value="#{item.numeroServicio}" />
+                            <p:selectBooleanCheckbox value="true" style="width: 100px;text-align: center" />
+                          
+                        </c:forEach>
+                        
+                    </p:panelGrid>
+                    <p:commandButton disabled="true"  actionListener="#{registroBusServicioController.save}" value="#{bundle.Save}" update="display,:BusServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('BusServicioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        </ui:define>
+</ui:composition>

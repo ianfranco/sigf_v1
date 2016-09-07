@@ -39,9 +39,11 @@ public class DashboardGuia implements Serializable {
          
         
         column1.addWidget("datosGuias");   
-        column1.addWidget("informacion");
+        column1.addWidget("informacionBus");
+        column1.addWidget("informacionConductor");
         column2.addWidget("egresos");
         column3.addWidget("totales");
+        column3.addWidget("panelObservacion");
         //column2.addWidget("info");
         //column2.addWidget("ingresadas");
  

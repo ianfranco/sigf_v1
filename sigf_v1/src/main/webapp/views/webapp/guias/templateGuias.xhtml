@@ -39,14 +39,12 @@
                         <p:menubar>
                             <p:menuitem value="Inicio" url="#{appBean.basePath}indexServicio.xhtml" icon="ui-icon-home" />
 
-                            <p:submenu label="Guías">
-                                <p:menuitem value="Nuevo Proceso" outcome="#{appBean.basePath}webapp/guias/registro/Create" />
+                            <p:submenu label="Guías">                                
                                 <p:menuitem value="Registro" outcome="#{appBean.basePath}webapp/guias/registro/List" />
                                 <p:menuitem value="Listar Proceso" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
                                 <p:menuitem value="Busqueda de Guías" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
                                 <p:menuitem value="Procesos de Recaudación" outcome="#{appBean.basePath}webapp/guias/procesorecaudacion/List" />                                
-                                <p:submenu label="Recaudación">
-                                    <p:menuitem value="Procesos" outcome="#{appBean.basePath}webapp/guias/recaudacion/index"/>
+                                <p:submenu label="Recaudación">                                    
                                     <p:menuitem value="Recaudadores" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
                                     <p:menuitem value="Egresos X Recaudación" outcome="#{appBean.basePath}webapp/guias/egresorecaudacion/index"/>
                                     <p:submenu label="Egresos">                           
@@ -59,13 +57,11 @@
 
                             <p:submenu label="Buses">                                
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/buses/List" />                                
+                                <p:menuitem value="Buses x Servicio" outcome="#{appBean.basePath}webapp/guias/buses/busesxservicio" />                                
                                 <p:submenu label="Informes">
                                     <p:menuitem value="Guías x Bus" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                            
                                     <p:menuitem value="Dialogo" outcome="#{appBean.basePathWEB}include/entity/abonoBus/Create" />
-                                </p:submenu>
-                                <p:submenu label="Avanzado">
-
-                                </p:submenu>                                                                    
+                                </p:submenu>                                                                                                    
                             </p:submenu>
 
                             <p:submenu label="Servicios">                                
@@ -77,20 +73,18 @@
                             <p:submenu label="Terminales">                                
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/terminales/List" />                                
                             </p:submenu>
-
-
                             <p:submenu label="Reportes">
                                 <p:submenu label="Buses">
 
                                 </p:submenu>
                                 <p:submenu label="Conductores">
-                                    <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                    <p:menuitem value="Guías x Conductor" />
                                 </p:submenu>                                
                                 <p:submenu label="Flota">
-                                    <p:menuitem value="Saldos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                    <p:menuitem value="Saldos" />
                                 </p:submenu>
                                 <p:submenu label="Varios">
-                                    <p:menuitem value="Días Trabajados" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
+                                    <p:menuitem value="Días Trabajados" />
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="Varios">

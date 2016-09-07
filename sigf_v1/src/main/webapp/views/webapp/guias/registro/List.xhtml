@@ -178,7 +178,7 @@
                             </p:panelGrid>
 
                         </p:panel>
-                        <p:panel id="informacion" header="Información" style="margin-top: 5px">
+                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px">
                             <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Patente:"/>
                                 <p:outputLabel value="#{registroGuiaController.bus.patente}"/>
@@ -187,18 +187,28 @@
                                 <p:outputLabel value="#{registroGuiaController.bus.anio}"/>
 
                                 <p:outputLabel value="Empresario:"/>
-                                <p:outputLabel value="#{registroGuiaController.bus.empresa.nombreEmpresa}"/>
+                                <p:outputLabel value="#{registroGuiaController.bus.empresa.nombreEmpresa}"/>   
+                                
+                                <p:outputLabel value="Última Guía:"/>
+                                <p:outputLabel value="#{registroGuiaController.trabajador.rutTrabajador}"/>
 
+                            </p:panelGrid>
+
+                        </p:panel>
+
+                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px">
+                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Conductor:"/>
                                 <p:outputLabel value="#{registroGuiaController.trabajador}"/>
 
                                 <p:outputLabel value="Rut:"/>
                                 <p:outputLabel value="#{registroGuiaController.trabajador.rutTrabajador}"/>
 
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_observacion}" for="observacion" />
-                                <h:panelGroup>
-                                    <p:inputText id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8" disabled="true"/>
-                                </h:panelGroup>
+                                <p:outputLabel value="D.C.T:"/>
+                                <p:outputLabel value="#{registroGuiaController.trabajador.rutTrabajador}">
+                                    <p:tooltip value="Días Consecutivos Trabajados"/>
+                                </p:outputLabel>
+
                             </p:panelGrid>
                         </p:panel>
 
@@ -267,6 +277,13 @@
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
                             </p:panelGrid>
                         </p:panel>
+
+                        <p:panel id="panelObservacion" header="Observación" style="margin-top: 5px;">
+                            <h:panelGroup>
+                                <p:inputTextarea id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" disabled="true"/>
+                            </h:panelGroup>
+                        </p:panel>
+
                     </p:dashboard>
 
 
