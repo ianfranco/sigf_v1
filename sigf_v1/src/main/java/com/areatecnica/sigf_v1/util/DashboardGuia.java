@@ -35,18 +35,19 @@ public class DashboardGuia implements Serializable {
                 
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
-        //DashboardColumn column3 = new DefaultDashboardColumn();
+        DashboardColumn column3 = new DefaultDashboardColumn();
          
         
         column1.addWidget("datosGuias");   
+        column1.addWidget("informacion");
         column2.addWidget("egresos");
-        
+        column3.addWidget("totales");
         //column2.addWidget("info");
         //column2.addWidget("ingresadas");
  
         model.addColumn(column1);
         model.addColumn(column2);
-        //model.addColumn(column3);
+        model.addColumn(column3);
                 
     }
      

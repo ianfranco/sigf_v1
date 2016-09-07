@@ -51,6 +51,13 @@ public class Guia  implements java.io.Serializable {
      private Set<VentaBoletoGuia> ventaBoletoGuias = new HashSet<VentaBoletoGuia>(0);
 
     public Guia() {
+        this.saldo = 0;
+        this.totalIngresos = 0;
+        this.totalEgresos = 0;
+        this.viajeEspecial = 0;
+        this.otrosIngresos = 0;
+        this.numeroVueltas = 5;
+        this.turno = 1;
     }
 
 	

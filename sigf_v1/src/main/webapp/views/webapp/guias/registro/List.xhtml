@@ -42,7 +42,8 @@
                              rows="100"
                              rowsPerPageTemplate="50,100,200"
                              selectionMode="single"
-                             selection="#{registroGuiaController.selected}">
+                             selection="#{registroGuiaController.selected}"
+                             emptyMessage="No se han encontrado registros">
                     <!--
                              To enable Lazy Loading, please copy/replace the following lines above,
                              and be sure to replace the word HASH with the # symbol:
@@ -132,21 +133,22 @@
                 <h:panelGroup id="displayCreateForm" rendered="#{registroGuiaController.selected != null}">
                     <p:dashboard id="board" model="#{dashboardGuia.model}">
                         <p:panel id="datosGuias" header="Datos" style="margin-right: 5px">
-                            <p:panelGrid columns="2" columnClasses="column">
+                            <p:panelGrid columns="2" columnClasses="column" >
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
-                                    <p:inputText id="folio" value="#{registroGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="10"/>
+                                    <p:inputNumber decimalPlaces="0" id="folio" value="#{registroGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="8" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="Fecha:" for="guiaFecha"/>
-                                <p:inputMask id="guiaFecha" mask="99/99/9999" value="#{registroGuiaController.fechaGuia}" required="true" requiredMessage="Debe ingresar la fecha">
-                                </p:inputMask>
+                                <p:outputLabel value="Fecha:" for="fechaGuia" />
+                                <h:panelGroup>
+                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" />
+                                </h:panelGroup>
 
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_bus}" for="bus" />
+                                <p:outputLabel value="N° Bus:" for="bus" />
                                 <h:panelGroup>
                                     <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{selectedBusesController.items}"
+                                        <f:selectItems value="#{registroBusesController.items}"
                                                        var="busItem"
                                                        itemValue="#{busItem}"
                                                        itemLabel="#{busItem.numeroBus}"
@@ -155,66 +157,52 @@
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_trabajador}" for="trabajador" />
+                                <p:outputLabel value="N° Conductor" for="trabajador" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                    <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{trabajadorController.items}"
                                                        var="trabajadorItem"
                                                        itemValue="#{trabajadorItem}"
-                                                       itemLabel="#{trabajadorItem}"
+                                                       itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                        />
-
                                     </p:selectOneMenu>
-                                </h:panelGroup>
-
-
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_fechaGuia}" for="fechaGuia" />
-                                <h:panelGroup>
-                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" showOn="button"/>                                    
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
                                 <h:panelGroup>
-                                    <p:inputText id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}">
+                                    <p:inputNumber symbol="$ "  decimalPlaces="0" id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8">
                                         <p:ajax event="blur" update="datalistEgresos" listener="#{registroGuiaController.setValoresVariables}"/>
-                                    </p:inputText>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
-                                <h:panelGroup>
-                                    <p:inputText id="totalEgresos" value="#{registroGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}"/>                                    
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
-                                <h:panelGroup>
-                                    <p:inputText id="saldo" value="#{registroGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_numeroVueltas}" for="numeroVueltas" />
-                                <h:panelGroup>
-                                    <p:inputText id="numeroVueltas" value="#{registroGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
-                                <h:panelGroup>
-                                    <p:inputText id="turno" value="#{registroGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_observacion}" for="observacion" />
-                                <h:panelGroup>
-                                    <p:inputText id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{bundle.CreateGuiaLabel_recaudada}" for="recaudada" />
-                                <h:panelGroup>
-                                    <p:selectBooleanCheckbox id="recaudada" value="#{registroGuiaController.selected.recaudada}" />
+                                    </p:inputNumber>
                                 </h:panelGroup>
                             </p:panelGrid>
 
                         </p:panel>
-                        <p:panel id="egresos" header="Egresos" style="width: 300px;">
+                        <p:panel id="informacion" header="Información" style="margin-top: 5px">
+                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
+                                <p:outputLabel value="Patente:"/>
+                                <p:outputLabel value="#{registroGuiaController.bus.patente}"/>
+
+                                <p:outputLabel value="Año:"/>
+                                <p:outputLabel value="#{registroGuiaController.bus.anio}"/>
+
+                                <p:outputLabel value="Empresario:"/>
+                                <p:outputLabel value="#{registroGuiaController.bus.empresa.nombreEmpresa}"/>
+
+                                <p:outputLabel value="Conductor:"/>
+                                <p:outputLabel value="#{registroGuiaController.trabajador}"/>
+
+                                <p:outputLabel value="Rut:"/>
+                                <p:outputLabel value="#{registroGuiaController.trabajador.rutTrabajador}"/>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_observacion}" for="observacion" />
+                                <h:panelGroup>
+                                    <p:inputText id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8" disabled="true"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="egresos" header="Egresos" style="width: 300px;margin-right: 5px">
                             <p:dataTable id="datalistEgresos"
                                          value="#{registroGuiaController.egresosGuiaItems}"
                                          var="item"
@@ -242,18 +230,47 @@
                                     <f:facet name="header">
                                         <h:outputText value="Valor"/>
                                     </f:facet>
-                                    <p:inputText value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
-
-                                    </p:inputText>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0"  value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
+                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{registroGuiaController.setTotal}" ></p:ajax>
+                                    </p:inputNumber>
                                 </p:column>
                             </p:dataTable>
+
+                        </p:panel>
+
+                        <p:panel id="totales" header="Totales">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
+                                <h:panelGroup>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{registroGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
+                                <h:panelGroup>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{registroGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N° Vueltas" for="numeroVueltas" />
+                                <h:panelGroup>
+                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{registroGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
+                                <h:panelGroup>
+                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{registroGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                </h:panelGroup>
+
+
+                                <p:commandButton actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm" >
+                                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>                                
+                                <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
+                            </p:panelGrid>
                         </p:panel>
                     </p:dashboard>
-                    <p:commandButton actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm" >
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
-                    </p:commandButton>
 
-                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
+
+
                 </h:panelGroup>
 
             </h:form>

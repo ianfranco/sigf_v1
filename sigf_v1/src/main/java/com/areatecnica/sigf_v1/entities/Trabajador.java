@@ -617,6 +617,9 @@ public class Trabajador implements java.io.Serializable {
 
     @Override
     public String toString() {
+        if(this.nombreTrabajador.equals("")){
+            this.nombreTrabajador = " ";
+        }
         return apellidoPaternoTrabajador+" "+apellidoMaternoTrabajador+" "+nombreTrabajador.substring(0, 1)+".";
     }
 

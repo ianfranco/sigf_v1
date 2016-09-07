@@ -6,17 +6,28 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.BusDao;
+import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDao;
 import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDaoImpl;
 import com.areatecnica.sigf_v1.dao.EstadoGuiaDao;
 import com.areatecnica.sigf_v1.dao.EstadoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.ProcesoRecaudacionDaoImpl;
+import com.areatecnica.sigf_v1.dao.ServicioDaoImpl;
+import com.areatecnica.sigf_v1.dao.TrabajadorDao;
+import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
+import com.areatecnica.sigf_v1.entities.Bus;
+import com.areatecnica.sigf_v1.entities.BusServicio;
 import com.areatecnica.sigf_v1.entities.EgresoGuia;
 import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
+import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.EstadoGuia;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
+import com.areatecnica.sigf_v1.entities.Servicio;
+import com.areatecnica.sigf_v1.entities.ServicioProcesoRecaudacion;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -24,8 +35,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
 import javax.faces.event.ActionEvent;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -43,24 +57,36 @@ public class RegistroGuiaController implements Serializable {
     private ProcesoRecaudacionDaoImpl procesoRecaudacionDaoImpl;
     private EgresoRecaudacionDao egresoRecaudacionDao;
     private EstadoGuiaDao estadoGuiaDao;
+    private BusDao busDao;
+    private TrabajadorDao trabajadorDao;
 
     private List<Guia> items;
     private List<ProcesoRecaudacion> procesoRecaudacionItems;
     private List<EgresoRecaudacion> egresosRecaudacionItems;
     private List<EgresoGuia> egresosGuiaItems;
     private List<PorcentajeHelper> porcentajesList;
-    
+    private List<Bus> busItems;
+    private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
+
     private Guia selected;
 
+    private String numeroBus;
+    private String numeroConductor;
+    private Trabajador trabajador;
+    private Bus bus;
     private Date fechaRecaudacion;
-    private String fechaGuia;
     private String stringHeader;
     private SimpleDateFormat format;
     private ProcesoRecaudacion procesoRecaudacion;
     private EstadoGuia estadoGuia;
     private boolean estado;
     private int codigoConductor;
-    private int numeroBus;
+
+    //Fecha 
+    private String dia;
+    private String mes;
+    private String anio;
+    private String fechaGuia;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -68,14 +94,25 @@ public class RegistroGuiaController implements Serializable {
     public RegistroGuiaController() {
         this.guiaDao = new GuiaDaoImpl();
         this.procesoRecaudacionDaoImpl = new ProcesoRecaudacionDaoImpl();
+        this.trabajadorDao = new TrabajadorDaoImpl();
+        this.busDao = new BusDaoImpl();
 
         this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAll();
 
         this.estado = Boolean.TRUE;
         this.stringHeader = "Datos Guías";
-        if(this.selected == null){
+        if (this.selected == null) {
             this.selected = new Guia();
         }
+
+        Calendar calendar = GregorianCalendar.getInstance();
+
+        this.dia = String.valueOf(calendar.get(Calendar.DATE) - 2);
+        this.mes = String.valueOf(calendar.get(Calendar.MONTH));
+        this.anio = String.valueOf(calendar.get(Calendar.YEAR));
+
+        this.fechaGuia = String.valueOf(this.dia) + String.valueOf(this.mes) + String.valueOf(this.anio);
+
     }
 
     public List<Guia> getItems() {
@@ -142,14 +179,6 @@ public class RegistroGuiaController implements Serializable {
         this.codigoConductor = codigoConductor;
     }
 
-    public int getNumeroBus() {
-        return numeroBus;
-    }
-
-    public void setNumeroBus(int numeroBus) {
-        this.numeroBus = numeroBus;
-    }
-
     public List<EgresoRecaudacion> getEgresosRecaudacionItems() {
         return egresosRecaudacionItems;
     }
@@ -173,7 +202,7 @@ public class RegistroGuiaController implements Serializable {
     public void setPorcentajesList(List<PorcentajeHelper> porcentajesList) {
         this.porcentajesList = porcentajesList;
     }
-        
+
     public String getFechaGuia() {
         return fechaGuia;
     }
@@ -181,13 +210,60 @@ public class RegistroGuiaController implements Serializable {
     public void setFechaGuia(String fechaGuia) {
         this.fechaGuia = fechaGuia;
     }
-    
+
+    public String getNumeroBus() {
+        return numeroBus;
+    }
+
+    public void setNumeroBus(String numeroBus) {
+        this.numeroBus = numeroBus;
+    }
+
+    public String getNumeroConductor() {
+        return numeroConductor;
+    }
+
+    public void setNumeroConductor(String numeroConductor) {
+        this.numeroConductor = numeroConductor;
+    }
+
+    public Trabajador getTrabajador() {
+        return trabajador;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
+    }
+
+    public Bus getBus() {
+        return bus;
+    }
+
+    public void setBus(Bus bus) {
+        this.bus = bus;
+    }
+
     public Guia prepareCreate(ActionEvent event) {
         Guia newGuia;
         newGuia = new Guia();
+
         this.selected = newGuia;
+        this.selected.setFechaGuia(fechaRecaudacion);
         this.estadoGuiaDao = new EstadoGuiaDaoImpl();
         this.estadoGuia = this.estadoGuiaDao.findById(1);
+
+        this.trabajador = new Trabajador();
+        this.trabajador.setApellidoPaternoTrabajador("Nombre Conductor");
+        this.trabajador.setApellidoMaternoTrabajador(" ");
+        this.trabajador.setNombreTrabajador(" ");
+        this.trabajador.setRutTrabajador("XXXXXXXXX");
+        this.bus = new Bus();
+        this.bus.setPatente("XXXXXX");
+        this.bus.setAnio(2016);
+        Empresa empresa = new Empresa();
+        empresa.setNombreEmpresa("Nombre Empresa");
+        this.bus.setEmpresa(empresa);
+
         return newGuia;
     }
 
@@ -198,12 +274,18 @@ public class RegistroGuiaController implements Serializable {
         this.stringHeader = "Fecha Recaudación:" + format.format(fechaRecaudacion) + " Proceso:" + this.procesoRecaudacion.getNombreProceso();
 
         this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
+        this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
+        
+        /*for(ServicioProcesoRecaudacion spr:this.setServicioProcesoRecaudacion){
+            //System.err.println("SPR:"+spr.getServicio().getBusServicios().getTerminal().getBuses().size());
+        }*/
         
         this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
         this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);
-        System.err.println("cantidad egresos:"+this.egresosRecaudacionItems.size());
-        System.err.println("cantidad de guias:"+this.items.size());
+        System.err.println("cantidad egresos:" + this.egresosRecaudacionItems.size());
+        System.err.println("cantidad de guias:" + this.items.size());
         setPorcentajes();
+        
 
     }
 
@@ -213,17 +295,30 @@ public class RegistroGuiaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                
+
                 this.selected.setEstadoGuia(estadoGuia);
                 this.selected.setFechaIngresoGuia(new Date());
                 this.selected.setFechaRecaudacion(fechaRecaudacion);
                 this.selected.setProcesoRecaudacion(procesoRecaudacion);
-                //this.selected.set
-                
+                this.selected.setRecaudada(Boolean.TRUE);
+
                 session.saveOrUpdate(this.selected);
+
+                for (EgresoGuia e : this.egresosGuiaItems) {
+                    e.setGuia(selected);
+                    session.saveOrUpdate(e);
+
+                }
+
                 tx.commit();
                 this.items.add(selected);
                 this.selected = new Guia();
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
+
+                for (EgresoGuia e : this.egresosGuiaItems) {
+                    e.setMonto(0);
+                }
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
@@ -239,8 +334,25 @@ public class RegistroGuiaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
+                this.selected.setEstadoGuia(estadoGuia);
+                this.selected.setFechaIngresoGuia(new Date());
+                this.selected.setFechaRecaudacion(fechaRecaudacion);
+                this.selected.setProcesoRecaudacion(procesoRecaudacion);
+                this.selected.setRecaudada(Boolean.TRUE);
+
                 session.saveOrUpdate(this.selected);
+
+                for (EgresoGuia e : this.egresosGuiaItems) {
+                    e.setGuia(selected);
+                    session.saveOrUpdate(e);
+                    e.setMonto(0);
+                }
+
                 tx.commit();
+                this.items.add(selected);
+                this.selected = new Guia();
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
@@ -251,7 +363,7 @@ public class RegistroGuiaController implements Serializable {
     }
 
     public void resetParents() {
-        JsfUtil.addSuccessMessage("Guía:"+this.selected.getFolio());
+        JsfUtil.addSuccessMessage("Guía:" + this.selected.getFolio());
     }
 
     public void delete() {
@@ -278,7 +390,7 @@ public class RegistroGuiaController implements Serializable {
         }
 
     }
-    
+
     public String setValoresVariables() {
         int i = 0;
         for (PorcentajeHelper a : porcentajesList) {
@@ -287,7 +399,7 @@ public class RegistroGuiaController implements Serializable {
         }
         return null;
     }
-    
+
     public int setTotal() {
         int total = 0;
         for (EgresoGuia e : egresosGuiaItems) {
@@ -295,13 +407,20 @@ public class RegistroGuiaController implements Serializable {
         }
         //list.get(getRowCount()-1).setMonto(total);
         this.selected.setTotalEgresos(total);
+        this.selected.setSaldo(this.selected.getTotalIngresos() - this.selected.getTotalEgresos());
         return total;
+    }
+
+    public void findBus() {
+        if (!this.numeroBus.equals("") || !this.numeroBus.equals("0")) {
+            //this.bus = this.busDao.findByNumero(Integer.parseInt(numeroBus), 1);
+        }
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-    
+
     private class PorcentajeHelper {
 
         private BigDecimal bd;

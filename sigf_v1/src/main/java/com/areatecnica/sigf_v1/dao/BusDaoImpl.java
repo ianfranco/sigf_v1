@@ -113,6 +113,24 @@ public class BusDaoImpl implements BusDao {
         }
         return list;
     }
+    
+    @Override
+    public List<Bus> findByUnidad(int idUnidad) {
+        List<Bus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Bus WHERE unidadNegocio=" +idUnidad;
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     @Override
     public List<Bus> findByEmpresa(Empresa empresa) {

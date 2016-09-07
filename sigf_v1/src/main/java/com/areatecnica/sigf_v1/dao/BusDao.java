@@ -26,6 +26,7 @@ public interface BusDao {
     public List<Bus> findByEmpresa(Empresa empresa);    
     public List<Bus> findByFlota(Flota flota);    
     public Bus findByNumero(int numeroBus);
+    public List<Bus> findByUnidad(int idUnidad);
     public Bus findById(int id);
     
 }
