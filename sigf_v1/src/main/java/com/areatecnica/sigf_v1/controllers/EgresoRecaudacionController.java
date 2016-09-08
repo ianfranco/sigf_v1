@@ -74,6 +74,9 @@ public class EgresoRecaudacionController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
+                
+                this.selected.setProcesoRecaudacion(pr);
+                
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(selected);

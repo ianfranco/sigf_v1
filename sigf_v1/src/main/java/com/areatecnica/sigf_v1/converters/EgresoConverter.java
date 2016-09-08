@@ -3,6 +3,7 @@ package com.areatecnica.sigf_v1.converters;
 import com.areatecnica.sigf_v1.dao.AbstractDao;
 import com.areatecnica.sigf_v1.entities.Egreso;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.EgresoDaoImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.convert.FacesConverter;
@@ -15,14 +16,17 @@ import javax.faces.convert.Converter;
 public class EgresoConverter implements Converter {
 
     @Inject
-    private AbstractDao dao;
+    private EgresoDaoImpl dao;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
-        return this.dao.find(getKey(value));
+        
+        this.dao = new EgresoDaoImpl();
+        
+        return this.dao.findById(getKey(value));
     }
 
     java.lang.Integer getKey(String value) {

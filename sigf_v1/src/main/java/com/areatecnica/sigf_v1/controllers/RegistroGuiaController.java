@@ -14,19 +14,17 @@ import com.areatecnica.sigf_v1.dao.EstadoGuiaDao;
 import com.areatecnica.sigf_v1.dao.EstadoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.ProcesoRecaudacionDaoImpl;
-import com.areatecnica.sigf_v1.dao.ServicioDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.Bus;
-import com.areatecnica.sigf_v1.entities.BusServicio;
 import com.areatecnica.sigf_v1.entities.EgresoGuia;
 import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.EstadoGuia;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
-import com.areatecnica.sigf_v1.entities.Servicio;
 import com.areatecnica.sigf_v1.entities.ServicioProcesoRecaudacion;
+import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -73,6 +71,7 @@ public class RegistroGuiaController implements Serializable {
     private String numeroBus;
     private String numeroConductor;
     private Trabajador trabajador;
+    private Terminal terminal;
     private Bus bus;
     private Date fechaRecaudacion;
     private String stringHeader;
@@ -276,10 +275,15 @@ public class RegistroGuiaController implements Serializable {
         this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
         
-        
+        this.busItems = new ArrayList<Bus>();
+        this.terminal = new Terminal();
         
         for(ServicioProcesoRecaudacion spr:this.setServicioProcesoRecaudacion){
-            System.err.println("SPR:"+spr.getServicio().getBusServicios());
+            if(this.terminal != spr.getServicio().getTerminal()){
+                this.terminal = spr.getServicio().getTerminal();                
+                this.busItems.addAll(this.terminal.getBuses());
+            }
+            
         }
         
         this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
@@ -414,13 +418,23 @@ public class RegistroGuiaController implements Serializable {
     }
 
     public void findBus() {
-        if (!this.numeroBus.equals("") || !this.numeroBus.equals("0")) {
-            //this.bus = this.busDao.findByNumero(Integer.parseInt(numeroBus), 1);
-        }
+        this.bus = this.selected.getBus();
+    }
+    
+    public void findConductor(){
+        this.trabajador = this.selected.getTrabajador();
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
+    }
+
+    public List<Bus> getBusItems() {
+        return busItems;
+    }
+
+    public void setBusItems(List<Bus> busItems) {
+        this.busItems = busItems;
     }
 
     private class PorcentajeHelper {

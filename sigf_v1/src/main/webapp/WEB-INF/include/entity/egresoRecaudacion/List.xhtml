@@ -79,15 +79,6 @@
                 <h:outputText value="#{item.egreso}"/>
             </p:column>
 
-
-            <p:column sortBy="#{item.procesoRecaudacion.idProcesoRecaudacion}" filterBy="#{item.procesoRecaudacion.idProcesoRecaudacion}">
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_procesoRecaudacion}"/>
-                </f:facet>
-                <h:outputText value="#{item.procesoRecaudacion.idProcesoRecaudacion}"/>
-            </p:column>
-
-
             <p:column sortBy="#{item.valorDefectoEgreso}" filterBy="#{item.valorDefectoEgreso}">
                 <f:facet name="header">
                     <h:outputText value="#{bundle.ListEgresoRecaudacionTitle_valorDefectoEgreso}"/>

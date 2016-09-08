@@ -132,7 +132,7 @@
 
                 <h:panelGroup id="displayCreateForm" rendered="#{registroGuiaController.selected != null}">
                     <p:dashboard id="board" model="#{dashboardGuia.model}">
-                        <p:panel id="datosGuias" header="Datos" style="margin-right: 5px">
+                        <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 400px">
                             <p:panelGrid columns="2" columnClasses="column" >
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
@@ -148,12 +148,13 @@
                                 <h:panelGroup>
                                     <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{registroBusesController.items}"
+                                        <f:selectItems value="#{registroGuiaController.busItems}"
                                                        var="busItem"
                                                        itemValue="#{busItem}"
                                                        itemLabel="#{busItem.numeroBus}"
-                                                       />
-
+                                                       />                                        
+                                        <p:ajax event="valueChange" update="informacionBus"  listener="#{registroGuiaController.findBus}"/>
+                                        
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
@@ -166,6 +167,7 @@
                                                        itemValue="#{trabajadorItem}"
                                                        itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                        />
+                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{registroGuiaController.findConductor}"/>
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
@@ -178,7 +180,7 @@
                             </p:panelGrid>
 
                         </p:panel>
-                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px">
+                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 400px">
                             <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Patente:"/>
                                 <p:outputLabel value="#{registroGuiaController.bus.patente}"/>
@@ -196,7 +198,7 @@
 
                         </p:panel>
 
-                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px">
+                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 400px">
                             <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Conductor:"/>
                                 <p:outputLabel value="#{registroGuiaController.trabajador}"/>
