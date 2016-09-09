@@ -8,6 +8,7 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.BusDao;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
+import com.areatecnica.sigf_v1.dao.EgresoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDao;
 import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDaoImpl;
 import com.areatecnica.sigf_v1.dao.EstadoGuiaDao;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.faces.event.ActionEvent;
@@ -60,7 +62,7 @@ public class RegistroGuiaController implements Serializable {
 
     private List<Guia> items;
     private List<ProcesoRecaudacion> procesoRecaudacionItems;
-    private List<EgresoRecaudacion> egresosRecaudacionItems;
+    private ArrayList<EgresoRecaudacion> egresosRecaudacionItems;
     private List<EgresoGuia> egresosGuiaItems;
     private List<PorcentajeHelper> porcentajesList;
     private List<Bus> busItems;
@@ -86,6 +88,7 @@ public class RegistroGuiaController implements Serializable {
     private String mes;
     private String anio;
     private String fechaGuia;
+    private boolean guiaIngresada;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -182,7 +185,7 @@ public class RegistroGuiaController implements Serializable {
         return egresosRecaudacionItems;
     }
 
-    public void setEgresosRecaudacionItems(List<EgresoRecaudacion> egresosRecaudacionItems) {
+    public void setEgresosRecaudacionItems(ArrayList<EgresoRecaudacion> egresosRecaudacionItems) {
         this.egresosRecaudacionItems = egresosRecaudacionItems;
     }
 
@@ -242,6 +245,32 @@ public class RegistroGuiaController implements Serializable {
         this.bus = bus;
     }
 
+    public List<Bus> getBusItems() {
+        return busItems;
+    }
+
+    public void setBusItems(List<Bus> busItems) {
+        this.busItems = busItems;
+    }
+
+    public boolean isGuiaIngresada() {
+        return guiaIngresada;
+    }
+
+    public void setGuiaIngresada(boolean guiaIngresada) {
+        this.guiaIngresada = guiaIngresada;
+    }
+
+    public void findFolio() {
+        if (this.guiaIngresada == false) {
+            Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
+            if (auxGuia != null) {
+                JsfUtil.addErrorMessage("Guía N°:" + this.selected.getFolio() + " Ingresada");
+                this.selected = auxGuia;
+            }
+        }
+    }
+
     public Guia prepareCreate(ActionEvent event) {
         Guia newGuia;
         newGuia = new Guia();
@@ -274,25 +303,38 @@ public class RegistroGuiaController implements Serializable {
 
         this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
-        
+
         this.busItems = new ArrayList<Bus>();
         this.terminal = new Terminal();
-        
-        for(ServicioProcesoRecaudacion spr:this.setServicioProcesoRecaudacion){
-            if(this.terminal != spr.getServicio().getTerminal()){
-                this.terminal = spr.getServicio().getTerminal();                
+
+        for (ServicioProcesoRecaudacion spr : this.setServicioProcesoRecaudacion) {
+            if (this.terminal != spr.getServicio().getTerminal()) {
+                this.terminal = spr.getServicio().getTerminal();
                 this.busItems.addAll(this.terminal.getBuses());
             }
-            
+
         }
-        
+
         this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
-        this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);
+        this.egresosRecaudacionItems = (ArrayList<EgresoRecaudacion>) this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);
         System.err.println("cantidad egresos:" + this.egresosRecaudacionItems.size());
         System.err.println("cantidad de guias:" + this.items.size());
         setPorcentajes();
-        
 
+    }
+
+    public void loadGuia() {
+        /*this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
+        this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);*/
+        EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
+        this.egresosGuiaItems = new ArrayList<>();
+        for (EgresoRecaudacion eg : this.egresosRecaudacionItems) {
+            System.err.println("PRINT:" + eg + " Guia:" + selected);
+            EgresoGuia egresoGuia = daoImpl.findByGuiaAndEgreso(selected, eg);
+            if (egresoGuia != null) {
+                this.egresosGuiaItems.add(egresoGuia);
+            }
+        }
     }
 
     public void saveNew() {
@@ -420,21 +462,13 @@ public class RegistroGuiaController implements Serializable {
     public void findBus() {
         this.bus = this.selected.getBus();
     }
-    
-    public void findConductor(){
+
+    public void findConductor() {
         this.trabajador = this.selected.getTrabajador();
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
-    }
-
-    public List<Bus> getBusItems() {
-        return busItems;
-    }
-
-    public void setBusItems(List<Bus> busItems) {
-        this.busItems = busItems;
     }
 
     private class PorcentajeHelper {

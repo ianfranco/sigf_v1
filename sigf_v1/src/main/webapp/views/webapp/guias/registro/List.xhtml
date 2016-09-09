@@ -33,6 +33,14 @@
 
         <h:form id="GuiaListForm">
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
+
+                <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('GuiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('GuiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('GuiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
+                </p:contextMenu>
+
                 <p:dataTable id="datalist"
                              value="#{registroGuiaController.items}"
                              lazy="false"
@@ -52,7 +60,7 @@
                              lazy="true"
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
-                    <p:ajax event="rowSelect"   update="growl" listener="#{registroGuiaController.resetParents}"/>
+                    <p:ajax event="rowSelect" update="growl" listener="#{registroGuiaController.loadGuia}"/>
 
                     <f:facet name="header">
                         Guías:#{registroGuiaController.stringHeader} 
@@ -104,19 +112,32 @@
                         <h:outputText value="#{item.trabajador}"/>
                     </p:column>
 
-                    <p:column style="width:32px;text-align: center">
-                        <p:commandButton update=":GuiaCreateForm:displayCreateForm" oncomplete="PF('GuiaCreateDialog').show()" icon="ui-icon-search" title="Guía" ajax="true">
-                            <f:setPropertyActionListener value="#{item}" target="#{registroGuiaController.selected}" />
-                        </p:commandButton>
+                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                        <f:facet name="header">
+                            <h:outputText value="Admin."/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                        <f:facet name="header">
+                            <h:outputText value="Taller"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                        <f:facet name="header">
+                            <h:outputText value="Licitación"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
                     </p:column>
 
                     <f:facet name="footer">
                         <p:commandButton value="Agregar" update=":GuiaCreateForm:displayCreateForm" actionListener="#{registroGuiaController.prepareCreate}" oncomplete="PF('GuiaCreateDialog').show()" icon="fa fa-plus" title="Agregar" ajax="true" disabled="#{registroGuiaController.estado}">
-
-                        </p:commandButton>
-
+                        </p:commandButton>                        
+                        <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaCreateForm:displayCreateForm" oncomplete="PF('GuiaCreateDialog').show()" disabled="#{empty registroGuiaController.selected}"/>
                         <p:commandButton value="Eliminar" update="growl" icon="fa fa-times" title="Eliminar" ajax="true" disabled="#{registroGuiaController.estado}">
-
                         </p:commandButton>
                     </f:facet>
 
@@ -128,15 +149,17 @@
 
         <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateGuiaTitle}" closeOnEscape="true">
 
-            <h:form id="GuiaCreateForm">
+            <h:form id="GuiaCreateForm" onkeypress="return event.keyCode != 13">
 
                 <h:panelGroup id="displayCreateForm" rendered="#{registroGuiaController.selected != null}">
                     <p:dashboard id="board" model="#{dashboardGuia.model}">
-                        <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 400px">
+                        <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 500px">
                             <p:panelGrid columns="2" columnClasses="column" >
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="folio" value="#{registroGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="8" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                                    <p:inputNumber decimalPlaces="0" id="folio" value="#{registroGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="8" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)">
+                                        <p:ajax event="blur" listener="#{registroGuiaController.findFolio}" update="growl, okButton"/>
+                                    </p:inputNumber>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Fecha:" for="fechaGuia" />
@@ -154,7 +177,7 @@
                                                        itemLabel="#{busItem.numeroBus}"
                                                        />                                        
                                         <p:ajax event="valueChange" update="informacionBus"  listener="#{registroGuiaController.findBus}"/>
-                                        
+
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
@@ -180,7 +203,7 @@
                             </p:panelGrid>
 
                         </p:panel>
-                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 400px">
+                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 500px">
                             <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Patente:"/>
                                 <p:outputLabel value="#{registroGuiaController.bus.patente}"/>
@@ -190,7 +213,7 @@
 
                                 <p:outputLabel value="Empresario:"/>
                                 <p:outputLabel value="#{registroGuiaController.bus.empresa.nombreEmpresa}"/>   
-                                
+
                                 <p:outputLabel value="Última Guía:"/>
                                 <p:outputLabel value="#{registroGuiaController.trabajador.rutTrabajador}"/>
 
@@ -198,7 +221,7 @@
 
                         </p:panel>
 
-                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 400px">
+                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 500px">
                             <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Conductor:"/>
                                 <p:outputLabel value="#{registroGuiaController.trabajador}"/>
@@ -273,7 +296,7 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm" >
+                                <p:commandButton id="okButton" actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm"  disabled="#{registroGuiaController.guiaIngresada}">
                                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
