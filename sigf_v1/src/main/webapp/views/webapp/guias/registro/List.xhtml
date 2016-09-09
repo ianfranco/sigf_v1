@@ -296,7 +296,7 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm"  disabled="#{registroGuiaController.guiaIngresada}">
+                                <p:commandButton id="okButton" actionListener="#{registroGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm"  >
                                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
@@ -305,7 +305,7 @@
 
                         <p:panel id="panelObservacion" header="Observación" style="margin-top: 5px;">
                             <h:panelGroup>
-                                <p:inputTextarea id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" disabled="true"/>
+                                <p:inputTextarea id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" />
                             </h:panelGroup>
                         </p:panel>
 

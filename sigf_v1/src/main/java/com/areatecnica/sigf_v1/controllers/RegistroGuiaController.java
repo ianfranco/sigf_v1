@@ -304,7 +304,7 @@ public class RegistroGuiaController implements Serializable {
         this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
 
-        this.busItems = new ArrayList<Bus>();
+        this.busItems = new ArrayList<>();
         this.terminal = new Terminal();
 
         for (ServicioProcesoRecaudacion spr : this.setServicioProcesoRecaudacion) {
@@ -324,6 +324,7 @@ public class RegistroGuiaController implements Serializable {
     }
 
     public void loadGuia() {
+        this.guiaIngresada = true;
         /*this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
         this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);*/
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
@@ -335,6 +336,9 @@ public class RegistroGuiaController implements Serializable {
                 this.egresosGuiaItems.add(egresoGuia);
             }
         }
+        this.selected.setEstadoGuia(estadoGuia);
+        this.bus = this.selected.getBus();
+        this.trabajador = this.selected.getTrabajador();
     }
 
     public void saveNew() {
