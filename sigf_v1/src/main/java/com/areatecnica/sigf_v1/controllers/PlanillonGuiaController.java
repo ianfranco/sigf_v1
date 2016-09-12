@@ -70,6 +70,7 @@ public class PlanillonGuiaController implements Serializable {
     private ArrayList<EgresoGuia> egresosGuiaItems;
     private List<PorcentajeHelper> porcentajesList;
     private List<Bus> busItems;
+    ArrayList<EgresoGuia> arrayEgresosGuias;
     private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
     private Map folios;
 
@@ -280,7 +281,7 @@ public class PlanillonGuiaController implements Serializable {
             Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
             if (auxGuia != null) {
                 JsfUtil.addErrorMessage("Guía N°:" + this.selected.getFolio() + " Ingresada");
-                this.selected = auxGuia;
+                
             }
         }
     }
@@ -307,7 +308,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.folios.put(g.getFolio(), g.getIdGuia());
 
                 hashMap.put("Folio", g.getFolio());
-                hashMap.put("Fecha", g.getFechaGuia());
+                hashMap.put("Fecha", format.format(g.getFechaGuia()));
                 hashMap.put("Bus", g.getBus().getNumeroBus());
                 hashMap.put("Codigo", g.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", g.getTrabajador());
@@ -431,16 +432,16 @@ public class PlanillonGuiaController implements Serializable {
     private ArrayList<EgresoGuia> loadEgresosByGuia(int idGuia) {
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
 
-        ArrayList<EgresoGuia> array = new ArrayList<>();
+        this.arrayEgresosGuias = new ArrayList<>();
 
         for (EgresoRecaudacion eg : this.egresosRecaudacionItems) {
             System.err.println("PRINT:" + eg + " Guia:" + selected);
             EgresoGuia egresoGuia = daoImpl.findByGuiaAndEgreso(idGuia, eg);
             if (egresoGuia != null) {
-                array.add(egresoGuia);
+                this.arrayEgresosGuias.add(egresoGuia);
             }
         }
-        return array;
+        return this.arrayEgresosGuias;
     }
 
     public void saveNew() {
@@ -464,7 +465,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
 
                 hashMap.put("Folio", this.selected.getFolio());
-                hashMap.put("Fecha", this.selected.getFechaGuia());
+                hashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
                 hashMap.put("Bus", this.selected.getBus().getNumeroBus());
                 hashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", this.selected.getTrabajador());
@@ -490,6 +491,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected = new Guia();
                 this.selected.setTotalEgresos(0);
                 this.selected.setTotalIngresos(0);
+                this.selectedHashMap = null;
 
                 for (EgresoGuia e : this.egresosGuiaItems) {
                     e.setMonto(0);
@@ -508,26 +510,32 @@ public class PlanillonGuiaController implements Serializable {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
-            try {
-                //this.selected.setEstadoGuia(estadoGuia);
-                //this.selected.setFechaIngresoGuia(new Date());
-                //this.selected.setFechaRecaudacion(fechaRecaudacion);
-                //this.selected.setProcesoRecaudacion(procesoRecaudacion);
-                //this.selected.setRecaudada(Boolean.TRUE);
-
+            try {                
                 session.saveOrUpdate(this.selected);
-
-                for (EgresoGuia e : this.egresosGuiaItems) {
-                    e.setGuia(selected);
-                    session.saveOrUpdate(e);
-                    e.setMonto(0);
-                }
-
+                int index = this.listOfMaps.indexOf(this.selectedHashMap);
+                LinkedHashMap auxHash = this.selectedHashMap;
+                
+                this.selectedHashMap.put("Folio", this.selected.getFolio());
+                this.selectedHashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
+                this.selectedHashMap.put("Bus", this.selected.getBus().getNumeroBus());
+                this.selectedHashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
+                this.selectedHashMap.put("Nombre Conductor", this.selected.getTrabajador());
+                
+                for (EgresoGuia e : arrayEgresosGuias) {                    
+                    session.saveOrUpdate(e);                    
+                    this.selectedHashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
+                    session.flush();
+                }                
+                
                 tx.commit();
+                
+                this.listOfMaps.set(index, this.selectedHashMap);
+                
                 this.items.add(selected);
                 this.selected = new Guia();
                 this.selected.setTotalEgresos(0);
                 this.selected.setTotalIngresos(0);
+                this.selectedHashMap = null;
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");

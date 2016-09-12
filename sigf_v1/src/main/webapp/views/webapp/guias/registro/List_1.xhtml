@@ -78,7 +78,7 @@
                     <f:facet name="footer">
                         <p:commandButton value="Agregar" update=":GuiaCreateForm:displayCreateForm" actionListener="#{planillonGuiaController.prepareCreate}" oncomplete="PF('GuiaCreateDialog').show()" icon="fa fa-plus" title="Agregar" ajax="true" disabled="#{planillonGuiaController.estado}">
                         </p:commandButton>                        
-                        <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty planillonGuiaController.selected}" />
+                        <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()" />
                         <p:commandButton value="Eliminar" update="growl" icon="fa fa-times" title="Eliminar" ajax="true" disabled="#{planillonGuiaController.estado}">
                         </p:commandButton>
                     </f:facet>
@@ -415,10 +415,10 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl"  >
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl"  oncomplete="PF('GuiaEditDialog').hide()">
                                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                                 </p:commandButton>                                
-                                <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
+                                <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaEditDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
                             </p:panelGrid>
                         </p:panel>
 

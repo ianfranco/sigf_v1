@@ -10,6 +10,7 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
+    <property name="hibernate.connection.autocommit">true</property>    
     <mapping resource="com/areatecnica/sigf_v1/entities/Bus.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/User.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/AbonoLiquidacion.hbm.xml"/>
