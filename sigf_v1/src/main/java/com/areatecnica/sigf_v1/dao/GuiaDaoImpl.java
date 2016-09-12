@@ -155,7 +155,7 @@ public class GuiaDaoImpl implements GuiaDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE fechaRecaudacion = '" + format.format(fecha)+"' AND procesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion();
+        String sql = "FROM Guia WHERE fechaRecaudacion = '" + format.format(fecha)+"' AND procesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion() + " ORDER BY bus.numeroBus ASC, fechaGuia ASC";
         try {
 
             list = session.createQuery(sql).list();

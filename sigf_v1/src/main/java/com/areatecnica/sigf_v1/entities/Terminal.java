@@ -3,6 +3,7 @@ package com.areatecnica.sigf_v1.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -172,7 +174,8 @@ public class Terminal implements java.io.Serializable {
         this.servicios = servicios;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "terminal")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "terminal", cascade={CascadeType.ALL})
+    @OrderBy("numeroBus")
     public Set<Bus> getBuses() {
         return this.buses;
     }

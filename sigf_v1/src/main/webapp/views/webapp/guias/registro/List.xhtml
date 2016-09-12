@@ -43,9 +43,9 @@
 
                 <p:dataTable id="datalist"
                              value="#{registroGuiaController.items}"
-                             lazy="false"
-                             rowKey="#{item.idGuia}"
+                             lazy="false"                             
                              var="item"
+                             rowKey="#{item}"
                              paginator="true"
                              rows="100"
                              rowsPerPageTemplate="50,100,200"
@@ -66,71 +66,71 @@
                         Guías:#{registroGuiaController.stringHeader} 
                     </f:facet>
 
-                    <p:column sortBy="#{item.folio}" filterBy="#{item.folio}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListGuiaTitle_folio}"/>
                         </f:facet>
-                        <h:outputText value="#{item.folio}"/>
+                        <h:outputText value="#{item.guia.folio}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.fechaGuia}" filterBy="#{item.fechaGuia}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListGuiaTitle_fechaGuia}"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaGuia}">
+                        <h:outputText value="#{item.guia.fechaGuia}">
                             <f:convertDateTime pattern="dd/MM/yy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column sortBy="#{item.fechaRecaudacion}" filterBy="#{item.fechaRecaudacion}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListGuiaTitle_fechaRecaudacion}"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaRecaudacion}">
+                        <h:outputText value="#{item.guia.fechaRecaudacion}">
                             <f:convertDateTime pattern="dd/MM/yy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column sortBy="#{item.bus.numeroBus}" filterBy="#{item.bus.numeroBus}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListGuiaTitle_bus}"/>
                         </f:facet>
-                        <h:outputText value="#{item.bus.numeroBus}"/>
+                        <h:outputText value="#{item.guia.bus.numeroBus}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.trabajador.codigoTrabajador}" filterBy="#{item.trabajador.codigoTrabajador}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Cód. Conductor"/>
                         </f:facet>
-                        <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                        <h:outputText value="#{item.guia.trabajador.codigoTrabajador}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Nombre"/>
                         </f:facet>
-                        <h:outputText value="#{item.trabajador}"/>
+                        <h:outputText value="#{item.guia.trabajador}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Admin."/>
                         </f:facet>
-                        <h:outputText value="#{item.trabajador}"/>
+                        <h:outputText value="#{item.guia.trabajador}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Taller"/>
                         </f:facet>
-                        <h:outputText value="#{item.trabajador}"/>
+                        <h:outputText value="#{item.guia.trabajador}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.trabajador.toString}" filterBy="#{item.trabajador.toString}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Licitación"/>
                         </f:facet>
-                        <h:outputText value="#{item.trabajador}"/>
+                        <h:outputText value="#{item.guia.trabajador}"/>
                     </p:column>
 
                     <f:facet name="footer">
@@ -154,22 +154,23 @@
                 <h:panelGroup id="displayCreateForm" rendered="#{registroGuiaController.selected != null}">
                     <p:dashboard id="board" model="#{dashboardGuia.model}">
                         <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 500px">
+                            <p:focus context="datosGuias"/>
                             <p:panelGrid columns="2" columnClasses="column" >
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="folio" value="#{registroGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="8" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)">
+                                    <p:inputNumber decimalPlaces="0" id="folio" value="#{registroGuiaController.selected.guia.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="8" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)">
                                         <p:ajax event="blur" listener="#{registroGuiaController.findFolio}" update="growl, okButton"/>
                                     </p:inputNumber>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Fecha:" for="fechaGuia" />
                                 <h:panelGroup>
-                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" />
+                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{registroGuiaController.selected.guia.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" />
                                 </h:panelGroup>
 
                                 <p:outputLabel value="N° Bus:" for="bus" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
+                                    <p:selectOneMenu id="bus" value="#{registroGuiaController.selected.guia.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{registroGuiaController.busItems}"
                                                        var="busItem"
@@ -183,7 +184,7 @@
 
                                 <p:outputLabel value="N° Conductor" for="trabajador" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
+                                    <p:selectOneMenu id="trabajador" value="#{registroGuiaController.selected.guia.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{trabajadorController.items}"
                                                        var="trabajadorItem"
@@ -196,7 +197,7 @@
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ "  decimalPlaces="0" id="totalIngresos" value="#{registroGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8">
+                                    <p:inputNumber symbol="$ "  decimalPlaces="0" id="totalIngresos" value="#{registroGuiaController.selected.guia.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8">
                                         <p:ajax event="blur" update="datalistEgresos" listener="#{registroGuiaController.setValoresVariables}"/>
                                     </p:inputNumber>
                                 </h:panelGroup>
@@ -277,22 +278,22 @@
                             <p:panelGrid columns="2" columnClasses="column">
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{registroGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{registroGuiaController.selected.guia.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{registroGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{registroGuiaController.selected.guia.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="N° Vueltas" for="numeroVueltas" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{registroGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{registroGuiaController.selected.guia.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{registroGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{registroGuiaController.selected.guia.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
 
@@ -305,7 +306,7 @@
 
                         <p:panel id="panelObservacion" header="Observación" style="margin-top: 5px;">
                             <h:panelGroup>
-                                <p:inputTextarea id="observacion" value="#{registroGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" />
+                                <p:inputTextarea id="observacion" value="#{registroGuiaController.selected.guia.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" />
                             </h:panelGroup>
                         </p:panel>
 
@@ -329,64 +330,64 @@
                         <p:tab id="GuiaTab1" title="#{bundle.TabHeaderPrefix} 1">
                             <p:panelGrid columns="2" columnClasses="column" rendered="#{guiaController.selected != null}">
                                 <h:outputText value="#{bundle.ViewGuiaLabel_idGuia}"/>
-                                <h:outputText value="#{registroGuiaController.selected.idGuia}" title="#{bundle.ViewGuiaTitle_idGuia}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.idGuia}" title="#{bundle.ViewGuiaTitle_idGuia}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_bus}"/>
-                                <h:outputText value="#{registroGuiaController.selected.bus.idBus}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.bus.idBus}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_estadoGuia}"/>
-                                <h:outputText value="#{registroGuiaController.selected.estadoGuia.idEstadoGuia}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.estadoGuia.idEstadoGuia}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_procesoRecaudacion}"/>
-                                <h:outputText value="#{registroGuiaController.selected.procesoRecaudacion.idProcesoRecaudacion}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.procesoRecaudacion.idProcesoRecaudacion}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_trabajador}"/>
-                                <h:outputText value="#{registroGuiaController.selected.trabajador.idTrabajador}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.trabajador.idTrabajador}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_folio}"/>
-                                <h:outputText value="#{registroGuiaController.selected.folio}" title="#{bundle.ViewGuiaTitle_folio}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.folio}" title="#{bundle.ViewGuiaTitle_folio}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_fechaGuia}"/>
-                                <h:outputText value="#{registroGuiaController.selected.fechaGuia}" title="#{bundle.ViewGuiaTitle_fechaGuia}">
+                                <h:outputText value="#{registroGuiaController.selected.guia.fechaGuia}" title="#{bundle.ViewGuiaTitle_fechaGuia}">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </h:outputText>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_fechaIngresoGuia}"/>
-                                <h:outputText value="#{registroGuiaController.selected.fechaIngresoGuia}" title="#{bundle.ViewGuiaTitle_fechaIngresoGuia}">
+                                <h:outputText value="#{registroGuiaController.selected.guia.fechaIngresoGuia}" title="#{bundle.ViewGuiaTitle_fechaIngresoGuia}">
                                     <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                                 </h:outputText>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_fechaRecaudacion}"/>
-                                <h:outputText value="#{registroGuiaController.selected.fechaRecaudacion}" title="#{bundle.ViewGuiaTitle_fechaRecaudacion}">
+                                <h:outputText value="#{registroGuiaController.selected.guia.fechaRecaudacion}" title="#{bundle.ViewGuiaTitle_fechaRecaudacion}">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </h:outputText>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_totalIngresos}"/>
-                                <h:outputText value="#{registroGuiaController.selected.totalIngresos}" title="#{bundle.ViewGuiaTitle_totalIngresos}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.totalIngresos}" title="#{bundle.ViewGuiaTitle_totalIngresos}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_totalEgresos}"/>
-                                <h:outputText value="#{registroGuiaController.selected.totalEgresos}" title="#{bundle.ViewGuiaTitle_totalEgresos}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.totalEgresos}" title="#{bundle.ViewGuiaTitle_totalEgresos}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_viajeEspecial}"/>
-                                <h:outputText value="#{registroGuiaController.selected.viajeEspecial}" title="#{bundle.ViewGuiaTitle_viajeEspecial}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.viajeEspecial}" title="#{bundle.ViewGuiaTitle_viajeEspecial}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_otrosIngresos}"/>
-                                <h:outputText value="#{registroGuiaController.selected.otrosIngresos}" title="#{bundle.ViewGuiaTitle_otrosIngresos}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.otrosIngresos}" title="#{bundle.ViewGuiaTitle_otrosIngresos}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_saldo}"/>
-                                <h:outputText value="#{registroGuiaController.selected.saldo}" title="#{bundle.ViewGuiaTitle_saldo}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.saldo}" title="#{bundle.ViewGuiaTitle_saldo}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_numeroVueltas}"/>
-                                <h:outputText value="#{registroGuiaController.selected.numeroVueltas}" title="#{bundle.ViewGuiaTitle_numeroVueltas}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.numeroVueltas}" title="#{bundle.ViewGuiaTitle_numeroVueltas}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_turno}"/>
-                                <h:outputText value="#{registroGuiaController.selected.turno}" title="#{bundle.ViewGuiaTitle_turno}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.turno}" title="#{bundle.ViewGuiaTitle_turno}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_observacion}"/>
-                                <h:outputText value="#{registroGuiaController.selected.observacion}" title="#{bundle.ViewGuiaTitle_observacion}"/>
+                                <h:outputText value="#{registroGuiaController.selected.guia.observacion}" title="#{bundle.ViewGuiaTitle_observacion}"/>
 
                                 <h:outputText value="#{bundle.ViewGuiaLabel_recaudada}"/>
-                                <h:selectBooleanCheckbox id="recaudada" value="#{guiaController.selected.recaudada}" title="#{bundle.EditGuiaTitle_recaudada}"  disabled="true"/>
+                                <h:selectBooleanCheckbox id="recaudada" value="#{guiaController.selected.guia.recaudada}" title="#{bundle.EditGuiaTitle_recaudada}"  disabled="true"/>
                             </p:panelGrid>
                         </p:tab>
                     </p:tabView>

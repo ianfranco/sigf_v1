@@ -37,12 +37,12 @@ public class EgresoGuiaDaoImpl implements GenericDao<EgresoGuia>{
         return egresoGuia;
     }
     
-    public EgresoGuia findByGuiaAndEgreso(Guia guia, EgresoRecaudacion egresoRecaudacion) {
+    public EgresoGuia findByGuiaAndEgreso(int guia, EgresoRecaudacion egresoRecaudacion) {
         EgresoGuia egresoGuia = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "SELECT * FROM egreso_guia WHERE id_egreso_servicio="+egresoRecaudacion.getIdEgresoRecaudacion()+" AND id_guia=" + guia.getIdGuia();
+        String sql = "SELECT * FROM egreso_guia WHERE id_egreso_servicio="+egresoRecaudacion.getIdEgresoRecaudacion()+" AND id_guia=" + guia;
         try {
             egresoGuia = (EgresoGuia) session.createSQLQuery(sql).addEntity(EgresoGuia.class).uniqueResult();
             tx.commit();

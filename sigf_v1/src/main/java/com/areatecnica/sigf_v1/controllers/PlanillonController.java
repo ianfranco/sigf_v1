@@ -27,9 +27,7 @@ import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.ServicioProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
-import com.areatecnica.sigf_v1.util.ColumnModel;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
-import com.areatecnica.sigf_v1.util.RegistroGuiaList;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -37,14 +35,10 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import javax.faces.event.ActionEvent;
@@ -56,10 +50,20 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroGuiaController")
+@Named(value = "planillonController")
 @SessionScoped
-public class RegistroGuiaController implements Serializable {
+public class PlanillonController implements Serializable {
 
+    private List<Object[]> resultsValues;
+    private List<String> resultsHeader;
+    private List<Guia> items;
+    private List<ProcesoRecaudacion> procesoRecaudacionItems;
+    private ArrayList<EgresoRecaudacion> egresosRecaudacionItems;
+    private ArrayList<EgresoGuia> egresosGuiaItems;
+    private List<PorcentajeHelper> porcentajesList;
+    private List<Bus> busItems;
+    private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
+    
     private GuiaDaoImpl guiaDao;
     private ProcesoRecaudacionDaoImpl procesoRecaudacionDaoImpl;
     private EgresoRecaudacionDao egresoRecaudacionDao;
@@ -67,16 +71,7 @@ public class RegistroGuiaController implements Serializable {
     private BusDao busDao;
     private TrabajadorDao trabajadorDao;
 
-    private List<RegistroGuiaList> items;
-    private List<ProcesoRecaudacion> procesoRecaudacionItems;
-    private ArrayList<EgresoRecaudacion> egresosRecaudacionItems;
-    private List<EgresoGuia> egresosGuiaItems;
-    private List<PorcentajeHelper> porcentajesList;
-    private List<Bus> busItems;
-    private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
-    private int[] prueb;
-
-    private RegistroGuiaList selected;
+    private Guia selected;
 
     private String numeroBus;
     private String numeroConductor;
@@ -97,28 +92,24 @@ public class RegistroGuiaController implements Serializable {
     private String anio;
     private String fechaGuia;
     private boolean guiaIngresada;
-
-    private List<ColumnModel> columns;
-    private ArrayList<LinkedHashMap> listOfMaps;
-    private List<String> resultsHeader;// = service.getResultsValues(...);
-    private Object header;
     
     /**
-     * Creates a new instance of InstitucionPrevisionController
+     * Creates a new instance of PlanillonController
      */
-    
-    public RegistroGuiaController() {
+    public PlanillonController() {
+        this.resultsHeader = new ArrayList<>();
+        this.resultsHeader = new ArrayList<>();
+        
         this.guiaDao = new GuiaDaoImpl();
         this.procesoRecaudacionDaoImpl = new ProcesoRecaudacionDaoImpl();
         this.trabajadorDao = new TrabajadorDaoImpl();
-        this.busDao = new BusDaoImpl();
-        //this.prueb[1] = 101;
+        this.busDao = new BusDaoImpl();        
         this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAll();
 
         this.estado = Boolean.TRUE;
         this.stringHeader = "Datos Guías";
         if (this.selected == null) {
-            this.selected = new RegistroGuiaList(new Guia());
+            this.selected = new Guia();
         }
 
         Calendar calendar = GregorianCalendar.getInstance();
@@ -128,22 +119,21 @@ public class RegistroGuiaController implements Serializable {
         this.anio = String.valueOf(calendar.get(Calendar.YEAR));
 
         this.fechaGuia = String.valueOf(this.dia) + String.valueOf(this.mes) + String.valueOf(this.anio);
-        this.listOfMaps = new ArrayList<LinkedHashMap>();
     }
-
-    public List<RegistroGuiaList> getItems() {
+    
+    public List<Guia> getItems() {
         return items;
     }
 
-    public void setItems(List<RegistroGuiaList> items) {
+    public void setItems(List<Guia> items) {
         this.items = items;
     }
 
-    public RegistroGuiaList getSelected() {
+    public Guia getSelected() {
         return selected;
     }
 
-    public void setSelected(RegistroGuiaList selected) {
+    public void setSelected(Guia selected) {
         this.selected = selected;
     }
 
@@ -207,7 +197,7 @@ public class RegistroGuiaController implements Serializable {
         return egresosGuiaItems;
     }
 
-    public void setEgresosGuiaItems(List<EgresoGuia> egresosGuiaItems) {
+    public void setEgresosGuiaItems(ArrayList<EgresoGuia> egresosGuiaItems) {
         this.egresosGuiaItems = egresosGuiaItems;
     }
 
@@ -274,73 +264,22 @@ public class RegistroGuiaController implements Serializable {
     public void setGuiaIngresada(boolean guiaIngresada) {
         this.guiaIngresada = guiaIngresada;
     }
-
+    
     public void findFolio() {
         if (this.guiaIngresada == false) {
-            Guia auxGuia = this.guiaDao.findByFolio(this.selected.getGuia().getFolio());
+            Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
             if (auxGuia != null) {
-                JsfUtil.addErrorMessage("Guía N°:" + this.selected.getGuia().getFolio() + " Ingresada");
-                this.selected.setGuia(auxGuia);
+                JsfUtil.addErrorMessage("Guía N°:" + this.selected.getFolio() + " Ingresada");
+                this.selected = auxGuia;
             }
         }
     }
-
-    /*public void createDynamicColumns() {
-        HashMap header = new HashMap();
-        
-        
-        resultsHeader = new ArrayList<String>();
-        
-        resultsHeader.add("N° Bus");
-        resultsHeader.add("Patente");
-        
-        for (Bus b : items) {
-            LinkedHashMap hashMap = new LinkedHashMap();
-
-            hashMap.put("Bus", b.getNumeroBus());
-            hashMap.put("Patente", b.getPatente());
-
-            List<BusServicio> lista = busServicioDao.findByBus(b);
-            System.err.println("BUS N°:"+b.getNumeroBus()+" PATENTE:"+b.getPatente());
-            
-            for (BusServicio bs : lista) {
-                hashMap.put(bs.getServicio().getNumeroServicio(), "X");
-                System.err.print(bs.getServicio().getNumeroServicio()+" ");
-                
-                String key = String.valueOf(bs.getServicio().getNumeroServicio());
-                 
-                if(!header.containsKey(key)){
-                    header.put(key, key);
-                    resultsHeader.add(key);
-                }
-            }
-            System.err.println("");
-
-            this.listOfMaps.add(hashMap);
-            
-            Object[] a = listOfMaps.get(0).keySet().toArray();
-            
-            for(Object c:a){
-                System.err.println("IMPRIMIENDO VALORES:"+c);
-            }
-        }
-        
-        
-        
-        System.err.println("REVISANDO VALORES");
-        /*for(String s:resultsHeader){
-            System.err.println("HEADER:"+s);
-        }*
-
-       
-    }*/
     
     public Guia prepareCreate(ActionEvent event) {
         Guia newGuia;
         newGuia = new Guia();
-        this.selected = new RegistroGuiaList();
-        this.selected.setGuia(newGuia);
-        this.selected.getGuia().setFechaGuia(fechaRecaudacion);
+        this.selected = newGuia;
+        this.selected.setFechaGuia(fechaRecaudacion);
         this.estadoGuiaDao = new EstadoGuiaDaoImpl();
         this.estadoGuia = this.estadoGuiaDao.findById(1);
 
@@ -366,17 +305,9 @@ public class RegistroGuiaController implements Serializable {
         this.stringHeader = "Fecha Recaudación:" + format.format(fechaRecaudacion) + " Proceso:" + this.procesoRecaudacion.getNombreProceso();
 
         //CARGAR LAS GUIAS OBTENIDAS AL ARRAY DE REGISTROGUIALIST
-        this.items = new ArrayList<>();
-        List<Guia> arrayGuia = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
-        
-        for(Guia g:arrayGuia){
-            RegistroGuiaList r = new RegistroGuiaList();
-            r.setGuia(g);
-            this.items.add(r);
-        }
-        
-        
-        /*Busqueda de buses por proceso de recaudacion*/        
+        this.items = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
+
+        /*Busqueda de buses por proceso de recaudacion*/
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
 
         this.busItems = new ArrayList<>();
@@ -387,16 +318,19 @@ public class RegistroGuiaController implements Serializable {
                 this.terminal = spr.getServicio().getTerminal();
                 this.busItems.addAll(this.terminal.getBuses());
             }
-
         }
         
+        for(Guia g:this.items){
+            
+        }
+
         /*Ordena los buses de menor a mayor*/
         Collections.sort(this.busItems, new Comparator<Bus>() {
             @Override
             public int compare(Bus o1, Bus o2) {
-                if(o1.getNumeroBus() == o2.getNumeroBus()){
+                if (o1.getNumeroBus() == o2.getNumeroBus()) {
                     return 0;
-                }else if(o1.getNumeroBus() < o2.getNumeroBus()){
+                } else if (o1.getNumeroBus() < o2.getNumeroBus()) {
                     return -1;
                 }
                 return 1;
@@ -415,18 +349,27 @@ public class RegistroGuiaController implements Serializable {
         this.guiaIngresada = true;
         /*this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
         this.egresosRecaudacionItems = this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);*/
+
+        this.egresosGuiaItems = loadEgresosByGuia();
+
+        this.selected.setEstadoGuia(estadoGuia);
+        this.bus = this.selected.getBus();
+        this.trabajador = this.selected.getTrabajador();
+    }
+
+    private ArrayList<EgresoGuia> loadEgresosByGuia() {
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
-        this.egresosGuiaItems = new ArrayList<>();
+
+        ArrayList<EgresoGuia> array = new ArrayList<>();
+
         for (EgresoRecaudacion eg : this.egresosRecaudacionItems) {
             System.err.println("PRINT:" + eg + " Guia:" + selected);
-            EgresoGuia egresoGuia = daoImpl.findByGuiaAndEgreso(selected.getGuia().getFolio(), eg);
+            EgresoGuia egresoGuia = daoImpl.findByGuiaAndEgreso(selected.getFolio(), eg);
             if (egresoGuia != null) {
-                this.egresosGuiaItems.add(egresoGuia);
+                array.add(egresoGuia);
             }
         }
-        this.selected.getGuia().setEstadoGuia(estadoGuia);
-        this.bus = this.selected.getGuia().getBus();
-        this.trabajador = this.selected.getGuia().getTrabajador();
+        return array;
     }
 
     public void saveNew() {
@@ -436,26 +379,26 @@ public class RegistroGuiaController implements Serializable {
 
             try {
 
-                this.selected.getGuia().setEstadoGuia(estadoGuia);
-                this.selected.getGuia().setFechaIngresoGuia(new Date());
-                this.selected.getGuia().setFechaRecaudacion(fechaRecaudacion);
-                this.selected.getGuia().setProcesoRecaudacion(procesoRecaudacion);
-                this.selected.getGuia().setRecaudada(Boolean.TRUE);
+                this.selected.setEstadoGuia(estadoGuia);
+                this.selected.setFechaIngresoGuia(new Date());
+                this.selected.setFechaRecaudacion(fechaRecaudacion);
+                this.selected.setProcesoRecaudacion(procesoRecaudacion);
+                this.selected.setRecaudada(Boolean.TRUE);
 
-                session.saveOrUpdate(this.selected.getGuia());
+                session.saveOrUpdate(this.selected);
 
                 for (EgresoGuia e : this.egresosGuiaItems) {
-                    e.setGuia(selected.getGuia());
+                    e.setGuia(selected);
                     session.saveOrUpdate(e);
 
                 }
 
                 tx.commit();
-                
+
                 this.items.add(selected);
-                this.selected.setGuia(new Guia());
-                this.selected.getGuia().setTotalEgresos(0);
-                this.selected.getGuia().setTotalIngresos(0);
+                this.selected = new Guia();
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
 
                 for (EgresoGuia e : this.egresosGuiaItems) {
                     e.setMonto(0);
@@ -475,25 +418,25 @@ public class RegistroGuiaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                this.selected.getGuia().setEstadoGuia(estadoGuia);
-                this.selected.getGuia().setFechaIngresoGuia(new Date());
-                this.selected.getGuia().setFechaRecaudacion(fechaRecaudacion);
-                this.selected.getGuia().setProcesoRecaudacion(procesoRecaudacion);
-                this.selected.getGuia().setRecaudada(Boolean.TRUE);
+                this.selected.setEstadoGuia(estadoGuia);
+                this.selected.setFechaIngresoGuia(new Date());
+                this.selected.setFechaRecaudacion(fechaRecaudacion);
+                this.selected.setProcesoRecaudacion(procesoRecaudacion);
+                this.selected.setRecaudada(Boolean.TRUE);
 
                 session.saveOrUpdate(this.selected);
 
                 for (EgresoGuia e : this.egresosGuiaItems) {
-                    e.setGuia(selected.getGuia());
+                    e.setGuia(selected);
                     session.saveOrUpdate(e);
                     e.setMonto(0);
                 }
 
                 tx.commit();
                 this.items.add(selected);
-                this.selected.setGuia(new Guia());
-                this.selected.getGuia().setTotalEgresos(0);
-                this.selected.getGuia().setTotalIngresos(0);
+                this.selected = new Guia();
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
@@ -504,7 +447,7 @@ public class RegistroGuiaController implements Serializable {
     }
 
     public void resetParents() {
-        JsfUtil.addSuccessMessage("Guía:" + this.selected.getGuia().getFolio());
+        JsfUtil.addSuccessMessage("Guía:" + this.selected.getFolio());
     }
 
     public void delete() {
@@ -522,8 +465,6 @@ public class RegistroGuiaController implements Serializable {
             egreso.setEgresoRecaudacion(e);
             egreso.setMonto(e.getValorDefectoEgreso());
 
-            
-            
             if (e.getPorcentaje().compareTo(bd) == 1) {
                 porcentajesList.add(new PorcentajeHelper(e.getPorcentaje(), i));
             }
@@ -537,7 +478,7 @@ public class RegistroGuiaController implements Serializable {
     public String setValoresVariables() {
         int i = 0;
         for (PorcentajeHelper a : porcentajesList) {
-            egresosGuiaItems.get(a.getIndex()).setMonto((int) (a.getBd().floatValue() / 100 * this.selected.getGuia().getTotalIngresos()));
+            egresosGuiaItems.get(a.getIndex()).setMonto((int) (a.getBd().floatValue() / 100 * this.selected.getTotalIngresos()));
             i++;
         }
         return null;
@@ -549,29 +490,21 @@ public class RegistroGuiaController implements Serializable {
             total += e.getMonto();
         }
         //list.get(getRowCount()-1).setMonto(total);
-        this.selected.getGuia().setTotalEgresos(total);
-        this.selected.getGuia().setSaldo(this.selected.getGuia().getTotalIngresos() - this.selected.getGuia().getTotalEgresos());
+        this.selected.setTotalEgresos(total);
+        this.selected.setSaldo(this.selected.getTotalIngresos() - this.selected.getTotalEgresos());
         return total;
     }
 
     public void findBus() {
-        this.bus = this.selected.getGuia().getBus();
+        this.bus = this.selected.getBus();
     }
 
     public void findConductor() {
-        this.trabajador = this.selected.getGuia().getTrabajador();
+        this.trabajador = this.selected.getTrabajador();
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
-    }
-
-    public int[] getPrueb() {
-        return prueb;
-    }
-
-    public void setPrueb(int[] prueb) {
-        this.prueb = prueb;
     }
 
     private class PorcentajeHelper {
@@ -601,5 +534,5 @@ public class RegistroGuiaController implements Serializable {
         }
 
     }
-
+    
 }
