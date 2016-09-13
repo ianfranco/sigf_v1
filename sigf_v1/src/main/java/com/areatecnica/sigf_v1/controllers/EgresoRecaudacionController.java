@@ -13,6 +13,7 @@ import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -65,6 +66,8 @@ public class EgresoRecaudacionController implements Serializable {
         EgresoRecaudacion newEgresoRecaudacion;
         newEgresoRecaudacion = new EgresoRecaudacion();
         this.selected = newEgresoRecaudacion;
+        this.selected.setPorcentaje(BigDecimal.ZERO);
+        this.selected.setValorDefectoEgreso(0);
         return newEgresoRecaudacion;
     }
 

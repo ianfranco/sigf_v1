@@ -477,6 +477,7 @@ public class PlanillonGuiaController implements Serializable {
                     if(e.getEgresoRecaudacion().getEgreso().isActivo()){
                         hashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
                     }
+                    e = null;
                 }
 
                 tx.commit();
@@ -493,9 +494,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected.setTotalIngresos(0);
                 this.selectedHashMap = null;
 
-                for (EgresoGuia e : this.egresosGuiaItems) {
-                    e.setMonto(0);
-                }
+                setPorcentajes();
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
