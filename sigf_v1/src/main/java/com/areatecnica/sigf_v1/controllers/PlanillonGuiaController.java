@@ -99,6 +99,8 @@ public class PlanillonGuiaController implements Serializable {
 
     private ArrayList<LinkedHashMap> listOfMaps;
     private List<String> resultsHeader;// = service.getResultsValues(...);
+    private List<String> resultsTotals;
+    private LinkedHashMap totales;
     private Object header;
 
     /**
@@ -128,7 +130,7 @@ public class PlanillonGuiaController implements Serializable {
         this.listOfMaps = new ArrayList<LinkedHashMap>();
 
         LinkedHashMap link = new LinkedHashMap();
-        link.put("Datos", header);
+        //link.put("Datos", header);
         this.listOfMaps.add(link);
     }
 
@@ -276,12 +278,44 @@ public class PlanillonGuiaController implements Serializable {
         this.guiaIngresada = guiaIngresada;
     }
 
+    public ArrayList<LinkedHashMap> getListOfMaps() {
+        return listOfMaps;
+    }
+
+    public void setListOfMaps(ArrayList<LinkedHashMap> listOfMaps) {
+        this.listOfMaps = listOfMaps;
+    }
+
+    public List<String> getResultsHeader() {
+        return resultsHeader;
+    }
+
+    public void setResultsHeader(List<String> resultsHeader) {
+        this.resultsHeader = resultsHeader;
+    }
+
+    public LinkedHashMap getSelectedHashMap() {
+        return selectedHashMap;
+    }
+
+    public void setSelectedHashMap(LinkedHashMap selectedHashMap) {
+        this.selectedHashMap = selectedHashMap;
+    }
+
+    public List<String> getResultsTotals() {
+        return resultsTotals;
+    }
+
+    public void setResultsTotals(List<String> resultsTotals) {
+        this.resultsTotals = resultsTotals;
+    }
+
     public void findFolio() {
         if (this.guiaIngresada == false) {
             Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
             if (auxGuia != null) {
                 JsfUtil.addErrorMessage("Guía N°:" + this.selected.getFolio() + " Ingresada");
-                
+
             }
         }
     }
@@ -292,12 +326,19 @@ public class PlanillonGuiaController implements Serializable {
         this.folios = new HashMap<Integer, Integer>();
 
         resultsHeader = new ArrayList<String>();
+        resultsTotals = new ArrayList<>();
+        totales = new LinkedHashMap();
 
         resultsHeader.add("Folio");
+        resultsTotals.add("");
         resultsHeader.add("Fecha");
+        resultsTotals.add("");
         resultsHeader.add("Bus");
+        resultsTotals.add("");
         resultsHeader.add("Codigo");
+        resultsTotals.add("");
         resultsHeader.add("Conductor");
+        resultsTotals.add("Totales");
 
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
 
@@ -322,8 +363,16 @@ public class PlanillonGuiaController implements Serializable {
                         /*Agrego el header*/
                         resultsHeader.add(er.getEgreso().getNombreEgreso());
                         if (egresoGuia != null) {
-                            hashMap.put(er.getEgreso().getNombreEgreso(), egresoGuia.getMonto());
+                            String key = er.getEgreso().getNombreEgreso();
+                            hashMap.put(key, egresoGuia.getMonto());
 
+                            if (totales.containsKey(key)) {
+                                int aux = (int) totales.get(key);
+                                aux += egresoGuia.getMonto();
+                                totales.put(key, aux);
+                            } else {
+                                totales.put(key, egresoGuia.getMonto());
+                            }
                         } else {
                             hashMap.put(er.getEgreso().getNombreEgreso(), 0);
                         }
@@ -333,8 +382,30 @@ public class PlanillonGuiaController implements Serializable {
                 this.listOfMaps.add(hashMap);
 
             }
+
+            for (Object i : totales.values()) {
+                int totali = (int) i;
+                resultsTotals.add(String.valueOf(totali));
+            }
+
         } else {
+            System.err.println("El array de items se encuentra vacío");
             LinkedHashMap hashMap = new LinkedHashMap();
+
+            hashMap.put("Folio", "");
+            hashMap.put("Fecha", "");
+            hashMap.put("Bus", "");
+            hashMap.put("Codigo", "");
+            hashMap.put("Nombre Conductor", "");
+
+            for (EgresoRecaudacion er : this.egresosRecaudacionItems) {
+                /*Pregunto si el egreso es recaudable o no*/
+                if (er.getEgreso().isActivo()) {
+                    resultsHeader.add(er.getEgreso().getNombreEgreso());
+                    hashMap.put(er.getEgreso().getNombreEgreso(), "");
+                }
+            }
+            System.err.println("Tamaño del mapa:"+hashMap.size());
             this.listOfMaps.add(hashMap);
         }
 
@@ -458,7 +529,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected.setRecaudada(Boolean.TRUE);
 
                 session.saveOrUpdate(this.selected);
-                
+
                 /*Mostrando la información en la tabla*/
                 LinkedHashMap hashMap = new LinkedHashMap();
 
@@ -469,13 +540,21 @@ public class PlanillonGuiaController implements Serializable {
                 hashMap.put("Bus", this.selected.getBus().getNumeroBus());
                 hashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", this.selected.getTrabajador());
-                
 
                 for (EgresoGuia e : this.egresosGuiaItems) {
                     e.setGuia(selected);
                     session.saveOrUpdate(e);
-                    if(e.getEgresoRecaudacion().getEgreso().isActivo()){
-                        hashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
+                    if (e.getEgresoRecaudacion().getEgreso().isActivo()) {
+                        String key = e.getEgresoRecaudacion().getEgreso().getNombreEgreso();
+                        hashMap.put(key, e.getMonto());
+
+                        if (totales.containsKey(key)) {
+                            int aux = (int) totales.get(key);
+                            aux += e.getMonto();
+                            totales.put(key, aux);
+                        } else {
+                            totales.put(key, e.getMonto());
+                        }
                     }
                     e = null;
                 }
@@ -483,9 +562,27 @@ public class PlanillonGuiaController implements Serializable {
                 tx.commit();
 
                 this.items.add(selected);
-                
+
+                for (Object i : totales.values()) {
+                    int totali = (int) i;
+                    resultsTotals.add(String.valueOf(totali));
+                }
+
                 /*Por todos los egresos que estén asociados al proceso de recaudación*/
+                if(this.listOfMaps.size()==1){
+                    LinkedHashMap auxHash = this.listOfMaps.get(0);
+                    String auxFolio = String.valueOf(auxHash.get("Folio"));
+                    if(auxFolio.equals("")){
+                        this.listOfMaps = new ArrayList<>();
+                    }else{
+                        System.err.println("HAY UNA GUÍA INGRESADA CON EL FOLIO:"+auxFolio);
+                    }
+                }
+                    
                 
+ /*if(.size()==0){
+                    this.listOfMaps = new ArrayList<LinkedHashMap>();
+                }*/
                 this.listOfMaps.add(hashMap);
                 /*Termina de agregar la información*/
 
@@ -509,27 +606,27 @@ public class PlanillonGuiaController implements Serializable {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
-            try {                
+            try {
                 session.saveOrUpdate(this.selected);
                 int index = this.listOfMaps.indexOf(this.selectedHashMap);
                 LinkedHashMap auxHash = this.selectedHashMap;
-                
+
                 this.selectedHashMap.put("Folio", this.selected.getFolio());
                 this.selectedHashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
                 this.selectedHashMap.put("Bus", this.selected.getBus().getNumeroBus());
                 this.selectedHashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
                 this.selectedHashMap.put("Nombre Conductor", this.selected.getTrabajador());
-                
-                for (EgresoGuia e : arrayEgresosGuias) {                    
-                    session.saveOrUpdate(e);                    
+
+                for (EgresoGuia e : arrayEgresosGuias) {
+                    session.saveOrUpdate(e);
                     this.selectedHashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
                     session.flush();
-                }                
-                
+                }
+
                 tx.commit();
-                
+
                 this.listOfMaps.set(index, this.selectedHashMap);
-                
+
                 this.items.add(selected);
                 this.selected = new Guia();
                 this.selected.setTotalEgresos(0);
@@ -605,28 +702,12 @@ public class PlanillonGuiaController implements Serializable {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
 
-    public ArrayList<LinkedHashMap> getListOfMaps() {
-        return listOfMaps;
+    public LinkedHashMap getTotales() {
+        return totales;
     }
 
-    public void setListOfMaps(ArrayList<LinkedHashMap> listOfMaps) {
-        this.listOfMaps = listOfMaps;
-    }
-
-    public List<String> getResultsHeader() {
-        return resultsHeader;
-    }
-
-    public void setResultsHeader(List<String> resultsHeader) {
-        this.resultsHeader = resultsHeader;
-    }
-
-    public LinkedHashMap getSelectedHashMap() {
-        return selectedHashMap;
-    }
-
-    public void setSelectedHashMap(LinkedHashMap selectedHashMap) {
-        this.selectedHashMap = selectedHashMap;
+    public void setTotales(LinkedHashMap totales) {
+        this.totales = totales;
     }
 
     private class PorcentajeHelper {

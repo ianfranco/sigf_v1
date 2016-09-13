@@ -24,14 +24,14 @@
                                        itemLabel="#{procesoItem}"
                                        />
                     </p:selectOneMenu>
-                    <p:commandButton id="value2" ajax="true"  value="Aceptar" update="GuiaListForm:datalist" style="width:80px" actionListener="#{planillonGuiaController.init}">
+                    <p:commandButton id="value2" ajax="true"  value="Aceptar" update="GuiaListForm:datalist, GuiaListForm:tablaTotales" style="width:80px" actionListener="#{planillonGuiaController.init}">
                     </p:commandButton>
                 </h:panelGrid>
 
             </p:panel>
         </h:form>
 
-        <h:form id="GuiaListForm">
+        <h:form id="GuiaListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
 
                 <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">  
@@ -41,7 +41,7 @@
                     <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
                 </p:contextMenu>
 
-                <p:dataTable id="datalist"
+                <p:dataTable id="datalist" rendered="#{planillonGuiaController.listOfMaps != null}"
                              value="#{planillonGuiaController.listOfMaps}"
                              lazy="false"
                              var="item"
@@ -64,6 +64,7 @@
                     <f:facet name="header">
                         Guías:#{planillonGuiaController.stringHeader} 
                     </f:facet>
+
                     <p:column style="width: 20px;">
                         <f:facet name="header">
                             <h:outputText value="N°"/>
@@ -72,7 +73,8 @@
                     </p:column>
 
                     <p:columns value="#{planillonGuiaController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{planillonGuiaController.resultsHeader.get(col)}" columnIndexVar="col" style="text-align: center">
-                        #{item[key]}
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
                     </p:columns>
 
                     <f:facet name="footer">
@@ -84,10 +86,36 @@
                     </f:facet>
 
                 </p:dataTable>
+                <f:facet name="footer">
+                    <p:dataTable id="tablaTotales"
+                                 value="#{planillonGuiaController.totales.entrySet().toArray()}" 
+                                 var="entry"                                  
+                                 emptyMessage="No se han encontrado registros"
+                                 style="width: 400px;">
+                        
+                        <f:facet name="header">
+                            Totales
+                        </f:facet>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Egreso"/>
+                            </f:facet>
+                            <h:outputText value="#{entry.key}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor "/>
+                            </f:facet>
+                            <p:outputLabel value="#{entry.value}">
+                                <f:convertNumber pattern="###,###" currencySymbol="$" type="currency"/>
+                            </p:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </f:facet>
             </p:panel>
-            <p:panel id="sumas" header="Totales">
-                
-            </p:panel>
+
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
 
         </h:form>              
@@ -242,7 +270,7 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.saveNew}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl, displayCreateForm"  >
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.saveNew}" value="#{bundle.Save}" update="GuiaListForm:datalist,  GuiaListForm:tablaTotales, :growl, displayCreateForm"  >
                                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaViewDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
@@ -385,7 +413,7 @@
                                         <h:outputText value="Valor"/>
                                     </f:facet>
                                     <p:inputNumber symbol="$ " decimalPlaces="0"  value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
-                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" ></p:ajax>
+                                        <p:ajax event="blur" update=":GuiaEditForm:totales" listener="#{planillonGuiaController.setTotal}" ></p:ajax>
                                     </p:inputNumber>
                                 </p:column>
                             </p:dataTable>
@@ -415,7 +443,7 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update=":GuiaListForm:datalist,:growl"  oncomplete="PF('GuiaEditDialog').hide()">
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update="GuiaListForm:datalist, GuiaListForm:tablaTotales, :growl"  oncomplete="PF('GuiaEditDialog').hide()">
                                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaEditDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
@@ -427,15 +455,9 @@
                                 <p:inputTextarea id="observacion" value="#{planillonGuiaController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" />
                             </h:panelGroup>
                         </p:panel>
-
                     </p:dashboard>
-
-
-
                 </h:panelGroup>
-
             </h:form>
-
         </p:dialog>
 
         <p:dialog id="GuiaViewDlg" widgetVar="GuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGuiaTitle}" closeOnEscape="true">
