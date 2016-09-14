@@ -59,4 +59,23 @@ public class ProcesoRecaudacionDaoImpl implements GenericDao<ProcesoRecaudacion>
         return list;
     }
     
+    
+    public List<ProcesoRecaudacion> findAllClean() {
+        List<ProcesoRecaudacion> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM ProcesoRecaudacion ORDER BY nombreProceso ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+                        
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
 }

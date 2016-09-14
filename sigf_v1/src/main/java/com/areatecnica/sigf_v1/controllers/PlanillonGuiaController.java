@@ -32,6 +32,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,6 +84,7 @@ public class PlanillonGuiaController implements Serializable {
     private Terminal terminal;
     private Bus bus;
     private Date fechaRecaudacion;
+    private Date fechaGuiaDate;
     private String stringHeader;
     private SimpleDateFormat format;
     private ProcesoRecaudacion procesoRecaudacion;
@@ -112,7 +114,7 @@ public class PlanillonGuiaController implements Serializable {
         this.trabajadorDao = new TrabajadorDaoImpl();
         this.busDao = new BusDaoImpl();
 
-        this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAll();
+        this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAllClean();
 
         this.estado = Boolean.TRUE;
         this.stringHeader = "Datos Guías";
@@ -126,7 +128,7 @@ public class PlanillonGuiaController implements Serializable {
         this.mes = String.valueOf(calendar.get(Calendar.MONTH));
         this.anio = String.valueOf(calendar.get(Calendar.YEAR));
 
-        this.fechaGuia = String.valueOf(this.dia) + String.valueOf(this.mes) + String.valueOf(this.anio);
+        this.fechaGuia = String.valueOf(this.dia) + "/" + String.valueOf(this.mes) + "/" + String.valueOf(this.anio);
         this.listOfMaps = new ArrayList<LinkedHashMap>();
 
         LinkedHashMap link = new LinkedHashMap();
@@ -405,7 +407,7 @@ public class PlanillonGuiaController implements Serializable {
                     hashMap.put(er.getEgreso().getNombreEgreso(), "");
                 }
             }
-            System.err.println("Tamaño del mapa:"+hashMap.size());
+            System.err.println("Tamaño del mapa:" + hashMap.size());
             this.listOfMaps.add(hashMap);
         }
 
@@ -419,7 +421,11 @@ public class PlanillonGuiaController implements Serializable {
         Guia newGuia;
         newGuia = new Guia();
         this.selected = newGuia;
-        this.selected.setFechaGuia(fechaRecaudacion);
+        try {
+            this.selected.setFechaGuia(format.parse(this.fechaGuia));
+        } catch (ParseException e) {
+
+        }
         this.estadoGuiaDao = new EstadoGuiaDaoImpl();
         this.estadoGuia = this.estadoGuiaDao.findById(1);
 
@@ -569,24 +575,27 @@ public class PlanillonGuiaController implements Serializable {
                 }
 
                 /*Por todos los egresos que estén asociados al proceso de recaudación*/
-                if(this.listOfMaps.size()==1){
+                if (this.listOfMaps.size() == 1) {
                     LinkedHashMap auxHash = this.listOfMaps.get(0);
                     String auxFolio = String.valueOf(auxHash.get("Folio"));
-                    if(auxFolio.equals("")){
+                    if (auxFolio.equals("")) {
                         this.listOfMaps = new ArrayList<>();
-                    }else{
-                        System.err.println("HAY UNA GUÍA INGRESADA CON EL FOLIO:"+auxFolio);
+                    } else {
+                        System.err.println("HAY UNA GUÍA INGRESADA CON EL FOLIO:" + auxFolio);
                     }
                 }
-                    
-                
- /*if(.size()==0){
+
+                /*if(.size()==0){
                     this.listOfMaps = new ArrayList<LinkedHashMap>();
                 }*/
                 this.listOfMaps.add(hashMap);
                 /*Termina de agregar la información*/
 
+                this.fechaGuiaDate = this.selected.getFechaGuia();
+
                 this.selected = new Guia();
+                this.selected.setFechaGuia(fechaGuiaDate);
+
                 this.selected.setTotalEgresos(0);
                 this.selected.setTotalIngresos(0);
                 this.selectedHashMap = null;
