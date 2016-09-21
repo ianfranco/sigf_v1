@@ -12,9 +12,9 @@ import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,7 +24,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "fichaTrabajadorController")
-@SessionScoped
+@ViewScoped
 public class FichaTrabajadorController implements Serializable {
 
     private TrabajadorDao trabajadorDao;

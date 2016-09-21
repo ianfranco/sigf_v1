@@ -26,13 +26,13 @@ import com.areatecnica.sigf_v1.entities.TipoTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -43,7 +43,7 @@ import org.primefaces.event.FlowEvent;
  * @author ianfr
  */
 @Named(value = "trabajadorController")
-@SessionScoped
+@ViewScoped
 public class TrabajadorController implements Serializable {
 
     //Daos

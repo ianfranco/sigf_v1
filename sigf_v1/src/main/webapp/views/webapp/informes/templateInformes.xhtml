@@ -7,12 +7,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="../../resources/css/cssLayout.css" rel="stylesheet" type="text/css"/>
-        <link href="../../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
         <h:outputStylesheet name="css/default.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDujXh7O-rPJBePHxDh-gOJYUWZQatutG8"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>        
         <style type="text/css">
             #growl {
                 background: #D20005;
@@ -33,14 +30,14 @@
     <h:body>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
-            <p:layoutUnit position="north" size="75" header="Remuneraciones"  collapsible="true">
+            <p:layoutUnit position="north" size="75" header="Informes"  collapsible="true">
                 <div id="menu">
                     <h:form> 
                         <p:menubar>
-                            <p:menuitem value="Inicio" url="#{appBean.basePath}indexServicio.xhtml" icon="ui-icon-home" />
+                            <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/informes/indexInformes" icon="ui-icon-home" />
 
-                            <p:submenu label="Buses">
-                                <p:menuitem value="Producción"/>
+                            <p:submenu label="Buses">                                
+                                <p:menuitem value="Producción" outcome="#{appBean.basePath}webapp/informes/buses/produccion" />
                                 <p:menuitem value="Ranking"/>
                                 <p:menuitem value="Días Trabajados"/>
                                 <p:menuitem value="Detalle x Bus"/>
@@ -50,6 +47,10 @@
                                 <p:menuitem value="Producción General"/>
                                 <p:menuitem value="Ranking"/>
                                 <p:menuitem value="Detalle x Conductor"/>
+                            </p:submenu>
+                            
+                            <p:submenu label="Proceso">
+                                <p:menuitem value="Recaudación x Día" outcome="#{appBean.basePath}webapp/informes/proceso/recaudaciondiaria" />
                             </p:submenu>
                             
                             <p:submenu label="Flota">

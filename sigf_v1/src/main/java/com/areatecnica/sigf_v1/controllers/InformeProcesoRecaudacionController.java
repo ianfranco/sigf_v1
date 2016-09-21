@@ -51,9 +51,9 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "planillonGuiaController")
+@Named(value = "informeProcesoRecaudacionController")
 @ViewScoped
-public class PlanillonGuiaController implements Serializable {
+public class InformeProcesoRecaudacionController implements Serializable {
 
     private GuiaDaoImpl guiaDao;
     private ProcesoRecaudacionDaoImpl procesoRecaudacionDaoImpl;
@@ -99,7 +99,7 @@ public class PlanillonGuiaController implements Serializable {
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public PlanillonGuiaController() {
+    public InformeProcesoRecaudacionController() {
         this.guiaDao = new GuiaDaoImpl();
         this.procesoRecaudacionDaoImpl = new ProcesoRecaudacionDaoImpl();
         this.trabajadorDao = new TrabajadorDaoImpl();
@@ -438,8 +438,6 @@ public class PlanillonGuiaController implements Serializable {
                 return 1;
             }
         });
-        
-        
 
         this.egresoRecaudacionDao = new EgresoRecaudacionDaoImpl();
         this.egresosRecaudacionItems = (ArrayList<EgresoRecaudacion>) this.egresoRecaudacionDao.findByProceso(procesoRecaudacion);

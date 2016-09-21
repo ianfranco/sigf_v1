@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInformes.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="8">
+                    <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />                        
+                    <p:calendar id="fechaRecaudacion" value="#{informeProcesoRecaudacionController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" disabled=""/>
+
+                    <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
+                    <p:selectOneMenu id="procesoRecaudacion" value="#{informeProcesoRecaudacionController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeProcesoRecaudacionController.procesoRecaudacionItems}"
+                                       var="procesoItem"
+                                       itemValue="#{procesoItem}"
+                                       itemLabel="#{procesoItem}"
+                                       />
+                    </p:selectOneMenu>
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{informeProcesoRecaudacionController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="GuiaListForm">            
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
+                
+                <p:dataTable id="datalist" rendered="#{not empty informeProcesoRecaudacionController.listOfMaps}"
+                             value="#{informeProcesoRecaudacionController.listOfMaps}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item}"                             
+                             rowIndexVar="rowIndex"                             
+                             selectionMode="single"
+                             selection="#{informeProcesoRecaudacionController.selectedHashMap}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{guiaController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idGuia}"  <<< Remove this line
+                    -->
+                    <p:ajax event="rowSelect" update="growl" listener="#{informeProcesoRecaudacionController.loadGuia}"/>
+                    
+                    <f:facet name="header">
+                        Guías:#{informeProcesoRecaudacionController.stringHeader} 
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:columns value="#{informeProcesoRecaudacionController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{informeProcesoRecaudacionController.resultsHeader.get(col)}" footerText="#{informeProcesoRecaudacionController.resultsTotals.get(col)}" columnIndexVar="col" style="text-align: center">
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
+                    </p:columns>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

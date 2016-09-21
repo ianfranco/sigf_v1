@@ -24,7 +24,7 @@ public class UnidadNegocioDaoImpl implements UnidadNegocioDao{
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM UnidadNegocio u";
+        String sql = "FROM UnidadNegocio ORDER BY numeroUnidadNegocio ASC";
         try {
 
             list = session.createQuery(sql).list();

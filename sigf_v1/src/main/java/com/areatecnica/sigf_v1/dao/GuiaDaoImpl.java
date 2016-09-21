@@ -9,6 +9,7 @@ import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Terminal;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -132,6 +133,53 @@ public class GuiaDaoImpl implements GuiaDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND recaudada = " + estado;
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    public List<Guia> findByBusBetweenDates(Bus bus, Date from) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND fechaGuia BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findByConductorBetweenDates(Trabajador conductor, Date from) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador()+ " AND fechaGuia BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
         try {
             list = session.createQuery(sql).list();
 

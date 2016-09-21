@@ -26,7 +26,7 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Trabajador ";
+        String sql = "FROM Trabajador ORDER BY codigoTrabajador";
         try {
 
             list = session.createQuery(sql).list();

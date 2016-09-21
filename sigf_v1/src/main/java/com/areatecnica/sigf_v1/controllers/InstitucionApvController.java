@@ -10,10 +10,10 @@ import com.areatecnica.sigf_v1.dao.InstitucionAPVDaoImpl;
 import com.areatecnica.sigf_v1.entities.InstitucionApv;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,7 +23,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "institucionApvController")
-@SessionScoped
+@ViewScoped
 public class InstitucionApvController implements Serializable {
 
     private InstitucionAPVDaoImpl institucionApvDao;

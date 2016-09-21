@@ -6,16 +6,14 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
 import com.areatecnica.sigf_v1.dao.ModeloMarcaBusDaoImpl;
-import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
 import com.areatecnica.sigf_v1.entities.ModeloMarcaBus;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +23,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "modeloMarcaBusController")
-@SessionScoped
+@ViewScoped
 public class ModeloMarcaBusController implements Serializable {
 
     private ModeloMarcaBusDaoImpl modeloMarcaBus;

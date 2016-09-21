@@ -7,16 +7,19 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="../../resources/css/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="../../resources/css/default.css" rel="stylesheet" type="text/css"/>
         <h:outputStylesheet name="css/default.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>        
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDujXh7O-rPJBePHxDh-gOJYUWZQatutG8"/>
         <style type="text/css">
             #growl {
                 background: #D20005;
             }
         </style>
 
-        <title>SIGF - Registro de Guías</title>
+        <title>SIGF - Tesoreria</title>
 
         <h:outputScript target="head">
             jQuery(document).ready(function() {
@@ -30,64 +33,44 @@
     <h:body>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
-            <p:layoutUnit position="north" size="75" header="Registro de Guías"  collapsible="true">
+            <p:layoutUnit position="north" size="75" header="Informes"  collapsible="true">
                 <div id="menu">
                     <h:form> 
                         <p:menubar>
-                            <p:menuitem value="Inicio" url="#{appBean.basePath}indexGuias.xhtml" icon="ui-icon-home" />
-
-                            <p:submenu label="Guías">                                                                
-                                <p:menuitem value="Registro" outcome="#{appBean.basePath}webapp/guias/registro/List_1" />
-                                <p:menuitem value="Listar Proceso" outcome="#{appBean.basePath}webapp/guias/reportes/recaudaciondiaria" />
-                                <p:menuitem value="Busqueda de Guías" outcome="#{appBean.basePath}webapp/guias/registro/Ficha"/>                                
-                                <p:submenu label="Recaudación">                                    
-                                    <p:menuitem value="Recaudadores" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
-                                    <p:menuitem value="Egresos X Recaudación" outcome="#{appBean.basePath}webapp/guias/egresorecaudacion/index"/>
-                                    <p:submenu label="Egresos">                           
-                                        <p:menuitem value="Definición" outcome="#{appBean.basePath}webapp/guias/egresos/index" />                                    
-                                    </p:submenu>                                                                  
-                                </p:submenu>
+                            <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/informes/indexTesoreria" icon="ui-icon-home" />
+                            
+                            <p:submenu label="Empresas">
+                                <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />                                
+                                <p:menuitem value="Cuentas Bancarias"/>
                             </p:submenu>
-
-                            <p:submenu label ="Información">
-                                <p:submenu label="Buses">                                
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/buses/List" />                                
-                                    <p:menuitem value="Buses x Servicio"/>                                                                                                                                 
-                                </p:submenu>
-                                <p:submenu label="Conductores">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/conductores/List" />
-                                </p:submenu>
-                                <p:submenu label="Empresas">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
-                                </p:submenu>
-                                <p:submenu label="Servicios">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/servicios/List" />
-                                    <p:menuitem value="Terminales" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
-                                    
-                                </p:submenu>
-                                <p:submenu label="Terminales">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/terminales/List" />
-                                </p:submenu>
+                            
+                            <p:submenu label="Flotas">
+                                <p:menuitem value="Recaudación x Día"  />
                             </p:submenu>
-
-                            <p:submenu label="Reportes">
-                                <p:submenu label="Buses">
-                                    <p:menuitem value="Produccion" outcome="#{appBean.basePath}webapp/guias/reportes/produccionxbus" />
-                                </p:submenu>
-                                <p:submenu label="Conductores">
-                                    <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/guias/reportes/produccionxconductor"  />
-                                </p:submenu>                                
-                                <p:submenu label="Flota">
-                                    <p:menuitem value="Saldos" />
-                                </p:submenu>
-                                <p:submenu label="Varios">
-                                    <p:menuitem value="Días Trabajados" />
-                                </p:submenu>
+                            
+                            <p:submenu label="Flota">
+                                <p:menuitem value="Producción General"/>
+                                <p:menuitem value="Ranking"/>
+                                <p:menuitem value="Detalle x Conductor"/>
                             </p:submenu>
-                            <p:submenu label="Varios">
+                            
+                            <p:submenu label="Administración">                                
+                                <p:menuitem value="Producción" outcome="#{appBean.basePath}" />
+                                <p:menuitem value="Ranking"/>
+                                <p:menuitem value="Intervalos"/>
+                                <p:menuitem value="Detalle Mensual"/>
+                            </p:submenu>
+                            
+                            <p:submenu label="Liquidaciones">
+                                <p:menuitem value="Anticipo"/>
                                 <p:submenu label="Avanzado">                                    
+                                    <p:menuitem value="Tipos de Cotización"  />
 
                                 </p:submenu>
+                            </p:submenu>
+                            
+                            <p:submenu label="Instituciones">                                
+                                <p:menuitem value="Bancos" outcome="#{appBean.basePath}" />                                
                             </p:submenu>
 
                             <f:facet name="options">                        
@@ -99,11 +82,7 @@
 
             </p:layoutUnit>
 
-            <!--            <p:layoutUnit position="west" size="200" header="Información" resizable="true" closable="true" collapsible="true">
-                            <h:outputText value="West unit content." />
-                        </p:layoutUnit>-->
-
-            <p:layoutUnit position="south" size="30" resizable="true" closable="true" collapsible="true" >
+            <p:layoutUnit position="south" size="30" resizable="true" closable="true" collapsible="true">
                 <ui:insert name="footer"/>
                 <div id="bottom" class="ui-widget-header">
                     <p:outputLabel value="Bienvenido: #{loginBean.userName}" style="float: left;"/>

@@ -18,6 +18,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,7 +29,7 @@ import org.primefaces.event.ReorderEvent;
  * @author ianfr
  */
 @Named(value = "egresoRecaudacionController")
-@SessionScoped
+@ViewScoped
 public class EgresoRecaudacionController implements Serializable {
 
     private EgresoRecaudacionDaoImpl egresoRecaudacionDao;

@@ -13,7 +13,7 @@
             <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="8">
                     <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />                        
-                    <p:calendar id="fechaRecaudacion" value="#{planillonGuiaController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" disabled=""/>
+                    <p:calendar id="fechaRecaudacion" value="#{planillonGuiaController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" locale="es"/>
 
                     <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
                     <p:selectOneMenu id="procesoRecaudacion" value="#{planillonGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="">
@@ -33,7 +33,7 @@
 
         <h:form id="GuiaListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
-                
+
                 <p:dataTable id="datalist" rendered="#{not empty planillonGuiaController.listOfMaps}"
                              value="#{planillonGuiaController.listOfMaps}"
                              lazy="false"
@@ -53,7 +53,7 @@
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
                     <p:ajax event="rowSelect" update="growl,editButton,deleteButton" listener="#{planillonGuiaController.loadGuia}"/>
-                    
+
                     <f:facet name="header">
                         Guías:#{planillonGuiaController.stringHeader} 
                     </f:facet>
@@ -86,7 +86,7 @@
                                  var="entry"                                  
                                  emptyMessage="No se han encontrado registros"
                                  style="width: 400px;">
-                        
+
                         <f:facet name="header">
                             Totales
                         </f:facet>
@@ -122,7 +122,7 @@
                     <p:dashboard id="board" model="#{dashboardGuia.model}">
                         <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 500px">
                             <p:focus context="datosGuias"/>
-                            <p:panelGrid columns="2" columnClasses="column" >
+                            <p:panelGrid layout="grid" columns="2" columnClasses="column" >
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
                                     <p:inputNumber decimalPlaces="0" decimalSeparator="" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" ">
@@ -133,7 +133,7 @@
 
                                 <p:outputLabel value="Fecha:" for="fechaGuia" />
                                 <h:panelGroup>
-                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" />
+                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" locale="es"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="N° Bus:" for="bus" />
@@ -173,7 +173,7 @@
 
                         </p:panel>
                         <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 500px">
-                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Patente:"/>
                                 <p:outputLabel value="#{planillonGuiaController.bus.patente}"/>
 
@@ -188,7 +188,7 @@
                         </p:panel>
 
                         <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 500px">
-                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Conductor:"/>
                                 <p:outputLabel value="#{planillonGuiaController.trabajador}"/>
 
@@ -235,25 +235,25 @@
                         </p:panel>
 
                         <p:panel id="totales" header="Totales">
-                            <p:panelGrid columns="2" columnClasses="column">
+                            <p:panelGrid layout="grid" columns="2" columnClasses="column">
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{planillonGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{planillonGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="N° Vueltas" for="numeroVueltas" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{planillonGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{planillonGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{planillonGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{planillonGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
 
@@ -284,21 +284,25 @@
             <h:form id="GuiaEditForm" onkeypress="return event.keyCode != 13">
 
                 <h:panelGroup id="displayEditForm" rendered="#{planillonGuiaController.selected != null}">
-                    <p:dashboard id="board" model="#{dashboardGuia.model}">
+                    <p:dashboard id="board" model="#{dashboardGuia.model}">                        
                         <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 500px">
-                            <p:focus context="datosGuias"/>
-                            <p:panelGrid columns="2" columnClasses="column" >
+                            <p:focus context="folio"/>
+                            <p:panelGrid columns="2" layout="grid" columnClasses="column" >
+
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
                                     <p:inputNumber decimalPlaces="0" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="12" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)">
-                                        <p:ajax event="blur" listener="#{planillonGuiaController.findFolio}" update="growl, okButton"/>
+
                                     </p:inputNumber>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Fecha:" for="fechaGuia" />
                                 <h:panelGroup>
-                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" />
+                                    <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" locale="es"/>
                                 </h:panelGroup>
+                                
+                                <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />
+                                <p:calendar id="fechaRecaudacion" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaRecaudacion}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" locale="es"/>
 
                                 <p:outputLabel value="N° Bus:" for="bus" />
                                 <h:panelGroup>
@@ -337,7 +341,7 @@
 
                         </p:panel>
                         <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 500px">
-                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Patente:"/>
                                 <p:outputLabel value="#{planillonGuiaController.bus.patente}"/>
 
@@ -352,7 +356,7 @@
                         </p:panel>
 
                         <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 500px">
-                            <p:panelGrid columnClasses="column" columns="2" style="width: 100%;">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
                                 <p:outputLabel value="Conductor:"/>
                                 <p:outputLabel value="#{planillonGuiaController.trabajador}"/>
 
@@ -398,25 +402,25 @@
                         </p:panel>
 
                         <p:panel id="totales" header="Totales">
-                            <p:panelGrid columns="2" columnClasses="column">
+                            <p:panelGrid layout="grid" columns="2" columnClasses="column">
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
                                 <h:panelGroup>
-                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{planillonGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber symbol="$ " decimalPlaces="0" id="saldo" value="#{planillonGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="N° Vueltas" for="numeroVueltas" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{planillonGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber decimalPlaces="0" id="numeroVueltas" value="#{planillonGuiaController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{planillonGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14"/>
+                                    <p:inputNumber decimalPlaces="0" id="turno" value="#{planillonGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
                                 </h:panelGroup>
 
 

@@ -6,15 +6,14 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.CajaCompensacionDaoImpl;
 import com.areatecnica.sigf_v1.dao.MutualDaoImpl;
 import com.areatecnica.sigf_v1.entities.Mutual;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,7 +23,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "mutualController")
-@SessionScoped
+@ViewScoped
 public class MutualController implements Serializable {
 
     private MutualDaoImpl mutualDao;
