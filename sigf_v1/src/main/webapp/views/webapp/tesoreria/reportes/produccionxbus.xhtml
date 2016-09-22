@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Producción x Bus" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="10">
+
+                    <p:focus for="unidad"/>        
+                    <p:outputLabel value="Unidad:" for="unidad"/>
+                    <p:selectOneMenu id="unidad" value="#{informeProduccionBusController.unidadNegocio}" required="true" requiredMessage="Debe seleccionar la Unidad " converter="unidadNegocioConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeProduccionBusController.unidadNegocioItems}"
+                                       var="unidadItem"
+                                       itemValue="#{unidadItem}"
+                                       itemLabel="#{unidadItem}"
+                                       />
+                        <p:ajax update="numeroBus" listener="#{informeProduccionBusController.handleUnidadChange}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="N° Bus:" for="numeroBus"/>
+                    <p:selectOneMenu id="numeroBus" value="#{informeProduccionBusController.bus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="busConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeProduccionBusController.busItems}"
+                                       var="busItem"
+                                       itemValue="#{busItem}"
+                                       itemLabel="#{busItem}"
+                                       />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="mes" value="Seleccionar:" />
+                    <p:selectOneMenu id="mes" value="#{informeProduccionBusController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{informeProduccionBusController.anio}" size="5" />
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{informeProduccionBusController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="GuiaListForm">            
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
+
+                <p:dataTable id="datalist" rendered="#{not empty informeProduccionBusController.listOfMaps}"
+                             value="#{informeProduccionBusController.listOfMaps}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item}"
+                             rowIndexVar="rowIndex"
+                             selectionMode="single"
+                             selection="#{informeProduccionBusController.selectedHashMap}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{guiaController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idGuia}"  <<< Remove this line
+                    -->
+                    <p:ajax event="rowSelect" update="growl" listener="#{informeProduccionBusController.loadGuia}"/>
+
+                    <f:facet name="{Exporters}">
+                        <h:commandLink>
+                            <p:graphicImage name="/images/Excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="tabla" fileName="Produccion" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/images/Pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="tabla" fileName="Produccion"/>
+                        </h:commandLink>
+
+                    </f:facet>
+                    
+                    <f:facet name="header">
+                        Guías:#{informeProduccionBusController.stringHeader} 
+                    </f:facet>
+
+                    
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:columns value="#{informeProduccionBusController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{informeProduccionBusController.resultsHeader.get(col)}" footerText="#{informeProduccionBusController.resultsTotals.get(col)}"  columnIndexVar="col" style="text-align: center">
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
+                    </p:columns>
+                </p:dataTable>
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Imprimir" icon="ui-icon-print"  class="no-print"> 
+                        <p:printer target="tabla"/>
+                    </p:commandButton>
+                    <p:commandButton value="Excel" ajax="false" icon="fa fa-file-excel-o" class="no-print">                        
+                        <p:dataExporter type="xls" target="datalist" fileName="Producción Bus" />
+                    </p:commandButton>
+                    <p:commandButton value="Pdf" ajax="false" icon="fa fa-file-pdf-o" class="no-print">                        
+                        <p:dataExporter type="pdf" target="datalist" fileName="Producción Bus" preProcessor="#{customizedDocumentsView.preProcessPDF}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

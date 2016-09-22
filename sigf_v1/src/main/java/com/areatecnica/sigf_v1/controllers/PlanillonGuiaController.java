@@ -487,7 +487,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected.setProcesoRecaudacion(procesoRecaudacion);
                 this.selected.setRecaudada(Boolean.TRUE);
 
-                session.saveOrUpdate(this.selected);
+                session.save(this.selected);
 
                 this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
 
@@ -498,7 +498,7 @@ public class PlanillonGuiaController implements Serializable {
                 hashMap.put("Nombre Conductor", this.selected.getTrabajador());*/
                 for (EgresoGuia e : this.egresosGuiaItems) {
                     e.setGuia(selected);
-                    session.saveOrUpdate(e);
+                    session.save(e);
                     /*if (e.getEgresoRecaudacion().getEgreso().isActivo()) {
                         String key = e.getEgresoRecaudacion().getEgreso().getNombreEgreso();
                         hashMap.put(key, e.getMonto());

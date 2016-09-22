@@ -333,6 +333,8 @@ public class InformeProduccionBusController implements Serializable {
         resultsTotals.add("");
         resultsHeader.add("Fecha");
         resultsTotals.add("");
+        resultsHeader.add("Recaudación");
+        resultsTotals.add("");
         resultsHeader.add("Codigo");
         resultsTotals.add("");
         resultsHeader.add("Conductor");
@@ -348,6 +350,7 @@ public class InformeProduccionBusController implements Serializable {
 
                 hashMap.put("Folio", g.getFolio());
                 hashMap.put("Fecha", format.format(g.getFechaGuia()));
+                hashMap.put("Recaudacion", format.format(g.getFechaRecaudacion()));
                 hashMap.put("Codigo", g.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", g.getTrabajador());
 
@@ -392,6 +395,7 @@ public class InformeProduccionBusController implements Serializable {
 
             hashMap.put("Folio", "");
             hashMap.put("Fecha", "");
+            hashMap.put("Recaudación", "");
             hashMap.put("Codigo", "");
             hashMap.put("Nombre Conductor", "");
 

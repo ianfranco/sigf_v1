@@ -347,6 +347,7 @@ public class InformeProcesoRecaudacionController implements Serializable {
                             }
                         } else {
                             hashMap.put(er.getEgreso().getNombreEgreso(), 0);
+                            totales.put(er.getEgreso().getNombreEgreso(), 0);
                         }
                     }
                 }
@@ -369,13 +370,30 @@ public class InformeProcesoRecaudacionController implements Serializable {
             hashMap.put("Codigo", "");
             hashMap.put("Nombre Conductor", "");
 
-            for (EgresoRecaudacion er : this.egresosRecaudacionItems) {
-                /*Pregunto si el egreso es recaudable o no*/
+            /*for (EgresoRecaudacion er : this.egresosRecaudacionItems) {
+                //*Pregunto si el egreso es recaudable o no
                 if (er.getEgreso().isActivo()) {
                     resultsHeader.add(er.getEgreso().getNombreEgreso());
                     hashMap.put(er.getEgreso().getNombreEgreso(), "");
                 }
             }
+             */
+            resultsHeader.add("Administracion");
+            hashMap.put("Administracion", "0");
+            resultsTotals.add("0");
+            resultsHeader.add("Licitación");
+            hashMap.put("Licitación", "0");
+            resultsTotals.add("0");
+            resultsHeader.add("Taller");
+            hashMap.put("Taller", "0");
+            resultsTotals.add("0");
+            resultsHeader.add("5%");
+            hashMap.put("5%", "0");
+            resultsTotals.add("0");
+            resultsHeader.add("Aseo");
+            hashMap.put("Aseo", "0");
+            //resultsTotals.add("0");
+
             this.listOfMaps.add(hashMap);
         }
 

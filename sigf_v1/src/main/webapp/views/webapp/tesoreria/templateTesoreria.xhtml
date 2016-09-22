@@ -37,41 +37,31 @@
                 <div id="menu">
                     <h:form> 
                         <p:menubar>
-                            <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/informes/indexTesoreria" icon="ui-icon-home" />
-                            
+                            <p:menuitem value="Inicio" url="#{appBean.basePath}indexTesoreria" icon="ui-icon-home" />
+
                             <p:submenu label="Empresas">
-                                <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />                                
-                                <p:menuitem value="Cuentas Bancarias"/>
+                                <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
+                                <p:menuitem value="Flotas"  outcome="#{appBean.basePath}webapp/tesoreria/flota/index"/>                                                        
                             </p:submenu>
-                            
-                            <p:submenu label="Flotas">
-                                <p:menuitem value="Recaudación x Día"  />
-                            </p:submenu>
-                            
-                            <p:submenu label="Flota">
-                                <p:menuitem value="Producción General"/>
-                                <p:menuitem value="Ranking"/>
-                                <p:menuitem value="Detalle x Conductor"/>
-                            </p:submenu>
-                            
-                            <p:submenu label="Administración">                                
-                                <p:menuitem value="Producción" outcome="#{appBean.basePath}" />
-                                <p:menuitem value="Ranking"/>
-                                <p:menuitem value="Intervalos"/>
-                                <p:menuitem value="Detalle Mensual"/>
-                            </p:submenu>
-                            
-                            <p:submenu label="Liquidaciones">
-                                <p:menuitem value="Anticipo"/>
-                                <p:submenu label="Avanzado">                                    
-                                    <p:menuitem value="Tipos de Cotización"  />
+
+                            <p:submenu label="Reportes">
+                                <p:submenu label="Buses">                                
+                                    <p:menuitem value="Producción" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxbus"  />
+                                    
+                                </p:submenu>
+                                <p:submenu label="Flota">
+                                    <p:menuitem value="Producción General" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxflota" />
+                                    <p:menuitem value="Saldos x Flota" outcome="#{appBean.basePath}webapp/tesoreria/reportes/saldosxflota"/>
+                                    <p:menuitem value="Cantidad Buses x Flota" outcome="#{appBean.basePath}webapp/tesoreria/reportes/busesxflota" />
 
                                 </p:submenu>
+                                <p:submenu label="Recaudación">                                    
+                                    <p:menuitem value="Fecha Recaudación" outcome="#{appBean.basePath}webapp/tesoreria/reportes/recaudaciondiaria"  />
+                                    <p:menuitem value="Dineros Recaudados" outcome="#{appBean.basePath}webapp/tesoreria/reportes/recaudaciondiaria"  />
+                                </p:submenu>
                             </p:submenu>
+
                             
-                            <p:submenu label="Instituciones">                                
-                                <p:menuitem value="Bancos" outcome="#{appBean.basePath}" />                                
-                            </p:submenu>
 
                             <f:facet name="options">                        
                                 <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
@@ -95,11 +85,13 @@
 
                     <div>
                         <div id="content" class="ui-corner-all">
-
+                            
                             <ui:insert name="body"/>
+                            <!--modal ajax status here-->
 
+                            <!--modal ajax status end-->
                             <ui:insert name="content" class="ui-corner-all">
-                                <ui:include src="/WEB-INF/include/entity/compraBoleto/Create.xhtml"/>
+                                
                             </ui:insert>
                         </div>
                     </div>

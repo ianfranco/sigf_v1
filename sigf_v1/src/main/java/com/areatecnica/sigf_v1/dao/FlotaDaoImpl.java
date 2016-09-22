@@ -24,7 +24,7 @@ public class FlotaDaoImpl implements FlotaDao{
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Flota f ";
+        String sql = "FROM Flota f ORDER BY nombreFlota ASC";
         try {
 
             list = session.createQuery(sql).list();
