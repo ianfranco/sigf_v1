@@ -102,11 +102,10 @@ public class RegistroGuiaController implements Serializable {
     private ArrayList<LinkedHashMap> listOfMaps;
     private List<String> resultsHeader;// = service.getResultsValues(...);
     private Object header;
-    
+
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    
     public RegistroGuiaController() {
         this.guiaDao = new GuiaDaoImpl();
         this.procesoRecaudacionDaoImpl = new ProcesoRecaudacionDaoImpl();
@@ -334,7 +333,6 @@ public class RegistroGuiaController implements Serializable {
 
        
     }*/
-    
     public Guia prepareCreate(ActionEvent event) {
         Guia newGuia;
         newGuia = new Guia();
@@ -368,15 +366,14 @@ public class RegistroGuiaController implements Serializable {
         //CARGAR LAS GUIAS OBTENIDAS AL ARRAY DE REGISTROGUIALIST
         this.items = new ArrayList<>();
         List<Guia> arrayGuia = this.guiaDao.findByFechaAndProceso(fechaRecaudacion, procesoRecaudacion);
-        
-        for(Guia g:arrayGuia){
+
+        for (Guia g : arrayGuia) {
             RegistroGuiaList r = new RegistroGuiaList();
             r.setGuia(g);
             this.items.add(r);
         }
-        
-        
-        /*Busqueda de buses por proceso de recaudacion*/        
+
+        /*Busqueda de buses por proceso de recaudacion*/
         this.setServicioProcesoRecaudacion = this.procesoRecaudacion.getServicioProcesoRecaudacions();
 
         this.busItems = new ArrayList<>();
@@ -389,14 +386,14 @@ public class RegistroGuiaController implements Serializable {
             }
 
         }
-        
+
         /*Ordena los buses de menor a mayor*/
         Collections.sort(this.busItems, new Comparator<Bus>() {
             @Override
             public int compare(Bus o1, Bus o2) {
-                if(o1.getNumeroBus() == o2.getNumeroBus()){
+                if (o1.getNumeroBus() == o2.getNumeroBus()) {
                     return 0;
-                }else if(o1.getNumeroBus() < o2.getNumeroBus()){
+                } else if (o1.getNumeroBus() < o2.getNumeroBus()) {
                     return -1;
                 }
                 return 1;
@@ -451,7 +448,7 @@ public class RegistroGuiaController implements Serializable {
                 }
 
                 tx.commit();
-                
+
                 this.items.add(selected);
                 this.selected.setGuia(new Guia());
                 this.selected.getGuia().setTotalEgresos(0);
@@ -508,7 +505,7 @@ public class RegistroGuiaController implements Serializable {
     }
 
     public void delete() {
-
+        
     }
 
     private void setPorcentajes() {
@@ -522,8 +519,6 @@ public class RegistroGuiaController implements Serializable {
             egreso.setEgresoRecaudacion(e);
             egreso.setMonto(e.getValorDefectoEgreso());
 
-            
-            
             if (e.getPorcentaje().compareTo(bd) == 1) {
                 porcentajesList.add(new PorcentajeHelper(e.getPorcentaje(), i));
             }

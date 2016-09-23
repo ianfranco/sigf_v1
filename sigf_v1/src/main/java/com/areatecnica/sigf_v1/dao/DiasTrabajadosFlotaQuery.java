@@ -20,14 +20,14 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class ProduccionFlotaQuery {
+public class DiasTrabajadosFlotaQuery {
 
     private ArrayList<LinkedHashMap> array;
     private String query;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
     private Date fecha;
 
-    public ProduccionFlotaQuery(Date fecha) {
+    public DiasTrabajadosFlotaQuery(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -40,15 +40,9 @@ public class ProduccionFlotaQuery {
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
                 + "                flota.nombre_flota, \n"
-                + "                bus.numero_bus, \n"
-                + "                bus.patente, \n"
+                + "                bus.numero_bus, \n"                
                 + "                unidad_negocio.numero_unidad_negocio,    \n"
-                + "                COUNT(guia.folio) AS numeroGuia, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1) AS Administracion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7) AS Licitacion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4) AS Taller, \n"
-                + "                cargos(bus.id_bus) AS Cargo, \n" 
-                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus) AS Total \n"
+                + "                COUNT(DISTINCT guia.fecha_guia) AS numeroGuia \n"
                 + "                FROM guia \n"
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
                 + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
@@ -67,15 +61,9 @@ public class ProduccionFlotaQuery {
                 //for (int j = 0; j < a.length; j++) {
                 link = new LinkedHashMap();
                 link.put("Flota", a[0]);
-                link.put("N°Bus", a[1]);
-                link.put("Patente", a[2]);
-                link.put("Unidad", a[3]);
-                link.put("N°Guias", a[4]);
-                link.put("Administracion", a[5]);
-                link.put("Licitacion", a[6]);
-                link.put("Taller", a[7]);
-                link.put("Cargos", a[8]);
-                link.put("Saldo", a[9]);
+                link.put("N°Bus", a[1]);                
+                link.put("Unidad", a[2]);
+                link.put("DT", a[3]);
                 //}
                 this.array.add(link);
             }
@@ -99,15 +87,9 @@ public class ProduccionFlotaQuery {
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
                 + "                flota.nombre_flota, \n"
-                + "                bus.numero_bus, \n"
-                + "                bus.patente, \n"
+                + "                bus.numero_bus, \n"                
                 + "                unidad_negocio.numero_unidad_negocio,    \n"
-                + "                COUNT(guia.folio) AS numeroGuia, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1) AS Administracion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7) AS Licitacion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4) AS Taller, \n"
-                + "                cargos(bus.id_bus) AS Cargo, \n" 
-                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus) AS Total \n"                
+                + "                COUNT(DISTINCT guia.fecha_guia) AS numeroGuia \n"
                 + "                FROM guia \n"
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
                 + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
@@ -115,6 +97,8 @@ public class ProduccionFlotaQuery {
                 + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND flota.id_flota = "+flota.getIdFlota()+"\n"
                 + "                GROUP BY guia.id_bus \n"
                 + "                ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
+        
+        
         try {
 
             list = session.createSQLQuery(query).list();
@@ -125,16 +109,11 @@ public class ProduccionFlotaQuery {
                 LinkedHashMap link = null;
                 //for (int j = 0; j < a.length; j++) {
                 link = new LinkedHashMap();
+                link = new LinkedHashMap();
                 link.put("Flota", a[0]);
-                link.put("N°Bus", a[1]);
-                link.put("Patente", a[2]);
-                link.put("Unidad", a[3]);
-                link.put("N°Guias", a[4]);
-                link.put("Administracion", a[5]);
-                link.put("Licitacion", a[6]);
-                link.put("Taller", a[7]);
-                link.put("Cargos", a[8]);
-                link.put("Saldo", a[9]);
+                link.put("N°Bus", a[1]);                
+                link.put("Unidad", a[2]);
+                link.put("DT", a[3]);
                 //}
                 this.array.add(link);
             }

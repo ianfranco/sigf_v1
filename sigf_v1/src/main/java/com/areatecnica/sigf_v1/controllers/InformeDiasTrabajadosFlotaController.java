@@ -5,6 +5,7 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
+import com.areatecnica.sigf_v1.dao.DiasTrabajadosFlotaQuery;
 import com.areatecnica.sigf_v1.dao.FlotaDao;
 import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
 import com.areatecnica.sigf_v1.dao.ProduccionFlotaQuery;
@@ -25,11 +26,11 @@ import javax.faces.view.ViewScoped;
  *
  * @author ianfr
  */
-@Named(value = "informeProduccionFlotaController")
+@Named(value = "informeDiasTrabajadosFlotaController")
 @ViewScoped
-public class InformeProduccionFlotaController implements Serializable {
+public class InformeDiasTrabajadosFlotaController implements Serializable {
 
-    private ProduccionFlotaQuery flotaQuery;
+    private DiasTrabajadosFlotaQuery flotaQuery;
     private ArrayList<String> resultsHeader;
     private ArrayList<LinkedHashMap> listOfMaps;
     private LinkedHashMap selected;
@@ -40,7 +41,7 @@ public class InformeProduccionFlotaController implements Serializable {
     private int anio;
     private Date fecha;
     
-    public InformeProduccionFlotaController() {
+    public InformeDiasTrabajadosFlotaController() {
         this.flotaDao = new FlotaDaoImpl();
         
         this.flotaItems = this.flotaDao.findAll();
@@ -48,15 +49,10 @@ public class InformeProduccionFlotaController implements Serializable {
         this.resultsHeader = new ArrayList<>();
         this.resultsHeader.add("Flota");
         this.resultsHeader.add("N°Bus");
-        this.resultsHeader.add("Patente");
         this.resultsHeader.add("Unidad");
-        this.resultsHeader.add("N°Guias");
-        this.resultsHeader.add("Administracion");
-        this.resultsHeader.add("Licitacion");
-        this.resultsHeader.add("Taller");
-        this.resultsHeader.add("Cargos");
-        this.resultsHeader.add("Saldo");
+        this.resultsHeader.add("DT");
         
+                
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
@@ -73,7 +69,7 @@ public class InformeProduccionFlotaController implements Serializable {
 
         }
         
-        this.flotaQuery = new ProduccionFlotaQuery(fecha);
+        this.flotaQuery = new DiasTrabajadosFlotaQuery(fecha);
         
         if(this.flota == null){
             this.listOfMaps = this.flotaQuery.loadQuery();

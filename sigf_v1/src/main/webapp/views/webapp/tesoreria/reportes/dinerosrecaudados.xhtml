@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="8">
+
+                    <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />                        
+                    <p:calendar id="fechaRecaudacion" value="#{informeRecaudacionDiariaController.fecha}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" disabled=""/>
+
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{informeRecaudacionDiariaController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="GuiaListForm">            
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
+
+                <p:dataTable id="datalist" 
+                             value="#{informeRecaudacionDiariaController.listOfMaps}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item}"                             
+                             rowIndexVar="rowIndex"                             
+                             selectionMode="single"
+                             selection="#{informeRecaudacionDiariaController.selected}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{guiaController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idGuia}"  <<< Remove this line
+                    -->
+
+
+                    <f:facet name="header">
+                        Dineros Recaudados
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:columns value="#{informeRecaudacionDiariaController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{informeRecaudacionDiariaController.resultsHeader.get(col)}" columnIndexVar="col" style="text-align: center">
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
+                    </p:columns>
+                </p:dataTable>
+                <f:facet name="footer">
+                    <p:commandButton value="Imprimir" icon="ui-icon-print"  class="no-print"> 
+                        <p:printer target="tabla"/>
+                    </p:commandButton>
+                    <p:commandButton value="Excel" ajax="false" icon="fa fa-file-excel-o" class="no-print">                        
+                        <p:dataExporter type="xls" target="datalist" fileName="Recaudacion-diaria" />
+                    </p:commandButton>
+                    <p:commandButton value="Pdf" ajax="false" icon="fa fa-file-pdf-o" class="no-print">                        
+                        <p:dataExporter type="pdf" target="datalist" fileName="Recaudacion-diaria" preProcessor="#{customizedDocumentsView.preProcessPDF}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

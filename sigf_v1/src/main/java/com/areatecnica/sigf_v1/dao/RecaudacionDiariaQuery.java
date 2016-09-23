@@ -20,14 +20,15 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class ProduccionFlotaQuery {
+public class RecaudacionDiariaQuery {
 
     private ArrayList<LinkedHashMap> array;
     private String query;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
     private Date fecha;
+    private LinkedHashMap selectecHashMap;
 
-    public ProduccionFlotaQuery(Date fecha) {
+    public RecaudacionDiariaQuery(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -38,24 +39,20 @@ public class ProduccionFlotaQuery {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        this.query = "SELECT \n"
-                + "                flota.nombre_flota, \n"
-                + "                bus.numero_bus, \n"
-                + "                bus.patente, \n"
-                + "                unidad_negocio.numero_unidad_negocio,    \n"
-                + "                COUNT(guia.folio) AS numeroGuia, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1) AS Administracion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7) AS Licitacion, \n"
-                + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4) AS Taller, \n"
-                + "                cargos(bus.id_bus) AS Cargo, \n" 
-                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus) AS Total \n"
-                + "                FROM guia \n"
-                + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
-                + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
-                + "                LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
-                + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') \n"
-                + "                GROUP BY guia.id_bus \n"
-                + "                ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
+        this.query = "(SELECT \n"
+                + "\n"
+                + "\n"
+                + "proceso_recaudacion.nombre_general, \n"
+                + " \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 1) AS administracion, \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 7) AS licitacion, \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 4) AS taller, \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 12) AS '5%', \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 8) AS nochero, \n"
+                + "dineros_recaudados(proceso_recaudacion.id_general, '" + format.format(fecha) + "', 14) AS ahorro\n"
+                + "FROM proceso_recaudacion \n"
+                + "GROUP BY proceso_recaudacion.id_general\n"
+                + "ORDER BY proceso_recaudacion.nombre_general ASC)";
         try {
 
             list = session.createSQLQuery(query).list();
@@ -66,16 +63,14 @@ public class ProduccionFlotaQuery {
                 LinkedHashMap link = null;
                 //for (int j = 0; j < a.length; j++) {
                 link = new LinkedHashMap();
-                link.put("Flota", a[0]);
-                link.put("N°Bus", a[1]);
-                link.put("Patente", a[2]);
-                link.put("Unidad", a[3]);
-                link.put("N°Guias", a[4]);
-                link.put("Administracion", a[5]);
-                link.put("Licitacion", a[6]);
-                link.put("Taller", a[7]);
-                link.put("Cargos", a[8]);
-                link.put("Saldo", a[9]);
+                link.put("nombre_general", a[0]);
+                link.put("administracion", a[1]);
+                link.put("licitacion", a[2]);
+                link.put("taller", a[3]);
+                link.put("5%", a[4]);
+                link.put("nochero", a[5]);
+                link.put("ahorro", a[6]);
+                
                 //}
                 this.array.add(link);
             }
@@ -106,13 +101,12 @@ public class ProduccionFlotaQuery {
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1) AS Administracion, \n"
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7) AS Licitacion, \n"
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4) AS Taller, \n"
-                + "                cargos(bus.id_bus) AS Cargo, \n" 
-                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus) AS Total \n"                
+                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "') AS Total \n"
                 + "                FROM guia \n"
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
                 + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
                 + "                LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
-                + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND flota.id_flota = "+flota.getIdFlota()+"\n"
+                + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND flota.id_flota = " + flota.getIdFlota() + "\n"
                 + "                GROUP BY guia.id_bus \n"
                 + "                ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
         try {
@@ -125,16 +119,13 @@ public class ProduccionFlotaQuery {
                 LinkedHashMap link = null;
                 //for (int j = 0; j < a.length; j++) {
                 link = new LinkedHashMap();
-                link.put("Flota", a[0]);
-                link.put("N°Bus", a[1]);
-                link.put("Patente", a[2]);
-                link.put("Unidad", a[3]);
-                link.put("N°Guias", a[4]);
-                link.put("Administracion", a[5]);
-                link.put("Licitacion", a[6]);
-                link.put("Taller", a[7]);
-                link.put("Cargos", a[8]);
-                link.put("Saldo", a[9]);
+                link.put("nombre_general", a[0]);
+                link.put("administracion", a[1]);
+                link.put("licitacion", a[2]);
+                link.put("taller", a[3]);
+                link.put("5%", a[4]);
+                link.put("nochero", a[5]);
+                link.put("ahorro", a[6]);
                 //}
                 this.array.add(link);
             }
@@ -155,6 +146,14 @@ public class ProduccionFlotaQuery {
 
     public void setArray(ArrayList<LinkedHashMap> array) {
         this.array = array;
+    }
+
+    public LinkedHashMap getSelectecHashMap() {
+        return selectecHashMap;
+    }
+
+    public void setSelectecHashMap(LinkedHashMap selectecHashMap) {
+        this.selectecHashMap = selectecHashMap;
     }
 
 }

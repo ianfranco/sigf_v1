@@ -74,7 +74,7 @@
                         <p:commandButton value="Agregar" update=":GuiaCreateForm:displayCreateForm" actionListener="#{planillonGuiaController.prepareCreate}" oncomplete="PF('GuiaCreateDialog').show()" icon="fa fa-plus" title="Agregar" ajax="true" >
                         </p:commandButton>                        
                         <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty planillonGuiaController.selectedHashMap}"/>
-                        <p:commandButton id="deleteButton" value="Eliminar" update="growl" icon="fa fa-times" title="Eliminar" ajax="true" disabled="#{empty planillonGuiaController.selectedHashMap}" >
+                        <p:commandButton id="deleteButton" actionListener="#{planillonGuiaController.delete}"  value="Eliminar" update=":GuiaListForm:datalist, :GuiaListForm:tablaTotales" icon="fa fa-times" title="Eliminar" ajax="true" disabled="#{empty planillonGuiaController.selectedHashMap}" >
                             <p:confirm header="¿Eliminar Guía?" message="Confirmación" icon="ui-icon-alert"/>
                         </p:commandButton>
                     </f:facet>

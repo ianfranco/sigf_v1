@@ -8,6 +8,7 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.dao.FlotaDao;
 import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
 import com.areatecnica.sigf_v1.dao.ProduccionFlotaQuery;
+import com.areatecnica.sigf_v1.dao.RecaudacionDiariaQuery;
 import com.areatecnica.sigf_v1.entities.Flota;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -25,11 +26,11 @@ import javax.faces.view.ViewScoped;
  *
  * @author ianfr
  */
-@Named(value = "informeProduccionFlotaController")
+@Named(value = "informeRecaudacionDiariaController")
 @ViewScoped
-public class InformeProduccionFlotaController implements Serializable {
+public class InformeRecaudacionDiariaController implements Serializable {
 
-    private ProduccionFlotaQuery flotaQuery;
+    private RecaudacionDiariaQuery flotaQuery;
     private ArrayList<String> resultsHeader;
     private ArrayList<LinkedHashMap> listOfMaps;
     private LinkedHashMap selected;
@@ -40,49 +41,39 @@ public class InformeProduccionFlotaController implements Serializable {
     private int anio;
     private Date fecha;
     
-    public InformeProduccionFlotaController() {
+
+    public InformeRecaudacionDiariaController() {
         this.flotaDao = new FlotaDaoImpl();
-        
+
         this.flotaItems = this.flotaDao.findAll();
-                
+
         this.resultsHeader = new ArrayList<>();
-        this.resultsHeader.add("Flota");
-        this.resultsHeader.add("N°Bus");
-        this.resultsHeader.add("Patente");
-        this.resultsHeader.add("Unidad");
-        this.resultsHeader.add("N°Guias");
-        this.resultsHeader.add("Administracion");
-        this.resultsHeader.add("Licitacion");
+        this.resultsHeader.add("Nombre");
+        this.resultsHeader.add("Administración");
+        this.resultsHeader.add("Licitación");
         this.resultsHeader.add("Taller");
-        this.resultsHeader.add("Cargos");
-        this.resultsHeader.add("Saldo");
-        
+        this.resultsHeader.add("5%");
+        this.resultsHeader.add("Aseo");
+        this.resultsHeader.add("Ahorro");
+
+        /*link.put("nombre_general", a[0]);
+                link.put("administracion", a[1]);
+                link.put("licitacion", a[2]);
+                link.put("taller", a[3]);
+                link.put("5%", a[4]);
+                link.put("nochero", a[5]);
+                link.put("ahorro", a[6]);*/
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
     }
-    
-    public void init(){      
-        
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
-        String from = "01/" + mes + "/" + anio;
-        try {
-            this.fecha = format.parse(from);
-        } catch (ParseException p) {
 
-        }
+    public void init() {
         
-        this.flotaQuery = new ProduccionFlotaQuery(fecha);
-        
-        if(this.flota == null){
-            this.listOfMaps = this.flotaQuery.loadQuery();
-        }else{
-            this.listOfMaps = this.flotaQuery.loadQueryByFlota(flota);
-        }
+        this.flotaQuery = new RecaudacionDiariaQuery(fecha);
+        this.listOfMaps = this.flotaQuery.loadQuery();
     }
-    
-    
+
     public List<String> getResultsHeader() {
         return resultsHeader;
     }
@@ -137,5 +128,13 @@ public class InformeProduccionFlotaController implements Serializable {
 
     public void setFlotaItems(ArrayList<Flota> flotaItems) {
         this.flotaItems = flotaItems;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }
