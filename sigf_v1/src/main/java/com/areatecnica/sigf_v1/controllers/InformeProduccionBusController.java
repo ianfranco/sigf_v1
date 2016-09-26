@@ -331,14 +331,22 @@ public class InformeProduccionBusController implements Serializable {
 
         resultsHeader.add("Folio");
         resultsTotals.add("");
+
         resultsHeader.add("Fecha");
         resultsTotals.add("");
+
         resultsHeader.add("Recaudación");
         resultsTotals.add("");
+
         resultsHeader.add("Codigo");
         resultsTotals.add("");
+
         resultsHeader.add("Conductor");
         resultsTotals.add("Totales");
+        
+
+        resultsHeader.add("T.Ingresos");
+        
 
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
 
@@ -353,6 +361,16 @@ public class InformeProduccionBusController implements Serializable {
                 hashMap.put("Recaudacion", format.format(g.getFechaRecaudacion()));
                 hashMap.put("Codigo", g.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", g.getTrabajador());
+                hashMap.put("Ingresos", g.getTotalIngresos());
+
+                //Suma de total ingresos
+                if (totales.containsKey("Ingresos")) {
+                    int aux = (int) totales.get("Ingresos");
+                    aux += g.getTotalIngresos();
+                    totales.put("Ingresos", aux);
+                }else{
+                    totales.put("Ingresos", g.getTotalIngresos());
+                }
 
                 /*Por todos los egresos que estén asociados al proceso de recaudación*/
                 for (EgresoRecaudacion er : g.getProcesoRecaudacion().getEgresoRecaudacions()) {
@@ -398,6 +416,7 @@ public class InformeProduccionBusController implements Serializable {
             hashMap.put("Recaudación", "");
             hashMap.put("Codigo", "");
             hashMap.put("Nombre Conductor", "");
+            hashMap.put("T.Ingresos", "");
 
             /*for (EgresoRecaudacion er : this.egresosRecaudacionItems) {
                 //Pregunto si el egreso es recaudable o no
@@ -406,7 +425,6 @@ public class InformeProduccionBusController implements Serializable {
                     hashMap.put(er.getEgreso().getNombreEgreso(), "");
                 }
             }*/
-
             resultsHeader.add("Administracion");
             hashMap.put("Administracion", "0");
             resultsTotals.add("0");
