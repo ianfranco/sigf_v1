@@ -74,6 +74,7 @@ public class selectEmpresaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:Egreso");
+                tx.rollback();
             }
         } else {
 
@@ -91,6 +92,7 @@ public class selectEmpresaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:Egreso");
+                tx.rollback();
             }
         } else {
 

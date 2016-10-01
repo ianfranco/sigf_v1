@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="selector">
+            <p:panel header="Registro Contratos">
+                <h:panelGrid columns="8">
+                    
+                    
+                    <p:commandButton value="Buscar" update=":Display:datalist" actionListener="#{registroContratosController.saveNew}"  />
+
+                </h:panelGrid>
+            </p:panel>
+
+
+
+        </h:form>
+
+        <h:form id="Display">
+            <p:panel style="margin-top: 5px;">
+                <p:dataTable id="datalist" 
+                             value="#{registroContratosController.items}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item.idRelacionLaboral}"
+                             rowIndexVar="rowIndex"                         
+                             selectionMode="single"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+
+                    <f:facet name="header">
+                        Últimos 200 Contratos Registrados
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresa}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Contrato"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoContrato}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Inicio"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicio}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -72,6 +72,7 @@ public class InstitucionApvController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Apv");
             }
         } else {
@@ -88,6 +89,7 @@ public class InstitucionApvController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Apv");
             }
         } else {

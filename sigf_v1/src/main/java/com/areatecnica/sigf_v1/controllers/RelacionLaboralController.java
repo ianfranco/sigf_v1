@@ -8,58 +8,47 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.EmpresaDao;
 import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
-import com.areatecnica.sigf_v1.util.HibernateUtil;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
  * @author ianfr
  */
-@Named(value = "empresaController")
+@Named(value = "relacionLaboralController")
 @ViewScoped
-public class EmpresaController implements Serializable {
+public class RelacionLaboralController implements Serializable {
 
     private EmpresaDao empresaDao;
-    private List<Empresa> items;
-    private Empresa selected;
+    private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
+    private List<ContratosEmpresas> contratos;
 
-    /**
-     * Creates a new instance of TrabajadorController
-     */
-    public EmpresaController() {
+    public RelacionLaboralController() {
         this.empresaDao = new EmpresaDaoImpl();
-        this.items = this.empresaDao.findAll();
+        this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
+        this.contratos = new ArrayList<>();
+        for (Empresa e : this.empresaDao.findAll()) {            
+            List<RelacionLaboral> list = this.relacionLaboralDaoImpl.findByEmpresa(e);            
+            if (!list.isEmpty()) {                                
+                ContratosEmpresas ce = new ContratosEmpresas(e, list);
+                this.contratos.add(ce);
+            }
+        }
+
     }
 
-    public List<Empresa> getItems() {
-        return items;
-    }
 
-    public void setItems(List<Empresa> items) {
-        this.items = items;
-    }
-
-    public Empresa getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Empresa selected) {
-        this.selected = selected;
-    }
-
-    public Empresa prepareCreate(ActionEvent event) {
-        Empresa newEmpresa;
-        newEmpresa = new Empresa();
-        this.selected = newEmpresa;
-        return newEmpresa;
+    /*public RelacionLaboral prepareCreate(ActionEvent event) {
+        RelacionLaboral newRelacionLaboral;
+        newRelacionLaboral = new RelacionLaboral();
+        this.selected = newRelacionLaboral;
+        return newRelacionLaboral;
     }
 
     public void saveNew() {
@@ -74,7 +63,7 @@ public class EmpresaController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
-                System.err.println("SAVE:Empresa");
+                System.err.println("SAVE:Relacion Laboral");
                 tx.rollback();
                 JsfUtil.addErrorMessage(e.getMessage());
             }
@@ -100,18 +89,27 @@ public class EmpresaController implements Serializable {
         } else {
 
         }
-    }
+    }*/
     
-    public void resetParents(){
-        
-    }
     
-    public void delete(){
-        
+    public void resetParents() {
+
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage){
+    public void delete() {
+
+    }
+
+    public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-    
+
+    public List<ContratosEmpresas> getContratos() {
+        return contratos;
+    }
+
+    public void setContratos(List<ContratosEmpresas> contratos) {
+        this.contratos = contratos;
+    }
+
 }

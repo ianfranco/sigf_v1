@@ -72,6 +72,7 @@ public class AsignacionFamiliarController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:AsignacionFamiliar");
             }
         } else {
@@ -89,6 +90,7 @@ public class AsignacionFamiliarController implements Serializable {
                 tx.commit();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:AsignacionFamiliar");
             }
         } else {

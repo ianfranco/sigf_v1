@@ -14,14 +14,13 @@
 
                 <h:panelGroup id="display" >
 
-                    <p:wizard flowListener="#{trabajadorController.onFlowProcess}">
+                    <p:wizard flowListener="#{trabajadorController.onFlowProcess}" nextLabel="Siguiente" backLabel="Retroceder" >
                         <p:tab id="personal2" title="General">
                             <p:panel id="personal" style="margin-top: 20px;width: 750px;">
                                 <h:panelGrid columns="4" columnClasses="label, value">
                                     <p:outputLabel value="Cód.:" for="codigoTrabajador" />
                                     <h:panelGroup>
-                                        <p:inputText id="codigoTrabajador" value="#{trabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>
-                                        <p:tooltip for="codigoTrabajador" value="Código trabajador"/>
+                                        <p:inputText id="codigoTrabajador" value="#{trabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel/>
@@ -32,41 +31,33 @@
                                         <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}" maxlength="9" >
                                             <p:ajax event="blur" listener="#{trabajadorController.validarRut}" update="rutTrabajador, growl"/>                                            
                                         </p:inputText>
-                                        <p:tooltip for="rutTrabajador" value="Ingrese el rut sin puntos ni guión"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Nombres" for="nombreTrabajador" />
                                     <h:panelGroup>
-                                        <p:inputText id="nombreTrabajador" value="#{trabajadorController.selected.nombreTrabajador}" title="#{bundle.CreateTrabajadorTitle_nombreTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_nombreTrabajador}" size="30"/>
-                                        <p:tooltip for="nombreTrabajador" value="#{trabajadorController.getComponentMessages('nombreTrabajador', bundle.CreateTrabajadorHelpText_nombreTrabajador)}"/>
+                                        <p:inputText id="nombreTrabajador" value="#{trabajadorController.selected.nombreTrabajador}" title="#{bundle.CreateTrabajadorTitle_nombreTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_nombreTrabajador}" size="30"/>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Apellido P." for="apellidoPaternoTrabajador" />
                                     <h:panelGroup>
-                                        <p:inputText id="apellidoPaternoTrabajador" value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoPaternoTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_apellidoPaternoTrabajador}" size="30"/>
-                                        <p:tooltip for="apellidoPaternoTrabajador" value="#{trabajadorController.getComponentMessages('apellidoPaternoTrabajador', bundle.CreateTrabajadorHelpText_apellidoPaternoTrabajador)}"/>
+                                        <p:inputText id="apellidoPaternoTrabajador" value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoPaternoTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_apellidoPaternoTrabajador}" size="30"/>                                        
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Apellido M.:" for="apellidoMaternoTrabajador" />
                                     <h:panelGroup>
                                         <p:inputText id="apellidoMaternoTrabajador" value="#{trabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoMaternoTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_apellidoMaternoTrabajador}" size="30"/>
-                                        <p:tooltip for="apellidoMaternoTrabajador" value="#{trabajadorController.getComponentMessages('apellidoMaternoTrabajador', bundle.CreateTrabajadorHelpText_apellidoMaternoTrabajador)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="F.Nacimiento:" for="fechaNacimientoTrabajador" />
                                     <h:panelGroup>
-                                        <p:calendar id="fechaNacimientoTrabajador" pattern="dd/MM/yyyy" value="#{trabajadorController.selected.fechaNacimientoTrabajador}" title="#{bundle.CreateTrabajadorTitle_fechaNacimientoTrabajador}"  showOn="button"/>
-                                        <p:tooltip for="fechaNacimientoTrabajador" value="#{trabajadorController.getComponentMessages('fechaNacimientoTrabajador', bundle.CreateTrabajadorHelpText_fechaNacimientoTrabajador)}"/>
+                                        <p:calendar id="fechaNacimientoTrabajador" pattern="dd/MM/yyyy" value="#{trabajadorController.selected.fechaNacimientoTrabajador}" title="#{bundle.CreateTrabajadorTitle_fechaNacimientoTrabajador}"  showOn="button"/>                                    
                                     </h:panelGroup>
-
                                     <p:outputLabel value="País:" for="nacionalidad" />
                                     <h:panelGroup>     
                                         <p:selectOneRadio id="nacionalidad" value="#{trabajadorController.nacionalidad}" required="true">
                                             <f:selectItem itemLabel="Chile" itemValue="1" />
                                             <f:selectItem itemLabel="Extranjero" itemValue="0" />
                                         </p:selectOneRadio>
-
-                                        <p:tooltip for="nacionalidad" value="#{trabajadorController.getComponentMessages('nacionalidad', bundle.CreateTrabajadorHelpText_nacionalidad)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel/>
@@ -96,18 +87,13 @@
                                                            />
 
                                         </p:selectOneMenu>
-                                        <p:tooltip for="comuna" value="#{trabajadorController.getComponentMessages('comuna', bundle.CreateTrabajadorHelpText_comuna)}"/>
                                     </h:panelGroup>
-
-
-
                                     <p:outputLabel value="Sexo:" for="sexo" />
                                     <h:panelGroup>
                                         <p:selectOneRadio id="sexo" value="#{trabajadorController.sexo}" required="true">
                                             <f:selectItem itemLabel="Hombre" itemValue="1" />
                                             <f:selectItem itemLabel="Mujer" itemValue="0" />
-                                        </p:selectOneRadio>                                                                 
-                                        <p:tooltip for="sexo" value="#{trabajadorController.getComponentMessages('sexo', bundle.CreateTrabajadorHelpText_sexo)}"/>
+                                        </p:selectOneRadio>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Estado Civil:" for="estadoCivil" />
@@ -124,23 +110,18 @@
                                     <p:outputLabel value="Teléfono:" for="telefonoFijoTrabajador" />
                                     <h:panelGroup>
                                         <p:inputText id="telefonoFijoTrabajador" value="#{trabajadorController.selected.telefonoFijoTrabajador}" title="#{bundle.CreateTrabajadorTitle_telefonoFijoTrabajador}"/>
-                                        <p:tooltip for="telefonoFijoTrabajador" value="#{trabajadorController.getComponentMessages('telefonoFijoTrabajador', bundle.CreateTrabajadorHelpText_telefonoFijoTrabajador)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Celular:" for="celularTrabajador" />
                                     <h:panelGroup>
                                         <p:inputText id="celularTrabajador" value="#{trabajadorController.selected.celularTrabajador}" title="#{bundle.CreateTrabajadorTitle_celularTrabajador}"/>
-                                        <p:tooltip for="celularTrabajador" value="#{trabajadorController.getComponentMessages('celularTrabajador', bundle.CreateTrabajadorHelpText_celularTrabajador)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Email:" for="emailTrabajador" />
                                     <h:panelGroup>
                                         <p:inputText id="emailTrabajador" value="#{trabajadorController.selected.emailTrabajador}" title="#{bundle.CreateTrabajadorTitle_emailTrabajador}"/>
-                                        <p:tooltip for="emailTrabajador" value="#{trabajadorController.getComponentMessages('emailTrabajador', bundle.CreateTrabajadorHelpText_emailTrabajador)}"/>
                                     </h:panelGroup>
-
                                 </h:panelGrid>
-
                             </p:panel>
                         </p:tab>
 
@@ -160,7 +141,6 @@
                                                            />
                                             <p:ajax event="valueChange" listener="#{trabajadorController.updateInstitucionPrevision}" update="institucionPrevision"/>
                                         </p:selectOneMenu>
-                                        <p:tooltip for="tipoCotizacionTrabajador" value="#{trabajadorController.getComponentMessages('tipoCotizacionTrabajador', bundle.CreateTrabajadorHelpText_tipoCotizacionTrabajador)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="AFP:" for="institucionPrevision" />
@@ -174,7 +154,6 @@
                                                            />
 
                                         </p:selectOneMenu>
-                                        <p:tooltip for="institucionPrevision" value="#{trabajadorController.getComponentMessages('institucionPrevision', bundle.CreateTrabajadorHelpText_institucionPrevision)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Ahorro Voluntario" for="ips" />                                        
@@ -193,18 +172,13 @@
                                                            />
 
                                         </p:selectOneMenu>
-                                        <p:tooltip for="institucionApv" value="#{trabajadorController.getComponentMessages('institucionApv', bundle.CreateTrabajadorHelpText_institucionApv)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Monto APV:" for="montoAPV" />
                                     <h:panelGroup>
                                         <p:inputText id="montoAPV" value="#{trabajadorController.selected.montoApv}" disabled="#{trabajadorController.ahorro}"/>
-                                        <p:tooltip for="montoAPV" value="Ingrese el monto de la APV"/>
                                     </h:panelGroup>
-
-
-                                </h:panelGrid>                               
-
+                                </h:panelGrid>
                             </p:panel>
                         </p:tab>
 
@@ -226,9 +200,7 @@
                                                            itemValue="#{institucionSaludItem}"
                                                            itemLabel="#{institucionSaludItem}"
                                                            />
-
                                         </p:selectOneMenu>
-                                        <p:tooltip for="institucionSalud" value="#{trabajadorController.getComponentMessages('institucionSalud', bundle.CreateTrabajadorHelpText_institucionSalud)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Moneda:" for="monedaPactadaInstitucionSalud" />
@@ -240,93 +212,21 @@
                                                            itemValue="#{monedaPactadaInstitucionSaludItem}"
                                                            itemLabel="#{monedaPactadaInstitucionSaludItem}"
                                                            />
-
                                         </p:selectOneMenu>
-                                        <p:tooltip for="monedaPactadaInstitucionSalud" value="#{trabajadorController.getComponentMessages('monedaPactadaInstitucionSalud', bundle.CreateTrabajadorHelpText_monedaPactadaInstitucionSalud)}"/>
                                     </h:panelGroup>
 
                                     <p:outputLabel value="Monto:" for="montoSalud" />
                                     <h:panelGroup>
                                         <p:inputText id="montoSalud" value="#{trabajadorController.selected.montoSalud}" title="#{bundle.CreateTrabajadorTitle_montoSalud}" disabled="#{trabajadorController.fonasa}"/>
-                                        <p:tooltip for="montoSalud" value="#{trabajadorController.getComponentMessages('montoSalud', bundle.CreateTrabajadorHelpText_montoSalud)}"/>
                                     </h:panelGroup>
-
-
-
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
 
-                        <p:tab id="confirm" title="Relación Laboral" >
-                            <p:panel style="margin-top: 20px;width: 750px;">
-                                <h:panelGrid columns="2" columnClasses="column">
-                                    <p:outputLabel value="Empresa:" for="empresa" />
-                                    <h:panelGroup>
-                                        <p:selectOneMenu id="empresa" value="#{trabajadorController.selectedEmpresa}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_empresa}" converter="empresaConverter">
-                                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                            <f:selectItems value="#{empresaController.items}"
-                                                           var="empresaItem"
-                                                           itemValue="#{empresaItem}"
-                                                           itemLabel="#{empresaItem}"
-                                                           />
-                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageEmpresa}"/>
-                                        </p:selectOneMenu>                                        
-                                    </h:panelGroup>
 
-                                    <p:outputLabel value="Tipo:" for="tipoTrabajador" />
-                                    <h:panelGroup>
-                                        <p:selectOneMenu id="tipoTrabajador" value="#{trabajadorController.tipoTrabajador}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoTrabajador}" converter="tipoTrabajadorConverter">
-                                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                            <f:selectItems value="#{tipoTrabajadorController.items}"
-                                                           var="tipoTrabajadorItem"
-                                                           itemValue="#{tipoTrabajadorItem}"
-                                                           itemLabel="#{tipoTrabajadorItem}"
-                                                           />
-                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageTipo}"/>
-                                        </p:selectOneMenu>                                        
-                                    </h:panelGroup>
-
-                                    <p:outputLabel value="Contrato:" for="tipoContrato" />
-                                    <h:panelGroup>
-                                        <p:selectOneMenu id="tipoContrato" value="#{trabajadorController.tipoContrato}" required="true" requiredMessage="#{bundle.CreateRelacionLaboralRequiredMessage_tipoContrato}" converter="tipoContratoConverter">
-                                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                            <f:selectItems value="#{tipoContratoController.items}"
-                                                           var="tipoContratoItem"
-                                                           itemValue="#{tipoContratoItem}"
-                                                           itemLabel="#{tipoContratoItem}"
-                                                           />
-                                            <p:ajax event="valueChange" update="growl" listener="#{trabajadorController.addMessageContrato}"/>
-                                        </p:selectOneMenu>                                        
-                                    </h:panelGroup>
-
-                                    <p:outputLabel value="Inicio:" for="fechaInicio" />
-                                    <h:panelGroup>
-                                        <p:inputText id="fechaInicio" value="#{trabajadorController.selectedInicioContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaInicio}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                            <p:ajax event="blur" update="growl" listener="#{trabajadorController.addMessageInicio}"/>
-                                        </p:inputText>
-                                    </h:panelGroup>
-
-                                    <p:outputLabel value="Término:" for="fechaFin" />
-                                    <h:panelGroup>
-                                        <p:inputText id="fechaFin" value="#{trabajadorController.selectedFinContrato}" title="#{bundle.CreateRelacionLaboralTitle_fechaFin}">
-                                            <p:ajax event="blur" update="growl" listener="#{trabajadorController.addMessageTermino}"/>
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                        </p:inputText>
-                                    </h:panelGroup>
-
-                                    <p:outputLabel value="#{bundle.CreateRelacionLaboralLabel_sueldoBase}" for="sueldoBase" />
-                                    <h:panelGroup>
-                                        <p:inputText id="sueldoBase" value="#{trabajadorController.sueldo}" title="#{bundle.CreateRelacionLaboralTitle_sueldoBase}"/>                                        
-                                    </h:panelGroup>
-
-                                </h:panelGrid>
-                            </p:panel>
-
-                        </p:tab>
 
                     </p:wizard>
-                    <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:growl, :TrabajadorListForm:datalist" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorCreateDialog'));" process="@this">
+                    <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:growl, :TrabajadorListForm:datalist" oncomplete="PF('TrabajadorCreateDialog').hide()" process="@this">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 

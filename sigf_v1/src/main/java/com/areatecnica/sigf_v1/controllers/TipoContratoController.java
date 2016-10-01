@@ -75,6 +75,7 @@ public class TipoContratoController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:TipoTrabajador");
+                tx.rollback();
             }
         } else {
 
@@ -91,6 +92,7 @@ public class TipoContratoController implements Serializable {
                 tx.commit();
             } catch (HibernateException e) {
                 System.err.println("NULL:TipoTrabajador");
+                tx.rollback();
             }
         } else {
 

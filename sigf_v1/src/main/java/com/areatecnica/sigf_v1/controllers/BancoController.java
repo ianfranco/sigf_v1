@@ -73,6 +73,7 @@ public class BancoController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:InstitucionPrevision");
+                tx.rollback();
             }
         } else {
 
@@ -89,6 +90,7 @@ public class BancoController implements Serializable {
                 tx.commit();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Banco");
             }
         } else {

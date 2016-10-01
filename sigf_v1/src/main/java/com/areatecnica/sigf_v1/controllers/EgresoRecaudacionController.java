@@ -11,7 +11,6 @@ import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
 import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -87,6 +86,7 @@ public class EgresoRecaudacionController implements Serializable {
                 this.selected = null;
             } catch (HibernateException e) {
                 System.err.println("NULL:EgresoRecaudacion");
+                tx.rollback();
             }
         } else {
 
@@ -102,6 +102,7 @@ public class EgresoRecaudacionController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:EgresoRecaudacion");
             }
         } else {

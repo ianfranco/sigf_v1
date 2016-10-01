@@ -14,7 +14,7 @@
 
                 <h:panelGroup id="display" >
 
-                    <p:wizard flowListener="#{trabajadorController.onFlowProcess}">
+                    <p:wizard flowListener="#{trabajadorController.onFlowProcess}" nextLabel="Siguiente" backLabel="Retroceder">
                         <p:tab id="personal2" title="General">
                             <p:panel id="personal" style="margin-top: 20px;width: 750px;">
                                 <h:panelGrid columns="4" columnClasses="label, value">

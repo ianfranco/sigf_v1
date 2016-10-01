@@ -108,7 +108,7 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Trabajador WHERE rutTrabajador =" + rut;
+        String sql = "FROM Trabajador WHERE rutTrabajador ='" + rut+"'";
         try {
             trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
             tx.commit();

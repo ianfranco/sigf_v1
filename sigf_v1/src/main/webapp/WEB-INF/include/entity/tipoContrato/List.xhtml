@@ -7,67 +7,60 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <h:form id="TipoContratoListForm">
+        <p:dataTable id="datalist"
+                     value="#{tipoContratoController.items}"
+                     lazy="false"
+                     rowKey="#{item.idTipoContrato}"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="50,100,200"
+                     selectionMode="single"
+                     selection="#{tipoContratoController.selected}">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{tipoContratoController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.idTipoContrato}"  <<< Remove this line
+            -->
 
-        <p:panel header="#{bundle.ListTipoContratoTitle}">
-            <p:contextMenu id="TipoContratoDataTableContextMenu" for="datalist">  
-                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoContratoListForm:createButton').click();" icon="ui-icon-plus"/>
-                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoContratoListForm:viewButton').click();" icon="ui-icon-search"/>
-                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoContratoListForm:editButton').click();" icon="ui-icon-pencil"/>
-                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoContratoListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                <p:separator/>
-                <p:menuitem value="#{bundle.TipoContratoMenuItem_relacionLaborals}" icon="ui-icon-search"  action="#{tipoContratoController.navigateRelacionLaborals}" disabled="#{empty tipoContratoController.selected.relacionLaborals}" ajax="false"/>  
-            </p:contextMenu>
-            <p:dataTable id="datalist"
-                         value="#{tipoContratoController.items}"
-                         lazy="false"
-                         rowKey="#{item.idTipoContrato}"
-                         var="item"
-                         paginator="true"
-                         rows="100"
-                         rowsPerPageTemplate="50,100,200"
-                         selectionMode="single"
-                         selection="#{tipoContratoController.selected}">
-                <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{tipoContratoController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idTipoContrato}"  <<< Remove this line
-                -->
-
-
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoContratoDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoContratoDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoContratoListForm:viewButton').click();"/>
-
-                <p:column sortBy="#{item.idTipoContrato}" filterBy="#{item.idTipoContrato}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTipoContratoTitle_idTipoContrato}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idTipoContrato}"/>
-                </p:column>
+            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton"/>
+            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton"/>
+            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoContratoListForm:viewButton').click();"/>
+            
+            <f:facet name="header">
+                Tipos de Contratos
+            </f:facet>
+            
+            <p:column sortBy="#{item.idTipoContrato}" filterBy="#{item.idTipoContrato}">
+                <f:facet name="header">
+                    <h:outputText value="N°"/>
+                </f:facet>
+                <h:outputText value="#{item.idTipoContrato}"/>
+            </p:column>
 
 
-                <p:column sortBy="#{item.nombreTipoContrato}" filterBy="#{item.nombreTipoContrato}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTipoContratoTitle_nombreTipoContrato}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.nombreTipoContrato}"/>
-                </p:column>
+            <p:column sortBy="#{item.nombreTipoContrato}" filterBy="#{item.nombreTipoContrato}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListTipoContratoTitle_nombreTipoContrato}"/>
+                </f:facet>
+                <h:outputText value="#{item.nombreTipoContrato}"/>
+            </p:column>
 
 
-            </p:dataTable>
+        </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoContratoController.prepareCreate}" update=":TipoContratoCreateForm" oncomplete="PF('TipoContratoCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoContratoViewForm" oncomplete="PF('TipoContratoViewDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoContratoEditForm" oncomplete="PF('TipoContratoEditDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoContratoController.delete}" update=":growl,datalist" disabled="#{empty tipoContratoController.selected}">
-                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoContratoController.prepareCreate}" update=":TipoContratoCreateForm" oncomplete="PF('TipoContratoCreateDialog').show()"/>
+        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoContratoViewForm" oncomplete="PF('TipoContratoViewDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
+        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoContratoEditForm" oncomplete="PF('TipoContratoEditDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
+        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoContratoController.delete}" update=":growl,datalist" disabled="#{empty tipoContratoController.selected}">
+            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+        </p:commandButton>
 
-        </p:panel>
+
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
     </h:form>
 

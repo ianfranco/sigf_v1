@@ -280,12 +280,12 @@ public class TrabajadorController implements Serializable {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
-            System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
+            /*System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
             System.err.println("SUELDO:" + this.relacionLaboral.getSueldoBase());
             System.err.println("Tipo Trabajador:" + this.tipoTrabajador);
             System.err.println("Fechas:" + this.selectedInicioContrato + " - " + this.selectedFinContrato);
             System.err.println("EMPRESA:" + this.selectedEmpresa);
-            System.err.println("Tipo Contrato" + this.tipoContrato);
+            System.err.println("Tipo Contrato" + this.tipoContrato);*/
 
             try {
                 this.selected.setFechaIngresoTrabajador(new Date());
@@ -302,9 +302,9 @@ public class TrabajadorController implements Serializable {
                     this.selected.setNacionalidad(false);
                 }
 
-                session.saveOrUpdate(this.selected);
+                session.save(this.selected);
 
-                this.relacionLaboral.setEstado(true);
+                /*this.relacionLaboral.setEstado(true);
                 this.relacionLaboral.setTrabajador(selected);
                 this.relacionLaboral.setEmpresa(this.selectedEmpresa);
                 this.relacionLaboral.setTipoContrato(tipoContrato);
@@ -313,7 +313,7 @@ public class TrabajadorController implements Serializable {
                 this.relacionLaboral.setFechaInicio(selectedInicioContrato);
                 this.relacionLaboral.setSueldoBase(sueldo);
 
-                session.saveOrUpdate(this.relacionLaboral);
+                session.saveOrUpdate(this.relacionLaboral);*/
 
                 tx.commit();
                 this.items.add(selected);
@@ -322,6 +322,7 @@ public class TrabajadorController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("Error SAVE:Trabajador");
+                tx.rollback();
                 System.err.println(e.getMessage());
             }
 
@@ -339,6 +340,7 @@ public class TrabajadorController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Trabajador");
             }
         } else {

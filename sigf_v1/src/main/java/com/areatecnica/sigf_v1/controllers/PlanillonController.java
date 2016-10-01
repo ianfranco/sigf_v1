@@ -405,6 +405,7 @@ public class PlanillonController implements Serializable {
                 }
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -439,6 +440,7 @@ public class PlanillonController implements Serializable {
                 this.selected.setTotalIngresos(0);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {

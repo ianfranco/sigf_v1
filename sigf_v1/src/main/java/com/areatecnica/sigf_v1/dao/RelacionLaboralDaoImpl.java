@@ -5,8 +5,11 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
+import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -41,7 +44,7 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral";
+        String sql = "FROM RelacionLaboral WHERE estado = 1 ORDER BY empresa.nombreEmpresa ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -54,5 +57,73 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
     }
     
     
+    public List<RelacionLaboral> findWithLimit() {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = 1 ORDER BY empresa.nombreEmpresa ASC LIMIT 0,200";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<RelacionLaboral> findByEmpresa(Empresa empresa) {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = 1 AND empresa="+empresa.getIdEmpresa()+" ORDER BY empresa.nombreEmpresa ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<RelacionLaboral> findAllByEmpresa(Empresa empresa) {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE empresa="+empresa.getIdEmpresa()+" ORDER BY trabajador.apellidoPaternoTrabajador ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<RelacionLaboral> findByDate(Date date) {
+        List<RelacionLaboral> list = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = 1 AND fechaInicio BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"')  ORDER BY fechaInicio ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
     
 }

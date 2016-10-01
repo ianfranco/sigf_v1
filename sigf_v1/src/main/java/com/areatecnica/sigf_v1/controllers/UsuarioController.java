@@ -73,6 +73,7 @@ public class UsuarioController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Usuario");
+                tx.rollback();
             }
         } else {
 
@@ -90,6 +91,7 @@ public class UsuarioController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Usuario");
+                tx.rollback();
             }
         } else {
 

@@ -73,6 +73,7 @@ public class CajaCompensacionController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:Caja");
+                tx.rollback();
             }
         } else {
 
@@ -89,6 +90,7 @@ public class CajaCompensacionController implements Serializable {
                 tx.commit();
                 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Caja");
             }
         } else {

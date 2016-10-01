@@ -75,6 +75,7 @@ public class UnidadNegocioController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:UnidadNegocio");
+                tx.rollback();
             }
         } else {
 
@@ -91,6 +92,7 @@ public class UnidadNegocioController implements Serializable {
                 tx.commit();
             } catch (HibernateException e) {
                 System.err.println("NULL:UnidadNegocio");
+                tx.rollback();
             }
         } else {
 

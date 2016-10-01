@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="selector">
+            <p:panel header="Historial de Contratos x Empresa">
+                <h:panelGrid columns="8">
+                    <p:outputLabel for="empresa" value="Seleccionar:" />
+                    <p:selectOneMenu id="empresa" value="#{historialContratoEmpresaController.selected}" converter="empresaConverter">
+                        <f:selectItem itemLabel="Todos"/>
+                        <f:selectItems value="#{historialContratoEmpresaController.items}"
+                                       var="item"
+                                       itemValue="#{item}"
+                                       itemLabel="#{item}"
+                                       />                        
+                    </p:selectOneMenu>
+                    
+                    <p:commandButton value="Buscar" update=":Display:datalist" actionListener="#{historialContratoEmpresaController.init}"  />
+
+                </h:panelGrid>
+            </p:panel>
+
+
+
+        </h:form>
+
+        <h:form id="Display">
+            <p:panel style="margin-top: 5px;">
+                <p:dataTable id="datalist" 
+                             value="#{historialContratoEmpresaController.contratos}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item.idRelacionLaboral}"
+                             rowIndexVar="rowIndex"                         
+                             selectionMode="single"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+
+                    <f:facet name="header">
+                        #{historialContratoEmpresaController.header}
+                    </f:facet>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Contrato"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoContrato}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Inicio"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Termino"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaFin}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Sueldo Base"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sueldoBase}">
+                            <f:convertNumber currencySymbol="$" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Estado"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox value="#{item.estado}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

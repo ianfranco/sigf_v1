@@ -33,7 +33,9 @@
 
         <h:form id="GuiaListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
-
+                <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">                      
+                    <p:menuitem value="Editar" icon="ui-icon-pencil" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()"/>                    
+                </p:contextMenu>
                 <p:dataTable id="datalist" rendered="#{not empty planillonGuiaController.listOfMaps}"
                              value="#{planillonGuiaController.listOfMaps}"
                              lazy="false"
@@ -71,7 +73,7 @@
                     </p:columns>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Agregar" update=":GuiaCreateForm:displayCreateForm" actionListener="#{planillonGuiaController.prepareCreate}" oncomplete="PF('GuiaCreateDialog').show()" icon="fa fa-plus" title="Agregar" ajax="true" >
+                        <p:commandButton value="Agregar" update=":GuiaCreateForm:displayCreateForm, :dialogHeader" actionListener="#{planillonGuiaController.prepareCreate}" oncomplete="PF('GuiaCreateDialog').show()" icon="fa fa-plus" title="Agregar" ajax="true" >
                         </p:commandButton>                        
                         <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty planillonGuiaController.selectedHashMap}"/>
                         <p:commandButton id="deleteButton" actionListener="#{planillonGuiaController.delete}"  value="Eliminar" update=":GuiaListForm:datalist, :GuiaListForm:tablaTotales" icon="fa fa-times" title="Eliminar" ajax="true" disabled="#{empty planillonGuiaController.selectedHashMap}" >
@@ -114,8 +116,10 @@
 
         </h:form>              
 
-        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Guía" closeOnEscape="true">
-
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputText id="dialogHeader" value="#{planillonGuiaController.stringHeader}"/>
+            </f:facet>
             <h:form id="GuiaCreateForm" onkeypress="return event.keyCode != 13">
 
                 <h:panelGroup id="displayCreateForm" rendered="#{planillonGuiaController.selected != null}">
@@ -300,7 +304,7 @@
                                 <h:panelGroup>
                                     <p:calendar id="fechaGuia" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" locale="es"/>
                                 </h:panelGroup>
-                                
+
                                 <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />
                                 <p:calendar id="fechaRecaudacion" pattern="dd/MM/yyyy" value="#{planillonGuiaController.selected.fechaRecaudacion}" title="#{bundle.CreateGuiaTitle_fechaGuia}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_fechaGuia}" locale="es"/>
 

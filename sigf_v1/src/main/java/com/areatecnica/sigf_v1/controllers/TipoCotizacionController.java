@@ -75,6 +75,7 @@ public class TipoCotizacionController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:TipoCotizacion");
+                tx.rollback();
             }
         } else {
 
@@ -91,6 +92,7 @@ public class TipoCotizacionController implements Serializable {
                 tx.commit();
             } catch (HibernateException e) {
                 System.err.println("SAVE:TipoCotizacion");
+                tx.rollback();
             }
         } else {
 

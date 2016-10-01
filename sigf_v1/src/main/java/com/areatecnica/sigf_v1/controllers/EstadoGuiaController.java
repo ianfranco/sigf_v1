@@ -73,6 +73,7 @@ public class EstadoGuiaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:EstadoGuia");
+                tx.rollback();
             }
         } else {
 
@@ -89,6 +90,7 @@ public class EstadoGuiaController implements Serializable {
                 tx.commit();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:EstadoGuia");
             }
         } else {

@@ -72,6 +72,7 @@ public class ModeloMarcaBusController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:ModeloMarcaBus");
             }
         } else {
@@ -90,6 +91,7 @@ public class ModeloMarcaBusController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:ModeloMarcaBus");
             }
         } else {

@@ -387,6 +387,8 @@ public class PlanillonGuiaController implements Serializable {
         this.selected = newGuia;
         this.selected.setFechaGuia(this.fechaRecaudacion);
 
+        this.stringHeader = "Fecha Recaudación:" + format.format(fechaRecaudacion) + " Proceso:" + this.procesoRecaudacion.getNombreProceso();
+        
         this.estadoGuiaDao = new EstadoGuiaDaoImpl();
         this.estadoGuia = this.estadoGuiaDao.findById(1);
 
@@ -513,7 +515,7 @@ public class PlanillonGuiaController implements Serializable {
                     }*/
                     e = null;
                 }
-
+                JsfUtil.addSuccessMessage("SE INGRESÓ LA GUÍA N°:"+this.selected.getFolio()+" EN LA RECUADACIÓN:"+this.selected.getProcesoRecaudacion().getNombreProceso()+" CON FECHA:"+format.format(fechaRecaudacion));
                 tx.commit();
 
                 //this.items.add(selected);
@@ -551,6 +553,7 @@ public class PlanillonGuiaController implements Serializable {
                 setPorcentajes();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -591,6 +594,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selectedHashMap = null;
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {

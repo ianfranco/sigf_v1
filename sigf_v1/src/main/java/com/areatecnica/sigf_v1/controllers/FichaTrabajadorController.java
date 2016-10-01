@@ -9,10 +9,13 @@ import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
@@ -28,8 +31,8 @@ import org.hibernate.Transaction;
 public class FichaTrabajadorController implements Serializable {
 
     private TrabajadorDao trabajadorDao;
-
     private Trabajador selected;
+    private ArrayList<Trabajador> items;
     private Empresa empresa;
 
     private int codigo;
@@ -218,7 +221,7 @@ public class FichaTrabajadorController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                
+
                 if (sexo.equals("1")) {
                     this.selected.setSexo(true);
                 } else {
@@ -230,13 +233,14 @@ public class FichaTrabajadorController implements Serializable {
                 } else {
                     this.selected.setNacionalidad(false);
                 }
-                
+
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 //this.items.add(selected);
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Trabajador");
+                tx.rollback();
             }
         } else {
             JsfUtil.addErrorMessage("ERROR AL GUARDAR" + codigo);
@@ -244,16 +248,30 @@ public class FichaTrabajadorController implements Serializable {
         }
     }
 
-    public void findByCodigo() {        
+    public void findByCodigo() {
         try {
             this.selected = this.trabajadorDao.findByCodigo(codigo);
             if (this.selected == null) {
                 JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: " + codigo);
-            } else {                
+            } else {
                 setDefaultValues();
             }
         } catch (NullPointerException | NumberFormatException e) {
             JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: ");
+        }
+    }
+
+    public void findByRut() {
+        System.err.println("SI LLEGA LLEGA");
+        try {
+            this.selected = this.trabajadorDao.findByRut(rut);
+            if (this.selected == null) {
+                JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el RUT: " + rut);
+            } else {
+                setDefaultValues();
+            }
+        } catch (NullPointerException | NumberFormatException e) {
+            JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el RUT: " + rut);
         }
 
     }
@@ -265,6 +283,29 @@ public class FichaTrabajadorController implements Serializable {
 
     public void setMessage() {
         JsfUtil.addSuccessMessage("VALOR DEL CODIGO:" + codigo);
+    }
+
+    public void handleEmpresaChange() {
+        if (this.empresa != null) {
+            this.trabajadorDao = new TrabajadorDaoImpl();
+            ArrayList<RelacionLaboral> al = new ArrayList<>();
+
+            al.addAll(this.empresa.getRelacionLaborals());
+
+            System.err.println("tamaño relaciones laborales:" + al.size());
+            this.items = new ArrayList<>();
+            for (RelacionLaboral r : al) {
+                this.items.add(r.getTrabajador());
+            }
+        }
+    }
+
+    public ArrayList<Trabajador> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Trabajador> items) {
+        this.items = items;
     }
 
 }

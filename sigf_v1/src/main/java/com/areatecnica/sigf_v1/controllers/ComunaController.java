@@ -73,6 +73,7 @@ public class ComunaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Comuna");
+                tx.rollback();
             }
         } else {
 
@@ -88,6 +89,7 @@ public class ComunaController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Comuna");
             }
         } else {

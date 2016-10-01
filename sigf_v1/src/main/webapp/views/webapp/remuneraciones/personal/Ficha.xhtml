@@ -14,19 +14,18 @@
                 <p:tab title="Código">
                     <h:panelGrid columns="8" columnClasses="value" id="panelCódigo">                        
                         <p:outputLabel value="Código:" for="busquedaCodigo" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
-                        <p:inputText id="busquedaCodigo" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Código" value="#{fichaTrabajadorController.codigo}" >
-                            <p:ajax event="blur" update="growl" listener="#{fichaTrabajadorController.setMessage}"/>
-                        </p:inputText>
-                        <p:commandButton id="buscarCodigo" value="Buscar" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorFichaFormDisplay:display,growl"/>
+                        <p:inputText id="busquedaCodigo" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Código" value="#{fichaTrabajadorController.codigo}" />                        
+                        <p:commandButton id="buscarCodigo" value="Buscar" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorDisplay:display,growl"/>
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Rut">
                     <h:panelGrid columns="8" columnClasses="value" id="panelRut">
                         <p:outputLabel value="Rut:" for="busquedaRut" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
                         <p:inputText id="busquedaRut" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"  value="#{fichaTrabajadorController.rut}"/>
+                        <p:commandButton id="buscarRut" value="Buscar" actionListener="#{fichaTrabajadorController.findByRut()}" update=":TrabajadorDisplay:display,growl" ajax="true"/>
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Empresa">
+                <!--<p:tab title="Empresa">
                     <h:panelGrid columns="8" columnClasses="value" id="panelEmpresa"> 
                         <p:outputLabel value="Empresa:" for="busquedaEmpresa" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
                         <h:panelGroup>
@@ -37,16 +36,30 @@
                                                itemValue="#{empresaItem}"
                                                itemLabel="#{empresaItem}"
                                                />
-                                <p:ajax event="valueChange" update="growl" listener="#{fichaTrabajadorController.addMessageEmpresa}"/>
+                                <p:ajax event="valueChange" update="busquedaConductor, growl" listener="#{fichaTrabajadorController.handleEmpresaChange}"/>
                             </p:selectOneMenu>                                        
+                        </h:panelGroup>                     
+                        
+                        <p:outputLabel value="Conductor:" for="busquedaConductor" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <h:panelGroup>                            
+                            <p:selectOneMenu id="busquedaConductor" value="#{fichaTrabajadorController.selected}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{fichaTrabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem}"
+                                               />                                
+                            </p:selectOneMenu>
                         </h:panelGroup>
-                        <p:commandButton id="buscarEmpresa" value="Cargar Datos" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorFichaFormDisplay:display"/>
+
+                        <p:commandButton id="buscarEmpresa" value="Cargar" update=":TrabajadorDisplay:display"/>
                     </h:panelGrid>
-                </p:tab>
+                </p:tab>-->
             </p:tabView>
+        </h:form>
 
-
-            <p:separator class="ui-priority-primary" />
+        <p:separator class="ui-priority-primary" />
+        <h:form id="TrabajadorDisplay">
             <h:panelGroup id="display" >
                 <h:panelGrid columns="1">
                     <p:dashboard id="board" model="#{dashboardModel.modelMain}">
@@ -275,22 +288,10 @@
                         </p:panel>
                     </p:dashboard>
 
-                    <h:panelGroup >
-                        <p:commandButton actionListener="#{fichaTrabajadorController.save}" value="#{bundle.Save}" update=":TrabajadorFichaFormDisplay:display,:growl" process="@parent">
-                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
-                        </p:commandButton>
-
-                        <p:commandButton value="#{bundle.Cancel}" update=":TrabajadorFichaFormDisplay:display" process="@this" immediate="true" resetValues="true"/>
-                    </h:panelGroup>
-
 
                 </h:panelGrid>
-
-
             </h:panelGroup>
-
         </h:form>
-
     </ui:define>
 
 </ui:composition>

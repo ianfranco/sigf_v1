@@ -4,13 +4,14 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sigf_v1?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sigf_v1?autoReconnect=true</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">NintendO64</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
-    <property name="hibernate.connection.autocommit">true</property>    
+    <property name="hibernate.connection.autocommit">true</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</property>
     <mapping resource="com/areatecnica/sigf_v1/entities/Bus.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/User.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/AbonoLiquidacion.hbm.xml"/>

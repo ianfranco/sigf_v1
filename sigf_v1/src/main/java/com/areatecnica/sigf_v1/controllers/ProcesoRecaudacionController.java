@@ -75,6 +75,7 @@ public class ProcesoRecaudacionController implements Serializable {
                 this.items.add(selected);
                 this.selected = null;
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:ProcesoRecaudacion");
             }
         } else {
@@ -91,6 +92,7 @@ public class ProcesoRecaudacionController implements Serializable {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:ProcesoRecaudacion");
             }
         } else {

@@ -87,6 +87,7 @@ public class FichaGuiaController implements Serializable {
                 //this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -104,6 +105,7 @@ public class FichaGuiaController implements Serializable {
 
             }
         } catch (NullPointerException | NumberFormatException e) {
+            
             JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: ");
         }
 

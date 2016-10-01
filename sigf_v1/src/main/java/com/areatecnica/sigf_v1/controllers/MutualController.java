@@ -72,6 +72,7 @@ public class MutualController implements Serializable {
                 this.items.add(selected);
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Mutual");
             }
         } else {
@@ -89,6 +90,7 @@ public class MutualController implements Serializable {
                 tx.commit();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("SAVE:Mutual");
             }
         } else {
