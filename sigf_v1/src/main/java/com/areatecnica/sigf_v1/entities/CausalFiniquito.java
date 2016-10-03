@@ -83,8 +83,35 @@ public class CausalFiniquito  implements java.io.Serializable {
         this.finiquitoRelacionLaborals = finiquitoRelacionLaborals;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + this.idCausalFiniquito;
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CausalFiniquito other = (CausalFiniquito) obj;
+        if (this.idCausalFiniquito != other.idCausalFiniquito) {
+            return false;
+        }
+        return true;
+    }
 
+    @Override
+    public String toString() {
+        return descripcionCausalFiniquito; 
+    }
 
 }
 

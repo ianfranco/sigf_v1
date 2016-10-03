@@ -21,12 +21,6 @@
                             <p:tooltip for="nombreTipoDescuento" value="#{descuentoTrabajadorController.getComponentMessages('nombreTipoDescuento', bundle.CreateDescuentoTrabajadorHelpText_nombreTipoDescuento)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{descuentoTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateDescuentoTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{descuentoTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateDescuentoTrabajadorHelpText_fechaIngreso)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_montoDefecto}" for="montoDefecto" />
                         <h:panelGroup>
                             <p:inputText id="montoDefecto" value="#{descuentoTrabajadorController.selected.montoDefecto}" title="#{bundle.CreateDescuentoTrabajadorTitle_montoDefecto}"/>

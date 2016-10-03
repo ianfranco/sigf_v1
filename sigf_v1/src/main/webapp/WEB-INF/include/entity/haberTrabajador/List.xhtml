@@ -8,7 +8,7 @@
 
     <h:form id="HaberTrabajadorListForm">
 
-        <p:panel header="#{bundle.ListHaberTrabajadorTitle}">
+        <p:panel>
             <p:contextMenu id="HaberTrabajadorDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('HaberTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('HaberTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -23,10 +23,12 @@
                          rowKey="#{item.idHaberTrabajador}"
                          var="item"
                          paginator="true"
+                         rowIndexVar="rowIndex"
                          rows="100"
                          rowsPerPageTemplate="50,100,200"
                          selectionMode="single"
-                         selection="#{haberTrabajadorController.selected}">
+                         selection="#{haberTrabajadorController.selected}"
+                         emptyMessage="No se han encontrado registros">
                 <!--
                          To enable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -42,31 +44,24 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('HaberTrabajadorListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idHaberTrabajador}" filterBy="#{item.idHaberTrabajador}">
+                <f:facet name="header">
+                    Definición de Haberes
+                </f:facet>
+
+                <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_idHaberTrabajador}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
-                    <h:outputText value="#{item.idHaberTrabajador}"/>
+                    <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
 
                 <p:column sortBy="#{item.nombreTipoHaber}" filterBy="#{item.nombreTipoHaber}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_nombreTipoHaber}"/>
+                        <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreTipoHaber}"/>
                 </p:column>
-
-
-                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_fechaIngreso}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.fechaIngreso}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </p:column>
-
 
                 <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}">
                     <f:facet name="header">
@@ -75,7 +70,6 @@
                     <h:outputText value="#{item.montoDefecto}"/>
                 </p:column>
 
-
                 <p:column sortBy="#{item.imponible}" filterBy="#{item.imponible}">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListHaberTrabajadorTitle_imponible}"/>
@@ -83,13 +77,21 @@
                     <h:selectBooleanCheckbox id="imponible" value="#{item.imponible}" title="#{bundle.EditHaberTrabajadorTitle_imponible}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_imponible}" disabled="true"/>
                 </p:column>
 
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_fechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngreso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{haberTrabajadorController.prepareCreate}" update=":HaberTrabajadorCreateForm" oncomplete="PF('HaberTrabajadorCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":HaberTrabajadorViewForm" oncomplete="PF('HaberTrabajadorViewDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":HaberTrabajadorEditForm" oncomplete="PF('HaberTrabajadorEditDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{haberTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty haberTrabajadorController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{haberTrabajadorController.prepareCreate}" update=":HaberTrabajadorCreateForm" oncomplete="PF('HaberTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":HaberTrabajadorViewForm" oncomplete="PF('HaberTrabajadorViewDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":HaberTrabajadorEditForm" oncomplete="PF('HaberTrabajadorEditDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{haberTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty haberTrabajadorController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 

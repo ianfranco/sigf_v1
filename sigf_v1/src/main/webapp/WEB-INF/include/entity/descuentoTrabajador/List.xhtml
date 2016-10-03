@@ -8,7 +8,7 @@
 
     <h:form id="DescuentoTrabajadorListForm">
 
-        <p:panel header="#{bundle.ListDescuentoTrabajadorTitle}">
+        <p:panel>
             <p:contextMenu id="DescuentoTrabajadorDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DescuentoTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DescuentoTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -24,9 +24,11 @@
                          var="item"
                          paginator="true"
                          rows="100"
+                         rowIndexVar="rowIndex"
                          rowsPerPageTemplate="50,100,200"
                          selectionMode="single"
-                         selection="#{descuentoTrabajadorController.selected}">
+                         selection="#{descuentoTrabajadorController.selected}"
+                         emptyMessage="No se han encontrado registros">
                 <!--
                          To enable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -42,11 +44,15 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('DescuentoTrabajadorListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idDescuentoTrabajador}" filterBy="#{item.idDescuentoTrabajador}">
+                <f:facet name="header">
+                    Definición de Descuentos
+                </f:facet>
+                
+                <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListDescuentoTrabajadorTitle_idDescuentoTrabajador}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
-                    <h:outputText value="#{item.idDescuentoTrabajador}"/>
+                    <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
 
@@ -78,10 +84,10 @@
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{descuentoTrabajadorController.prepareCreate}" update=":DescuentoTrabajadorCreateForm" oncomplete="PF('DescuentoTrabajadorCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DescuentoTrabajadorViewForm" oncomplete="PF('DescuentoTrabajadorViewDialog').show()" disabled="#{empty descuentoTrabajadorController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DescuentoTrabajadorEditForm" oncomplete="PF('DescuentoTrabajadorEditDialog').show()" disabled="#{empty descuentoTrabajadorController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty descuentoTrabajadorController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{descuentoTrabajadorController.prepareCreate}" update=":DescuentoTrabajadorCreateForm" oncomplete="PF('DescuentoTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":DescuentoTrabajadorViewForm" oncomplete="PF('DescuentoTrabajadorViewDialog').show()" disabled="#{empty descuentoTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DescuentoTrabajadorEditForm" oncomplete="PF('DescuentoTrabajadorEditDialog').show()" disabled="#{empty descuentoTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty descuentoTrabajadorController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 

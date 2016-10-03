@@ -2,7 +2,9 @@ package com.areatecnica.sigf_v1.entities;
 // Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -91,6 +93,37 @@ public class DiaTrabajador  implements java.io.Serializable {
     
     public void setHasta(Date hasta) {
         this.hasta = hasta;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.idDiaTrabajador);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DiaTrabajador other = (DiaTrabajador) obj;
+        if (!Objects.equals(this.idDiaTrabajador, other.idDiaTrabajador)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return tipoDiaTrabajador.getNombre() + ", desde=" + dateFormat.format(desde) + ", hasta=" + dateFormat.format(hasta);
     }
 
 

@@ -2,7 +2,9 @@ package com.areatecnica.sigf_v1.entities;
 // Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
 
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -150,7 +152,18 @@ public class LicenciaMedica  implements java.io.Serializable {
         this.diagnosticoLicencia = diagnosticoLicencia;
     }
 
-
+@Override
+    public String toString() {
+        Calendar calendarDesde = GregorianCalendar.getInstance();
+        calendarDesde.setTime(fechaDesdeReposo);
+        
+        Calendar calendarHasta = GregorianCalendar.getInstance();
+        calendarHasta.setTime(fechaHastaReposo);
+        
+        int dias = (calendarHasta.get(Calendar.DATE)-calendarDesde.get(Calendar.DATE))+1;
+        
+        return String.valueOf(dias);
+    }
 
 
 }

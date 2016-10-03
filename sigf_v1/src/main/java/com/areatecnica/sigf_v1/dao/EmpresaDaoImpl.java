@@ -83,6 +83,23 @@ public class EmpresaDaoImpl implements EmpresaDao{
         }
         return list;
     }
+    
+    public List<Empresa> findAllCleanOrderById() {
+        List<Empresa> list = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();        
+        String sql = "FROM Empresa e ORDER BY e.idEmpresa ASC";
+        
+        try{            
+            list = session.createQuery(sql).list();                        
+            tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+        return list;
+    }
 
     
 }

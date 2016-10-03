@@ -20,13 +20,7 @@
                             <p:inputText id="nombreTipoHaber" value="#{haberTrabajadorController.selected.nombreTipoHaber}" title="#{bundle.CreateHaberTrabajadorTitle_nombreTipoHaber}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_nombreTipoHaber}"/>
                             <p:tooltip for="nombreTipoHaber" value="#{haberTrabajadorController.getComponentMessages('nombreTipoHaber', bundle.CreateHaberTrabajadorHelpText_nombreTipoHaber)}"/>
                         </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateHaberTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{haberTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateHaberTrabajadorHelpText_fechaIngreso)}"/>
-                        </h:panelGroup>
-
+                        
                         <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_montoDefecto}" for="montoDefecto" />
                         <h:panelGroup>
                             <p:inputText id="montoDefecto" value="#{haberTrabajadorController.selected.montoDefecto}" title="#{bundle.CreateHaberTrabajadorTitle_montoDefecto}"/>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="selector">
+            <p:panel header="Registro Finiquitos">
+                <p:focus context="trabajador"/>
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel value="N° Conductor" for="trabajador" />
+                    <h:panelGroup>
+                        <h:panelGrid columns="4">
+                            <p:selectOneMenu id="trabajador" value="#{registroFiniquitosController.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{registroFiniquitosController.trabajadorItems}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                               />
+                                <p:ajax event="valueChange" update="informacionConductor, empresa"  listener="#{registroFiniquitosController.handleConductorChange}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombre:" style="margin-left: 20px;margin-bottom: 20px"/>
+                            <h:outputText value="#{registroFiniquitosController.trabajador}" id="informacionConductor"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+
+                    <p:outputLabel for="empresa" value="Contrato:" />
+                    <p:selectOneMenu id="empresa" value="#{registroFiniquitosController.relacionLaboral}" converter="relacionLaboralConverter" required="true" requiredMessage="Debe seleccionar el contrato">
+                        <f:selectItem itemLabel="Seleccionar"/>
+                        <f:selectItems value="#{registroFiniquitosController.relacionLaboralItems}"
+                                       var="item2"
+                                       itemValue="#{item2}"
+                                       itemLabel="#{item2.empresa}"
+                                       />                        
+                    </p:selectOneMenu>
+
+
+
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel for="inicio" value="Fecha Finiquito"/>
+                    <p:calendar id="inicio" value="#{registroFiniquitosController.selected.fechaFiniquito}" pattern="dd/MM/yyyy"/>
+
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel for="causal" value="Causal:" />
+                    <p:selectOneMenu id="causal" value="#{registroFiniquitosController.causalFiniquito}" converter="causalFiniquitoConverter">
+                        <f:selectItem itemLabel="Seleccionar"/>
+                        <f:selectItems value="#{registroFiniquitosController.causalFiniquitoItems}"
+                                       var="itemCausal"
+                                       itemValue="#{itemCausal}"
+                                       itemLabel="#{itemCausal}"
+                                       />                        
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
+
+                </h:panelGrid>
+                <p:commandButton value="Ingresar" update=":Display:datalist, :selector, :growl" actionListener="#{registroFiniquitosController.saveNew()}" resetValues="true">
+                </p:commandButton>
+            </p:panel>
+        </h:form>
+
+        <h:form id="Display">
+            <p:panel style="margin-top: 5px;">
+                <p:dataTable id="datalist" 
+                             value="#{registroFiniquitosController.items}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item.idFiniquitoRelacionLaboral}"
+                             rowIndexVar="rowIndex"                         
+                             selectionMode="single"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+
+                    <f:facet name="header">
+                        Últimos 100 Finiquitos Registrados
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.relacionLaboral.empresa}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.relacionLaboral.trabajador}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Contrato"/>
+                        </f:facet>
+                        <h:outputText value="#{item.relacionLaboral.tipoContrato}"/>
+                    </p:column>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Finiquito"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaFiniquito}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Motivo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.causalFiniquito}"/>                            
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

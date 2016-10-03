@@ -58,36 +58,35 @@
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label="Finiquitos">
-                                    <p:menuitem value="Últimos Finiquitos" />
-                                    <p:menuitem value="Nuevo" />
-                                    <p:menuitem value="Historial x Empresa" />
+                                    <p:menuitem value="Nuevo" outcome="#{appBean.basePath}webapp/remuneraciones/personal/finiquitos/registroFiniquito"/>
+                                    <p:menuitem value="Listado x Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/finiquitos/list"/>
+                                    <p:menuitem value="Historial x Empresa" outcome="#{appBean.basePath}webapp/remuneraciones/personal/finiquitos/listEmpresa"/>
                                     <p:submenu label="Avanzado">
                                         <p:menuitem value="Causales Finiquitos" />
                                     </p:submenu>
                                 </p:submenu>
 
                                 <p:submenu label="Vacaciones">
-                                    <p:menuitem value="Vacaciones x Personal"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>
-                                    <p:menuitem value="Nueva"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>                                    
+                                    <p:menuitem value="Registro"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadoLegal/registroFeriado"/>
+
                                 </p:submenu>
-                                
+
                                 <p:submenu label="Licencias">
-                                    <p:menuitem value="Licencias x Personal"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/licenciamedica"/>
-                                    <p:menuitem value="Nueva"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/licenciamedica"/>
-                                    <p:menuitem value="Seguimiento"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/feriadolegal"/>
+                                    <p:menuitem value="Registro"  outcome="#{appBean.basePath}webapp/remuneraciones/personal/licencias/registroLicencia"/>
+
                                 </p:submenu>
-                                
+
                             </p:submenu>                            
                             <p:submenu label="Empresas">
                                 <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
                             </p:submenu>
                             <p:submenu label="Movimientos">
-                                <p:menuitem value="Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
-                                <p:menuitem value="Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                <p:menuitem value="Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/definicion"/>
+                                <p:menuitem value="Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/definicion"/>
                                 <p:menuitem value="Anticipos"/>
                                 <p:submenu label="Avanzados">
-                                    <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
-                                    <p:menuitem value="Definición de Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List"/>
+                                    <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/definicion"/>
+                                    <p:menuitem value="Definición de Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/definicion"/>
                                 </p:submenu>                                
                             </p:submenu>
                             <p:submenu label="Procesos">
@@ -151,7 +150,7 @@
                         <div id="content" class="ui-corner-all">
 
                             <ui:insert name="body"/>
-                            
+
                             <ui:insert name="content" class="ui-corner-all">
                                 <ui:include src="/WEB-INF/include/entity/compraBoleto/Create.xhtml"/>
                             </ui:insert>

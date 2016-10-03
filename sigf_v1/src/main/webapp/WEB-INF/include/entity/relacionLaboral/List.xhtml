@@ -37,11 +37,13 @@
                 <p:columnGroup type="header">
                     <p:row>
                         <p:column rowspan="2" headerText="Empresa" />
-                        <p:column colspan="2" headerText="Detalle" />
+                        <p:column colspan="4" headerText="Detalle" />
                     </p:row>
                     <p:row>
                         <p:column headerText="Trabajador" />
-                        <p:column headerText="Contrato" />                    
+                        <p:column headerText="Contrato" />
+                        <p:column headerText="Sueldo Base" />
+                        <p:column headerText="F.Contrato" />
                     </p:row>
                 </p:columnGroup>
 
@@ -56,13 +58,25 @@
                     <p:column>
                         <h:outputText value="#{contratos.trabajador}" />
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center;">
                         <h:outputText value="#{contratos.tipoContrato}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{contratos.sueldoBase}">
+                            <f:convertNumber currencySymbol="$ "/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{contratos.fechaInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
                     <p:columnGroup type="footer">
                         <p:row>
                             <p:column footerText="Cantidad: " style="text-align:right"/>
                             <p:column footerText="#{item.contratos.size()}" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
                             <p:column footerText="" />
                         </p:row>
                     </p:columnGroup>

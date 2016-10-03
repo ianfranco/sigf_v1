@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel id="panel" header="Registro Feriado Legal" style="margin-bottom: 5px;">
+            <h:form id="FeriadoLegalCreateForm">
+                <h:panelGroup id="display" >
+                    <p:focus context="trabajador"/>
+                    <h:panelGrid columns="4">
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="trabajador" value="#{registroFeriadoLegalController.trabajador}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{registroFeriadoLegalController.trabajadorItems}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                               />
+                                <p:ajax event="valueChange" update="informacionConductor"  />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Nombre:"  style="margin-left: 20px;"/>
+                        <h:outputText value="#{registroFeriadoLegalController.trabajador}" id="informacionConductor"/>
+
+                        <p:outputLabel value="Desde" for="fechaDesdeFeriado" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaDesdeFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaDesdeFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="Hasta" for="fechaHastaFeriado" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaHastaFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaHastaFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_valorFeriado}" for="valorFeriado" />
+                        <h:panelGroup>
+                            <p:inputText id="valorFeriado" value="#{registroFeriadoLegalController.selected.valorFeriado}" title="#{bundle.CreateFeriadoLegalTitle_valorFeriado}"/>                            
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                </h:panelGroup>
+
+                <p:commandButton actionListener="#{registroFeriadoLegalController.saveNew}" value="#{bundle.Save}" update="display,:FeriadoLegalListForm:datalist,:growl" resetValues="true">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+                <p:commandButton value="#{bundle.Cancel}" update="display" process="@this" immediate="true" resetValues="true"/>
+
+            </h:form>
+        </p:panel>
+
+        <p:panel>
+            <h:form id="FeriadoLegalListForm">
+                <p:dataTable id="datalist"
+                             value="#{registroFeriadoLegalController.items}"                             
+                             var="item"
+                             paginator="true"
+                             rowKey="#{item.idFeriadoLegal}"
+                             rows="100"
+                             rowIndexVar="rowIndex"
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             selection="#{registroFeriadoLegalController.selected}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{feriadoLegalController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.idFeriadoLegal}"
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:deleteButton" />
+                    <p:ajax event="rowUnselect" update="@form:deleteButton" />
+
+                    <f:facet name="header">
+                        Últimas 100 Vacaciones Ingresadas
+                    </f:facet>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+
+                    <p:column style="text-align: center;" sortBy="#{item.trabajador}" filterBy="#{item.trabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Desde"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaDesdeFeriado}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hasta"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaHastaFeriado}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Días"/>
+                        </f:facet>
+                        <h:outputText value="#{item}"/>                        
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListFeriadoLegalTitle_valorFeriado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valorFeriado}">
+                            <f:convertNumber currencySymbol="$ "/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha Ingreso"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngresoFeriado}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                                        <p:column sortBy="#{item.feriadoFraccionado}" filterBy="#{item.feriadoFraccionado}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListFeriadoLegalTitle_feriadoFraccionado}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.feriadoFraccionado}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.saldoPendiente}" filterBy="#{item.saldoPendiente}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListFeriadoLegalTitle_saldoPendiente}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.saldoPendiente}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.valorFeriado}" filterBy="#{item.valorFeriado}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListFeriadoLegalTitle_valorFeriado}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.valorFeriado}"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+                
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroFeriadoLegalController.delete}" update=":growl,datalist" >
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+                <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
+
