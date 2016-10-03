@@ -8,7 +8,7 @@
 
     <h:form id="SindicatoTrabajadorListForm">
 
-        <p:panel header="#{bundle.ListSindicatoTrabajadorTitle}">
+        <p:panel >
             <p:contextMenu id="SindicatoTrabajadorDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SindicatoTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SindicatoTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -24,11 +24,10 @@
                          lazy="false"
                          rowKey="#{item.idSindicatoTrabajador}"
                          var="item"
-                         paginator="true"
-                         rows="100"
-                         rowsPerPageTemplate="50,100,200"
+                         rowIndexVar="rowIndex"
                          selectionMode="single"
-                         selection="#{sindicatoTrabajadorController.selected}">
+                         selection="#{sindicatoTrabajadorController.selected}"
+                         emptyMessage="No se han encontrado registros">
                 <!--
                          To enable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -44,46 +43,56 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{sindicatoTrabajadorController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('SindicatoTrabajadorListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idSindicatoTrabajador}" filterBy="#{item.idSindicatoTrabajador}">
+                <f:facet name="header">
+                    Asignación Sindicatos - Trabajados
+                </f:facet>
+                
+                <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListSindicatoTrabajadorTitle_idSindicatoTrabajador}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
-                    <h:outputText value="#{item.idSindicatoTrabajador}"/>
+                    <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.sindicato.idSindicato}" filterBy="#{item.sindicato.idSindicato}">
+                <p:column sortBy="#{item.sindicato}" filterBy="#{item.sindicato}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListSindicatoTrabajadorTitle_sindicato}"/>
+                        <h:outputText value="Sindicato"/>
                     </f:facet>
-                    <h:outputText value="#{item.sindicato.idSindicato}"/>
+                    <h:outputText value="#{item.sindicato}"/>
                 </p:column>
 
+                <p:column sortBy="#{item.trabajador.codigoTrabajador}" filterBy="#{item.trabajador.codigoTrabajador}">
+                    <f:facet name="header">
+                        <h:outputText value="Código"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                </p:column>
 
-                <p:column sortBy="#{item.trabajador.idTrabajador}" filterBy="#{item.trabajador.idTrabajador}">
+                <p:column sortBy="#{item.trabajador}" filterBy="#{item.trabajador}">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListSindicatoTrabajadorTitle_trabajador}"/>
                     </f:facet>
-                    <h:outputText value="#{item.trabajador.idTrabajador}"/>
+                    <h:outputText value="#{item.trabajador}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListSindicatoTrabajadorTitle_fechaIngreso}"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaIngreso}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
 
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sindicatoTrabajadorController.prepareCreate}" update=":SindicatoTrabajadorCreateForm" oncomplete="PF('SindicatoTrabajadorCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SindicatoTrabajadorViewForm" oncomplete="PF('SindicatoTrabajadorViewDialog').show()" disabled="#{empty sindicatoTrabajadorController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SindicatoTrabajadorEditForm" oncomplete="PF('SindicatoTrabajadorEditDialog').show()" disabled="#{empty sindicatoTrabajadorController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sindicatoTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty sindicatoTrabajadorController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sindicatoTrabajadorController.prepareCreate}" update=":SindicatoTrabajadorCreateForm" oncomplete="PF('SindicatoTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SindicatoTrabajadorViewForm" oncomplete="PF('SindicatoTrabajadorViewDialog').show()" disabled="#{empty sindicatoTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SindicatoTrabajadorEditForm" oncomplete="PF('SindicatoTrabajadorEditDialog').show()" disabled="#{empty sindicatoTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sindicatoTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty sindicatoTrabajadorController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 

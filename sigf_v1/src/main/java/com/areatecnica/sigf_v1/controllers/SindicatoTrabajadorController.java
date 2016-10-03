@@ -6,10 +6,11 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.FeriadoLegalDaoImpl;
-import com.areatecnica.sigf_v1.dao.TrabajadorDao;
+import com.areatecnica.sigf_v1.dao.SindicatoDaoImpl;
+import com.areatecnica.sigf_v1.dao.SindicatoTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
-import com.areatecnica.sigf_v1.entities.FeriadoLegal;
+import com.areatecnica.sigf_v1.entities.Sindicato;
+import com.areatecnica.sigf_v1.entities.SindicatoTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -17,6 +18,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.faces.event.ActionEvent;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,58 +27,56 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroFeriadoLegalController")
+@Named(value = "sindicatoTrabajadorController")
 @SessionScoped
-public class RegistroFeriadoLegalController implements Serializable {
+public class SindicatoTrabajadorController implements Serializable {
 
-    private FeriadoLegalDaoImpl diaTrabajadorDao;
-    private TrabajadorDao trabajadorDao;
-
+    private SindicatoTrabajadorDaoImpl sindicatoTrabajadorDao;
+    private SindicatoDaoImpl sindicatoDao;
+    private TrabajadorDaoImpl trabajadorDaoImpl;
+    private List<SindicatoTrabajador> items;
+    private List<Sindicato> sindicatoItems;
     private List<Trabajador> trabajadorItems;
-    private List<FeriadoLegal> items;
+    private SindicatoTrabajador selected;
     private Trabajador trabajador;
-    private FeriadoLegal selected;
-
+    
+    
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroFeriadoLegalController() {
-        this.trabajadorDao = new TrabajadorDaoImpl();
-        this.trabajadorItems = this.trabajadorDao.findAll();
-
-        this.diaTrabajadorDao = new FeriadoLegalDaoImpl();
-        this.items = this.diaTrabajadorDao.findWithLimit();
-
-        this.selected = prepareCreate();
+    public SindicatoTrabajadorController() {        
+        this.sindicatoTrabajadorDao = new SindicatoTrabajadorDaoImpl();
+        this.items = this.sindicatoTrabajadorDao.findAll();
+        
+        this.sindicatoDao = new SindicatoDaoImpl();
+        this.sindicatoItems = this.sindicatoDao.findAll();
     }
 
-    public List<FeriadoLegal> getItems() {
+    public List<SindicatoTrabajador> getItems() {
         return items;
     }
 
-    public void setItems(List<FeriadoLegal> items) {
+    public void setItems(List<SindicatoTrabajador> items) {
         this.items = items;
     }
 
-    public FeriadoLegal getSelected() {
+    public SindicatoTrabajador getSelected() {
         return selected;
     }
 
-    public void setSelected(FeriadoLegal selected) {
+    public void setSelected(SindicatoTrabajador selected) {
         this.selected = selected;
     }
-
-    public FeriadoLegal prepareCreate() {
-        FeriadoLegal newFeriadoLegal;
-
-        newFeriadoLegal = new FeriadoLegal();
-        newFeriadoLegal.setDiasHabiles(0);
-        newFeriadoLegal.setDomingosInhabiles(0);
-        newFeriadoLegal.setFeriadoFraccionado(0);
-        newFeriadoLegal.setSaldoPendiente(0);
-        newFeriadoLegal.setVacacionesProgresivas(0);
-
-        return newFeriadoLegal;
+    
+     public SindicatoTrabajador prepareCreate(ActionEvent event) {
+        SindicatoTrabajador newSindicato;
+        newSindicato = new SindicatoTrabajador();
+        this.selected = newSindicato;
+        
+        this.trabajadorDaoImpl = new TrabajadorDaoImpl();
+        this.trabajadorItems = this.trabajadorDaoImpl.findAll();
+        
+        return newSindicato;
     }
 
     public void saveNew() {
@@ -85,25 +85,14 @@ public class RegistroFeriadoLegalController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-
-                if (diferenciaEnDias2(this.selected.getFechaHastaFeriado(), this.selected.getFechaDesdeFeriado())>=0) {
-                    this.selected.setTrabajador(trabajador);
-                    this.selected.setFechaIngresoFeriado(new Date());
-                    session.save(this.selected);
-                    tx.commit();
-
-                    this.items.add(0, selected);
-                    this.selected = null;
-                    this.trabajador = null;
-                    this.selected = prepareCreate();
-                } else {
-                    JsfUtil.addErrorMessage("Fechas mal ingresadas: ");
-                }
+                this.selected.setFechaIngreso(new Date());
+                session.save(this.selected);
+                tx.commit();
+                this.items.add(selected);
 
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:DiaTrabajador");
-                JsfUtil.addErrorMessage(e.getMessage());
+                System.err.println("NULL:SindicatoTrabajador");
             }
         } else {
 
@@ -121,18 +110,18 @@ public class RegistroFeriadoLegalController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:DiaTrabajador");
+                System.err.println("NULL:SindicatoTrabajador");
             }
         } else {
 
         }
     }
-
-    public void resetParents() {
-
+    
+    public void resetParents(){
+        
     }
-
-    public void delete() {
+    
+    public void delete(){
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
@@ -140,19 +129,28 @@ public class RegistroFeriadoLegalController implements Serializable {
             try {
                 session.delete(this.selected);
                 tx.commit();
-
+                
                 this.items.remove(this.selected);
+                this.selected = null;
             } catch (HibernateException e) {
-                System.err.println("DELETE:Feriado");
                 tx.rollback();
+                System.err.println("NULL:SindicatoTrabajador");
             }
         } else {
 
         }
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage) {
+    public String getComponentMessages(String clientComponent, String defaultMessage){
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
+    }
+
+    public List<Sindicato> getSindicatoItems() {
+        return sindicatoItems;
+    }
+
+    public void setSindicatoItems(List<Sindicato> sindicatoItems) {
+        this.sindicatoItems = sindicatoItems;
     }
 
     public List<Trabajador> getTrabajadorItems() {
@@ -170,11 +168,4 @@ public class RegistroFeriadoLegalController implements Serializable {
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
     }
-
-    public static int diferenciaEnDias2(Date fechaMayor, Date fechaMenor) {        
-        long diferenciaEnms = fechaMayor.getTime() - fechaMenor.getTime();
-        long dias = diferenciaEnms / (1000 * 60 * 60 * 24);
-        return (int) dias;
-    }
-
 }

@@ -21,7 +21,7 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class ProduccionFlotaQuery {
+public class LiquidacionBusQuery {
 
     private ArrayList<LinkedHashMap> array;
     private List<String> resultsTotals;
@@ -29,7 +29,7 @@ public class ProduccionFlotaQuery {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
     private Date fecha;
 
-    public ProduccionFlotaQuery(Date fecha) {
+    public LiquidacionBusQuery(Date fecha) {
         this.fecha = fecha;
     }
 

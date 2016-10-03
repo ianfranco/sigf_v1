@@ -8,7 +8,7 @@
 
     <h:form id="SindicatoListForm">
 
-        <p:panel header="#{bundle.ListSindicatoTitle}">
+        <p:panel >
             <p:contextMenu id="SindicatoDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SindicatoListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SindicatoListForm:viewButton').click();" icon="ui-icon-search"/>
@@ -42,9 +42,13 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('SindicatoListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idSindicato}" filterBy="#{item.idSindicato}">
+                <f:facet name="header">
+                    Lista de Sindicatos                    
+                </f:facet>
+
+                <p:column sortBy="#{item.idSindicato}" filterBy="#{item.idSindicato}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListSindicatoTitle_idSindicato}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{item.idSindicato}"/>
                 </p:column>
@@ -52,26 +56,28 @@
 
                 <p:column sortBy="#{item.nombreSindicato}" filterBy="#{item.nombreSindicato}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListSindicatoTitle_nombreSindicato}"/>
+                        <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreSindicato}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.cuotaSindicato}" filterBy="#{item.cuotaSindicato}">
+                <p:column sortBy="#{item.cuotaSindicato}" filterBy="#{item.cuotaSindicato}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListSindicatoTitle_cuotaSindicato}"/>
+                        <h:outputText value="Cuota"/>
                     </f:facet>
-                    <h:outputText value="#{item.cuotaSindicato}"/>
+                    <h:outputText value="#{item.cuotaSindicato}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
                 </p:column>
 
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sindicatoController.prepareCreate}" update=":SindicatoCreateForm" oncomplete="PF('SindicatoCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SindicatoViewForm" oncomplete="PF('SindicatoViewDialog').show()" disabled="#{empty sindicatoController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SindicatoEditForm" oncomplete="PF('SindicatoEditDialog').show()" disabled="#{empty sindicatoController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sindicatoController.delete}" update=":growl,datalist" disabled="#{empty sindicatoController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sindicatoController.prepareCreate}" update=":SindicatoCreateForm" oncomplete="PF('SindicatoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SindicatoViewForm" oncomplete="PF('SindicatoViewDialog').show()" disabled="#{empty sindicatoController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SindicatoEditForm" oncomplete="PF('SindicatoEditDialog').show()" disabled="#{empty sindicatoController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sindicatoController.delete}" update=":growl,datalist" disabled="#{empty sindicatoController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 

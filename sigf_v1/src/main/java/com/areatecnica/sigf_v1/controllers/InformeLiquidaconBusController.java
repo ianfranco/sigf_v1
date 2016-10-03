@@ -45,9 +45,9 @@ import javax.faces.view.ViewScoped;
  *
  * @author ianfr
  */
-@Named(value = "informeProduccionBusController")
+@Named(value = "informeLiquidacionBusController")
 @ViewScoped
-public class InformeProduccionBusController implements Serializable {
+public class InformeLiquidaconBusController implements Serializable {
 
     private GuiaDaoImpl guiaDao;
     private UnidadNegocioDao unidadNegocioDao;
@@ -97,7 +97,7 @@ public class InformeProduccionBusController implements Serializable {
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public InformeProduccionBusController() {
+    public InformeLiquidaconBusController() {
         this.guiaDao = new GuiaDaoImpl();
         this.busDao = new BusDaoImpl();
         this.unidadNegocioDao = new UnidadNegocioDaoImpl();

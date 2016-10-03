@@ -6,11 +6,9 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.FeriadoLegalDaoImpl;
 import com.areatecnica.sigf_v1.dao.LicenciaMedicaDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
-import com.areatecnica.sigf_v1.entities.FeriadoLegal;
 import com.areatecnica.sigf_v1.entities.LicenciaMedica;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
@@ -83,7 +81,7 @@ public class RegistroLicenciaMedicaController implements Serializable {
 
             try {
 
-                if (diferenciaEnDias2(this.selected.getFechaHastaReposo(), this.selected.getFechaDesdeReposo())>0) {
+                if (diferenciaEnDias2(this.selected.getFechaHastaReposo(), this.selected.getFechaDesdeReposo())>=0) {
                     this.selected.setTrabajador(trabajador);
                     this.selected.setFechaIngresoLicencia(new Date());
                     this.selected.setFechaRecepcionLicencia(new Date());

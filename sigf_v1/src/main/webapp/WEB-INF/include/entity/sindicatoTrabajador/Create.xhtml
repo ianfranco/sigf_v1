@@ -15,39 +15,34 @@
                 <h:panelGroup id="display" rendered="#{sindicatoTrabajadorController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateSindicatoTrabajadorLabel_sindicato}" for="sindicato" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="sindicato" value="#{sindicatoTrabajadorController.selected.sindicato}" required="true" requiredMessage="#{bundle.CreateSindicatoTrabajadorRequiredMessage_sindicato}" converter="sindicatoConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{sindicatoController.items}"
-                                               var="sindicatoItem"
-                                               itemValue="#{sindicatoItem}"
-                                               itemLabel="#{sindicatoItem.idSindicato.toString()}"
-                                               />
 
-                            </p:selectOneMenu>
-                            <p:tooltip for="sindicato" value="#{sindicatoTrabajadorController.getComponentMessages('sindicato', bundle.CreateSindicatoTrabajadorHelpText_sindicato)}"/>
-                        </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateSindicatoTrabajadorLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <p:selectOneMenu id="trabajador" value="#{sindicatoTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateSindicatoTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{trabajadorController.items}"
+                                <f:selectItems value="#{sindicatoTrabajadorController.trabajadorItems}"
                                                var="trabajadorItem"
                                                itemValue="#{trabajadorItem}"
-                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
+                                               itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                />
 
-                            </p:selectOneMenu>
-                            <p:tooltip for="trabajador" value="#{sindicatoTrabajadorController.getComponentMessages('trabajador', bundle.CreateSindicatoTrabajadorHelpText_trabajador)}"/>
+                            </p:selectOneMenu>                            
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateSindicatoTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
+                        <p:outputLabel value="#{bundle.CreateSindicatoTrabajadorLabel_sindicato}" for="sindicato" />
                         <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{sindicatoTrabajadorController.selected.fechaIngreso}" title="#{bundle.CreateSindicatoTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateSindicatoTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{sindicatoTrabajadorController.getComponentMessages('fechaIngreso', bundle.CreateSindicatoTrabajadorHelpText_fechaIngreso)}"/>
+                            <p:selectOneMenu id="sindicato" value="#{sindicatoTrabajadorController.selected.sindicato}" required="true" requiredMessage="#{bundle.CreateSindicatoTrabajadorRequiredMessage_sindicato}" converter="sindicatoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{sindicatoTrabajadorController.sindicatoItems}"
+                                               var="sindicatoItem"
+                                               itemValue="#{sindicatoItem}"
+                                               itemLabel="#{sindicatoItem}"
+                                               />
+
+                            </p:selectOneMenu>                            
                         </h:panelGroup>
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sindicatoTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:SindicatoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SindicatoTrabajadorCreateDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>

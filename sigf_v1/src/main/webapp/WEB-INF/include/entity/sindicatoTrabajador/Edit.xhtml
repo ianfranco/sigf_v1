@@ -14,46 +14,32 @@
                 <h:panelGroup id="display">
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{sindicatoTrabajadorController.selected != null}">
 
-
-                        <h:outputLabel value="#{bundle.EditSindicatoTrabajadorLabel_idSindicatoTrabajador}" for="idSindicatoTrabajador" />
+                        <p:outputLabel value="Código" for="codigoTrabajador" />
                         <h:panelGroup>
-                            <h:outputText id="idSindicatoTrabajador" value="#{sindicatoTrabajadorController.selected.idSindicatoTrabajador}" />
-                            <p:tooltip for="idSindicatoTrabajador" value="#{sindicatoTrabajadorController.getComponentMessages('idSindicatoTrabajador', bundle.EditSindicatoTrabajadorHelpText_idSindicatoTrabajador)}"/>
+                            <p:outputLabel id="codigoTrabajador" value="#{sindicatoTrabajadorController.selected.trabajador.codigoTrabajador}"/>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="Nombre:" for="nombreTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="nombreTrabajador" value="#{sindicatoTrabajadorController.selected.trabajador}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.EditSindicatoTrabajadorLabel_sindicato}" for="sindicato" />
                         <h:panelGroup>
                             <p:selectOneMenu id="sindicato" value="#{sindicatoTrabajadorController.selected.sindicato}" required="true" requiredMessage="#{bundle.EditSindicatoTrabajadorRequiredMessage_sindicato}" converter="sindicatoConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{sindicatoController.items}"
+                                <f:selectItems value="#{sindicatoTrabajadorController.sindicatoItems}"
                                                var="sindicatoItem"
                                                itemValue="#{sindicatoItem}"
-                                               itemLabel="#{sindicatoItem.idSindicato.toString()}"
+                                               itemLabel="#{sindicatoItem}"
                                                />
 
                             </p:selectOneMenu>
-                            <p:tooltip for="sindicato" value="#{sindicatoTrabajadorController.getComponentMessages('sindicato', bundle.EditSindicatoTrabajadorHelpText_sindicato)}"/>
+
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditSindicatoTrabajadorLabel_trabajador}" for="trabajador" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="trabajador" value="#{sindicatoTrabajadorController.selected.trabajador}" required="true" requiredMessage="#{bundle.EditSindicatoTrabajadorRequiredMessage_trabajador}" converter="trabajadorConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{trabajadorController.items}"
-                                               var="trabajadorItem"
-                                               itemValue="#{trabajadorItem}"
-                                               itemLabel="#{trabajadorItem.idTrabajador.toString()}"
-                                               />
 
-                            </p:selectOneMenu>
-                            <p:tooltip for="trabajador" value="#{sindicatoTrabajadorController.getComponentMessages('trabajador', bundle.EditSindicatoTrabajadorHelpText_trabajador)}"/>
-                        </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditSindicatoTrabajadorLabel_fechaIngreso}" for="fechaIngreso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{sindicatoTrabajadorController.selected.fechaIngreso}" title="#{bundle.EditSindicatoTrabajadorTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditSindicatoTrabajadorRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{sindicatoTrabajadorController.getComponentMessages('fechaIngreso', bundle.EditSindicatoTrabajadorHelpText_fechaIngreso)}"/>
-                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sindicatoTrabajadorController.save}" value="#{bundle.Save}" update="display,:SindicatoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SindicatoTrabajadorEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
