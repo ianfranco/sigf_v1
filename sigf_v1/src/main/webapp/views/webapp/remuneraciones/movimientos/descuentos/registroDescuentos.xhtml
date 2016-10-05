@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel id="DescuentoTrabajadorLiquidacionCreateDlg" widgetVar="DescuentoTrabajadorLiquidacionCreateDialog" header="Registro Descuentos" >
+
+            <h:form id="DescuentoTrabajadorLiquidacionCreateForm">
+
+                <h:panelGroup id="display" >
+                    <p:focus context="descuentoTrabajador"/>
+                    <h:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Descuento" for="descuentoTrabajador" />
+                        <h:panelGroup>
+                            <h:panelGrid columns="4" >
+                                <p:selectOneMenu id="descuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.descuentoTrabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_descuentoTrabajador}" converter="descuentoTrabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{descuentoTrabajadorLiquidacionController.descuentosItems}"
+                                                   var="descuentoTrabajadorItem"
+                                                   itemValue="#{descuentoTrabajadorItem}"
+                                                   itemLabel="#{descuentoTrabajadorItem}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <p:tooltip for="descuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('descuentoTrabajador', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_descuentoTrabajador)}"/>
+
+                            </h:panelGrid>
+
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <h:panelGrid columns="4">
+                                <p:selectOneMenu id="trabajador" value="#{descuentoTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{descuentoTrabajadorLiquidacionController.trabajadorItems}"
+                                                   var="trabajadorItem"
+                                                   itemValue="#{trabajadorItem}"
+                                                   itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                                   />
+                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado"/>
+                                </p:selectOneMenu>
+
+                                <p:tooltip for="trabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('trabajador', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_trabajador)}"/>
+                                <p:outputLabel id="nombreTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.trabajador}"/>
+
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Estado:"/>
+                        <h:outputLabel id="contratado"  value="#{descuentoTrabajadorLiquidacionController.selected.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
+
+                        <p:outputLabel value="F.Inicio" for="fechaInicioDescuento" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioDescuento" pattern="dd/MM/yyyy" value="#{descuentoTrabajadorLiquidacionController.selected.fechaInicioDescuento}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" />
+                            <p:tooltip for="fechaInicioDescuento" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('fechaInicioDescuento', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_fechaInicioDescuento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="N° Cuotas" for="numeroCuotas" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_numeroCuotas}"/>
+                            <p:tooltip for="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('numeroCuotas', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_numeroCuotas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
+                        <h:panelGroup>
+                            <p:inputText id="monto" value="#{descuentoTrabajadorLiquidacionController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
+
+                            </p:inputText>
+                            <p:tooltip for="monto" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('monto', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_monto)}"/>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{descuentoTrabajadorLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:panel>
+
+        <h:form id="DescuentoTrabajadorLiquidacionListForm">
+
+            <p:panel style="margin-top: 15px;">
+                <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{descuentoTrabajadorLiquidacionController.items}"
+                             lazy="false"
+                             rowKey="#{item.idDescuentoTrabajadorLiquidacion}"
+                             rowIndexVar="rowIndex"
+                             var="item"                             
+                             selectionMode="single"
+                             selection="#{descuentoTrabajadorLiquidacionController.selected}"
+                             emptyMessage="No se han encontrado registros">
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{descuentoTrabajadorLiquidacionController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idDescuentoTrabajadorLiquidacion}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+
+                    <f:facet name="header">
+                        Últimos Descuentos Ingresados 
+                    </f:facet>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column  filterBy="#{item.descuentoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Descuento"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descuentoTrabajador}"/>
+                    </p:column>
+                    
+                    <p:column  filterBy="#{item.trabajador.codigoTrabajador}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Cód.Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.trabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+
+                    <p:column filterBy="#{item.fechaInicioDescuento}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Inicio"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicioDescuento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column filterBy="#{item.fechaIngresoDescuento}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Registro"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngresoDescuento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column filterBy="#{item.numeroCuotas}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Cuotas"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCuotas}"/>
+                    </p:column>
+
+                    <p:column  filterBy="#{item.monto}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.monto}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                                        
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.activoDescuentoTrabajador}" filterBy="#{item.activoDescuentoTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}"/>
+                                            </f:facet>
+                                            <h:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{item.activoDescuentoTrabajador}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}" disabled="true"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoTrabajadorLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty descuentoTrabajadorLiquidacionController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

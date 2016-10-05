@@ -48,7 +48,7 @@
                     Definición de Descuentos
                 </f:facet>
                 
-                <p:column>
+                <p:column style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="N°"/>
                     </f:facet>
@@ -64,7 +64,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListDescuentoTrabajadorTitle_fechaIngreso}"/>
                     </f:facet>
@@ -74,7 +74,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}">
+                <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListDescuentoTrabajadorTitle_montoDefecto}"/>
                     </f:facet>

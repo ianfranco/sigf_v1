@@ -5,7 +5,6 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
-import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
 import com.areatecnica.sigf_v1.entities.DescuentoTrabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;

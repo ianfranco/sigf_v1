@@ -9,6 +9,7 @@ import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDaoImpl;
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
+import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -19,7 +20,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "liquidacionBusController")
 @ViewScoped
-public class LiquidacionBusController {
+public class LiquidacionBusController implements Serializable{
 
     private int mes;
     private int anio;
