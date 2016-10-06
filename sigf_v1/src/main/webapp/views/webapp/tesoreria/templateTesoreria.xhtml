@@ -42,6 +42,21 @@
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
                                 <p:menuitem value="Flotas"  outcome="#{appBean.basePath}webapp/tesoreria/flota/index"/>                                                        
                             </p:submenu>
+                            
+                            <p:submenu label="Movimientos">
+                                <p:submenu label="Cargos">
+                                    <p:menuitem value="Registro de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
+                                    <p:submenu label="Avanzado">
+                                        <p:menuitem value="Definición de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                                    </p:submenu>
+                                </p:submenu>
+                                <p:submenu label="Abonos">
+                                    <p:menuitem value="Registro de Abonos" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
+                                    <p:submenu label="Avanzado">
+                                        <p:menuitem value="Definición de Abonos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                                    </p:submenu>
+                                </p:submenu>
+                            </p:submenu>
 
                             <p:submenu label="Reportes">
                                 <p:submenu label="Buses">                                

@@ -8,14 +8,14 @@
 
     <h:form id="TipoCargoListForm">
 
-        <p:panel header="#{bundle.ListTipoCargoTitle}">
+        <p:panel >
             <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoCargoListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoCargoListForm:viewButton').click();" icon="ui-icon-search"/>
                 <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoCargoListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargoListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
-                <p:menuitem value="#{bundle.TipoCargoMenuItem_cargoBuses}" icon="ui-icon-search"  action="#{tipoCargoController.navigateCargoBuses}" disabled="#{empty tipoCargoController.selected.cargoBuses}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TipoCargoMenuItem_cargoBuses}" icon="ui-icon-search"  ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{tipoCargoController.items}"
@@ -26,62 +26,59 @@
                          rows="100"
                          rowsPerPageTemplate="50,100,200"
                          selectionMode="single"
-                         selection="#{tipoCargoController.selected}">
-                <!--
-                         To enable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
+                         selection="#{tipoCargoController.selected}"
+                         emptyMessage="No se han encontrado registros">
                 
-                         value="HASH{tipoCargoController.lazyItems}"
-                         lazy="true"
-                         rowKey="HASH{item.idTipoCargo}"  <<< Remove this line
-                -->
-
-
                 <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargoDataTableContextMenu"/>
                 <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargoDataTableContextMenu"/>
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoCargoListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idTipoCargo}" filterBy="#{item.idTipoCargo}">
+                <f:facet name="header">
+                    Definición de Cargos
+                </f:facet>
+                
+                <p:column sortBy="#{item.idTipoCargo}" filterBy="#{item.idTipoCargo}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTipoCargoTitle_idTipoCargo}"/>
+                        <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{item.idTipoCargo}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.nombreTipoCargo}" filterBy="#{item.nombreTipoCargo}">
+                <p:column sortBy="#{item.nombreTipoCargo}" filterBy="#{item.nombreTipoCargo}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTipoCargoTitle_nombreTipoCargo}"/>
+                        <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreTipoCargo}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListTipoCargoTitle_fechaIngreso}"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaIngreso}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
 
-
-                <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}">
+                <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTipoCargoTitle_montoDefecto}"/>
+                        <h:outputText value="Monto x Defecto"/>
                     </f:facet>
-                    <h:outputText value="#{item.montoDefecto}"/>
+                    <h:outputText value="#{item.montoDefecto}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
                 </p:column>
 
 
             </p:dataTable>
 
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoCargoController.prepareCreate}" update=":TipoCargoCreateForm" oncomplete="PF('TipoCargoCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoCargoViewForm" oncomplete="PF('TipoCargoViewDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoCargoEditForm" oncomplete="PF('TipoCargoEditDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoCargoController.delete}" update=":growl,datalist" disabled="#{empty tipoCargoController.selected}">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoCargoController.prepareCreate}" update=":TipoCargoCreateForm" oncomplete="PF('TipoCargoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoCargoViewForm" oncomplete="PF('TipoCargoViewDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoCargoEditForm" oncomplete="PF('TipoCargoEditDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoCargoController.delete}" update=":growl,datalist" disabled="#{empty tipoCargoController.selected}">
                 <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>
 
