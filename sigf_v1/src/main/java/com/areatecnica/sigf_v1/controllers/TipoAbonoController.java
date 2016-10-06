@@ -6,8 +6,8 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.TipoCargoDaoImpl;
-import com.areatecnica.sigf_v1.entities.TipoCargo;
+import com.areatecnica.sigf_v1.dao.TipoAbonoDaoImpl;
+import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -22,41 +22,41 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "tipoCargoController")
+@Named(value = "tipoAbonoController")
 @SessionScoped
-public class TipoCargoController implements Serializable {
+public class TipoAbonoController implements Serializable {
 
-    private TipoCargoDaoImpl tipoCargo;
-    private List<TipoCargo> items;
-    private TipoCargo selected;
+    private TipoAbonoDaoImpl tipoCargo;
+    private List<TipoAbono> items;
+    private TipoAbono selected;
     
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public TipoCargoController() {        
-        this.tipoCargo = new TipoCargoDaoImpl();
+    public TipoAbonoController() {        
+        this.tipoCargo = new TipoAbonoDaoImpl();
         this.items = this.tipoCargo.findAll();
     }
 
-    public List<TipoCargo> getItems() {
+    public List<TipoAbono> getItems() {
         return items;
     }
 
-    public void setItems(List<TipoCargo> items) {
+    public void setItems(List<TipoAbono> items) {
         this.items = items;
     }
 
-    public TipoCargo getSelected() {
+    public TipoAbono getSelected() {
         return selected;
     }
 
-    public void setSelected(TipoCargo selected) {
+    public void setSelected(TipoAbono selected) {
         this.selected = selected;
     }
     
-     public TipoCargo prepareCreate(ActionEvent event) {
-        TipoCargo newTipoCargo;
-        newTipoCargo = new TipoCargo();
+     public TipoAbono prepareCreate(ActionEvent event) {
+        TipoAbono newTipoCargo;
+        newTipoCargo = new TipoAbono();
         this.selected = newTipoCargo;
         return newTipoCargo;
     }
@@ -73,7 +73,7 @@ public class TipoCargoController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:TipoCargo");
+                System.err.println("NULL:TipoAbono");
             }
         } else {
 
@@ -91,7 +91,7 @@ public class TipoCargoController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:TipoCargo");
+                System.err.println("NULL:TipoAbono");
             }
         } else {
 
@@ -113,7 +113,7 @@ public class TipoCargoController implements Serializable {
                 this.items.remove(this.selected);
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:TipoCargo");
+                System.err.println("NULL:TipoAbono");
             }
         } else {
 

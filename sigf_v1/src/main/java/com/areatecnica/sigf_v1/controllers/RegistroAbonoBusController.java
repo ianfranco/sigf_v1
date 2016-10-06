@@ -6,12 +6,12 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.AbonoBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
-import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
-import com.areatecnica.sigf_v1.dao.TipoCargoDaoImpl;
+import com.areatecnica.sigf_v1.dao.TipoAbonoDaoImpl;
+import com.areatecnica.sigf_v1.entities.AbonoBus;
 import com.areatecnica.sigf_v1.entities.Bus;
-import com.areatecnica.sigf_v1.entities.CargoBus;
-import com.areatecnica.sigf_v1.entities.TipoCargo;
+import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -26,43 +26,44 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroCargoBusController")
+@Named(value = "registroAbonoBusController")
 @SessionScoped
-public class RegistroCargoBusController implements Serializable {
+public class RegistroAbonoBusController implements Serializable {
 
-    private TipoCargoDaoImpl tipoCargoDao;
-    private CargoBusDaoImpl cargoBusDaoImpl;
+    private TipoAbonoDaoImpl tipoAbonoDao;
+    private AbonoBusDaoImpl abonoBusDaoImpl;
     private BusDaoImpl busDaoImpl;
    
-    private CargoBus selected;
+    private AbonoBus selected;
 
-    private List<TipoCargo> tipoCargoItems;
-    private List<CargoBus> items;
+    private List<TipoAbono> tipoAbonoItems;
+    private List<AbonoBus> items;
     private Bus bus;
     private List<Bus> busItems;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroCargoBusController() {
-        this.tipoCargoDao = new TipoCargoDaoImpl();        
-        this.tipoCargoItems = this.tipoCargoDao.findAll();
+    public RegistroAbonoBusController() {
+        this.tipoAbonoDao = new TipoAbonoDaoImpl();        
+        this.tipoAbonoItems = this.tipoAbonoDao.findAll();
         
         this.busDaoImpl = new BusDaoImpl();
         this.busItems = this.busDaoImpl.findAll();
 
-        this.cargoBusDaoImpl = new CargoBusDaoImpl();
-        this.items = this.cargoBusDaoImpl.findAll();
+        this.abonoBusDaoImpl = new AbonoBusDaoImpl();
+        this.items = this.abonoBusDaoImpl.findAll();
 
         this.selected = prepareCreate();
 
     }
 
-    public CargoBus prepareCreate() {        
-        CargoBus newCargoBus;
-        newCargoBus = new CargoBus();
-        newCargoBus.setMontoCargoBus(0);
-        newCargoBus.setNumeroCuotasCargoBus(0);        
+    public AbonoBus prepareCreate() {        
+        AbonoBus newCargoBus;
+        newCargoBus = new AbonoBus();
+        newCargoBus.setFechaInicioAbonoBus(new Date());
+        newCargoBus.setMontoAbonoBus(0);
+        newCargoBus.setNumeroCuotasAbonoBus(0);        
         return newCargoBus;
     }
 
@@ -72,18 +73,19 @@ public class RegistroCargoBusController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                this.selected.setFechaIngresoCargoBus(new Date());
-                this.selected.setActivoCargoBus(Boolean.TRUE);                
+                this.selected.setFechaIngresoAbonoBus(new Date());
+                this.selected.setActivoAbonoBus(Boolean.TRUE);
+                this.selected.setNumeroCuotasAbonoBus(1);
                 this.selected.setBus(bus);
 
                 session.save(this.selected);
                 tx.commit();
-                this.items.add(0, this.selected);
+                this.items.add(0, selected);
                                                 
                 this.selected = null;
-                this.selected = new CargoBus();
-                this.selected.setMontoCargoBus(0);
-                this.selected.setNumeroCuotasCargoBus(0);
+                this.selected = new AbonoBus();
+                this.selected.setMontoAbonoBus(0);
+                this.selected.setNumeroCuotasAbonoBus(0);
                 
             } catch (HibernateException e) {
                 tx.rollback();
@@ -138,28 +140,28 @@ public class RegistroCargoBusController implements Serializable {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
 
-    public List<CargoBus> getItems() {
+    public List<AbonoBus> getItems() {
         return items;
     }
 
-    public void setItems(List<CargoBus> items) {
+    public void setItems(List<AbonoBus> items) {
         this.items = items;
     }
 
-    public CargoBus getSelected() {
+    public AbonoBus getSelected() {
         return selected;
     }
 
-    public void setSelected(CargoBus selected) {
+    public void setSelected(AbonoBus selected) {
         this.selected = selected;
+    }
+
+    public List<Bus> getBusItems() {
+        return busItems;
     }
 
     public void setBusItems(List<Bus> trabajadorItems) {
         this.busItems = trabajadorItems;
-    }
-    
-    public List<Bus> getBusItems(){
-        return this.busItems;
     }
 
     public Bus getBus() {
@@ -170,11 +172,11 @@ public class RegistroCargoBusController implements Serializable {
         this.bus = bus;
     }
 
-    public List<TipoCargo> getTipoCargoItems() {
-        return tipoCargoItems;
+    public List<TipoAbono> getTipoAbonoItems() {
+        return tipoAbonoItems;
     }
 
-    public void setTipoCargoItems(List<TipoCargo> tipoCargoItems) {
-        this.tipoCargoItems = tipoCargoItems;
+    public void setTipoAbonoItems(List<TipoAbono> tipoAbonoItems) {
+        this.tipoAbonoItems = tipoAbonoItems;
     }
 }

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Abonos x Bus" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="10">
+
+                    <p:focus for="unidad"/>        
+                    <p:outputLabel value="Unidad:" for="unidad"/>
+                    <p:selectOneMenu id="unidad" value="#{informeAbonosBusController.unidadNegocio}" required="true" requiredMessage="Debe seleccionar la Unidad " converter="unidadNegocioConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeAbonosBusController.unidadNegocioItems}"
+                                       var="unidadItem"
+                                       itemValue="#{unidadItem}"
+                                       itemLabel="#{unidadItem}"
+                                       />
+                        <p:ajax update="numeroBus" listener="#{informeAbonosBusController.handleUnidadChange}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="N° Bus:" for="numeroBus"/>
+                    <p:selectOneMenu id="numeroBus" value="#{informeAbonosBusController.bus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="busConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeAbonosBusController.busItems}"
+                                       var="busItem"
+                                       itemValue="#{busItem}"
+                                       itemLabel="#{busItem}"
+                                       />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="mes" value="Seleccionar:" />
+                    <p:selectOneMenu id="mes" value="#{informeAbonosBusController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{informeAbonosBusController.anio}" size="5" />
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="AbonoBusListForm:datalist, growl" style="width:120px" actionListener="#{informeAbonosBusController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="AbonoBusListForm">
+
+            <p:panel style="margin-top: 10px;">
+                <p:contextMenu id="AbonoBusDataTableContextMenu" for="datalist">                                                              
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('AbonoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>                    
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{informeAbonosBusController.items}"
+                             lazy="false"
+                             rowKey="#{item.idAbonoBus}"
+                             var="item"
+                             paginator="true"
+                             rows="100"
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             rowIndexVar="rowIndex"
+                             selection="#{informeAbonosBusController.selected}" 
+                             emptyMessage="No se han encontrado registros">
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{abonoBusController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idAbonoBus}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}"/>                    
+
+                    <f:facet name="header">
+                        Últimos Abonos Registrados
+                    </f:facet>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.bus}" filterBy="#{item.bus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Bus"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.bus.unidadNegocio.numeroUnidadNegocio}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Unidad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.tipoAbono}" filterBy="#{item.tipoAbono}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Abono"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoAbono}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="Descripción"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.montoAbonoBus}" filterBy="#{item.montoAbonoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montoAbonoBus}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.fechaIngresoAbonoBus}" filterBy="#{item.fechaIngresoAbonoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Ingreso"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngresoAbonoBus}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.activoAbonoBus}" filterBy="#{item.activoAbonoBus}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListAbonoBusTitle_activoAbonoBus}"/>
+                                            </f:facet>
+                                            <h:selectBooleanCheckbox id="activoAbonoBus" value="#{item.activoAbonoBus}" title="#{bundle.EditAbonoBusTitle_activoAbonoBus}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_activoAbonoBus}" disabled="true"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroAbonoBusController.delete}" update=":growl,datalist" disabled="#{empty registroAbonoBusController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

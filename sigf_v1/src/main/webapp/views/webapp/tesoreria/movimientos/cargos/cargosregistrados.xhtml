@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Cargos x Flota" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="10">
+
+                    <p:focus for="flota"/>        
+                    <p:outputLabel value="Flota:" for="flota"/>
+                    <p:selectOneMenu id="flota" value="#{informeDiasTrabajadosFlotaController.flota}" converter="flotaConverter">
+                        <f:selectItem itemLabel="Todos"/>
+                        <f:selectItems value="#{informeDiasTrabajadosFlotaController.flotaItems}"
+                                       var="unidadItem"
+                                       itemValue="#{unidadItem}"
+                                       itemLabel="#{unidadItem}"
+                                       />                        
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="mes" value="Seleccionar:" />
+                    <p:selectOneMenu id="mes" value="#{informeDiasTrabajadosFlotaController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{informeDiasTrabajadosFlotaController.anio}" size="5" />
+                    
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Producción" update="GuiaListForm:datalist, growl" style="width:160px" actionListener="#{informeDiasTrabajadosFlotaController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Loading"   
+                  draggable="false" closable="false">  
+            <p:graphicImage value="ajax-loader.gif" library="images" />  
+        </p:dialog>
+        <h:form id="GuiaListForm">            
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
+
+                <p:dataTable id="datalist" 
+                             value="#{informeDiasTrabajadosFlotaController.listOfMaps}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item}"
+                             rowIndexVar="rowIndex"
+                             selection="#{informeDiasTrabajadosFlotaController.selected}"
+                             selectionMode="single"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{guiaController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idGuia}"  <<< Remove this line
+                    -->
+
+                    <f:facet name="header">
+                        Producción x Flota
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:columns value="#{informeDiasTrabajadosFlotaController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{informeDiasTrabajadosFlotaController.resultsHeader.get(col)}"  columnIndexVar="col" style="text-align: center">
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
+                    </p:columns>
+                </p:dataTable>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Imprimir" icon="ui-icon-print"  class="no-print"> 
+                        <p:printer target="tabla"/>
+                    </p:commandButton>
+                    <p:commandButton value="Excel" ajax="false" icon="fa fa-file-excel-o" class="no-print">                        
+                        <p:dataExporter type="xls" target="datalist" fileName="Producción Bus" />
+                    </p:commandButton>
+                    <p:commandButton value="Pdf" ajax="false" icon="fa fa-file-pdf-o" class="no-print">                        
+                        <p:dataExporter type="pdf" target="datalist" fileName="Producción Bus" preProcessor="#{customizedDocumentsView.preProcessPDF}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:panel>
+        </h:form>
+
+
+    </ui:define>
+
+
+
+</ui:composition>

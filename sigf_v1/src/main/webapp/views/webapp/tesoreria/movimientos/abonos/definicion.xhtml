@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TipoAbonoListForm">
+
+            <p:panel >
+                <p:contextMenu id="TipoAbonoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoAbonoListForm:createButton').click();" icon="ui-icon-plus"/>                
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoAbonoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoAbonoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.TipoAbonoMenuItem_abonoBuses}" icon="ui-icon-search"  action="#{tipoAbonoController.navigateAbonoBuses}" disabled="#{empty tipoAbonoController.selected.abonoBuses}" ajax="false"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{tipoAbonoController.items}"
+                             lazy="false"
+                             rowKey="#{item.idTipoAbono}"
+                             var="item"
+                             paginator="true"
+                             rows="100"
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             selection="#{tipoAbonoController.selected}"
+                             emptyMessage="No se han encontrado registros">
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{tipoAbonoController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idTipoAbono}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu"/>
+
+                    <f:facet name="header">
+                        Definición de Abonos
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idTipoAbono}" filterBy="#{item.idTipoAbono}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTipoAbono}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreTipoAbono}" filterBy="#{item.nombreTipoAbono}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreTipoAbono}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTipoAbonoTitle_fechaIngreso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto x Defecto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montoDefecto}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoAbonoController.prepareCreate}" update=":TipoAbonoCreateForm" oncomplete="PF('TipoAbonoCreateDialog').show()"/>
+                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoAbonoViewForm" oncomplete="PF('TipoAbonoViewDialog').show()" disabled="#{empty tipoAbonoController.selected}"/>
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoAbonoEditForm" oncomplete="PF('TipoAbonoEditDialog').show()" disabled="#{empty tipoAbonoController.selected}"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoAbonoController.delete}" update=":growl,datalist" disabled="#{empty tipoAbonoController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="TipoAbonoCreateDlg" widgetVar="TipoAbonoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoAbonoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAbonoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoAbonoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_nombreTipoAbono}" for="nombreTipoAbono" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoAbono" value="#{tipoAbonoController.selected.nombreTipoAbono}" title="#{bundle.CreateTipoAbonoTitle_nombreTipoAbono}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_nombreTipoAbono}"/>
+                            <p:tooltip for="nombreTipoAbono" value="#{tipoAbonoController.getComponentMessages('nombreTipoAbono', bundle.CreateTipoAbonoHelpText_nombreTipoAbono)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.fechaIngreso}" title="#{bundle.CreateTipoAbonoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoAbonoController.getComponentMessages('fechaIngreso', bundle.CreateTipoAbonoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoAbonoController.selected.montoDefecto}" title="#{bundle.CreateTipoAbonoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoAbonoController.getComponentMessages('montoDefecto', bundle.CreateTipoAbonoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoAbonoController.saveNew}" value="#{bundle.Save}" update="display,:TipoAbonoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoAbonoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoAbonoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:dialog id="TipoAbonoEditDlg" widgetVar="TipoAbonoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoAbonoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAbonoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoAbonoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoAbonoLabel_idTipoAbono}" for="idTipoAbono" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoAbono" value="#{tipoAbonoController.selected.idTipoAbono}" />
+                            <p:tooltip for="idTipoAbono" value="#{tipoAbonoController.getComponentMessages('idTipoAbono', bundle.EditTipoAbonoHelpText_idTipoAbono)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoAbonoLabel_nombreTipoAbono}" for="nombreTipoAbono" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoAbono" value="#{tipoAbonoController.selected.nombreTipoAbono}" title="#{bundle.EditTipoAbonoTitle_nombreTipoAbono}" required="true" requiredMessage="#{bundle.EditTipoAbonoRequiredMessage_nombreTipoAbono}"/>
+                            <p:tooltip for="nombreTipoAbono" value="#{tipoAbonoController.getComponentMessages('nombreTipoAbono', bundle.EditTipoAbonoHelpText_nombreTipoAbono)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoAbonoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.fechaIngreso}" title="#{bundle.EditTipoAbonoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoAbonoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoAbonoController.getComponentMessages('fechaIngreso', bundle.EditTipoAbonoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoAbonoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoAbonoController.selected.montoDefecto}" title="#{bundle.EditTipoAbonoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoAbonoController.getComponentMessages('montoDefecto', bundle.EditTipoAbonoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoAbonoController.save}" value="#{bundle.Save}" update="display,:TipoAbonoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoAbonoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoAbonoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

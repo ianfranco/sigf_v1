@@ -29,6 +29,9 @@
         <property name="activoCargoBus" type="boolean">
             <column name="activo_cargo_bus" not-null="true" />
         </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="100" />
+        </property>
         <set name="cargoLiquidacions" table="cargo_liquidacion" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_cargo_bus" not-null="true" />

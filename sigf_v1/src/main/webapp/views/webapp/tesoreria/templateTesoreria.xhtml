@@ -45,15 +45,26 @@
                             
                             <p:submenu label="Movimientos">
                                 <p:submenu label="Cargos">
-                                    <p:menuitem value="Registro de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
+                                    <p:menuitem value="Registro x Bus" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/registroCargo" />
+                                    <p:menuitem value="Registro x Flota"  />
+                                    <p:submenu label="Listados">
+                                        <p:menuitem value="Cargos Registrados" />
+                                        <p:menuitem value="Cargos x Bus"  outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/cargosxbus"/>
+                                        <p:menuitem value="Cargos x Flota"  outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/cargosregistrados"/>
+                                    </p:submenu>
+                                    
                                     <p:submenu label="Avanzado">
                                         <p:menuitem value="Definición de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label="Abonos">
-                                    <p:menuitem value="Registro de Abonos" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
+                                    <p:menuitem value="Registro x Bus" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/abonos/registroAbono" />                                    
+                                    <p:submenu label="Listados">
+                                        <p:menuitem value="Abonos Registrados" />
+                                        <p:menuitem value="Abonos x Bus"  outcome="#{appBean.basePath}webapp/tesoreria/movimientos/abonos/abonosxbus"/>                                        
+                                    </p:submenu>
                                     <p:submenu label="Avanzado">
-                                        <p:menuitem value="Definición de Abonos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                                        <p:menuitem value="Definición de Abonos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/abonos/definicion" />
                                     </p:submenu>
                                 </p:submenu>
                             </p:submenu>

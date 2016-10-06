@@ -29,6 +29,9 @@
         <property name="activoAbonoBus" type="boolean">
             <column name="activo_abono_bus" not-null="true" />
         </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="100" />
+        </property>
         <set name="abonoLiquidacions" table="abono_liquidacion" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_abono_bus" not-null="true" />

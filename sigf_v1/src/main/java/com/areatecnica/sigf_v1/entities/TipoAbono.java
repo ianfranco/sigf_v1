@@ -4,6 +4,7 @@ package com.areatecnica.sigf_v1.entities;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -96,6 +97,36 @@ public class TipoAbono  implements java.io.Serializable {
     
     public void setAbonoBuses(Set<AbonoBus> abonoBuses) {
         this.abonoBuses = abonoBuses;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.idTipoAbono);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TipoAbono other = (TipoAbono) obj;
+        if (!Objects.equals(this.idTipoAbono, other.idTipoAbono)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return nombreTipoAbono;
     }
 
 

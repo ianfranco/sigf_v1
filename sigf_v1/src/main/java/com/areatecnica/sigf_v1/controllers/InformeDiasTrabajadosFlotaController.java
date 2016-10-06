@@ -8,7 +8,6 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.dao.DiasTrabajadosFlotaQuery;
 import com.areatecnica.sigf_v1.dao.FlotaDao;
 import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
-import com.areatecnica.sigf_v1.dao.ProduccionFlotaQuery;
 import com.areatecnica.sigf_v1.entities.Flota;
 import javax.inject.Named;
 import java.io.Serializable;

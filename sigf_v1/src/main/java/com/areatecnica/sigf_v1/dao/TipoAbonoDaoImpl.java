@@ -5,8 +5,7 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
-import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
-import com.areatecnica.sigf_v1.entities.TipoCargo;
+import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -17,17 +16,17 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class TipoCargoDaoImpl implements GenericDao<TipoCargo>{
+public class TipoAbonoDaoImpl implements GenericDao<TipoAbono>{
 
     @Override
-    public TipoCargo findById(int id) {
-        TipoCargo tipoCargo = null;
+    public TipoAbono findById(int id) {
+        TipoAbono tipoCargo = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM TipoCargo WHERE idTipoCargo=" + id;
+        String sql = "FROM TipoAbono WHERE idTipoAbono=" + id;
         try {
-            tipoCargo = (TipoCargo) session.createQuery(sql).uniqueResult();
+            tipoCargo = (TipoAbono) session.createQuery(sql).uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -37,12 +36,12 @@ public class TipoCargoDaoImpl implements GenericDao<TipoCargo>{
     }
 
     @Override
-    public List<TipoCargo> findAll() {
-        List<TipoCargo> list = null;
+    public List<TipoAbono> findAll() {
+        List<TipoAbono> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM TipoCargo ORDER BY nombreTipoCargo";
+        String sql = "FROM TipoAbono";
         try {
 
             list = session.createQuery(sql).list();

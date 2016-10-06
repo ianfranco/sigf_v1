@@ -1,22 +1,164 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 template="./../../templateTesoreria.xhtml">
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TipoCargoListForm">
+            <p:panel >
+                <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoCargoListForm:createButton').click();" icon="ui-icon-plus"/>                    
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoCargoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.TipoCargoMenuItem_cargoBuses}" icon="ui-icon-search"  ajax="false"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{tipoCargoController.items}"
+                             lazy="false"
+                             rowKey="#{item.idTipoCargo}"
+                             var="item"
+                             paginator="true"
+                             rows="100"
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             selection="#{tipoCargoController.selected}"
+                             emptyMessage="No se han encontrado registros">
 
-    <ui:define name="title">
-        <h:outputText value="#{bundle.TipoCargoTitle}"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:editButton,@form:deleteButton"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:editButton,@form:deleteButton"/>                    
+                    
+                    <f:facet name="header">
+                        Definición de Cargos
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idTipoCargo}" filterBy="#{item.idTipoCargo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTipoCargo}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreTipoCargo}" filterBy="#{item.nombreTipoCargo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreTipoCargo}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTipoCargoTitle_fechaIngreso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{item.montoDefecto}" filterBy="#{item.montoDefecto}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto x Defecto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montoDefecto}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoCargoController.prepareCreate}" update=":TipoCargoCreateForm" oncomplete="PF('TipoCargoCreateDialog').show()"/>                
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoCargoEditForm" oncomplete="PF('TipoCargoEditDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoCargoController.delete}" update=":growl,datalist" disabled="#{empty tipoCargoController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+        
+        
+        <p:dialog id="TipoCargoCreateDlg" modal="true" resizable="false" appendTo="@(body)"   widgetVar="TipoCargoCreateDialog" header="#{bundle.CreateTipoCargoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoCargoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_nombreTipoCargo}" for="nombreTipoCargo" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoCargo" value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.CreateTipoCargoTitle_nombreTipoCargo}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_nombreTipoCargo}"/>
+                            <p:tooltip for="nombreTipoCargo" value="#{tipoCargoController.getComponentMessages('nombreTipoCargo', bundle.CreateTipoCargoHelpText_nombreTipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCargoController.selected.fechaIngreso}" title="#{bundle.CreateTipoCargoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoCargoController.getComponentMessages('fechaIngreso', bundle.CreateTipoCargoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.CreateTipoCargoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoCargoController.getComponentMessages('montoDefecto', bundle.CreateTipoCargoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCargoController.saveNew}" value="#{bundle.Save}" update="display,:TipoCargoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCargoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCargoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        
+        <p:dialog id="TipoCargoEditDlg" widgetVar="TipoCargoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoCargoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoCargoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoCargoLabel_idTipoCargo}" for="idTipoCargo" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoCargo" value="#{tipoCargoController.selected.idTipoCargo}" />
+                            <p:tooltip for="idTipoCargo" value="#{tipoCargoController.getComponentMessages('idTipoCargo', bundle.EditTipoCargoHelpText_idTipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoCargoLabel_nombreTipoCargo}" for="nombreTipoCargo" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTipoCargo" value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.EditTipoCargoTitle_nombreTipoCargo}" required="true" requiredMessage="#{bundle.EditTipoCargoRequiredMessage_nombreTipoCargo}"/>
+                            <p:tooltip for="nombreTipoCargo" value="#{tipoCargoController.getComponentMessages('nombreTipoCargo', bundle.EditTipoCargoHelpText_nombreTipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoCargoLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCargoController.selected.fechaIngreso}" title="#{bundle.EditTipoCargoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoCargoRequiredMessage_fechaIngreso}" showOn="button"/>
+                            <p:tooltip for="fechaIngreso" value="#{tipoCargoController.getComponentMessages('fechaIngreso', bundle.EditTipoCargoHelpText_fechaIngreso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditTipoCargoLabel_montoDefecto}" for="montoDefecto" />
+                        <h:panelGroup>
+                            <p:inputText id="montoDefecto" value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.EditTipoCargoTitle_montoDefecto}"/>
+                            <p:tooltip for="montoDefecto" value="#{tipoCargoController.getComponentMessages('montoDefecto', bundle.EditTipoCargoHelpText_montoDefecto)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCargoController.save}" value="#{bundle.Save}" update="display,:TipoCargoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCargoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCargoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
     </ui:define>
-
-    <ui:define name="body">
-
-        <ui:include src="/WEB-INF/include/entity//tipoCargo/List.xhtml"/>
-        <ui:include src="/WEB-INF/include/entity//tipoCargo/View.xhtml"/>
-        <ui:include src="/WEB-INF/include/entity//tipoCargo/Edit.xhtml"/>
-        <ui:include src="/WEB-INF/include/entity//tipoCargo/Create.xhtml"/>
-
-    </ui:define>
-
 </ui:composition>

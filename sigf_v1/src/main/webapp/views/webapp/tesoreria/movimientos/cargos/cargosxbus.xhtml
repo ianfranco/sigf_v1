@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Cargos x Bus" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="10">
+
+                    <p:focus for="unidad"/>        
+                    <p:outputLabel value="Unidad:" for="unidad"/>
+                    <p:selectOneMenu id="unidad" value="#{informeCargosBusController.unidadNegocio}" required="true" requiredMessage="Debe seleccionar la Unidad " converter="unidadNegocioConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeCargosBusController.unidadNegocioItems}"
+                                       var="unidadItem"
+                                       itemValue="#{unidadItem}"
+                                       itemLabel="#{unidadItem}"
+                                       />
+                        <p:ajax update="numeroBus" listener="#{informeCargosBusController.handleUnidadChange}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="N° Bus:" for="numeroBus"/>
+                    <p:selectOneMenu id="numeroBus" value="#{informeCargosBusController.bus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="busConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{informeCargosBusController.busItems}"
+                                       var="busItem"
+                                       itemValue="#{busItem}"
+                                       itemLabel="#{busItem}"
+                                       />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="mes" value="Seleccionar:" />
+                    <p:selectOneMenu id="mes" value="#{informeCargosBusController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{informeCargosBusController.anio}" size="5" />
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="CargoBusListForm:datalist, growl" style="width:120px" actionListener="#{informeCargosBusController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+
+        <h:form id="CargoBusListForm">
+
+            <p:panel style="margin-top: 10px;">
+                <p:contextMenu id="CargoBusDataTableContextMenu" for="datalist">                    
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>                   
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{informeCargosBusController.items}"
+                             lazy="false"
+                             rowKey="#{item.idCargoBus}"
+                             var="item"
+                             paginator="true"
+                             rows="100"
+                             rowIndexVar="rowIndex" 
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             selection="#{informeCargosBusController.selected}" 
+                             emptyMessage="No se han encontrado registros">
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{cargoBusController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idCargoBus}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{informeCargosBusController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{informeCargosBusController.resetParents}"/>
+
+                    <f:facet name="header">
+                        Cargos x Bus
+                    </f:facet>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.bus.numeroBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListCargoBusTitle_bus}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.numeroBus}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.bus.unidadNegocio.numeroUnidadNegocio}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Unidad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.tipoCargo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Cargo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoCargo}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="Descripción"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+
+
+
+                    <p:column sortBy="#{item.fechaInicioCargoBus}" filterBy="#{item.fechaInicioCargoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicioCargoBus}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{item.numeroCuotasCargoBus}" filterBy="#{item.numeroCuotasCargoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Cuotas"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCuotasCargoBus}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.montoCargoBus}" filterBy="#{item.montoCargoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montoCargoBus}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.fechaIngresoCargoBus}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Ingreso"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngresoCargoBus}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <!--
+                                        
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.activoCargoBus}" filterBy="#{item.activoCargoBus}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListCargoBusTitle_activoCargoBus}"/>
+                                            </f:facet>
+                                            <h:selectBooleanCheckbox id="activoCargoBus" value="#{item.activoCargoBus}" title="#{bundle.EditCargoBusTitle_activoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_activoCargoBus}" disabled="true"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{informeCargosBusController.delete}" update=":growl,datalist" disabled="#{empty informeCargosBusController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+    </ui:define>
+
+
+
+</ui:composition>

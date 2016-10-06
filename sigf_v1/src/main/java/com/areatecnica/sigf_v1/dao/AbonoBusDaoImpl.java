@@ -5,8 +5,8 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
+import com.areatecnica.sigf_v1.entities.AbonoBus;
 import com.areatecnica.sigf_v1.entities.Bus;
-import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -17,17 +17,17 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class CargoBusDaoImpl implements GenericDao<CargoBus>{
+public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
 
     @Override
-    public CargoBus findById(int id) {
-        CargoBus asignacionFamiliar = null;
+    public AbonoBus findById(int id) {
+        AbonoBus asignacionFamiliar = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM CargoBus WHERE idCargoBus=" + id;
+        String sql = "FROM AbonoBus WHERE idAbonoBus=" + id;
         try {
-            asignacionFamiliar = (CargoBus) session.createQuery(sql).uniqueResult();
+            asignacionFamiliar = (AbonoBus) session.createQuery(sql).uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -37,12 +37,12 @@ public class CargoBusDaoImpl implements GenericDao<CargoBus>{
     }
 
     @Override
-    public List<CargoBus> findAll() {
-        List<CargoBus> list = null;
+    public List<AbonoBus> findAll() {
+        List<AbonoBus> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM CargoBus ORDER BY idCargoBus DESC";
+        String sql = "FROM AbonoBus ORDER BY idAbonoBus DESC";
         try {
 
             list = session.createQuery(sql).list();
@@ -53,13 +53,13 @@ public class CargoBusDaoImpl implements GenericDao<CargoBus>{
         }
         return list;
     }
-    
-    public List<CargoBus> findByBus(Bus bus) {
-        List<CargoBus> list = null;
+        
+    public List<AbonoBus> findByBus(Bus bus) {
+        List<AbonoBus> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM CargoBus WHERE bus = "+bus.getIdBus()+" ORDER BY idCargoBus DESC";
+        String sql = "FROM AbonoBus WHERE bus = "+bus.getIdBus()+" ORDER BY idAbonoBus DESC";
         try {
             System.err.println(sql);
             list = session.createQuery(sql).list();
