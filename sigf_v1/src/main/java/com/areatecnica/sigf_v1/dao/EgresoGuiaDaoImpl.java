@@ -52,6 +52,25 @@ public class EgresoGuiaDaoImpl implements GenericDao<EgresoGuia>{
         }
         return egresoGuia;
     }
+    
+    public EgresoGuia findByGuiaAndEgresoClean(int guia, int egresoRecaudacion) {
+        EgresoGuia egresoGuia = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "SELECT * FROM egreso_guia LEFT JOIN guia ON egreso_guia.id_guia = guia.id_guia \n" +
+"			LEFT JOIN egreso_recaudacion ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion "+
+                    "WHERE guia.id_guia ="+guia+" AND egreso_recaudacion.id_egreso = "+egresoRecaudacion;
+        try {
+            egresoGuia = (EgresoGuia) session.createSQLQuery(sql).addEntity(EgresoGuia.class).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return egresoGuia;
+    }
+    
 
     @Override
     public List<EgresoGuia> findAll() {

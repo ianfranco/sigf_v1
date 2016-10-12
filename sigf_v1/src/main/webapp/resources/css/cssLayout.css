@@ -180,3 +180,7 @@
         display: none !important;
     }
 }
+
+.alignTop {
+vertical-align: top;
+}

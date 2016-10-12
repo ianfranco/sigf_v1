@@ -27,16 +27,23 @@ import org.hibernate.Transaction;
 @SessionScoped
 public class CargoBusController implements Serializable {
 
+    private List<CargoBus> selector; 
+    
     private CargoBusDaoImpl cargoBusDao;
     private List<CargoBus> items;
     private CargoBus selected;
+    private int elcargo;
+    private int suma;
+    
     
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
     public CargoBusController() {        
         this.cargoBusDao = new CargoBusDaoImpl();
-        this.items = this.cargoBusDao.findAll();
+        this.selector = this.cargoBusDao.findGROUP();
+        this.suma = 0;
+        
     }
 
     public List<CargoBus> getItems() {
@@ -60,6 +67,19 @@ public class CargoBusController implements Serializable {
         newAsignacionFamiliar = new CargoBus();
         this.selected = newAsignacionFamiliar;
         return newAsignacionFamiliar;
+    }
+     
+    public void init(){
+        suma = 0;
+        if(elcargo>0){
+            this.items = this.cargoBusDao.findByCargo(elcargo);
+            
+            for(CargoBus c:this.items){
+                suma += c.getMontoCargoBus();
+            }
+            
+        }
+        
     }
 
     public void saveNew() {
@@ -124,5 +144,29 @@ public class CargoBusController implements Serializable {
 
     public String getComponentMessages(String clientComponent, String defaultMessage){
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
+    }
+
+    public List<CargoBus> getSelector() {
+        return selector;
+    }
+
+    public void setSelector(List<CargoBus> selector) {
+        this.selector = selector;
+    }
+
+    public int getElcargo() {
+        return elcargo;
+    }
+
+    public void setElcargo(int elcargo) {
+        this.elcargo = elcargo;
+    }
+
+    public int getSuma() {
+        return suma;
+    }
+
+    public void setSuma(int suma) {
+        this.suma = suma;
     }
 }

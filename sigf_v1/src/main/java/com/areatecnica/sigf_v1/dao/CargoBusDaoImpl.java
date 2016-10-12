@@ -54,6 +54,42 @@ public class CargoBusDaoImpl implements GenericDao<CargoBus>{
         return list;
     }
     
+    
+    public List<CargoBus> findByCargo(int cargo) {
+        List<CargoBus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM CargoBus WHERE idCargo ="+cargo+"";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    public List<CargoBus> findGROUP() {
+        List<CargoBus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM CargoBus GROUP BY idCargo ORDER BY descripcion ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     public List<CargoBus> findByBus(Bus bus) {
         List<CargoBus> list = null;
 

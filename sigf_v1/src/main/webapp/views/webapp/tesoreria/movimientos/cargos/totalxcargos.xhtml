@@ -10,64 +10,23 @@
     <ui:define name="content" class="ui-corner-all" >
 
         <h:form id="selectProcesoForm">
-            <p:panel header="Cargos x Bus" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+            <p:panel header="Total x Cargos" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="10">
 
                     <p:focus for="unidad"/>        
-                    <p:outputLabel value="Unidad:" for="unidad"/>
-                    <p:selectOneMenu id="unidad" value="#{informeCargosBusController.unidadNegocio}" required="true" requiredMessage="Debe seleccionar la Unidad " converter="unidadNegocioConverter">
-                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                        <f:selectItems value="#{informeCargosBusController.unidadNegocioItems}"
-                                       var="unidadItem"
-                                       itemValue="#{unidadItem}"
-                                       itemLabel="#{unidadItem}"
-                                       />
-                        <p:ajax update="numeroBus" listener="#{informeCargosBusController.handleUnidadChange}"/>
-                    </p:selectOneMenu>
+                    <p:outputLabel value="Cargo:" for="unidad"/>
+                    <p:inputText id="unidad" value="#{cargoBusController.elcargo}"/>
 
-                    <p:outputLabel value="N° Bus:" for="numeroBus"/>
-                    <p:selectOneMenu id="numeroBus" value="#{informeCargosBusController.bus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="busConverter">
-                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                        <f:selectItems value="#{informeCargosBusController.busItems}"
-                                       var="busItem"
-                                       itemValue="#{busItem}"
-                                       itemLabel="#{busItem}"
-                                       />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="mes" value="Seleccionar:" />
-                    <p:selectOneMenu id="mes" value="#{informeCargosBusController.mes}" style="width:125px">
-                        <f:selectItem itemLabel="Enero" itemValue="1" />
-                        <f:selectItem itemLabel="Febrero" itemValue="2" />
-                        <f:selectItem itemLabel="Marzo" itemValue="3" />
-                        <f:selectItem itemLabel="Abril" itemValue="4" />
-                        <f:selectItem itemLabel="Mayo" itemValue="5" />
-                        <f:selectItem itemLabel="Junio" itemValue="6" />
-                        <f:selectItem itemLabel="Julio" itemValue="7" />
-                        <f:selectItem itemLabel="Agosto" itemValue="8" />
-                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
-                        <f:selectItem itemLabel="Octubre" itemValue="10" />
-                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
-                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="anio" value="Año:" />
-                    <p:inputText id="anio" value="#{informeCargosBusController.anio}" size="5" />
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="CargoBusListForm:datalist, growl" style="width:120px" actionListener="#{informeCargosBusController.init}">
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{cargoBusController.init}">
                     </p:commandButton>
+                    
+                    <p:outputLabel value="Total:" style="margin-left: 20px;"/>
+                    <p:outputLabel id="suma" value="#{cargoBusController.suma}"/>
                 </h:panelGrid>
 
             </p:panel>
         </h:form>
 
-        <p:panelGrid columns="3">
-            
-            
-            
-            
-            
-        </p:panelGrid>
-        
 
         <h:form id="CargoBusListForm">
 
@@ -77,16 +36,13 @@
                     <p:separator/>                   
                 </p:contextMenu>
                 <p:dataTable id="datalist"
-                             value="#{informeCargosBusController.items}"
+                             value="#{cargoBusController.items}"
                              lazy="false"
                              rowKey="#{item.idCargoBus}"
                              var="item"
-                             paginator="true"
-                             rows="100"
                              rowIndexVar="rowIndex" 
-                             rowsPerPageTemplate="50,100,200"
                              selectionMode="single"
-                             selection="#{informeCargosBusController.selected}" 
+                             selection="#{cargoBusController.selected}" 
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
                     <!--

@@ -112,8 +112,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
 
                     <f:facet name="header">
                         Últimos Cargos Registrados
@@ -203,6 +203,8 @@
 
                 </p:dataTable>
 
+                <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('CargoBusEditDialog').show()" disabled="#{empty registroCargoBusController.selected}"/>
+                               
                 <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoBusController.delete}" update=":growl,datalist" disabled="#{empty registroCargoBusController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
@@ -211,6 +213,88 @@
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
 
+        <p:dialog id="CargoBusEditDlg" widgetVar="CargoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCargoBusTitle}" closeOnEscape="true">
+
+            <h:form id="CargoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cargoBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCargoBusLabel_idCargoBus}" for="idCargoBus" />
+                        <h:panelGroup>
+                            <h:outputText id="idCargoBus" value="#{cargoBusController.selected.idCargoBus}" />
+                            <p:tooltip for="idCargoBus" value="#{cargoBusController.getComponentMessages('idCargoBus', bundle.EditCargoBusHelpText_idCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_bus}" for="bus" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="bus" value="#{cargoBusController.selected.bus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_bus}" converter="busConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{busController.items}"
+                                               var="busItem"
+                                               itemValue="#{busItem}"
+                                               itemLabel="#{busItem.idBus.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="bus" value="#{cargoBusController.getComponentMessages('bus', bundle.EditCargoBusHelpText_bus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_tipoCargo}" for="tipoCargo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoCargo" value="#{cargoBusController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoCargoController.items}"
+                                               var="tipoCargoItem"
+                                               itemValue="#{tipoCargoItem}"
+                                               itemLabel="#{tipoCargoItem.idTipoCargo.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoCargo" value="#{cargoBusController.getComponentMessages('tipoCargo', bundle.EditCargoBusHelpText_tipoCargo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_fechaIngresoCargoBus}" for="fechaIngresoCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngresoCargoBus" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargoBusController.selected.fechaIngresoCargoBus}" title="#{bundle.EditCargoBusTitle_fechaIngresoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaIngresoCargoBus}" showOn="button"/>
+                            <p:tooltip for="fechaIngresoCargoBus" value="#{cargoBusController.getComponentMessages('fechaIngresoCargoBus', bundle.EditCargoBusHelpText_fechaIngresoCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" showOn="button"/>
+                            <p:tooltip for="fechaInicioCargoBus" value="#{cargoBusController.getComponentMessages('fechaInicioCargoBus', bundle.EditCargoBusHelpText_fechaInicioCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_numeroCuotasCargoBus}" for="numeroCuotasCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{cargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.EditCargoBusTitle_numeroCuotasCargoBus}"/>
+                            <p:tooltip for="numeroCuotasCargoBus" value="#{cargoBusController.getComponentMessages('numeroCuotasCargoBus', bundle.EditCargoBusHelpText_numeroCuotasCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_montoCargoBus}" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{cargoBusController.selected.montoCargoBus}" title="#{bundle.EditCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_montoCargoBus}"/>
+                            <p:tooltip for="montoCargoBus" value="#{cargoBusController.getComponentMessages('montoCargoBus', bundle.EditCargoBusHelpText_montoCargoBus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_activoCargoBus}" for="activoCargoBus" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activoCargoBus" value="#{cargoBusController.selected.activoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_activoCargoBus}"/>
+                            <p:tooltip for="activoCargoBus" value="#{cargoBusController.getComponentMessages('activoCargoBus', bundle.EditCargoBusHelpText_activoCargoBus)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoBusController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        
     </ui:define>
 </ui:composition>
 

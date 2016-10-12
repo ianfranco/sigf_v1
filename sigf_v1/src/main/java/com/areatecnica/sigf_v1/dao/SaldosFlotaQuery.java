@@ -33,27 +33,28 @@ public class SaldosFlotaQuery {
 
     public ArrayList<LinkedHashMap> loadQuery() {
         this.array = new ArrayList<>();
-        
-        
-        
+
         List list = null;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
-                + "	flota.nombre_flota, \n"
-                + "	bus.numero_bus, \n"
-                + "    bus.patente, \n"
-                + "    unidad_negocio.numero_unidad_negocio,    \n"
-                + "    COUNT(guia.folio) AS numeroGuia, \n"
-                + "    sum_saldos(bus.id_bus, '"+format.format(fecha)+"') AS Saldo\n"
-                + "FROM guia \n"
-                + "	LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
-                + "    LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
-                + "    LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
-                + "WHERE guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND flota.id_flota <> 100\n"
-                + "GROUP BY guia.id_bus \n"
-                + "ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC ";
+                + "flota.nombre_flota, \n"
+                + "bus.numero_bus, \n"
+                + "unidad_negocio.numero_unidad_negocio,    \n"
+                + "bus.patente, \n"
+                + "administracion=sum_egreso(bus.id_bus,'2016-09-01',1 ) AS Administracion, \n"
+                + "licitacion=sum_egreso(bus.id_bus,'2016-09-01',7 ) AS Licitacion, \n"
+                + "cargos(bus.id_bus) AS cargos, \n"
+                + "Administracion+Licitacion As totalIngresos,\n"
+                + "(Administracion+Licitacion)-cargos AS saldo\n"
+                + "FROM cargo_bus \n"
+                + "LEFT JOIN bus ON cargo_bus.id_bus = bus.id_bus \n"
+                + "LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
+                + "LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
+                + "WHERE cargo_bus.fecha_inicio_cargo_bus BETWEEN '2016-09-01' AND LAST_DAY('2016-09-01') \n"
+                + "GROUP BY bus.id_bus \n"
+                + "ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
         try {
 
             list = session.createSQLQuery(query).list();
@@ -63,13 +64,16 @@ public class SaldosFlotaQuery {
                 Object[] a = (Object[]) list.get(i);
                 LinkedHashMap link = null;
                 //for (int j = 0; j < a.length; j++) {
-                     link = new LinkedHashMap();
-                     link.put("Flota", a[0]);
-                     link.put("N°Bus", a[1]);
-                     link.put("Patente", a[2]);
-                     link.put("Unidad", a[3]);
-                     link.put("N°Guias", a[4]);
-                     link.put("Saldo", a[5]);
+                link = new LinkedHashMap();
+                link.put("Flota", a[0]);
+                link.put("N°Bus", a[1]);
+                link.put("Unidad", a[2]);
+                link.put("Patente", a[3]);
+                link.put("Administracion", a[4]);
+                link.put("Licitacion", a[5]);
+                link.put("Cargos", a[6]);
+                link.put("TotalIngresos", a[7]);                
+                link.put("Saldo", a[8]);
                 //}
                 this.array.add(link);
             }
@@ -84,29 +88,30 @@ public class SaldosFlotaQuery {
         return array;
     }
 
-    public ArrayList<LinkedHashMap> loadQueryByFlota(Flota flota){
+    public ArrayList<LinkedHashMap> loadQueryByFlota(Flota flota) {
         this.array = new ArrayList<>();
-        
-        
-        
+
         List list = null;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
-                + "	flota.nombre_flota, \n"
-                + "	bus.numero_bus, \n"
-                + "    bus.patente, \n"
-                + "    unidad_negocio.numero_unidad_negocio,    \n"
-                + "    COUNT(guia.folio) AS numeroGuia, \n"
-                + "    sum_saldos(bus.id_bus, '"+format.format(fecha)+"') AS Saldo\n"
-                + "FROM guia \n"
-                + "	LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
-                + "    LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
-                + "    LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
-                + "WHERE guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND flota.id_flota = "+flota.getIdFlota()+"\n"
-                + "GROUP BY guia.id_bus \n"
-                + "ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC ";
+                + "flota.nombre_flota, \n"
+                + "bus.numero_bus, \n"
+                + "unidad_negocio.numero_unidad_negocio,    \n"
+                + "bus.patente, \n"
+                + "@administracion:=sum_egreso(bus.id_bus,'2016-09-01',1 ) AS Administracion, \n"
+                + "@licitacion:=sum_egreso(bus.id_bus,'2016-09-01',7 ) AS Licitacion, \n"
+                + "@cargos:=cargos(bus.id_bus) AS cargos, \n"
+                + "@totalIngresos:=@administracion+@licitacion As totalIngresos,\n"
+                + "@saldo:=(@administracion+@licitacion)-@cargos AS saldo\n"
+                + "FROM cargo_bus \n"
+                + "LEFT JOIN bus ON cargo_bus.id_bus = bus.id_bus \n"
+                + "LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
+                + "LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
+                + "WHERE cargo_bus.fecha_inicio_cargo_bus BETWEEN '2016-09-01' AND LAST_DAY('2016-09-01') AND flota.id_flota="+flota.getIdFlota()+"\n"
+                + "GROUP BY bus.id_bus \n"
+                + "ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
         try {
 
             list = session.createSQLQuery(query).list();
@@ -116,13 +121,16 @@ public class SaldosFlotaQuery {
                 Object[] a = (Object[]) list.get(i);
                 LinkedHashMap link = null;
                 //for (int j = 0; j < a.length; j++) {
-                     link = new LinkedHashMap();
-                     link.put("Flota", a[0]);
-                     link.put("N°Bus", a[1]);
-                     link.put("Patente", a[2]);
-                     link.put("Unidad", a[3]);
-                     link.put("N°Guias", a[4]);
-                     link.put("Saldo", a[5]);
+                link = new LinkedHashMap();
+                link.put("Flota", a[0]);
+                link.put("N°Bus", a[1]);
+                link.put("Unidad", a[2]);
+                link.put("Patente", a[3]);
+                link.put("Administracion", a[4]);
+                link.put("Licitacion", a[5]);
+                link.put("Cargos", a[6]);
+                link.put("TotalIngresos", a[7]);                
+                link.put("Saldo", a[8]);
                 //}
                 this.array.add(link);
             }
@@ -136,7 +144,7 @@ public class SaldosFlotaQuery {
 
         return array;
     }
-    
+
     public ArrayList<LinkedHashMap> getArray() {
         return array;
     }
@@ -144,6 +152,5 @@ public class SaldosFlotaQuery {
     public void setArray(ArrayList<LinkedHashMap> array) {
         this.array = array;
     }
-
 
 }

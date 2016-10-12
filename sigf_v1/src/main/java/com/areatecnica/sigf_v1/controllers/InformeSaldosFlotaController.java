@@ -48,9 +48,12 @@ public class InformeSaldosFlotaController implements Serializable {
         this.resultsHeader = new ArrayList<>();
         this.resultsHeader.add("Flota");
         this.resultsHeader.add("N°Bus");
-        this.resultsHeader.add("Patente");
         this.resultsHeader.add("Unidad");
-        this.resultsHeader.add("N°Guias");
+        this.resultsHeader.add("Patente");
+        this.resultsHeader.add("Administración");
+        this.resultsHeader.add("Licitación");
+        this.resultsHeader.add("Cargos");
+        this.resultsHeader.add("TotalIngresos");
         this.resultsHeader.add("Saldo");
         
         Calendar calendar = GregorianCalendar.getInstance();

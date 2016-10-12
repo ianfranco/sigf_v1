@@ -3,6 +3,7 @@ package com.areatecnica.sigf_v1.entities;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,21 +35,23 @@ public class CargoBus implements java.io.Serializable {
     private int montoCargoBus;
     private boolean activoCargoBus;
     private String descripcion;
+    private int idCargo;
     private Set<CargoLiquidacion> cargoLiquidacions = new HashSet<CargoLiquidacion>(0);
 
     public CargoBus() {
     }
 
-    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, int montoCargoBus, boolean activoCargoBus) {
+    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, int montoCargoBus, boolean activoCargoBus, int idCargo) {
         this.bus = bus;
         this.tipoCargo = tipoCargo;
         this.fechaIngresoCargoBus = fechaIngresoCargoBus;
         this.fechaInicioCargoBus = fechaInicioCargoBus;
         this.montoCargoBus = montoCargoBus;
         this.activoCargoBus = activoCargoBus;
+        this.idCargo = idCargo;
     }
 
-    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, Integer numeroCuotasCargoBus, int montoCargoBus, boolean activoCargoBus, String descripcion, Set<CargoLiquidacion> cargoLiquidacions) {
+    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, Integer numeroCuotasCargoBus, int montoCargoBus, boolean activoCargoBus, String descripcion,int idCargo, Set<CargoLiquidacion> cargoLiquidacions) {
         this.bus = bus;
         this.tipoCargo = tipoCargo;
         this.fechaIngresoCargoBus = fechaIngresoCargoBus;
@@ -57,6 +60,7 @@ public class CargoBus implements java.io.Serializable {
         this.montoCargoBus = montoCargoBus;
         this.activoCargoBus = activoCargoBus;
         this.descripcion = descripcion;
+        this.idCargo = idCargo;
         this.cargoLiquidacions = cargoLiquidacions;
     }
 
@@ -156,6 +160,46 @@ public class CargoBus implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
 
+    @Column(name = "id_cargo", nullable = false)
+    public int getIdCargo() {
+        return this.idCargo;
+    }
+
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
+
+    @Override
+    public String toString() {
+        return descripcion+" "+idCargo;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.idCargoBus);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CargoBus other = (CargoBus) obj;
+        if (!Objects.equals(this.idCargoBus, other.idCargoBus)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
 }

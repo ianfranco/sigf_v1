@@ -75,7 +75,7 @@ public class RegistroCargoBusController implements Serializable {
                 this.selected.setFechaIngresoCargoBus(new Date());
                 this.selected.setActivoCargoBus(Boolean.TRUE);                
                 this.selected.setBus(bus);
-
+                this.selected.setIdCargo(this.selected.getTipoCargo().getIdTipoCargo());
                 session.save(this.selected);
                 tx.commit();
                 this.items.add(0, this.selected);

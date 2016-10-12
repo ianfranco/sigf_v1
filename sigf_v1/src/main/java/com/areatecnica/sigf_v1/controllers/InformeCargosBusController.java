@@ -11,6 +11,7 @@ import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDao;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDaoImpl;
+import com.areatecnica.sigf_v1.entities.AbonoBus;
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
@@ -36,6 +37,7 @@ public class InformeCargosBusController implements Serializable {
     private CargoBusDaoImpl cargoBusDaoImpl;
     private BusDao busDao;
     private CargoBus selected;
+    private AbonoBus selectedAbono;
 
     private List<CargoBus> items;
     private List<UnidadNegocio> unidadNegocioItems;
@@ -198,6 +200,14 @@ public class InformeCargosBusController implements Serializable {
 
     public void setSelected(CargoBus selected) {
         this.selected = selected;
+    }
+
+    public AbonoBus getSelectedAbono() {
+        return selectedAbono;
+    }
+
+    public void setSelectedAbono(AbonoBus selectedAbono) {
+        this.selectedAbono = selectedAbono;
     }
 
 }

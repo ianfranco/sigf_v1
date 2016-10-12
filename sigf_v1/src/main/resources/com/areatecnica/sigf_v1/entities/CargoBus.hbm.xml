@@ -32,6 +32,9 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="100" />
         </property>
+        <property name="idCargo" type="int">
+            <column name="id_cargo" not-null="true" />
+        </property>
         <set name="cargoLiquidacions" table="cargo_liquidacion" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_cargo_bus" not-null="true" />
