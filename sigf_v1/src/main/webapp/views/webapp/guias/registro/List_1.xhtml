@@ -147,7 +147,7 @@
                                         <f:selectItems value="#{planillonGuiaController.busItems}"
                                                        var="busItem"
                                                        itemValue="#{busItem}"
-                                                       itemLabel="#{busItem.numeroBus}"
+                                                       itemLabel="#{busItem}"
                                                        />                                        
                                         <p:ajax event="valueChange" update="informacionBus"  listener="#{planillonGuiaController.findBus}"/>
 

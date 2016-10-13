@@ -35,21 +35,23 @@ public class AbonoBus implements java.io.Serializable {
     private int montoAbonoBus;
     private boolean activoAbonoBus;
     private String descripcion;
+    private int idAbon;
     private Set<AbonoLiquidacion> abonoLiquidacions = new HashSet<AbonoLiquidacion>(0);
 
     public AbonoBus() {
     }
 
-    public AbonoBus(Bus bus, TipoAbono tipoAbono, Date fechaIngresoAbonoBus, Date fechaInicioAbonoBus, int montoAbonoBus, boolean activoAbonoBus) {
+    public AbonoBus(Bus bus, TipoAbono tipoAbono, Date fechaIngresoAbonoBus, Date fechaInicioAbonoBus, int montoAbonoBus, boolean activoAbonoBus, int idAbon) {
         this.bus = bus;
         this.tipoAbono = tipoAbono;
         this.fechaIngresoAbonoBus = fechaIngresoAbonoBus;
         this.fechaInicioAbonoBus = fechaInicioAbonoBus;
         this.montoAbonoBus = montoAbonoBus;
         this.activoAbonoBus = activoAbonoBus;
+        this.idAbon = idAbon;
     }
 
-    public AbonoBus(Bus bus, TipoAbono tipoAbono, Date fechaIngresoAbonoBus, Date fechaInicioAbonoBus, Integer numeroCuotasAbonoBus, int montoAbonoBus, boolean activoAbonoBus, String descripcion, Set<AbonoLiquidacion> abonoLiquidacions) {
+    public AbonoBus(Bus bus, TipoAbono tipoAbono, Date fechaIngresoAbonoBus, Date fechaInicioAbonoBus, Integer numeroCuotasAbonoBus, int montoAbonoBus, boolean activoAbonoBus, String descripcion, int idAbon, Set<AbonoLiquidacion> abonoLiquidacions) {
         this.bus = bus;
         this.tipoAbono = tipoAbono;
         this.fechaIngresoAbonoBus = fechaIngresoAbonoBus;
@@ -59,6 +61,7 @@ public class AbonoBus implements java.io.Serializable {
         this.activoAbonoBus = activoAbonoBus;
         this.abonoLiquidacions = abonoLiquidacions;
         this.descripcion = descripcion;
+        this.idAbon = idAbon;
     }
 
     @Id
@@ -158,6 +161,15 @@ public class AbonoBus implements java.io.Serializable {
         this.descripcion = descripcion;
     }
 
+    @Column(name = "id_abon", nullable = false)
+    public int getIdAbon() {
+        return this.idAbon;
+    }
+
+    public void setIdAbon(int idAbon) {
+        this.idAbon = idAbon;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

@@ -10,18 +10,18 @@
     <ui:define name="content" class="ui-corner-all" >
 
         <h:form id="selectProcesoForm">
-            <p:panel header="Total x Cargos" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+            <p:panel header="Total x Abono" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="10">
 
                     <p:focus for="unidad"/>        
-                    <p:outputLabel value="Cargo:" for="unidad" onfocus="this.setSelectionRange(0, this.value.length)"/>
-                    <p:inputText id="unidad" value="#{cargoBusController.elcargo}"/>
+                    <p:outputLabel value="Abono:" for="unidad"/>
+                    <p:inputText id="unidad" value="#{abonoBusController.elcargo}" onfocus="this.setSelectionRange(0, this.value.length)"/>
 
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{cargoBusController.init}">
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{abonoBusController.init}">
                     </p:commandButton>
                     
                     <p:outputLabel value="Total:" style="margin-left: 20px;"/>
-                    <p:outputLabel id="suma" value="#{cargoBusController.suma}"/>
+                    <p:outputLabel id="suma" value="#{abonoBusController.suma}"/>
                 </h:panelGrid>
 
             </p:panel>
@@ -36,13 +36,13 @@
                     <p:separator/>                   
                 </p:contextMenu>
                 <p:dataTable id="datalist"
-                             value="#{cargoBusController.items}"
+                             value="#{abonoBusController.items}"
                              lazy="false"
-                             rowKey="#{item.idCargoBus}"
+                             rowKey="#{item.idAbonoBus}"
                              var="item"
                              rowIndexVar="rowIndex" 
                              selectionMode="single"
-                             selection="#{cargoBusController.selected}" 
+                             selection="#{abonoBusController.selected}" 
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
                     <!--
@@ -55,11 +55,11 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{informeCargosBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{informeCargosBusController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{abonoBusController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{abonoBusController.resetParents}"/>
 
                     <f:facet name="header">
-                        Cargos x Bus
+                        Abonos x Bus
                     </f:facet>
 
                     <p:column style="text-align: center;">
@@ -83,11 +83,11 @@
                         <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.tipoCargo}" style="text-align: center;">
+                    <p:column filterBy="#{item.tipoAbono}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Cargo"/>
                         </f:facet>
-                        <h:outputText value="#{item.tipoCargo}"/>
+                        <h:outputText value="#{item.tipoAbono}"/>
                     </p:column>
 
                     <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
@@ -99,34 +99,34 @@
 
 
 
-                    <p:column sortBy="#{item.fechaInicioCargoBus}" filterBy="#{item.fechaInicioCargoBus}" style="text-align: center;">
+                    <p:column sortBy="#{item.fechaInicioAbonoBus}" filterBy="#{item.fechaInicioAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Fecha"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaInicioCargoBus}">
+                        <h:outputText value="#{item.fechaInicioAbonoBus}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column sortBy="#{item.numeroCuotasCargoBus}" filterBy="#{item.numeroCuotasCargoBus}" style="text-align: center;">
+                    <p:column sortBy="#{item.numeroCuotasAbonoBus}" filterBy="#{item.numeroCuotasAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="N° Cuotas"/>
                         </f:facet>
-                        <h:outputText value="#{item.numeroCuotasCargoBus}"/>
+                        <h:outputText value="#{item.numeroCuotasAbonoBus}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.montoCargoBus}" filterBy="#{item.montoCargoBus}" style="text-align: center;">
+                    <p:column sortBy="#{item.montoAbonoBus}" filterBy="#{item.montoAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.montoCargoBus}"/>
+                        <h:outputText value="#{item.montoAbonoBus}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.fechaIngresoCargoBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.fechaIngresoAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="F.Ingreso"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaIngresoCargoBus}">
+                        <h:outputText value="#{item.fechaIngresoAbonoBus}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
@@ -146,7 +146,7 @@
 
                 </p:dataTable>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{informeCargosBusController.delete}" update=":growl,datalist" disabled="#{empty informeCargosBusController.selected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{abonoBusController.delete}" update=":growl,datalist" disabled="#{empty abonoBusController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 

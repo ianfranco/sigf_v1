@@ -112,7 +112,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Descripción"/>
                                 </f:facet>
-                                <h:outputText value="#{item.descripcion}"/>
+                                <p:inputText value="#{item.descripcion}"/>
                             </p:column>
 
 
@@ -175,14 +175,14 @@
                                 <f:facet name="header">
                                     <h:outputText value="N°"/>
                                 </f:facet>
-                                <h:outputText value="#{rowIndex}"/>
+                                <h:outputText value="#{rowIndex+1}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Descripción"/>
                                 </f:facet>
-                                <h:outputText value="#{item3.descripcion}"/>
+                                <p:inputText value="#{item3.descripcion}"/>
                             </p:column>
 
                             <p:column style="text-align: center;">
@@ -336,7 +336,7 @@
                             <p:inputText id="descripcion" value="#{registroLiquidacionController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" />                            
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
+                        <p:outputLabel value="Fecha Cargo:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroLiquidacionController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" />                            
                         </h:panelGroup>
@@ -349,6 +349,11 @@
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_montoCargoBus}" for="montoCargoBus" />
                         <h:panelGroup>
                             <p:inputText id="montoCargoBus" value="#{registroLiquidacionController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}"/>                            
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="Cód. Fina:" for="codigoFina" />
+                        <h:panelGroup>
+                            <p:inputText id="codigoFina" value="#{registroLiquidacionController.selected.idCargo}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}"/>                            
                         </h:panelGroup>
 
                     </p:panelGrid>
@@ -429,8 +434,13 @@
 
                             </p:selectOneMenu>                            
                         </h:panelGroup>
+                        
+                        <p:outputLabel value="Descripción:" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{registroLiquidacionController.selectedAbono.descripcion}"  requiredMessage="Debe ingresar una descripción" />                            
+                        </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateAbonoBusLabel_fechaInicioAbonoBus}" for="fechaInicioAbonoBus" />
+                        <p:outputLabel value="Fecha Abono" for="fechaInicioAbonoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioAbonoBus" pattern="dd/MM/yyyy" value="#{registroLiquidacionController.selectedAbono.fechaInicioAbonoBus}" title="#{bundle.CreateAbonoBusTitle_fechaInicioAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_fechaInicioAbonoBus}" />                            
                         </h:panelGroup>
@@ -443,6 +453,11 @@
                         <p:outputLabel value="#{bundle.CreateAbonoBusLabel_montoAbonoBus}" for="montoAbonoBus" />
                         <h:panelGroup>
                             <p:inputText id="montoAbonoBus" value="#{registroLiquidacionController.selectedAbono.montoAbonoBus}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_montoAbonoBus}"/>                            
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="Cód. Fina:" for="codigoFina" />
+                        <h:panelGroup>
+                            <p:inputText id="codigoFina" value="#{registroLiquidacionController.selectedAbono.idAbon}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}"/>                            
                         </h:panelGroup>
 
                     </p:panelGrid>

@@ -192,8 +192,7 @@ public class RegistroLiquidacionController implements Serializable {
             try {
                 this.selected.setFechaIngresoCargoBus(new Date());
                 this.selected.setActivoCargoBus(Boolean.TRUE);
-                this.selected.setBus(bus);
-                this.selected.setIdCargo(100);
+                this.selected.setBus(bus);                
                 session.save(this.selected);
                 tx.commit();
                 this.items.add(0, this.selected);
@@ -254,6 +253,8 @@ public class RegistroLiquidacionController implements Serializable {
                 this.selectedAbono = new AbonoBus();
                 this.selectedAbono.setMontoAbonoBus(0);
                 this.selectedAbono.setNumeroCuotasAbonoBus(0);
+                
+                
 
             } catch (HibernateException e) {
                 tx.rollback();
@@ -377,11 +378,16 @@ public class RegistroLiquidacionController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.delete(this.selectedAbono);
+                AbonoBus ab = this.selectedAbono;
+                
+                this.abonosItems.remove(this.selectedAbono);
+                session.delete(ab);
                 tx.commit();
 
-                this.abonosItems.remove(this.selectedAbono);
                 
+                
+                
+
                 this.abonos = 0;
                 for (AbonoBus a : this.abonosItems) {
                     this.abonos = this.abonos + a.getMontoAbonoBus();
@@ -395,7 +401,7 @@ public class RegistroLiquidacionController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
-                System.err.println("NULL:CargoBus");
+                System.err.println("NULL:selectedAbono");
             }
         } else {
 

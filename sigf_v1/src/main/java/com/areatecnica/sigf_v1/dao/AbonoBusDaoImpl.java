@@ -72,4 +72,38 @@ public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
         return list;
     }
     
+    public List<AbonoBus> findGROUP() {
+        List<AbonoBus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM AbonoBus GROUP BY idAbon ORDER BY descripcion ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<AbonoBus> findByCargo(int abono) {
+        List<AbonoBus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM AbonoBus WHERE idAbon ="+abono+"";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
 }
