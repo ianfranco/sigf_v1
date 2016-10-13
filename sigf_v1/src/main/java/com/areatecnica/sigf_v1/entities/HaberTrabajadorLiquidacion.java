@@ -4,6 +4,7 @@ package com.areatecnica.sigf_v1.entities;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -150,6 +151,36 @@ public class HaberTrabajadorLiquidacion  implements java.io.Serializable {
     
     public void setHaberLiquidacions(Set<HaberLiquidacion> haberLiquidacions) {
         this.haberLiquidacions = haberLiquidacions;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.idHaberTrabajadorLiquidacion);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HaberTrabajadorLiquidacion other = (HaberTrabajadorLiquidacion) obj;
+        if (!Objects.equals(this.idHaberTrabajadorLiquidacion, other.idHaberTrabajadorLiquidacion)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.haberTrabajador.getNombreTipoHaber();
     }
 
 

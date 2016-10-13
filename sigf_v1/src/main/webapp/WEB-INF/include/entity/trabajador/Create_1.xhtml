@@ -121,6 +121,25 @@
                                     <h:panelGroup>
                                         <p:inputText id="emailTrabajador" value="#{trabajadorController.selected.emailTrabajador}" title="#{bundle.CreateTrabajadorTitle_emailTrabajador}"/>
                                     </h:panelGroup>
+
+                                    <p:outputLabel value="G.A.F.:" for="gaf"/>
+                                    <h:panelGroup>
+                                        <p:selectOneMenu id="gaf" value="#{trabajadorController.selected.asignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_comuna}" converter="asignacionFamiliarConverter">
+                                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                            <f:selectItems value="#{trabajadorController.asignacionFamiliarItems}"
+                                                           var="gafItem"
+                                                           itemValue="#{gafItem}"
+                                                           itemLabel="#{gafItem}"
+                                                           />
+                                        </p:selectOneMenu>
+                                    </h:panelGroup>
+                                    
+                                    <p:outputLabel value="N° Cargas:" for="cargasTrabajador" />
+                                    <h:panelGroup>
+                                        <p:inputText id="cargasTrabajador" value="#{trabajadorController.selected.numeroCargas}" title="#{bundle.CreateTrabajadorTitle_emailTrabajador}"/>
+                                    </h:panelGroup>
+
+
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>

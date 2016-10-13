@@ -6,11 +6,11 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.DescuentoTrabajadorDaoImpl;
-import com.areatecnica.sigf_v1.dao.DescuentoTrabajadorLiquidacionDaoImpl;
+import com.areatecnica.sigf_v1.dao.HaberTrabajadorDaoImpl;
+import com.areatecnica.sigf_v1.dao.HaberTrabajadorLiquidacionDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
-import com.areatecnica.sigf_v1.entities.DescuentoTrabajador;
-import com.areatecnica.sigf_v1.entities.DescuentoTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.HaberTrabajador;
+import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -26,45 +26,54 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroSaldoAnteriorController")
+@Named(value = "haberTrabajadorLiquidacionController")
 @ViewScoped
-public class RegistroSaldoAnteriorController implements Serializable {
+public class HaberTrabajadorLiquidacionController implements Serializable {
 
-    private DescuentoTrabajadorDaoImpl descuentoTrabajadorDao;
-    private DescuentoTrabajadorLiquidacionDaoImpl descuentoTrabajadorLiquidacionDaoImpl;
+    private HaberTrabajadorDaoImpl haberTrabajadorDaoImpl;
+    private HaberTrabajadorLiquidacionDaoImpl haberTrabajadorLiquidacionDaoImpl;
     private TrabajadorDaoImpl trabajadorDaoImpl;
-   
-    private DescuentoTrabajadorLiquidacion selected;
 
-    private List<DescuentoTrabajadorLiquidacion> items;
-    private DescuentoTrabajador saldoAnterior;
+    private HaberTrabajador haberTrabajador;
+    private HaberTrabajadorLiquidacion selected;
+
+    private List<HaberTrabajadorLiquidacion> items;
+    private List<HaberTrabajador> haberItems;
     private List<Trabajador> trabajadorItems;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroSaldoAnteriorController() {
-        this.descuentoTrabajadorDao = new DescuentoTrabajadorDaoImpl();
-        this.saldoAnterior = this.descuentoTrabajadorDao.findById(4);
+    public HaberTrabajadorLiquidacionController() {
+        this.haberTrabajadorDaoImpl = new HaberTrabajadorDaoImpl();
+        this.haberItems = this.haberTrabajadorDaoImpl.findAll();
 
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
         this.trabajadorItems = this.trabajadorDaoImpl.findAll();
 
-        this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
-        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findSaldoAnteriorWithLimit();
+        this.haberTrabajadorLiquidacionDaoImpl = new HaberTrabajadorLiquidacionDaoImpl();
+        this.items = this.haberTrabajadorLiquidacionDaoImpl.findWithLimit();
 
         this.selected = prepareCreate();
 
     }
 
-    public DescuentoTrabajadorLiquidacion prepareCreate() {
-        
-        DescuentoTrabajadorLiquidacion newDescuentoTrabajadorLiquidacion;
-        newDescuentoTrabajadorLiquidacion = new DescuentoTrabajadorLiquidacion();
-        newDescuentoTrabajadorLiquidacion.setMonto(0);
-        newDescuentoTrabajadorLiquidacion.setNumeroCuotas(0);
-        
-        return newDescuentoTrabajadorLiquidacion;
+    public HaberTrabajador getHaberTrabajador() {
+        return haberTrabajador;
+    }
+
+    public void setHaberTrabajador(HaberTrabajador haberTrabajador) {
+        this.haberTrabajador = haberTrabajador;
+    }
+
+    public HaberTrabajadorLiquidacion prepareCreate() {
+        HaberTrabajadorLiquidacion newHaberTrabajadorLiquidacion;
+        newHaberTrabajadorLiquidacion = new HaberTrabajadorLiquidacion();
+        newHaberTrabajadorLiquidacion.setMonto(0);
+        newHaberTrabajadorLiquidacion.setNumeroCuotas(0);
+        newHaberTrabajadorLiquidacion.setFechaIngresoHaber(new Date());
+        newHaberTrabajadorLiquidacion.setFechaInicioHaber(new Date());
+        return newHaberTrabajadorLiquidacion;
     }
 
     public void saveNew() {
@@ -73,22 +82,20 @@ public class RegistroSaldoAnteriorController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                this.selected.setFechaIngresoDescuento(new Date());
-                this.selected.setActivoDescuentoTrabajador(Boolean.TRUE);
-                this.selected.setNumeroCuotas(1);
-                this.selected.setDescuentoTrabajador(saldoAnterior);
+                this.selected.setFechaIngresoHaber(new Date());
+                this.selected.setActivoHaberTrabajador(Boolean.TRUE);
 
                 session.save(this.selected);
                 tx.commit();
                 this.items.add(0, selected);
                 
-                Date fecha = this.selected.getFechaInicioDescuento();
+                Date fecha = this.selected.getFechaInicioHaber();
                 
                 this.selected = null;
-                this.selected = new DescuentoTrabajadorLiquidacion();
+                this.selected = new HaberTrabajadorLiquidacion();
                 this.selected.setMonto(0);
                 this.selected.setNumeroCuotas(0);
-                this.selected.setFechaInicioDescuento(fecha);
+                this.selected.setFechaInicioHaber(fecha);
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:selected");
@@ -142,28 +149,28 @@ public class RegistroSaldoAnteriorController implements Serializable {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
 
-    public List<DescuentoTrabajadorLiquidacion> getItems() {
+    public List<HaberTrabajadorLiquidacion> getItems() {
         return items;
     }
 
-    public void setItems(List<DescuentoTrabajadorLiquidacion> items) {
+    public void setItems(List<HaberTrabajadorLiquidacion> items) {
         this.items = items;
     }
 
-    public DescuentoTrabajadorLiquidacion getSelected() {
+    public HaberTrabajadorLiquidacion getSelected() {
         return selected;
     }
 
-    public void setSelected(DescuentoTrabajadorLiquidacion selected) {
+    public void setSelected(HaberTrabajadorLiquidacion selected) {
         this.selected = selected;
     }
 
-    public DescuentoTrabajador getDescuentosItems() {
-        return saldoAnterior;
+    public List<HaberTrabajador> getHaberItems() {
+        return haberItems;
     }
 
-    public void setDescuentosItems(DescuentoTrabajador saldoAnterior) {
-        this.saldoAnterior = saldoAnterior;
+    public void setHaberItems(List<HaberTrabajador> haberItems) {
+        this.haberItems = haberItems;
     }
 
     public List<Trabajador> getTrabajadorItems() {

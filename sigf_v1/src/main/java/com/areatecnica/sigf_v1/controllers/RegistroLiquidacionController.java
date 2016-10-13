@@ -11,6 +11,7 @@ import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EgresoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
+import com.areatecnica.sigf_v1.dao.TipoAbonoDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoCargoDaoImpl;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDao;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDaoImpl;
@@ -19,11 +20,11 @@ import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.entities.EgresoGuia;
 import com.areatecnica.sigf_v1.entities.Guia;
+import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.entities.TipoCargo;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class RegistroLiquidacionController implements Serializable {
 
     private UnidadNegocioDao unidadNegocioDao;
     private TipoCargoDaoImpl tipoCargoDao;
+    private TipoAbonoDaoImpl tipoAbonoDao;
     private CargoBusDaoImpl cargoBusDaoImpl;
     private AbonoBusDaoImpl abonoBusDaoImpl;
     private GuiaDaoImpl guiaDaoImpl;
@@ -58,6 +60,7 @@ public class RegistroLiquidacionController implements Serializable {
     private List<Guia> guiaItems;
     private List<AbonoBus> abonosItems;
     private List<TipoCargo> tipoCargoItems;
+    private List<TipoAbono> tipoAbonoItems;
     private List<UnidadNegocio> unidadNegocioItems;
     private List<CargoBus> items;
     private List<GuiaHelper> guiaHelper;
@@ -88,12 +91,12 @@ public class RegistroLiquidacionController implements Serializable {
         this.tipoCargoDao = new TipoCargoDaoImpl();
         this.tipoCargoItems = this.tipoCargoDao.findAll();
 
-        this.selected = prepareCreate();
+        this.tipoAbonoDao = new TipoAbonoDaoImpl();
+        this.tipoAbonoItems = this.tipoAbonoDao.findAll();
+
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
-
-        this.selected = new CargoBus();
 
         this.ingresos = 0;
         this.cargos = 0;
@@ -156,6 +159,9 @@ public class RegistroLiquidacionController implements Serializable {
 
         this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
 
+        this.selected = new CargoBus();
+        this.selectedAbono = new AbonoBus();
+
     }
 
     public CargoBus prepareCreate() {
@@ -166,6 +172,16 @@ public class RegistroLiquidacionController implements Serializable {
         newCargoBus.setNumeroCuotasCargoBus(0);
         this.selected = newCargoBus;
         return newCargoBus;
+    }
+
+    public AbonoBus prepareCreateAbono() {
+        AbonoBus newAbonoBus;
+        newAbonoBus = new AbonoBus();
+        newAbonoBus.setMontoAbonoBus(0);
+        newAbonoBus.setFechaInicioAbonoBus(new Date());
+        newAbonoBus.setNumeroCuotasAbonoBus(0);
+        this.selectedAbono = newAbonoBus;
+        return newAbonoBus;
     }
 
     public void saveNew() {
@@ -198,6 +214,46 @@ public class RegistroLiquidacionController implements Serializable {
                 this.selected = new CargoBus();
                 this.selected.setMontoCargoBus(0);
                 this.selected.setNumeroCuotasCargoBus(0);
+
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
+    }
+
+    public void saveNewAbono() {
+        if (this.selectedAbono != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                this.selectedAbono.setFechaIngresoAbonoBus(new Date());
+                this.selectedAbono.setActivoAbonoBus(Boolean.TRUE);
+                this.selectedAbono.setBus(bus);
+
+                session.save(this.selectedAbono);
+                tx.commit();
+                this.abonosItems.add(0, this.selectedAbono);
+
+                this.cargos = 0;
+
+                for (CargoBus c : this.items) {
+                    this.cargos = this.cargos + c.getMontoCargoBus();
+                }
+
+                for (AbonoBus a : this.abonosItems) {
+                    this.abonos = this.abonos + a.getMontoAbonoBus();
+                }
+
+                this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
+
+                this.selectedAbono = null;
+                this.selectedAbono = new AbonoBus();
+                this.selectedAbono.setMontoAbonoBus(0);
+                this.selectedAbono.setNumeroCuotasAbonoBus(0);
 
             } catch (HibernateException e) {
                 tx.rollback();
@@ -247,6 +303,33 @@ public class RegistroLiquidacionController implements Serializable {
 
     }
 
+    public void saveAbono() {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+
+        try {
+
+            this.abonos = 0;
+            for (AbonoBus a : this.abonosItems) {
+
+                session.update(a);
+                this.abonos = this.abonos + a.getMontoAbonoBus();
+            }
+
+            tx.commit();
+
+            this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
+
+            this.selectedAbono = new AbonoBus();
+
+        } catch (HibernateException e) {
+            tx.rollback();
+            System.err.println("NULL:CargoBus");
+        }
+
+    }
+
     public void resetParents() {
 
     }
@@ -260,6 +343,8 @@ public class RegistroLiquidacionController implements Serializable {
                 session.delete(this.selected);
                 tx.commit();
 
+                this.items.remove(this.selected);
+                
                 this.cargos = 0;
                 for (CargoBus c : this.items) {
 
@@ -273,9 +358,40 @@ public class RegistroLiquidacionController implements Serializable {
 
                 this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
 
-                this.items.remove(this.selected);
                 
+
                 this.selected = new CargoBus();
+
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
+    }
+
+    public void deleteAbono() {
+        if (this.selectedAbono != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.delete(this.selectedAbono);
+                tx.commit();
+
+                this.abonosItems.remove(this.selectedAbono);
+                
+                this.abonos = 0;
+                for (AbonoBus a : this.abonosItems) {
+                    this.abonos = this.abonos + a.getMontoAbonoBus();
+                }
+
+                this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
+
+                
+
+                this.selectedAbono = new AbonoBus();
 
             } catch (HibernateException e) {
                 tx.rollback();
@@ -440,6 +556,14 @@ public class RegistroLiquidacionController implements Serializable {
 
     public void setSaldoFinal(int saldoFinal) {
         this.saldoFinal = saldoFinal;
+    }
+
+    public List<TipoAbono> getTipoAbonoItems() {
+        return tipoAbonoItems;
+    }
+
+    public void setTipoAbonoItems(List<TipoAbono> tipoAbonoItems) {
+        this.tipoAbonoItems = tipoAbonoItems;
     }
 
     public class GuiaHelper {

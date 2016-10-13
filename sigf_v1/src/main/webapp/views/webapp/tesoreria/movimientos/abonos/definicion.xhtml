@@ -82,7 +82,6 @@
                 </p:dataTable>
 
                 <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoAbonoController.prepareCreate}" update=":TipoAbonoCreateForm" oncomplete="PF('TipoAbonoCreateDialog').show()"/>
-                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoAbonoViewForm" oncomplete="PF('TipoAbonoViewDialog').show()" disabled="#{empty tipoAbonoController.selected}"/>
                 <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoAbonoEditForm" oncomplete="PF('TipoAbonoEditDialog').show()" disabled="#{empty tipoAbonoController.selected}"/>
                 <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoAbonoController.delete}" update=":growl,datalist" disabled="#{empty tipoAbonoController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>

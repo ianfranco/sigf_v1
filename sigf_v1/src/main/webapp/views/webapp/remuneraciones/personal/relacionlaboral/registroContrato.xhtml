@@ -12,7 +12,7 @@
                 <p:focus context="trabajador"/>
                 <h:panelGrid columns="4">
 
-                    <p:outputLabel value="N° Conductor" for="trabajador" />
+                    <p:outputLabel value="N° Conductor:" for="trabajador" />
                     <h:panelGroup>
                         <p:selectOneMenu id="trabajador" value="#{registroContratosController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
@@ -28,7 +28,7 @@
                     <h:outputText value="#{registroContratosController.selected.trabajador}" id="informacionConductor"/>
 
                     <p:outputLabel for="empresa" value="N° Empresa:" />
-                    <p:selectOneMenu id="empresa" value="#{registroContratosController.selected.empresa}" converter="empresaConverter">
+                    <p:selectOneMenu id="empresa" value="#{registroContratosController.selected.empresa}" converter="empresaConverter" required="true" >
                         <f:selectItem itemLabel="Seleccionar"/>
                         <f:selectItems value="#{registroContratosController.empresaItems}"
                                        var="item"
@@ -42,7 +42,7 @@
                     <h:outputText value="#{registroContratosController.selected.empresa}" id="informacionEmpresa"/>
 
                     <p:outputLabel for="tipoContrato" value="Contrato:" />
-                    <p:selectOneMenu id="tipoContrato" value="#{registroContratosController.selected.tipoContrato}" converter="tipoContratoConverter">
+                    <p:selectOneMenu id="tipoContrato" value="#{registroContratosController.selected.tipoContrato}" required="true"  converter="tipoContratoConverter">
                         <f:selectItem itemLabel="Seleccionar"/>
                         <f:selectItems value="#{registroContratosController.tiposContratosItems}"
                                        var="item"
@@ -54,14 +54,14 @@
                     <p:outputLabel value=""/>
                     <p:outputLabel value=""/>
 
-                    <p:outputLabel for="inicio" value="Fecha Inicio"/>
-                    <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy"/>
+                    <p:outputLabel for="inicio" value="Fecha Inicio:"/>
+                    <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" required="true"  />
+                    
+                    <p:outputLabel for="fin" value="Fecha Término:"/>
+                    <p:calendar id="fin" value="#{registroContratosController.selected.fechaFin}" required="true"  pattern="dd/MM/yyyy"/>
 
-                    <p:outputLabel value=""/>
-                    <p:outputLabel value=""/>
-
-                    <p:outputLabel value="Sueldo Base"/>
-                    <p:inputNumber symbol="$ " decimalPlaces="0" value="#{registroContratosController.selected.sueldoBase}"/>
+                    <p:outputLabel value="Sueldo Base:"/>
+                    <p:inputNumber symbol="$ " decimalPlaces="0" required="true"  value="#{registroContratosController.selected.sueldoBase}"/>
 
                 </h:panelGrid>
                 <p:commandButton value="Ingresar" update=":Display:datalist, :selector" actionListener="#{registroContratosController.saveNew}"  resetValues="true" >
@@ -84,7 +84,7 @@
                              tableStyle="table-layout: auto" >
 
                     <f:facet name="header">
-                        Últimos 100 Contratos Registrados
+                        Últimos Contratos Registrados
                     </f:facet>
 
                     <p:column style="width: 20px;">

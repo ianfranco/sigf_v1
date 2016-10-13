@@ -29,7 +29,6 @@ import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -42,6 +41,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -51,7 +51,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "planillonController")
-@SessionScoped
+@ViewScoped
 public class PlanillonController implements Serializable {
 
     private List<Object[]> resultsValues;

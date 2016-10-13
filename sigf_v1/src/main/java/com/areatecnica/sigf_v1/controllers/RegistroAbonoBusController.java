@@ -14,10 +14,10 @@ import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -27,7 +27,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "registroAbonoBusController")
-@SessionScoped
+@ViewScoped
 public class RegistroAbonoBusController implements Serializable {
 
     private TipoAbonoDaoImpl tipoAbonoDao;

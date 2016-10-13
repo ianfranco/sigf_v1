@@ -11,13 +11,13 @@ import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -32,7 +32,7 @@ import org.primefaces.model.map.Marker;
  * @author Ian Franco
  */
 @Named(value = "registroTerminalesController")
-@SessionScoped
+@ViewScoped
 public class RegistroTerminalesController implements Serializable {
 
     private List<Terminal> items;

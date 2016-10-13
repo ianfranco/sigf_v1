@@ -15,6 +15,7 @@ import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -26,45 +27,58 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroSaldoAnteriorController")
+@Named(value = "detalleDescuentoTrabajadorController")
 @ViewScoped
-public class RegistroSaldoAnteriorController implements Serializable {
+public class DetalleDescuentoTrabajadorController implements Serializable {
 
     private DescuentoTrabajadorDaoImpl descuentoTrabajadorDao;
     private DescuentoTrabajadorLiquidacionDaoImpl descuentoTrabajadorLiquidacionDaoImpl;
     private TrabajadorDaoImpl trabajadorDaoImpl;
-   
+
+    private DescuentoTrabajador descuentoTrabajador;
     private DescuentoTrabajadorLiquidacion selected;
 
     private List<DescuentoTrabajadorLiquidacion> items;
-    private DescuentoTrabajador saldoAnterior;
+    private List<DescuentoTrabajador> descuentosItems;
     private List<Trabajador> trabajadorItems;
+
+    private Trabajador trabajador;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroSaldoAnteriorController() {
-        this.descuentoTrabajadorDao = new DescuentoTrabajadorDaoImpl();
-        this.saldoAnterior = this.descuentoTrabajadorDao.findById(4);
+    public DetalleDescuentoTrabajadorController() {
+        //this.descuentoTrabajadorDao = new DescuentoTrabajadorDaoImpl();
+        //this.descuentosItems = this.descuentoTrabajadorDao.findAll();
 
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
         this.trabajadorItems = this.trabajadorDaoImpl.findAll();
 
-        this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
-        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findSaldoAnteriorWithLimit();
-
+        /*this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
+        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findWithLimit();*/
         this.selected = prepareCreate();
 
     }
 
+    public DescuentoTrabajador getDescuentoTrabajador() {
+        return descuentoTrabajador;
+    }
+
+    public void setDescuentoTrabajador(DescuentoTrabajador descuentoTrabajador) {
+        this.descuentoTrabajador = descuentoTrabajador;
+    }
+
     public DescuentoTrabajadorLiquidacion prepareCreate() {
-        
         DescuentoTrabajadorLiquidacion newDescuentoTrabajadorLiquidacion;
         newDescuentoTrabajadorLiquidacion = new DescuentoTrabajadorLiquidacion();
         newDescuentoTrabajadorLiquidacion.setMonto(0);
         newDescuentoTrabajadorLiquidacion.setNumeroCuotas(0);
-        
         return newDescuentoTrabajadorLiquidacion;
+    }
+
+    public void init() {
+        this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
+        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findBy(trabajador);
     }
 
     public void saveNew() {
@@ -75,15 +89,13 @@ public class RegistroSaldoAnteriorController implements Serializable {
             try {
                 this.selected.setFechaIngresoDescuento(new Date());
                 this.selected.setActivoDescuentoTrabajador(Boolean.TRUE);
-                this.selected.setNumeroCuotas(1);
-                this.selected.setDescuentoTrabajador(saldoAnterior);
 
                 session.save(this.selected);
                 tx.commit();
                 this.items.add(0, selected);
-                
+
                 Date fecha = this.selected.getFechaInicioDescuento();
-                
+
                 this.selected = null;
                 this.selected = new DescuentoTrabajadorLiquidacion();
                 this.selected.setMonto(0);
@@ -99,21 +111,24 @@ public class RegistroSaldoAnteriorController implements Serializable {
     }
 
     public void save() {
-        if (this.selected != null) {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = session.beginTransaction();
 
-            try {
-                session.saveOrUpdate(this.selected);
-                tx.commit();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
 
-            } catch (HibernateException e) {
-                tx.rollback();
-                System.err.println("NULL:selected");
+        try {
+                        
+            for (DescuentoTrabajadorLiquidacion d : this.items) {
+                session.update(d);
             }
-        } else {
 
+            tx.commit();
+            this.items = new ArrayList<DescuentoTrabajadorLiquidacion>();
+
+        } catch (HibernateException e) {
+            tx.rollback();
+            System.err.println("NULL:selected");
         }
+
     }
 
     public void resetParents() {
@@ -158,12 +173,12 @@ public class RegistroSaldoAnteriorController implements Serializable {
         this.selected = selected;
     }
 
-    public DescuentoTrabajador getDescuentosItems() {
-        return saldoAnterior;
+    public List<DescuentoTrabajador> getDescuentosItems() {
+        return descuentosItems;
     }
 
-    public void setDescuentosItems(DescuentoTrabajador saldoAnterior) {
-        this.saldoAnterior = saldoAnterior;
+    public void setDescuentosItems(List<DescuentoTrabajador> descuentosItems) {
+        this.descuentosItems = descuentosItems;
     }
 
     public List<Trabajador> getTrabajadorItems() {
@@ -172,5 +187,13 @@ public class RegistroSaldoAnteriorController implements Serializable {
 
     public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
         this.trabajadorItems = trabajadorItems;
+    }
+
+    public Trabajador getTrabajador() {
+        return trabajador;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 }

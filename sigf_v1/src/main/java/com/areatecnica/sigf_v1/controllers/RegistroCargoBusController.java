@@ -14,10 +14,10 @@ import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.entities.TipoCargo;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -27,7 +27,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "registroCargoBusController")
-@SessionScoped
+@ViewScoped
 public class RegistroCargoBusController implements Serializable {
 
     private TipoCargoDaoImpl tipoCargoDao;

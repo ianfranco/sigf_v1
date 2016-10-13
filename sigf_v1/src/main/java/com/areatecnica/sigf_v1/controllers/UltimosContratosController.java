@@ -6,8 +6,13 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.dao.TipoContratoDaoImpl;
+import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.entities.TipoContrato;
+import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -18,6 +23,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.view.ViewScoped;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -28,7 +36,12 @@ import javax.faces.view.ViewScoped;
 public class UltimosContratosController implements Serializable {
 
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
+    private EmpresaDaoImpl empresaDao;
+    private TipoContratoDaoImpl tipoContratoDaoImpl;
     private List<RelacionLaboral> contratos;
+    private List<Empresa> empresaItems;
+    private List<TipoContrato> tiposContratosItems;
+    private RelacionLaboral selected;
     private Date fecha;
     private int mes;
     private int anio;
@@ -38,6 +51,12 @@ public class UltimosContratosController implements Serializable {
         this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
         this.contratos = new ArrayList<>();
         
+        this.empresaDao = new EmpresaDaoImpl();
+        this.empresaItems = this.empresaDao.findAllCleanOrderById();
+
+        this.tipoContratoDaoImpl = new TipoContratoDaoImpl();
+        this.tiposContratosItems = this.tipoContratoDaoImpl.findAll();
+
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
@@ -45,21 +64,21 @@ public class UltimosContratosController implements Serializable {
 
     public void init() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         String from = "01/" + mes + "/" + anio;
         try {
             this.fecha = format.parse(from);
-            this.header = "Mes:"+getStringMonth()+" Año:"+anio;
-            
+            this.header = "Mes:" + getStringMonth() + " Año:" + anio;
+
             this.contratos = this.relacionLaboralDaoImpl.findByDate(fecha);
-            
-            System.err.println("PRINTING HEADER"+this.header);
+
+            System.err.println("PRINTING HEADER" + this.header);
         } catch (ParseException p) {
 
         }
-        
+
     }
-    
+
     public String getStringMonth() {
         switch (this.mes) {
             case 1:
@@ -89,7 +108,7 @@ public class UltimosContratosController implements Serializable {
         }
         return "";
     }
-    
+
     /*public RelacionLaboral prepareCreate(ActionEvent event) {
         RelacionLaboral newRelacionLaboral;
         newRelacionLaboral = new RelacionLaboral();
@@ -144,6 +163,31 @@ public class UltimosContratosController implements Serializable {
 
     }
 
+    public void save() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                
+                session.update(this.selected);
+                tx.commit();
+
+                this.selected = null;
+            } catch (HibernateException e) {
+                System.err.println("SAVE:Relacion Laboral");
+                tx.rollback();
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+        } else {
+
+        }
+    }
+    
+    public void cancel(){
+        this.selected = null;
+    }
+
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
@@ -188,5 +232,28 @@ public class UltimosContratosController implements Serializable {
         this.header = header;
     }
 
-    
+    public RelacionLaboral getSelected() {
+        return selected;
+    }
+
+    public void setSelected(RelacionLaboral selected) {
+        this.selected = selected;
+    }
+
+    public List<Empresa> getEmpresaItems() {
+        return empresaItems;
+    }
+
+    public void setEmpresaItems(List<Empresa> empresaItems) {
+        this.empresaItems = empresaItems;
+    }
+
+    public List<TipoContrato> getTiposContratosItems() {
+        return tiposContratosItems;
+    }
+
+    public void setTiposContratosItems(List<TipoContrato> tiposContratosItems) {
+        this.tiposContratosItems = tiposContratosItems;
+    }
+
 }

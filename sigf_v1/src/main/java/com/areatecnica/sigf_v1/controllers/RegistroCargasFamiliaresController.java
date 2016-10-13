@@ -7,12 +7,16 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -22,44 +26,54 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "asignacionFamiliarController")
+@Named(value = "registroCargasFamiliaresController")
 @ViewScoped
-public class AsignacionFamiliarController implements Serializable {
+public class RegistroCargasFamiliaresController implements Serializable {
 
+    
     private AsignacionFamiliarDaoImpl asignacionFamiliarDao;
-    private List<AsignacionFamiliar> items;
-    private AsignacionFamiliar selected;
+    private TrabajadorDaoImpl trabajadorDaoImpl;
+    private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
+    private List<AsignacionFamiliar> grupoAsignacion;    
+    private List<RelacionLaboral> relacionLaboralItems;
+    private List<Trabajador> items;
+    private Trabajador selected;
     
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public AsignacionFamiliarController() {        
+    public RegistroCargasFamiliaresController() {        
         this.asignacionFamiliarDao = new AsignacionFamiliarDaoImpl();
-        this.items = this.asignacionFamiliarDao.findAll();
+        this.grupoAsignacion = this.asignacionFamiliarDao.findAll();
+        
+        this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
+        this.relacionLaboralItems = this.relacionLaboralDaoImpl.findAll();
+        
+        this.items = new ArrayList<>();
+        
+        for(RelacionLaboral r:this.relacionLaboralItems){
+            Trabajador t = r.getTrabajador();
+            this.items.add(t);
+        }
     }
 
-    public List<AsignacionFamiliar> getItems() {
+    public List<Trabajador> getItems() {
         return items;
     }
 
-    public void setItems(List<AsignacionFamiliar> items) {
+    public void setItems(List<Trabajador> items) {
         this.items = items;
     }
 
-    public AsignacionFamiliar getSelected() {
+    public Trabajador getSelected() {
         return selected;
     }
 
-    public void setSelected(AsignacionFamiliar selected) {
+    public void setSelected(Trabajador selected) {
         this.selected = selected;
     }
     
-     public AsignacionFamiliar prepareCreate(ActionEvent event) {
-        AsignacionFamiliar newAsignacionFamiliar;
-        newAsignacionFamiliar = new AsignacionFamiliar();
-        this.selected = newAsignacionFamiliar;
-        return newAsignacionFamiliar;
-    }
+    
 
     public void saveNew() {
         if (this.selected != null) {
@@ -67,7 +81,7 @@ public class AsignacionFamiliarController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.saveOrUpdate(this.selected);
+                session.save(this.selected);
                 tx.commit();
                 this.items.add(selected);
 
@@ -86,7 +100,7 @@ public class AsignacionFamiliarController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.saveOrUpdate(this.selected);
+                session.update(this.selected);
                 tx.commit();
 
             } catch (HibernateException e) {
@@ -108,5 +122,13 @@ public class AsignacionFamiliarController implements Serializable {
 
     public String getComponentMessages(String clientComponent, String defaultMessage){
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
+    }
+
+    public List<AsignacionFamiliar> getGrupoAsignacion() {
+        return grupoAsignacion;
+    }
+
+    public void setGrupoAsignacion(List<AsignacionFamiliar> grupoAsignacion) {
+        this.grupoAsignacion = grupoAsignacion;
     }
 }

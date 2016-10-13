@@ -39,59 +39,154 @@
         </h:form>
 
         <h:form id="Display">
+
+            <p:contextMenu id="ContratosDataTableContextMenu" for="datalist">                  
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('Display:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('Display:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+            </p:contextMenu>
+
             <p:panel style="margin-top: 5px;">
                 <p:dataTable id="datalist" 
                              value="#{ultimoContratosController.contratos}"
                              lazy="false"
                              var="item"
                              rowKey="#{item.idRelacionLaboral}"
-                             rowIndexVar="rowIndex"                         
+                             rowIndexVar="rowIndex"            
+                             selection="#{ultimoContratosController.selected}"
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
+
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu"/>
+                    <p:ajax event="contextMenu" update="@form:editButton @form:deleteButton"/>
 
                     <f:facet name="header">
                         Contratos x Mes: #{ultimoContratosController.header}
                     </f:facet>
 
-                    <p:column style="width: 20px;">
+                    <p:column style="width: 20px;text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="N°"/>
                         </f:facet>
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
+                    
+                    <p:column filterBy="#{item.empresa.idEmpresa}" >
+                        <f:facet name="header">
+                            <h:outputText value="Cod.Empresa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresa.idEmpresa}"/>
+                    </p:column>
 
-                    <p:column style="width: 20px;">
+                    <p:column style="width: 20px;" filterBy="#{item.empresa}" >
                         <f:facet name="header">
                             <h:outputText value="Empresa"/>
                         </f:facet>
                         <h:outputText value="#{item.empresa}"/>
                     </p:column>
+                    
+                    <p:column style="width: 20px;" filterBy="#{item.trabajador.codigoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Cód. Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                    </p:column>
 
-                    <p:column style="width: 20px;">
+                    <p:column style="width: 20px;" filterBy="#{item.trabajador}">
                         <f:facet name="header">
                             <h:outputText value="Trabajador"/>
                         </f:facet>
                         <h:outputText value="#{item.trabajador}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;">
+                    <p:column style="width: 20px;text-align: center;" filterBy="#{item.tipoContrato}">
                         <f:facet name="header">
                             <h:outputText value="Contrato"/>
                         </f:facet>
                         <h:outputText value="#{item.tipoContrato}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;">
+                    <p:column style="width: 20px;text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="F.Inicio"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaInicio}"/>
+                        <h:outputText value="#{item.fechaInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                 </p:dataTable>
+
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update="EdicionContrato:Edicion" oncomplete="PF('ContratoEditDialog').show()" disabled="#{empty ultimoContratosController.selected}" />
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ultimoContratosController.delete()}" update="growl,datalist" disabled="#{empty ultimoContratosController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
             </p:panel>
         </h:form>
+
+        <p:dialog id="ContratoEditDlg" widgetVar="ContratoEditDialog" header="Edición" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true">
+            <h:form id="EdicionContrato">
+                <p:panel id="Edicion" >
+                    <p:focus context="trabajador"/>
+                    <h:panelGrid columns="4">
+
+                        <p:outputLabel value="N° Conductor" for="trabajador" />
+                        <p:outputLabel id="trabajador" value="#{ultimoContratosController.selected.trabajador.codigoTrabajador}"/>
+                        
+                        <p:outputLabel value="Nombre:" style="margin-left: 15px;"/>
+                        <h:outputText value="#{ultimoContratosController.selected.trabajador}" id="informacionConductor"/>
+
+                        <p:outputLabel for="empresa" value="N° Empresa:" />
+                        <p:selectOneMenu id="empresa" value="#{ultimoContratosController.selected.empresa}" converter="empresaConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{ultimoContratosController.empresaItems}"
+                                           var="itemEmpresa"
+                                           itemValue="#{itemEmpresa}"
+                                           itemLabel="#{itemEmpresa.idEmpresa}"
+                                           />
+                            <p:ajax event="valueChange" update="informacionEmpresa" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Razón Social:" style="margin-left: 15px;"/>
+                        <h:outputText value="#{ultimoContratosController.selected.empresa}" id="informacionEmpresa"/>
+
+                        <p:outputLabel for="tipoContrato" value="Contrato:" />
+                        <p:selectOneMenu id="tipoContrato" value="#{ultimoContratosController.selected.tipoContrato}" converter="tipoContratoConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{ultimoContratosController.tiposContratosItems}"
+                                           var="item"
+                                           itemValue="#{item}"
+                                           itemLabel="#{item.nombreTipoContrato}"
+                                           />                        
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel for="inicio" value="Fecha Inicio"/>
+                        <p:calendar id="inicio" value="#{ultimoContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy"/>
+
+                        <p:outputLabel for="fin" value="Fecha Fin"/>
+                        <p:calendar id="fin" value="#{ultimoContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy"/>
+
+                        <p:outputLabel value="Sueldo Base"/>
+                        <p:inputNumber symbol="$ " decimalPlaces="0" value="#{ultimoContratosController.selected.sueldoBase}"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="Actualizar" update=":Display:datalist, :selector" actionListener="#{ultimoContratosController.save}"  resetValues="true" oncomplete="PF('ContratoEditDialog').hide()" >
+                    </p:commandButton>
+                    
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ContratoEditDialog').hide()" actionListener="#{ultimoContratosController.cancel()}"/>
+                </p:panel>
+
+
+
+            </h:form>
+        </p:dialog>
+
+
     </ui:define>
 
 </ui:composition>

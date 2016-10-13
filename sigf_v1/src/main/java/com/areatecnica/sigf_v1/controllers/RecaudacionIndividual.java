@@ -9,11 +9,9 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.dao.BusDao;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDao;
-import com.areatecnica.sigf_v1.dao.EgresoRecaudacionDaoImpl;
 import com.areatecnica.sigf_v1.dao.GuiaDao;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.TerminalDao;
-import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.EgresoGuia;
 import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
@@ -22,7 +20,6 @@ import com.areatecnica.sigf_v1.entities.ProcesoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -30,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -41,7 +38,7 @@ import org.primefaces.context.RequestContext;
  * @author Ian Franco
  */
 @Named(value = "recaudacionIndividual")
-@SessionScoped
+@ViewScoped
 public class RecaudacionIndividual implements Serializable {
 
     private Bus selectedBus;

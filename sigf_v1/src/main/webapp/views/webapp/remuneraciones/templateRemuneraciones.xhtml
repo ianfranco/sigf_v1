@@ -40,6 +40,7 @@
                                 <p:menuitem value="Ficha Individual" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
                                 <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:submenu label="Cargas Familiares">
+                                    <p:menuitem value="Registro por R.Laboral" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares/registroCargasFamiliares"/>
                                     <p:menuitem value="Nueva" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares/registro" />
                                     <p:menuitem value="Listado x Personal" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                     <p:menuitem value="Retroactivas" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasretroactivas" />
@@ -88,15 +89,20 @@
                             <p:submenu label="Movimientos">
                                 <p:submenu label="Descuentos">
                                     <p:menuitem value="Registro General" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
-                                    <p:menuitem value="Saldo Anterior" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroSaldoAnterior"/>
-                                    <p:menuitem value="Retención Judicial" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroRetencionJudicial"/>
-                                    <p:menuitem value="R. de Deudas" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
+                                    <p:submenu label="Registro x">
+                                        <p:menuitem value="Saldo Anterior" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroSaldoAnterior"/>
+                                        <p:menuitem value="Retención Judicial" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroRetencionJudicial"/>
+                                        <p:menuitem value="R. de Deudas" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
+                                    </p:submenu>
+                                    <p:separator/>
+                                    <p:menuitem value="Descuentos x Trabajador" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/detalleDescuentosTrabajador"/>
+                                    <p:separator/>
                                     <p:submenu label="Avanzado">                                        
                                         <p:menuitem value="Definición de Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/definicion"/>
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label="Haberes">
-                                    <p:menuitem value="Registro" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
+                                    <p:menuitem value="Registro General" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/registroHaberes"/>
                                     <p:submenu label="Avanzado">
                                         <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/definicion"/>                                        
                                     </p:submenu>                                

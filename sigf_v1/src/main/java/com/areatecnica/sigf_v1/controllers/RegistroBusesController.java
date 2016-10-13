@@ -25,11 +25,11 @@ import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,7 +39,7 @@ import org.hibernate.Transaction;
  * @author Ian Franco
  */
 @Named(value = "registroBusesController")
-@SessionScoped
+@ViewScoped
 public class RegistroBusesController implements Serializable {
 
     private List<Bus> items;

@@ -6,16 +6,15 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
 import com.areatecnica.sigf_v1.dao.DescuentoTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.DescuentoTrabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +24,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "descuentoTrabajadorController")
-@SessionScoped
+@ViewScoped
 public class DescuentoTrabajadorController implements Serializable {
 
     private DescuentoTrabajadorDaoImpl descuentoTrabajadorDao;

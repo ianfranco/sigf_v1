@@ -7,38 +7,20 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.dao.BusDao;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
-import com.areatecnica.sigf_v1.dao.EmpresaDao;
-import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.EstadoBusDaoImpl;
-import com.areatecnica.sigf_v1.dao.FlotaDao;
-import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
-import com.areatecnica.sigf_v1.dao.TerminalDao;
-import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
-import com.areatecnica.sigf_v1.dao.UnidadNegocioDao;
-import com.areatecnica.sigf_v1.dao.UnidadNegocioDaoImpl;
 import com.areatecnica.sigf_v1.entities.Bus;
-import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.EstadoBus;
-import com.areatecnica.sigf_v1.entities.Flota;
-import com.areatecnica.sigf_v1.entities.Terminal;
-import com.areatecnica.sigf_v1.entities.UnidadNegocio;
-import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import javax.faces.event.ActionEvent;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Ian Franco
  */
 @Named(value = "selectedBusesController")
-@SessionScoped
+@ViewScoped
 public class SelectedBusesController implements Serializable {
 
     private List<Bus> items;

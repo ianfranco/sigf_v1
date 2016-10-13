@@ -49,7 +49,7 @@ public class ProduccionFlotaQuery {
                 + "                FLOOR(sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1)) AS Administracion, \n"
                 + "                FLOOR(sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7)) AS Licitacion, \n"
                 + "                FLOOR(sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4)) AS Taller, \n"
-                + "                FLOOR(cargos(bus.id_bus)) AS Cargo, \n" 
+                + "                convert(int,(cargos(bus.id_bus))) AS Cargo, \n" 
                 + "                FLOOR(sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus)) AS Total \n"
                 + "                FROM guia \n"
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
@@ -120,8 +120,8 @@ public class ProduccionFlotaQuery {
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 1) AS Administracion, \n"
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 7) AS Licitacion, \n"
                 + "                sum_egreso(bus.id_bus, '" + format.format(fecha) + "', 4) AS Taller, \n"
-                + "                cargos(bus.id_bus) AS Cargo, \n" 
-                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "')-cargos(bus.id_bus) AS Total \n"                
+                + "                convert(int,cargos(bus.id_bus)) AS Cargo, \n" 
+                + "                sum_saldos(bus.id_bus, '" + format.format(fecha) + "') - convert(int,cargos(bus.id_bus)) AS Total \n"                
                 + "                FROM guia \n"
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
                 + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
@@ -158,11 +158,11 @@ public class ProduccionFlotaQuery {
                 //}
                 
                 
-                int auxAdministracion = ((BigInteger)a[5]).intValue();
-                int auxLicitacion = ((BigInteger)a[6]).intValue();
-                int auxTaller = ((BigInteger)a[7]).intValue();
-                int auxCargos = ((BigInteger)a[8]).intValue();
-                int auxSaldo = ((BigInteger)a[9]).intValue();
+                int auxAdministracion = ((Integer)a[5]);
+                int auxLicitacion = ((Integer)a[6]);
+                int auxTaller = ((Integer)a[7]);
+                int auxCargos = ((Integer)a[8]);
+                int auxSaldo = ((Integer)a[9]);
                 
                 administracion = administracion + (auxAdministracion);
                 licitacion = licitacion + (auxLicitacion);

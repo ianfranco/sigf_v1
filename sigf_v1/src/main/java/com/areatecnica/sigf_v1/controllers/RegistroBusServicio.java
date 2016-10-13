@@ -19,19 +19,19 @@ import com.areatecnica.sigf_v1.entities.BusServicio;
 import com.areatecnica.sigf_v1.entities.Servicio;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Ian
  */
 @Named(value = "registroBusServicioController")
-@SessionScoped
+@ViewScoped
 public class RegistroBusServicio implements Serializable {
 
     private List<Bus> items;

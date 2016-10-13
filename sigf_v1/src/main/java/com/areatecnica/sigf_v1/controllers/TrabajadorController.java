@@ -56,6 +56,7 @@ public class TrabajadorController implements Serializable {
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
 
     private List<Trabajador> items;
+    private List<AsignacionFamiliar> asignacionFamiliarItems;
     private Trabajador selected;
 
     //helpers
@@ -92,6 +93,10 @@ public class TrabajadorController implements Serializable {
         this.items = this.trabajadorDao.findAll();
         this.relacionLaboral = new RelacionLaboral();
         this.relacionLaboral.setSueldoBase(0);
+        
+        this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
+        this.asignacionFamiliarItems = this.asignacionFamiliarDaoImpl.findAll();
+                
     }
 
     @PostConstruct
@@ -280,13 +285,6 @@ public class TrabajadorController implements Serializable {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
-            /*System.err.println("FECHA INGRESO TRABAJADOR:" + this.selected.getFechaIngresoTrabajador());
-            System.err.println("SUELDO:" + this.relacionLaboral.getSueldoBase());
-            System.err.println("Tipo Trabajador:" + this.tipoTrabajador);
-            System.err.println("Fechas:" + this.selectedInicioContrato + " - " + this.selectedFinContrato);
-            System.err.println("EMPRESA:" + this.selectedEmpresa);
-            System.err.println("Tipo Contrato" + this.tipoContrato);*/
-
             try {
                 this.selected.setFechaIngresoTrabajador(new Date());
                 this.selected.setEstadoCivil(Short.parseShort(estadoCivil));
@@ -304,16 +302,7 @@ public class TrabajadorController implements Serializable {
 
                 session.save(this.selected);
 
-                /*this.relacionLaboral.setEstado(true);
-                this.relacionLaboral.setTrabajador(selected);
-                this.relacionLaboral.setEmpresa(this.selectedEmpresa);
-                this.relacionLaboral.setTipoContrato(tipoContrato);
-                this.relacionLaboral.setTipoTrabajador(tipoTrabajador);
-                this.relacionLaboral.setFechaFin(selectedFinContrato);
-                this.relacionLaboral.setFechaInicio(selectedInicioContrato);
-                this.relacionLaboral.setSueldoBase(sueldo);
-
-                session.saveOrUpdate(this.relacionLaboral);*/
+                
 
                 tx.commit();
                 this.items.add(selected);
@@ -337,7 +326,7 @@ public class TrabajadorController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.saveOrUpdate(this.selected);
+                session.update(this.selected);
                 tx.commit();
             } catch (HibernateException e) {
                 tx.rollback();
@@ -480,6 +469,22 @@ public class TrabajadorController implements Serializable {
 
     public void addMessageTermino() {
         JsfUtil.addSuccessMessage("Tipo:" + selectedFinContrato);
+    }
+
+    public List<AsignacionFamiliar> getAsignacionFamiliarItems() {
+        return asignacionFamiliarItems;
+    }
+
+    public void setAsignacionFamiliarItems(List<AsignacionFamiliar> asignacionFamiliarItems) {
+        this.asignacionFamiliarItems = asignacionFamiliarItems;
+    }
+
+    public AsignacionFamiliar getAsignacionFamiliar() {
+        return asignacionFamiliar;
+    }
+
+    public void setAsignacionFamiliar(AsignacionFamiliar asignacionFamiliar) {
+        this.asignacionFamiliar = asignacionFamiliar;
     }
 
 }

@@ -31,23 +31,20 @@ import com.areatecnica.sigf_v1.util.ColumnModel;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import com.areatecnica.sigf_v1.util.RegistroGuiaList;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -57,7 +54,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "registroGuiaController")
-@SessionScoped
+@ViewScoped
 public class RegistroGuiaController implements Serializable {
 
     private GuiaDaoImpl guiaDao;

@@ -63,10 +63,10 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE estado = 1 ORDER BY fechaInicio DESC";
+        String sql = "FROM RelacionLaboral ORDER BY idRelacionLaboral DESC";
         try {
 
-            list = session.createQuery(sql).setMaxResults(100).list();
+            list = session.createQuery(sql).setMaxResults(200).list();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -132,7 +132,7 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE estado = 1 AND fechaInicio BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"')  ORDER BY fechaInicio ASC";
+        String sql = "FROM RelacionLaboral WHERE fechaInicio BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"')  ORDER BY fechaInicio ASC";
         try {
 
             list = session.createQuery(sql).list();

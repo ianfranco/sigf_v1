@@ -336,6 +336,9 @@ public class InformeProduccionBusController implements Serializable {
 
         resultsHeader.add("Recaudación");
         resultsTotals.add("");
+        
+        resultsHeader.add("Proceso");
+        resultsTotals.add("");
 
         resultsHeader.add("Codigo");
         resultsTotals.add("");
@@ -358,6 +361,7 @@ public class InformeProduccionBusController implements Serializable {
                 hashMap.put("Folio", g.getFolio());
                 hashMap.put("Fecha", format.format(g.getFechaGuia()));
                 hashMap.put("Recaudacion", format.format(g.getFechaRecaudacion()));
+                hashMap.put("Proceso", g.getProcesoRecaudacion());
                 hashMap.put("Codigo", g.getTrabajador().getCodigoTrabajador());
                 hashMap.put("Nombre Conductor", g.getTrabajador());
                 hashMap.put("Ingresos", g.getTotalIngresos());
@@ -413,6 +417,7 @@ public class InformeProduccionBusController implements Serializable {
             hashMap.put("Folio", "");
             hashMap.put("Fecha", "");
             hashMap.put("Recaudación", "");
+            hashMap.put("Proceso", "");
             hashMap.put("Codigo", "");
             hashMap.put("Nombre Conductor", "");
             hashMap.put("T.Ingresos", "");
@@ -427,15 +432,19 @@ public class InformeProduccionBusController implements Serializable {
             resultsHeader.add("Administracion");
             hashMap.put("Administracion", "0");
             resultsTotals.add("0");
+            
             resultsHeader.add("Licitación");
             hashMap.put("Licitación", "0");
             resultsTotals.add("0");
+            
             resultsHeader.add("Taller");
             hashMap.put("Taller", "0");
             resultsTotals.add("0");
+            
             resultsHeader.add("5%");
             hashMap.put("5%", "0");
             resultsTotals.add("0");
+            
             resultsHeader.add("Aseo");
             hashMap.put("Aseo", "0");
             resultsTotals.add("0");

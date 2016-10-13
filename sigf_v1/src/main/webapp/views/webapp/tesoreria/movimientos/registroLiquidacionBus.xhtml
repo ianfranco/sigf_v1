@@ -120,7 +120,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Monto"/>
                                 </f:facet>
-                                <p:inputText value="#{item.montoCargoBus}"/>
+                                <p:inputText value="#{item.montoCargoBus}" size="10"/>
                             </p:column>
 
                         </p:dataTable>
@@ -178,13 +178,6 @@
                                 <h:outputText value="#{rowIndex}"/>
                             </p:column>
 
-                            <p:column style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="Abono"/>
-                                </f:facet>
-                                <h:outputText value="#{item3.tipoAbono}"/>
-                            </p:column>
-
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Descripción"/>
@@ -196,11 +189,15 @@
                                 <f:facet name="header">
                                     <h:outputText value="Monto"/>
                                 </f:facet>
-                                <p:inputText value="#{item3.montoAbonoBus}"/>
+                                <p:inputText value="#{item3.montoAbonoBus}" size="10" style="text-align: right;"/>
                             </p:column>
 
                         </p:dataTable>
 
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{registroLiquidacionController.prepareCreateAbono}" update=":AbonoBusCreateForm" oncomplete="PF('AbonoBusCreateDialog').show()"/>                        
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Guardar Cambios" update="resultado"  actionListener="#{registroLiquidacionController.saveAbono}" >
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="Actualizar?" icon="ui-icon-alert"/>
+                        </p:commandButton>
                         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroAbonoBusController.delete}" update=":growl,datalist, resultado" disabled="#{empty registroAbonoBusController.selected}">
                             <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                         </p:commandButton>
@@ -237,32 +234,38 @@
                             Guías
                         </f:facet>
 
-                        <p:column style="width: 20px;">
+                        <p:column style="width: 20px; text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="N°"/>
                             </f:facet>
-                            <h:outputText value="#{rowIndex+1}"/>
+                            <h:outputText value="#{rowIndex+1}" />
                         </p:column>
 
-                        <p:column style="width: 20px;">
-                            <f:facet name="header">
-                                <h:outputText value="Licitación"/>
-                            </f:facet>
-                            <h:outputText value="#{item.licitacion}"/>
-                        </p:column>
-
-                        <p:column style="width: 20px;">
+                        <p:column style="width: 20px;text-align: right;">
                             <f:facet name="header">
                                 <h:outputText value="Administración"/>
                             </f:facet>
-                            <h:outputText value="#{item.administracion}"/>
+                            <h:outputText value="#{item.administracion}" style="text-align: right;">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
                         </p:column>
 
-                        <p:column style="width: 20px;">
+                        <p:column style="width: 20px;text-align: right;">
                             <f:facet name="header">
-                                <h:outputText value="Saldo"/>
+                                <h:outputText value="Licitación"/>
                             </f:facet>
-                            <h:outputText value="#{item.saldo}"/>
+                            <h:outputText value="#{item.licitacion}" style="text-align: right;">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Saldo" style="text-align: right;"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
                         </p:column>
 
                     </p:dataTable>
@@ -283,23 +286,23 @@
 
             <p:panel id="resultado" header="Resultado:" style="margin-top: 10px;" >
                 <p:panelGrid columns="2" style="text-align: left;">
-                    <p:outputLabel value="Ingresos"/>
-                    <p:outputLabel id="ingresos" value="#{registroLiquidacionController.ingresos}">
+                    <p:outputLabel value="Ingresos:"/>
+                    <p:outputLabel id="ingresos" value="#{registroLiquidacionController.ingresos}" style="text-align: right;">
                         <f:convertNumber currencySymbol="$"/>
                     </p:outputLabel>
 
-                    <p:outputLabel value="Cargos"/>
-                    <p:outputLabel id="cargos" value="#{registroLiquidacionController.cargos}">
+                    <p:outputLabel value="Cargos:"/>
+                    <p:outputLabel id="cargos" value="#{registroLiquidacionController.cargos}" style="text-align: right;">
                         <f:convertNumber currencySymbol="$"/>
                     </p:outputLabel>
 
-                    <p:outputLabel value="Abonos"/>
-                    <p:outputLabel id="abonos" value="#{registroLiquidacionController.abonos}">
+                    <p:outputLabel value="Abonos:"/>
+                    <p:outputLabel id="abonos" value="#{registroLiquidacionController.abonos}" style="text-align: right;">
                         <f:convertNumber currencySymbol="$"/>
                     </p:outputLabel>
 
-                    <p:outputLabel value="Salfo Final"/>
-                    <p:outputLabel id="final" value="#{registroLiquidacionController.saldoFinal}">
+                    <p:outputLabel value="Saldo Final:"/>
+                    <p:outputLabel id="final" value="#{registroLiquidacionController.saldoFinal}" style="text-align: right;">
                         <f:convertNumber currencySymbol="$"/>
                     </p:outputLabel>
 
@@ -382,7 +385,7 @@
 
                         <p:outputLabel value="#{bundle.EditCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="MM/dd/yyyy" value="#{registroLiquidacionController.selected.fechaInicioCargoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" />
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroLiquidacionController.selected.fechaInicioCargoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" />
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.EditCargoBusLabel_numeroCuotasCargoBus}" for="numeroCuotasCargoBus" />
@@ -401,6 +404,53 @@
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
                     <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="AbonoBusCreateDlg" widgetVar="AbonoBusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear Nuevo Abono" closeOnEscape="true">
+
+            <h:form id="AbonoBusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{registroLiquidacionController.selectedAbono != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateAbonoBusLabel_tipoAbono}" for="tipoAbono" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoAbono" value="#{registroLiquidacionController.selectedAbono.tipoAbono}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_tipoAbono}" converter="tipoAbonoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{registroLiquidacionController.tipoAbonoItems}"
+                                               var="tipoAbonoItem"
+                                               itemValue="#{tipoAbonoItem}"
+                                               itemLabel="#{tipoAbonoItem}"
+                                               />
+
+                            </p:selectOneMenu>                            
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoBusLabel_fechaInicioAbonoBus}" for="fechaInicioAbonoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioAbonoBus" pattern="dd/MM/yyyy" value="#{registroLiquidacionController.selectedAbono.fechaInicioAbonoBus}" title="#{bundle.CreateAbonoBusTitle_fechaInicioAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_fechaInicioAbonoBus}" />                            
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoBusLabel_numeroCuotasAbonoBus}" for="numeroCuotasAbonoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasAbonoBus" value="#{registroLiquidacionController.selectedAbono.numeroCuotasAbonoBus}" title="#{bundle.CreateAbonoBusTitle_numeroCuotasAbonoBus}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoBusLabel_montoAbonoBus}" for="montoAbonoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoAbonoBus" value="#{registroLiquidacionController.selectedAbono.montoAbonoBus}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_montoAbonoBus}"/>                            
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroLiquidacionController.saveNewAbono}" value="#{bundle.Save}" update="display,:AbonoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AbonoBusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AbonoBusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
                 </h:panelGroup>
 
             </h:form>
