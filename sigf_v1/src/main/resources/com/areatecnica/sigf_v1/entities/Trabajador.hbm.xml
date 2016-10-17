@@ -86,6 +86,9 @@
         <property name="subsidioJoven" type="java.lang.Boolean">
             <column name="subsidio_joven" />
         </property>
+        <property name="contratado" type="java.lang.Boolean">
+            <column name="contratado" />
+        </property>
         <property name="fechaIngresoTrabajador" type="timestamp">
             <column name="fecha_ingreso_trabajador" length="19" not-null="true" />
         </property>

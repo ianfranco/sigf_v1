@@ -92,6 +92,23 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         return list;
     }
     
+    public List<RelacionLaboral> findByTrabajador2(Trabajador trabajador) {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = true AND trabajador="+trabajador.getIdTrabajador()+" ORDER BY empresa.nombreEmpresa ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     public List<RelacionLaboral> findByEmpresa(Empresa empresa) {
         List<RelacionLaboral> list = null;
 

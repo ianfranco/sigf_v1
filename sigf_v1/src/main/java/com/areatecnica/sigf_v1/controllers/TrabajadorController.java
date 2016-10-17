@@ -7,14 +7,17 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.AsignacionFamiliarDaoImpl;
+import com.areatecnica.sigf_v1.dao.ComunaDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionAPVDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionPrevisionDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionSaludDaoImpl;
 import com.areatecnica.sigf_v1.dao.MonedaPactadaInstitucionSaludImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.dao.TipoCotizacionTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.AsignacionFamiliar;
+import com.areatecnica.sigf_v1.entities.Comuna;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.InstitucionApv;
 import com.areatecnica.sigf_v1.entities.InstitucionPrevision;
@@ -22,6 +25,7 @@ import com.areatecnica.sigf_v1.entities.InstitucionSalud;
 import com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.TipoContrato;
+import com.areatecnica.sigf_v1.entities.TipoCotizacionTrabajador;
 import com.areatecnica.sigf_v1.entities.TipoTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
@@ -54,9 +58,19 @@ public class TrabajadorController implements Serializable {
     private AsignacionFamiliarDaoImpl asignacionFamiliarDaoImpl;
     private InstitucionPrevisionDaoImpl institucionPrevisionDaoImpl;
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
+    private ComunaDaoImpl comunaDaoImpl;
+    private TipoCotizacionTrabajadorDaoImpl tipoCotizacionTrabajadorDaoImpl;
+    
 
     private List<Trabajador> items;
     private List<AsignacionFamiliar> asignacionFamiliarItems;
+    private List<RelacionLaboral> relacionItems;
+    private List<Comuna> comunaItems;
+    private List<TipoCotizacionTrabajador> tipoCotizacionItems;
+    private List<InstitucionSalud> institucionSaludItems;
+    private List<InstitucionPrevision> InstitucionPrevisionItems;
+    private List<InstitucionApv> institucionApvItems;
+    private List<MonedaPactadaInstitucionSalud> monedaPactadaInstitucionSaludItems;
     private Trabajador selected;
 
     //helpers
@@ -69,7 +83,6 @@ public class TrabajadorController implements Serializable {
     private boolean validaRut;
     private boolean skip;
     private int sueldo;
-    
 
     //Entidades
     private InstitucionSalud saludFonasa;
@@ -93,15 +106,43 @@ public class TrabajadorController implements Serializable {
         this.items = this.trabajadorDao.findAll();
         this.relacionLaboral = new RelacionLaboral();
         this.relacionLaboral.setSueldoBase(0);
-        
+
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.asignacionFamiliarItems = this.asignacionFamiliarDaoImpl.findAll();
-                
+        //
+    }
+
+    public void loadContratos() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
+
+        for (Trabajador t : this.items) {
+            this.relacionItems = this.relacionLaboralDaoImpl.findByTrabajador2(t);
+
+            if (!this.relacionItems.isEmpty()) {
+                if (this.relacionItems.size() > 1) {
+                    for (RelacionLaboral r : this.relacionItems) {
+                        if (r.getEstado()) {
+                            t.setContratado(Boolean.TRUE);
+                            session.update(t);
+                        }
+                    }
+                } else {
+                    t.setContratado(Boolean.TRUE);
+                    session.update(t);
+                }
+            }
+
+        }
+
+        tx.commit();
     }
 
     @PostConstruct
     public void init() {
-
+        //loadContratos();
     }
 
     public List<Trabajador> getItems() {
@@ -302,8 +343,6 @@ public class TrabajadorController implements Serializable {
 
                 session.save(this.selected);
 
-                
-
                 tx.commit();
                 this.items.add(selected);
 
@@ -341,9 +380,9 @@ public class TrabajadorController implements Serializable {
 
     }
 
-    public void setDefaultValues() {        
+    public void setDefaultValues() {
         if (this.selected != null) {
-                        
+
             if (this.selected.getNacionalidad()) {
                 nacionalidad = String.valueOf("1");
             } else {
@@ -368,7 +407,7 @@ public class TrabajadorController implements Serializable {
 
             if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98) {
                 regimen = false;
-            }            
+            }
         }
     }
 

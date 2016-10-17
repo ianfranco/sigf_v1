@@ -139,7 +139,20 @@ public class BusDaoImpl implements BusDao {
 
     @Override
     public List<Bus> findByFlota(Flota flota) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Bus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Bus WHERE flota=" +flota.getIdFlota();
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override

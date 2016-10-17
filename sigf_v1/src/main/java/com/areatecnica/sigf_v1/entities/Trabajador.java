@@ -54,6 +54,7 @@ public class Trabajador implements java.io.Serializable {
     private Boolean formaPagoApv;
     private Integer montoApv;
     private Boolean subsidioJoven;
+    private Boolean contratado;
     private Date fechaIngresoTrabajador;
     private Set<ObservacionTrabajador> observacionTrabajadors = new HashSet<ObservacionTrabajador>(0);
     private Set<LicenciaMedica> licenciaMedicas = new HashSet<LicenciaMedica>(0);
@@ -101,7 +102,7 @@ public class Trabajador implements java.io.Serializable {
         this.fechaIngresoTrabajador = fechaIngresoTrabajador;
     }
 
-    public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Integer montoApv, Boolean subsidioJoven, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargaTrabajador> cargaTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
+    public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Integer montoApv, Boolean subsidioJoven, Boolean contratado, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargaTrabajador> cargaTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
         this.asignacionFamiliar = asignacionFamiliar;
         this.comuna = comuna;
         this.institucionApv = institucionApv;
@@ -128,6 +129,7 @@ public class Trabajador implements java.io.Serializable {
         this.formaPagoApv = formaPagoApv;
         this.montoApv = montoApv;
         this.subsidioJoven = subsidioJoven;
+        this.contratado = contratado;
         this.fechaIngresoTrabajador = fechaIngresoTrabajador;
         this.observacionTrabajadors = observacionTrabajadors;
         this.licenciaMedicas = licenciaMedicas;
@@ -403,6 +405,15 @@ public class Trabajador implements java.io.Serializable {
 
     public void setSubsidioJoven(Boolean subsidioJoven) {
         this.subsidioJoven = subsidioJoven;
+    }
+    
+    @Column(name = "contratado")
+    public Boolean getContratado() {
+        return this.contratado;
+    }
+
+    public void setContratado(Boolean contratado) {
+        this.contratado = contratado;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
