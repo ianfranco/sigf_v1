@@ -29,6 +29,28 @@
                                 <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroCargoFlotaController.setMontoXDefecto()}"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
+                        
+                        <p:outputLabel value="Fecha Inicio Cargo" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Descripcion:" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{registroCargoFlotaController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
+                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoFlotaController.loadDescripcion}"/>
+                            </p:inputText>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="N° Cuotas" for="numeroCuotasCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}"/>                            
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Monto" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                        </h:panelGroup>
 
                         <p:outputLabel value="Flota:" for="flota" />
                         <h:panelGrid columns="8">
@@ -45,36 +67,18 @@
 
                         <p:outputLabel value="Unidad:" for="unidad"  />
                         <h:panelGrid columns="8">
-                            <p:selectOneMenu id="unidad" value="#{registroCargoFlotaController.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_bus}" converter="unidadNegocioConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <p:selectOneMenu id="unidad" value="#{registroCargoFlotaController.unidadNegocio}" converter="unidadNegocioConverter">
+                                <f:selectItem itemLabel="Todas"/>
                                 <f:selectItems value="#{registroCargoFlotaController.unidadNegocioItems}"
                                                var="unidadItem"
                                                itemValue="#{unidadItem}"
                                                itemLabel="#{unidadItem}"
                                                />
-                                <p:ajax event="valueChange" update=""/>
+                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist" listener="#{registroCargoFlotaController.loadUnidad}"/>
                             </p:selectOneMenu>                           
                         </h:panelGrid>
 
-                        <p:outputLabel value="Fecha Inicio Cargo" for="fechaInicioCargoBus" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="Descripcion:" for="descripcion" />
-                        <h:panelGroup>
-                            <p:inputText id="descripcion" value="#{registroCargoFlotaController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" />                            
-                        </h:panelGroup>
-
-                        <p:outputLabel value="N° Cuotas" for="numeroCuotasCargoBus" />
-                        <h:panelGroup>
-                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}"/>                            
-                        </h:panelGroup>
-
-                        <p:outputLabel value="Monto" for="montoCargoBus" />
-                        <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>
-                        </h:panelGroup>
+                        
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroCargoFlotaController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
@@ -148,6 +152,13 @@
                         <h:outputText value="#{item.cargoBus.tipoCargo}"/>
                     </p:column>
 
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Descripción"/>
+                        </f:facet>
+                        <p:inputText value="#{item.cargoBus.descripcion}"/>
+                    </p:column>
+                    
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>

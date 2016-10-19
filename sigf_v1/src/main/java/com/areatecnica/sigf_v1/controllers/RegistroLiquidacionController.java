@@ -122,10 +122,10 @@ public class RegistroLiquidacionController implements Serializable {
         }
 
         this.cargoBusDaoImpl = new CargoBusDaoImpl();
-        this.items = this.cargoBusDaoImpl.findByBus(this.bus);
+        this.items = this.cargoBusDaoImpl.findByBusAndDate(this.bus, this.fecha);
 
         this.abonoBusDaoImpl = new AbonoBusDaoImpl();
-        this.abonosItems = this.abonoBusDaoImpl.findByBus(bus);
+        this.abonosItems = this.abonoBusDaoImpl.findByBusAndDate(this.bus, this.fecha);
 
         this.guiaDaoImpl = new GuiaDaoImpl();
         this.guiaItems = this.guiaDaoImpl.findByBusBetweenDates(bus, fecha);

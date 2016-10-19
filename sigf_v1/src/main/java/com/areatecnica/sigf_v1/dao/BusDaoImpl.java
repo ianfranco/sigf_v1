@@ -10,6 +10,7 @@ import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.Flota;
 import com.areatecnica.sigf_v1.entities.Servicio;
 import com.areatecnica.sigf_v1.entities.Terminal;
+import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Hibernate;
@@ -144,6 +145,42 @@ public class BusDaoImpl implements BusDao {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Bus WHERE flota=" +flota.getIdFlota();
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    public List<Bus> findByFlotaVinabus(Flota flota) {
+        List<Bus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Bus WHERE flota=" +flota.getIdFlota()+" AND unidadNegocio<>3";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    public List<Bus> findByFlotaAndUnidad(Flota flota, UnidadNegocio unidadNegocio) {
+        List<Bus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Bus WHERE flota=" +flota.getIdFlota()+" AND unidadNegocio="+unidadNegocio.getIdUnidadNegocio();
         try {
 
             list = session.createQuery(sql).list();

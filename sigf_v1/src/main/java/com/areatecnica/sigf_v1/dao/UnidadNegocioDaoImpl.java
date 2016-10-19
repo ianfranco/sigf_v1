@@ -36,6 +36,25 @@ public class UnidadNegocioDaoImpl implements UnidadNegocioDao{
         }
         return list;
     }
+    
+    
+    public List<UnidadNegocio> findVinabus() {
+        List<UnidadNegocio> list = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM UnidadNegocio WHERE idUnidadNegocio<>3 ORDER BY numeroUnidadNegocio ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     @Override
     public UnidadNegocio findById(int id) {
