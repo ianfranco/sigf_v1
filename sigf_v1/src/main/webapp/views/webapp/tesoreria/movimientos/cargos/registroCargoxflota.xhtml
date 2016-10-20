@@ -26,10 +26,10 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroCargoFlotaController.setMontoXDefecto()}"/>
+                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroCargoFlotaController.setMontoXDefecto}"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
-                        
+
                         <p:outputLabel value="Fecha Inicio Cargo" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}"/>
@@ -44,12 +44,21 @@
 
                         <p:outputLabel value="N° Cuotas" for="numeroCuotasCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}"/>                            
+                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.numeroCuotas}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}"/>                            
                         </h:panelGroup>
 
                         <p:outputLabel value="Monto" for="montoCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.monto}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoFlotaController.setMontoXDefecto}"/>
+                            </p:inputText>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="Id Fina:" for="idFina" />
+                        <h:panelGroup>
+                            <p:inputText id="idFina" value="#{registroCargoFlotaController.idFina}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}"  onfocus="this.setSelectionRange(0, this.value.length)">
+                                
+                            </p:inputText>
                         </h:panelGroup>
 
                         <p:outputLabel value="Flota:" for="flota" />
@@ -78,7 +87,7 @@
                             </p:selectOneMenu>                           
                         </h:panelGrid>
 
-                        
+
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroCargoFlotaController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
@@ -158,14 +167,14 @@
                         </f:facet>
                         <p:inputText value="#{item.cargoBus.descripcion}"/>
                     </p:column>
-                    
+
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
                         <p:inputText value="#{item.cargoBus.montoCargoBus}"/>
                     </p:column>
-                    
+
                     <!--
                                         
                     -->

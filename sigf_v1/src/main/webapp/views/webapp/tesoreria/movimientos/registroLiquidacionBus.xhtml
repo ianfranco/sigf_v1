@@ -107,6 +107,12 @@
                                 <h:outputText value="#{rowIndex+1}"/>
                             </p:column>
 
+                            <p:column sortBy="#{item.tipoCargo}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Cargo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoCargo}"/>
+                            </p:column>                            
 
                             <p:column sortBy="#{item.descripcion}" >
                                 <f:facet name="header">

@@ -153,8 +153,10 @@ public class RegistroLiquidacionController implements Serializable {
             this.cargos = this.cargos + c.getMontoCargoBus();
         }
 
-        for (AbonoBus a : this.abonosItems) {
-            this.abonos = this.abonos + a.getMontoAbonoBus();
+        if (this.abonosItems != null) {
+            for (AbonoBus a : this.abonosItems) {
+                this.abonos = this.abonos + a.getMontoAbonoBus();
+            }
         }
 
         this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
@@ -192,7 +194,7 @@ public class RegistroLiquidacionController implements Serializable {
             try {
                 this.selected.setFechaIngresoCargoBus(new Date());
                 this.selected.setActivoCargoBus(Boolean.TRUE);
-                this.selected.setBus(bus);                
+                this.selected.setBus(bus);
                 session.save(this.selected);
                 tx.commit();
                 this.items.add(0, this.selected);
@@ -253,8 +255,6 @@ public class RegistroLiquidacionController implements Serializable {
                 this.selectedAbono = new AbonoBus();
                 this.selectedAbono.setMontoAbonoBus(0);
                 this.selectedAbono.setNumeroCuotasAbonoBus(0);
-                
-                
 
             } catch (HibernateException e) {
                 tx.rollback();
@@ -345,7 +345,7 @@ public class RegistroLiquidacionController implements Serializable {
                 tx.commit();
 
                 this.items.remove(this.selected);
-                
+
                 this.cargos = 0;
                 for (CargoBus c : this.items) {
 
@@ -358,8 +358,6 @@ public class RegistroLiquidacionController implements Serializable {
                 }
 
                 this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
-
-                
 
                 this.selected = new CargoBus();
 
@@ -379,14 +377,10 @@ public class RegistroLiquidacionController implements Serializable {
 
             try {
                 AbonoBus ab = this.selectedAbono;
-                
+
                 this.abonosItems.remove(this.selectedAbono);
                 session.delete(ab);
                 tx.commit();
-
-                
-                
-                
 
                 this.abonos = 0;
                 for (AbonoBus a : this.abonosItems) {
@@ -394,8 +388,6 @@ public class RegistroLiquidacionController implements Serializable {
                 }
 
                 this.saldoFinal = (this.abonos + this.ingresos) - this.cargos;
-
-                
 
                 this.selectedAbono = new AbonoBus();
 
