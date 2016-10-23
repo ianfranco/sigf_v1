@@ -11,21 +11,34 @@
 
         <h:form id="selectProcesoForm">
             <p:panel header="Cargos x Flota" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
-                <h:panelGrid columns="10">
+                <h:panelGrid columns="12">
 
-                    <p:focus for="flota"/>        
-                    <p:outputLabel value="Flota:" for="flota"/>
-                    <p:selectOneMenu id="flota" value="#{informeDiasTrabajadosFlotaController.flota}" converter="flotaConverter">
+                    <p:focus for="cargo"/>        
+                    <p:outputLabel value="Cargo:" for="cargo"/>
+                    <p:selectOneMenu id="cargo" value="#{registroCargoFlotaController.tipoCargo}" converter="tipoCargoConverter">
                         <f:selectItem itemLabel="Todos"/>
-                        <f:selectItems value="#{informeDiasTrabajadosFlotaController.flotaItems}"
-                                       var="unidadItem"
-                                       itemValue="#{unidadItem}"
-                                       itemLabel="#{unidadItem}"
+                        <f:selectItems value="#{registroCargoFlotaController.tipoCargoItems}"
+                                       var="tipo"
+                                       itemValue="#{tipo}"
+                                       itemLabel="#{tipo}"
                                        />                        
                     </p:selectOneMenu>
 
+                    
+                    <p:focus for="flota"/>        
+                    <p:outputLabel value="Flota:" for="flota"/>
+                    <p:selectOneMenu id="flota" value="#{registroCargoFlotaController.flota}" converter="flotaConverter">
+                        <f:selectItem itemLabel="Todos"/>
+                        <f:selectItems value="#{registroCargoFlotaController.flotaItems}"
+                                       var="flotaItem"
+                                       itemValue="#{flotaItem}"
+                                       itemLabel="#{flotaItem}"
+                                       />                        
+                    </p:selectOneMenu>
+                    
+                    
                     <p:outputLabel for="mes" value="Seleccionar:" />
-                    <p:selectOneMenu id="mes" value="#{informeDiasTrabajadosFlotaController.mes}" style="width:125px">
+                    <p:selectOneMenu id="mes" value="#{registroCargoFlotaController.mes}" style="width:125px">
                         <f:selectItem itemLabel="Enero" itemValue="1" />
                         <f:selectItem itemLabel="Febrero" itemValue="2" />
                         <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -41,9 +54,9 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel for="anio" value="Año:" />
-                    <p:inputText id="anio" value="#{informeDiasTrabajadosFlotaController.anio}" size="5" />
+                    <p:inputText id="anio" value="#{registroCargoFlotaController.anio}" size="5" />
                     
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Producción" update="GuiaListForm:datalist, growl" style="width:160px" actionListener="#{informeDiasTrabajadosFlotaController.init}">
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar cargos" update="GuiaListForm:datalist, growl" style="width:160px" actionListener="#{registroCargoFlotaController.init}">
                     </p:commandButton>
                 </h:panelGrid>
 
@@ -55,14 +68,16 @@
         </p:dialog>
         <h:form id="GuiaListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
-
+                <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargoListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
+                </p:contextMenu>
                 <p:dataTable id="datalist" 
-                             value="#{informeDiasTrabajadosFlotaController.listOfMaps}"
+                             value="#{registroCargoFlotaController.registroCargoItems}"
                              lazy="false"
                              var="item"
                              rowKey="#{item}"
                              rowIndexVar="rowIndex"
-                             selection="#{informeDiasTrabajadosFlotaController.selected}"
+                             selection="#{registroCargoFlotaController.registro}"
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
@@ -76,7 +91,7 @@
                     -->
 
                     <f:facet name="header">
-                        Producción x Flota
+                        Cargo Registrados x Flota
                     </f:facet>
 
                     <p:column style="width: 20px;">
@@ -86,24 +101,55 @@
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
 
-                    <p:columns value="#{informeDiasTrabajadosFlotaController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{informeDiasTrabajadosFlotaController.resultsHeader.get(col)}"  columnIndexVar="col" style="text-align: center">
-                        <p:outputLabel value="#{item[key]}">                            
-                        </p:outputLabel>
-                    </p:columns>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="N° Bus"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Unidad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Descripción"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cargoBus.tipoCargo}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="N° Cuota"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cargoBus.numeroCuotasCargoBus}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="N° Cuotas Pendientes"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cargoBus.numeroCuotasCargoBus}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cargoBus.montoCargoBus}"/>
+                    </p:column>
+                    
                 </p:dataTable>
 
-                <f:facet name="footer">
-                    <p:commandButton value="Imprimir" icon="ui-icon-print"  class="no-print"> 
-                        <p:printer target="tabla"/>
-                    </p:commandButton>
-                    <p:commandButton value="Excel" ajax="false" icon="fa fa-file-excel-o" class="no-print">                        
-                        <p:dataExporter type="xls" target="datalist" fileName="Producción Bus" />
-                    </p:commandButton>
-                    <p:commandButton value="Pdf" ajax="false" icon="fa fa-file-pdf-o" class="no-print">                        
-                        <p:dataExporter type="pdf" target="datalist" fileName="Producción Bus" preProcessor="#{customizedDocumentsView.preProcessPDF}"/>
-                    </p:commandButton>
-                </f:facet>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoFlotaController.delete}" update=":growl,datalist" disabled="#{empty registroCargoFlotaController.registro}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
             </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
 
 

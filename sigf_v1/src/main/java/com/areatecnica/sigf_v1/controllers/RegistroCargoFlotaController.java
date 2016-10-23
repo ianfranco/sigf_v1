@@ -19,8 +19,12 @@ import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
@@ -42,7 +46,7 @@ public class RegistroCargoFlotaController implements Serializable {
     private BusDaoImpl busDaoImpl;
 
     private CargoBus selected;
-
+    private TipoCargo tipoCargo;
     private List<TipoCargo> tipoCargoItems;
     private List<CargoBus> items;
     private List<Bus> busItems;
@@ -57,7 +61,10 @@ public class RegistroCargoFlotaController implements Serializable {
     private int numeroCuotas;
     private Date fecha;
     private int idFina;
-
+    private int mes;
+    private int anio;
+    private RegistroCargoFlota registro;
+    
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
@@ -76,6 +83,10 @@ public class RegistroCargoFlotaController implements Serializable {
 
         this.selected = prepareCreate();
         this.selected.setFechaInicioCargoBus(new Date());
+        
+        Calendar calendar = GregorianCalendar.getInstance();
+        this.mes = calendar.get(Calendar.MONTH) + 1;
+        this.anio = calendar.get(Calendar.YEAR);
 
     }
 
@@ -103,10 +114,10 @@ public class RegistroCargoFlotaController implements Serializable {
                     cargo.setDescripcion(r.getCargoBus().getDescripcion());
                     cargo.setNumeroCuotasCargoBus(this.numeroCuotas);
                     cargo.setIdCargo(idFina);
-                    System.err.println("MONTO:"+cargo.getMontoCargoBus());
+                    System.err.println("MONTO:"+cargo.getMontoCargoBus()+ " monto 2:"+r.getCargoBus().getMontoCargoBus());
                     if(cargo.getMontoCargoBus()!=0){
                         session.save(cargo);
-                    }                                        
+                    }
                 }
 
                 tx.commit();
@@ -156,14 +167,19 @@ public class RegistroCargoFlotaController implements Serializable {
     }
 
     public void delete() {
-        if (this.selected != null) {
+        if (this.registro != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
             try {
-                session.delete(this.selected);
+                
+                CargoBus cargoBus = this.registro.getCargoBus();
+                
+                session.delete(cargoBus);
+                
+                
                 tx.commit();
-                this.items.remove(this.selected);
+                this.registroCargoItems.remove(this.registro);
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:CargoBus");
@@ -350,6 +366,57 @@ public class RegistroCargoFlotaController implements Serializable {
         }
 
     }
+    
+    public void init(){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+       
+
+        String from = "01/" + mes + "/" + anio;
+        try {
+            this.fecha = format.parse(from);
+        } catch (ParseException p) {
+
+        }
+        
+        
+        if (this.flota != null) {
+
+            this.busDaoImpl = new BusDaoImpl();
+            this.busItems = this.busDaoImpl.findByFlotaVinabus(flota);
+
+            registroCargoItems = new ArrayList<RegistroCargoFlota>();
+
+            int i = 0;
+            for (Bus b : this.busItems) {
+
+                this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.fecha, this.tipoCargo);
+
+                if (!this.items.isEmpty()) {
+                    for (CargoBus c : this.items) {
+                        
+                        RegistroCargoFlota cb = new RegistroCargoFlota(b, c);
+                        cb.setKey(i);
+                        registroCargoItems.add(cb);
+                    }
+                } else {/*
+                    CargoBus cargo = new CargoBus();
+                    cargo.setFechaIngresoCargoBus(new Date());
+                    cargo.setFechaInicioCargoBus(this.selected.getFechaInicioCargoBus());
+                    cargo.setMontoCargoBus(this.monto);
+                    cargo.setActivoCargoBus(Boolean.TRUE);
+                    cargo.setDescripcion(this.selected.getDescripcion());
+                    cargo.setBus(b);
+                    cargo.setTipoCargo(this.selected.getTipoCargo());
+                    RegistroCargoFlota c = new RegistroCargoFlota(b, cargo);
+                    c.setKey(i);
+                    registroCargoItems.add(c);*/
+                }
+
+                i++;
+            }
+
+        }
+    }
 
     public int getMonto() {
         return monto;
@@ -373,6 +440,46 @@ public class RegistroCargoFlotaController implements Serializable {
 
     public void setIdFina(int idFina) {
         this.idFina = idFina;
+    }
+
+    public TipoCargo getTipoCargo() {
+        return tipoCargo;
+    }
+
+    public void setTipoCargo(TipoCargo tipoCargo) {
+        this.tipoCargo = tipoCargo;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public RegistroCargoFlota getRegistro() {
+        return registro;
+    }
+
+    public void setRegistro(RegistroCargoFlota registro) {
+        this.registro = registro;
     }
 
     public class RegistroCargoFlota {

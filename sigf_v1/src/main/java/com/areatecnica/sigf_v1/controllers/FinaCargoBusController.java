@@ -23,9 +23,9 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "cargoBusController")
+@Named(value = "finaCargoBusController")
 @ViewScoped
-public class CargoBusController implements Serializable {
+public class FinaCargoBusController implements Serializable {
 
     private List<CargoBus> selector; 
     
@@ -42,7 +42,7 @@ public class CargoBusController implements Serializable {
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public CargoBusController() {        
+    public FinaCargoBusController() {        
         this.cargoBusDao = new CargoBusDaoImpl();
         this.selector = this.cargoBusDao.findGROUP();
         this.suma = 0;
