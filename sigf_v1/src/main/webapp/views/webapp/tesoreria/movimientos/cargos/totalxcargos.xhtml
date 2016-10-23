@@ -8,19 +8,19 @@
                 template="./../../templateTesoreria.xhtml">
 
     <ui:define name="content" class="ui-corner-all" >
-
+        
         <h:form id="selectProcesoForm">
             <p:panel header="Total x Cargos" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="10">
 
                     <p:focus for="unidad"/>
-                                        
+
                     <p:outputLabel value="Cargo:" for="unidad" onfocus="this.setSelectionRange(0, this.value.length)"/>
                     <p:inputText id="unidad" value="#{finaCargoBusController.elcargo}"/>
 
                     <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{finaCargoBusController.init}">
                     </p:commandButton>
-                    
+
                     <p:outputLabel value="Total:" style="margin-left: 20px;"/>
                     <p:outputLabel id="suma" value="#{finaCargoBusController.suma}"/>
                 </h:panelGrid>
@@ -56,8 +56,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{finaCargoBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{finaCargoBusController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{finaCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{finaCargoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Cargos x Bus
@@ -145,14 +145,14 @@
 
                 </p:dataTable>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{finaCargoBusController.delete}" update=":growl,datalist" disabled="#{empty finaCargoBusController.selected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{finaCargoBusController.delete}" update=":growl,datalist" disabled="#{empty finaCargoBusController.selected}" global="true" ajax="true">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
-
+        
     </ui:define>
 
 

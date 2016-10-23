@@ -106,8 +106,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}"/>                    
+                    <p:ajax event="rowSelect"   update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton" listener="#{registroAbonoBusController.resetParents}" global="false"/>                    
 
                     <f:facet name="header">
                         Últimos Abonos Registrados

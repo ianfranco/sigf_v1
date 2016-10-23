@@ -85,8 +85,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Cargos x Bus

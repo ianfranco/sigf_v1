@@ -30,7 +30,19 @@
         <param-value>true</param-value>
     </context-param>
     <context-param>
-        <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+        <param-name>com.sun.faces.numberOfViewsInSession</param-name>
         <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.sun.faces.clientStateTimeout</param-name>
+        <param-value>1200</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+        <param-value>120</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
     </context-param>
 </web-app>

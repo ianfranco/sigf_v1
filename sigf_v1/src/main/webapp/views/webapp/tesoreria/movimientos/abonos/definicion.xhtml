@@ -39,8 +39,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu"/>
-                    <p:ajax event="rowUnselect" update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:editButton,@form:deleteButton,@form:TipoAbonoDataTableContextMenu" global="false"/>
 
                     <f:facet name="header">
                         Definición de Abonos
@@ -104,12 +104,6 @@
                             <p:tooltip for="nombreTipoAbono" value="#{tipoAbonoController.getComponentMessages('nombreTipoAbono', bundle.CreateTipoAbonoHelpText_nombreTipoAbono)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_fechaIngreso}" for="fechaIngreso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.fechaIngreso}" title="#{bundle.CreateTipoAbonoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{tipoAbonoController.getComponentMessages('fechaIngreso', bundle.CreateTipoAbonoHelpText_fechaIngreso)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_montoDefecto}" for="montoDefecto" />
                         <h:panelGroup>
                             <p:inputText id="montoDefecto" value="#{tipoAbonoController.selected.montoDefecto}" title="#{bundle.CreateTipoAbonoTitle_montoDefecto}"/>
@@ -146,12 +140,6 @@
                         <h:panelGroup>
                             <p:inputText id="nombreTipoAbono" value="#{tipoAbonoController.selected.nombreTipoAbono}" title="#{bundle.EditTipoAbonoTitle_nombreTipoAbono}" required="true" requiredMessage="#{bundle.EditTipoAbonoRequiredMessage_nombreTipoAbono}"/>
                             <p:tooltip for="nombreTipoAbono" value="#{tipoAbonoController.getComponentMessages('nombreTipoAbono', bundle.EditTipoAbonoHelpText_nombreTipoAbono)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{bundle.EditTipoAbonoLabel_fechaIngreso}" for="fechaIngreso" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.fechaIngreso}" title="#{bundle.EditTipoAbonoTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoAbonoRequiredMessage_fechaIngreso}" showOn="button"/>
-                            <p:tooltip for="fechaIngreso" value="#{tipoAbonoController.getComponentMessages('fechaIngreso', bundle.EditTipoAbonoHelpText_fechaIngreso)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.EditTipoAbonoLabel_montoDefecto}" for="montoDefecto" />

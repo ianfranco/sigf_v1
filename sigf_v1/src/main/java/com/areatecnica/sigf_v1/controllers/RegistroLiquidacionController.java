@@ -563,6 +563,18 @@ public class RegistroLiquidacionController implements Serializable {
     public void setTipoAbonoItems(List<TipoAbono> tipoAbonoItems) {
         this.tipoAbonoItems = tipoAbonoItems;
     }
+    
+    public void loadDefaultCargoMonto(){
+        if(this.selected.getTipoCargo()!=null){
+            this.selected.setMontoCargoBus(this.selected.getTipoCargo().getMontoDefecto());
+        }
+    }
+    
+    public void loadDefaultAbonoMonto(){
+        if(this.selectedAbono.getTipoAbono()!=null){
+            this.selectedAbono.setMontoAbonoBus(this.selectedAbono.getTipoAbono().getMontoDefecto());
+        }
+    }
 
     public class GuiaHelper {
 

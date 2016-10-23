@@ -26,7 +26,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-
+                                <p:ajax event="valueChange" listener="#{registroCargoBusController.setMontoXDefecto}" update="montoCargoBus" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -39,7 +39,7 @@
                                                itemValue="#{busItem}"
                                                itemLabel="#{busItem}"
                                                />
-                                <p:ajax event="valueChange" update="patente, flota, empresa"/>
+                                <p:ajax event="valueChange" update="patente, flota, empresa" global="false"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Patente:" for="patente" />
@@ -54,7 +54,7 @@
 
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}"/>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Descripcion:" for="descripcion" />
@@ -112,8 +112,8 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Últimos Cargos Registrados

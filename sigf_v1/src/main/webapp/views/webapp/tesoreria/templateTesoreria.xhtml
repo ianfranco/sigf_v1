@@ -30,6 +30,10 @@
     </h:head>
 
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+            <p:graphicImage library="images" name="ajax-loader.gif" />
+        </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Informes"  collapsible="true">
@@ -75,8 +79,7 @@
 
                             <p:submenu label="Reportes">
                                 <p:submenu label="Buses">                                
-                                    <p:menuitem value="Producción" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxbus"  />
-                                    
+                                    <p:menuitem value="Producción" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxbus"  />                                    
                                 </p:submenu>
                                 <p:submenu label="Flota">
                                     <p:menuitem value="Producción General" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxflota" />
@@ -90,8 +93,6 @@
                                     <p:menuitem value="Dineros Recaudados" outcome="#{appBean.basePath}webapp/tesoreria/reportes/dinerosrecaudados"  />
                                 </p:submenu>
                             </p:submenu>
-
-                            
 
                             <f:facet name="options">                        
                                 <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>

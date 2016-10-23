@@ -24,7 +24,7 @@
                                        itemValue="#{unidadItem}"
                                        itemLabel="#{unidadItem}"
                                        />
-                        <p:ajax update="numeroBus" listener="#{registroLiquidacionController.handleUnidadChange}"/>
+                        <p:ajax update="numeroBus" listener="#{registroLiquidacionController.handleUnidadChange}" global="false"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="N° Bus:" for="numeroBus"/>
@@ -204,7 +204,7 @@
                         <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Guardar Cambios" update="resultado"  actionListener="#{registroLiquidacionController.saveAbono}" >
                             <p:confirm header="#{bundle.ConfirmationHeader}" message="Actualizar?" icon="ui-icon-alert"/>
                         </p:commandButton>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroAbonoBusController.delete}" update=":growl,datalist, resultado" disabled="#{empty registroAbonoBusController.selected}">
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroLiquidacionController.deleteAbono()}" update=":growl,datalist, resultado" disabled="#{empty registroLiquidacionController.selectedAbono}">
                             <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                         </p:commandButton>
 
@@ -333,7 +333,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-
+                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroLiquidacionController.loadDefaultCargoMonto}"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -390,7 +390,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-
+                                
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -437,7 +437,7 @@
                                                itemValue="#{tipoAbonoItem}"
                                                itemLabel="#{tipoAbonoItem}"
                                                />
-
+                                <p:ajax event="valueChange" update="montoAbonoBus" listener="#{registroLiquidacionController.loadDefaultAbonoMonto}" />
                             </p:selectOneMenu>                            
                         </h:panelGroup>
                         

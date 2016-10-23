@@ -28,6 +28,10 @@
     </h:head>
 
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+            <p:graphicImage library="images" name="ajax-loader.gif" />
+        </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Remuneraciones"  collapsible="true">
@@ -174,7 +178,9 @@
                             <ui:insert name="body"/>
 
                             <ui:insert name="content" class="ui-corner-all">
+
                                 <ui:include src="/WEB-INF/include/entity/compraBoleto/Create.xhtml"/>
+
                             </ui:insert>
                         </div>
                     </div>
@@ -182,6 +188,7 @@
             </p:layoutUnit>
 
         </p:layout>
+
 
 
         <script type="text/javascript">

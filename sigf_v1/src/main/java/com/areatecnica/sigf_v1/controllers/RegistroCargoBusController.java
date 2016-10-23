@@ -62,7 +62,8 @@ public class RegistroCargoBusController implements Serializable {
         CargoBus newCargoBus;
         newCargoBus = new CargoBus();
         newCargoBus.setMontoCargoBus(0);
-        newCargoBus.setNumeroCuotasCargoBus(0);        
+        newCargoBus.setNumeroCuotasCargoBus(0);
+        newCargoBus.setFechaInicioCargoBus(new Date());
         return newCargoBus;
     }
 
@@ -131,6 +132,12 @@ public class RegistroCargoBusController implements Serializable {
             }
         } else {
 
+        }
+    }
+    
+    public void setMontoXDefecto(){
+        if(this.selected.getTipoCargo()!=null){
+            this.selected.setMontoCargoBus(this.selected.getTipoCargo().getMontoDefecto());
         }
     }
 

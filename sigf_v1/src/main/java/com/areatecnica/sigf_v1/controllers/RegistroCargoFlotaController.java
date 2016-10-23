@@ -64,7 +64,7 @@ public class RegistroCargoFlotaController implements Serializable {
     private int mes;
     private int anio;
     private RegistroCargoFlota registro;
-    
+
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
@@ -83,7 +83,7 @@ public class RegistroCargoFlotaController implements Serializable {
 
         this.selected = prepareCreate();
         this.selected.setFechaInicioCargoBus(new Date());
-        
+
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
@@ -104,33 +104,37 @@ public class RegistroCargoFlotaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-
-                System.err.println("tamaño tiems:"+this.registroCargoItems.size());
                 for (RegistroCargoFlota r : this.registroCargoItems) {
                     CargoBus cargo = r.getCargoBus();
-                    cargo.setMontoCargoBus(r.getCargoBus().getMontoCargoBus());
+                    cargo.setMontoCargoBus(r.getMonto());
                     cargo.setActivoCargoBus(Boolean.TRUE);
                     cargo.setFechaIngresoCargoBus(new Date());
-                    cargo.setDescripcion(r.getCargoBus().getDescripcion());
+                    cargo.setDescripcion(r.getDescripcion());
                     cargo.setNumeroCuotasCargoBus(this.numeroCuotas);
                     cargo.setIdCargo(idFina);
-                    System.err.println("MONTO:"+cargo.getMontoCargoBus()+ " monto 2:"+r.getCargoBus().getMontoCargoBus());
-                    if(cargo.getMontoCargoBus()!=0){
-                        session.save(cargo);
+                    
+                    System.err.println("Bus:" + r.getBus().getPatente() + " MONTO CARGO:" + cargo.getMontoCargoBus() + " MONTO REGISTRO:" + r.getMonto());
+
+                    if(r.getMonto()!=0){
+                        if(r.getEstado()){
+                            session.update(cargo);
+                        }else{
+                            session.save(cargo);
+                        }
                     }
                 }
 
                 tx.commit();
-                
+                JsfUtil.addSuccessMessage("Se ha realizado un registro de cargos a la flota:" + this.flota);
 
                 Date date = this.selected.getFechaInicioCargoBus();
                 String descripcion = this.selected.getDescripcion();
-                this.selected = null;
+                /*this.selected = null;
                 this.selected = new CargoBus();
                 this.selected.setMontoCargoBus(0);
                 this.selected.setNumeroCuotasCargoBus(0);
                 this.selected.setFechaInicioCargoBus(date);
-                this.selected.setDescripcion(descripcion);
+                this.selected.setDescripcion(descripcion);*/
                 this.flota = null;
                 this.unidadNegocio = null;
                 this.registroCargoItems = new ArrayList<>();
@@ -138,6 +142,8 @@ public class RegistroCargoFlotaController implements Serializable {
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:CargoBus");
+            } finally {
+                HibernateUtil.close(session);
             }
         } else {
 
@@ -172,12 +178,11 @@ public class RegistroCargoFlotaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                
+
                 CargoBus cargoBus = this.registro.getCargoBus();
-                
+
                 session.delete(cargoBus);
-                
-                
+
                 tx.commit();
                 this.registroCargoItems.remove(this.registro);
             } catch (HibernateException e) {
@@ -186,18 +191,6 @@ public class RegistroCargoFlotaController implements Serializable {
             }
         } else {
 
-        }
-    }
-
-    public void setMontoXDefecto() {
-        if (this.selected != null) {            
-            this.selected.setMontoCargoBus(monto);
-            
-            if (this.flota != null) {
-                for(RegistroCargoFlota c:registroCargoItems){
-                    c.getCargoBus().setMontoCargoBus(monto);
-                }
-            }
         }
     }
 
@@ -286,6 +279,7 @@ public class RegistroCargoFlotaController implements Serializable {
     }
 
     public void handleFlota() {
+        boolean flag = false;
         if (this.flota != null) {
 
             this.busDaoImpl = new BusDaoImpl();
@@ -300,11 +294,17 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 if (!this.items.isEmpty()) {
                     for (CargoBus c : this.items) {
-                        
-                        RegistroCargoFlota cb = new RegistroCargoFlota(b, c);
-                        cb.setKey(i);
-                        registroCargoItems.add(cb);
+
+                        RegistroCargoFlota registroCargo = new RegistroCargoFlota(b, c);
+                        registroCargo.setKey(i);
+                        registroCargo.setEstado(Boolean.TRUE);
+                        registroCargo.setMonto(c.getMontoCargoBus());
+                        registroCargo.setDescripcion(c.getDescripcion());
+                        registroCargoItems.add(registroCargo);
                     }
+                    
+                    
+                    flag = true;
                 } else {
                     CargoBus cargo = new CargoBus();
                     cargo.setFechaIngresoCargoBus(new Date());
@@ -314,18 +314,25 @@ public class RegistroCargoFlotaController implements Serializable {
                     cargo.setDescripcion(this.selected.getDescripcion());
                     cargo.setBus(b);
                     cargo.setTipoCargo(this.selected.getTipoCargo());
-                    RegistroCargoFlota c = new RegistroCargoFlota(b, cargo);
-                    c.setKey(i);
-                    registroCargoItems.add(c);
+                    RegistroCargoFlota registroCargo = new RegistroCargoFlota(b, cargo);
+                    registroCargo.setMonto(this.selected.getTipoCargo().getMontoDefecto());
+                    registroCargo.setDescripcion(this.selected.getDescripcion());
+                    registroCargo.setEstado(Boolean.FALSE);
+                    registroCargo.setKey(i);
+                    registroCargoItems.add(registroCargo);
                 }
 
                 i++;
             }
 
         }
+        if(flag){
+            JsfUtil.addSuccessMessage("Existen cargos del tipo: "+this.selected.getTipoCargo().getNombreTipoCargo()+" ingresados a la flota:"+this.flota.getNombreFlota()+". Los cambios que realice afectarán a todos los cargos registrados");
+        }
     }
 
     public void loadUnidad() {
+        boolean flag = false;
         if (this.unidadNegocio != null) {
 
             this.busDaoImpl = new BusDaoImpl();
@@ -340,14 +347,21 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 if (!this.items.isEmpty()) {
                     for (CargoBus c : this.items) {
-                        RegistroCargoFlota cb = new RegistroCargoFlota(b, c);
-                        cb.setKey(i);
-                        registroCargoItems.add(cb);
-                    }
+                        RegistroCargoFlota registroCargo = new RegistroCargoFlota(b, c);
+                        registroCargo.setKey(i);
+                        registroCargo.setEstado(Boolean.TRUE);
+                        registroCargo.setMonto(c.getMontoCargoBus());
+                        registroCargo.setDescripcion(c.getDescripcion());
+                        registroCargoItems.add(registroCargo);
+                        flag = true;
+                    }                    
                 } else {
-                    RegistroCargoFlota c = new RegistroCargoFlota(b, selected);
-                    c.setKey(i);
-                    registroCargoItems.add(c);
+                    RegistroCargoFlota registroCargo = new RegistroCargoFlota(b, selected);
+                    registroCargo.setKey(i);
+                    registroCargo.setEstado(Boolean.FALSE);
+                    registroCargo.setMonto(this.selected.getTipoCargo().getMontoDefecto());
+                    registroCargo.setDescripcion(this.selected.getDescripcion());                    
+                    registroCargoItems.add(registroCargo);
                 }
 
                 i++;
@@ -356,20 +370,41 @@ public class RegistroCargoFlotaController implements Serializable {
         } else {
             handleFlota();
         }
+        if(flag){
+            JsfUtil.addSuccessMessage("Existen cargos del tipo: "+this.selected.getTipoCargo().getNombreTipoCargo()+" ingresados a la flota:"+this.flota.getNombreFlota()+". Los cambios que realice afectarán a todos los cargos registrados");
+        }
     }
 
     public void loadDescripcion() {
         if (this.registroCargoItems != null && !this.registroCargoItems.isEmpty()) {
             for (RegistroCargoFlota r : this.registroCargoItems) {
-                r.getCargoBus().setDescripcion(this.selected.getDescripcion());
+                if(!"".equals(this.selected.getDescripcion())){
+                    r.setDescripcion(this.selected.getDescripcion());
+                }                
             }
         }
-
     }
-    
-    public void init(){
+
+    public void setMontoXDefecto() {
+        if (this.selected != null) {
+            this.selected.setMontoCargoBus(monto);
+            System.err.println("monto:" + monto);
+            if (this.flota != null) {
+                for (RegistroCargoFlota r : registroCargoItems) {
+                    r.setMonto(monto);
+                }
+            }
+        }
+    }
+
+    public void setMontoXDefectoTipoCargo() {
+        if (this.selected != null) {
+            this.monto = this.selected.getTipoCargo().getMontoDefecto();
+        }
+    }
+
+    public void init() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-       
 
         String from = "01/" + mes + "/" + anio;
         try {
@@ -377,8 +412,7 @@ public class RegistroCargoFlotaController implements Serializable {
         } catch (ParseException p) {
 
         }
-        
-        
+
         if (this.flota != null) {
 
             this.busDaoImpl = new BusDaoImpl();
@@ -393,7 +427,7 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 if (!this.items.isEmpty()) {
                     for (CargoBus c : this.items) {
-                        
+
                         RegistroCargoFlota cb = new RegistroCargoFlota(b, c);
                         cb.setKey(i);
                         registroCargoItems.add(cb);
@@ -481,12 +515,19 @@ public class RegistroCargoFlotaController implements Serializable {
     public void setRegistro(RegistroCargoFlota registro) {
         this.registro = registro;
     }
+    
+    public void showMessage(){
+        JsfUtil.addSuccessMessage("modificado");
+    }
 
     public class RegistroCargoFlota {
 
         private int key;
         private Bus bus;
         private CargoBus cargoBus;
+        private String descripcion;
+        private int monto;
+        private Boolean estado;
 
         public RegistroCargoFlota(int key, Bus bus, CargoBus cargoBus) {
             this.key = key;
@@ -525,6 +566,30 @@ public class RegistroCargoFlotaController implements Serializable {
 
         public void setKey(int key) {
             this.key = key;
+        }
+
+        public Boolean getEstado() {
+            return estado;
+        }
+
+        public void setEstado(Boolean estado) {
+            this.estado = estado;
+        }
+
+        public String getDescripcion() {
+            return descripcion;
+        }
+
+        public void setDescripcion(String descripcion) {
+            this.descripcion = descripcion;
+        }
+
+        public int getMonto() {
+            return monto;
+        }
+
+        public void setMonto(int monto) {
+            this.monto = monto;
         }
 
     }
