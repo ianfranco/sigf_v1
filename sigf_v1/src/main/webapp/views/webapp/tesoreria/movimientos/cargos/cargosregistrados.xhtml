@@ -16,7 +16,7 @@
                     <p:focus for="cargo"/>        
                     <p:outputLabel value="Cargo:" for="cargo"/>
                     <p:selectOneMenu id="cargo" value="#{registroCargoFlotaController.tipoCargo}" converter="tipoCargoConverter">
-                        <f:selectItem itemLabel="Todos"/>
+                        <f:selectItem itemLabel="Seleccionar..."/>
                         <f:selectItems value="#{registroCargoFlotaController.tipoCargoItems}"
                                        var="tipo"
                                        itemValue="#{tipo}"
@@ -28,7 +28,7 @@
                     <p:focus for="flota"/>        
                     <p:outputLabel value="Flota:" for="flota"/>
                     <p:selectOneMenu id="flota" value="#{registroCargoFlotaController.flota}" converter="flotaConverter">
-                        <f:selectItem itemLabel="Todos"/>
+                        <f:selectItem itemLabel="Seleccionar..."/>
                         <f:selectItems value="#{registroCargoFlotaController.flotaItems}"
                                        var="flotaItem"
                                        itemValue="#{flotaItem}"
@@ -61,11 +61,7 @@
                 </h:panelGrid>
 
             </p:panel>
-        </h:form>
-        <p:dialog modal="true" widgetVar="statusDialog" header="Loading"   
-                  draggable="false" closable="false">  
-            <p:graphicImage value="ajax-loader.gif" library="images" />  
-        </p:dialog>
+        </h:form>        
         <h:form id="GuiaListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
                 <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
@@ -77,7 +73,7 @@
                              var="item"
                              rowKey="#{item}"
                              rowIndexVar="rowIndex"
-                             selection="#{registroCargoFlotaController.registro}"
+                             selection="#{registroCargoFlotaController.selected}"
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
@@ -117,35 +113,44 @@
                     
                     <p:column >
                         <f:facet name="header">
+                            <h:outputText value="Patente"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.patente}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
                             <h:outputText value="Descripción"/>
                         </f:facet>
-                        <h:outputText value="#{item.cargoBus.tipoCargo}"/>
+                        <h:outputText value="#{item.tipoCargo}"/>
                     </p:column>
                     
                     <p:column >
                         <f:facet name="header">
                             <h:outputText value="N° Cuota"/>
                         </f:facet>
-                        <h:outputText value="#{item.cargoBus.numeroCuotasCargoBus}"/>
-                    </p:column>
-                    
-                    <p:column >
-                        <f:facet name="header">
-                            <h:outputText value="N° Cuotas Pendientes"/>
-                        </f:facet>
-                        <h:outputText value="#{item.cargoBus.numeroCuotasCargoBus}"/>
+                        <h:outputText value="#{item.numeroCuotasCargoBus}"/>
                     </p:column>
                     
                     <p:column >
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.cargoBus.montoCargoBus}"/>
+                        <h:outputText value="#{item.montoCargoBus}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="F.Ingreso"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaIngresoCargoBus}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                        </h:outputText>
                     </p:column>
                     
                 </p:dataTable>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoFlotaController.delete}" update=":growl,datalist" disabled="#{empty registroCargoFlotaController.registro}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoFlotaController.delete}" update=":growl,datalist" disabled="#{empty registroCargoFlotaController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
             </p:panel>

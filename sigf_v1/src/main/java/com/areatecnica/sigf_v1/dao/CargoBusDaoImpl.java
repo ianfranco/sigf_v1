@@ -150,7 +150,8 @@ public class CargoBusDaoImpl implements GenericDao<CargoBus>{
     
     public List<CargoBus> findByBusAndDateAndCargo(Bus bus, Date date, TipoCargo cargo) {
         List<CargoBus> list = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/01");
+        
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM CargoBus WHERE bus = "+bus.getIdBus()+" AND fechaInicioCargoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') AND tipoCargo="+cargo.getIdTipoCargo()+" ORDER BY idCargoBus DESC";

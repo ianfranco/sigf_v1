@@ -81,6 +81,8 @@ public class RegistroCargoBusController implements Serializable {
                 tx.commit();
                 this.items.add(0, this.selected);
                                                 
+                JsfUtil.addSuccessMessage("Se ha ingresado el cargo de tipo:"+this.selected.getTipoCargo()+" al Bus N°:"+this.selected.getBus()+" por un monto de:"+this.selected.getMontoCargoBus());
+                
                 this.selected = null;
                 this.selected = new CargoBus();
                 this.selected.setMontoCargoBus(0);
@@ -125,6 +127,9 @@ public class RegistroCargoBusController implements Serializable {
             try {
                 session.delete(this.selected);
                 tx.commit();
+                
+                JsfUtil.addSuccessMessage("El cargo:"+this.selected.getTipoCargo()+" fue eliminado del Bus N°: "+this.selected.getBus()+" Unidad: "+this.selected.getBus().getUnidadNegocio().getNombreUnidadNegocio()+" Patente: "+this.selected.getBus().getPatente());
+                
                 this.items.remove(this.selected);
             } catch (HibernateException e) {
                 tx.rollback();

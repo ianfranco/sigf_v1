@@ -20,7 +20,7 @@
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
                         <h:panelGroup>
                             <p:selectOneMenu id="tipoCargo" value="#{registroCargoBusController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItem itemLabel=""/>
                                 <f:selectItems value="#{registroCargoBusController.tipoCargoItems}"
                                                var="tipoCargoItem"
                                                itemValue="#{tipoCargoItem}"
@@ -52,12 +52,12 @@
                             <p:outputLabel id="empresa" value="#{registroCargoBusController.bus.empresa.nombreEmpresa}"/>
                         </h:panelGrid>
 
-                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_fechaInicioCargoBus}" for="fechaInicioCargoBus" />
+                        <p:outputLabel value="Fecha Cargo:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="Descripcion:" for="descripcion" />
+                        <p:outputLabel value="Descripción:" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{registroCargoBusController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" />                            
                         </h:panelGroup>
@@ -100,7 +100,7 @@
                              rowIndexVar="rowIndex" 
                              rowsPerPageTemplate="50,100,200"
                              selectionMode="single"
-                             selection="#{cargoBusController.selected}" 
+                             selection="#{registroCargoBusController.selected}" 
                              emptyMessage="No se han encontrado registros">
                     <!--
                              To enable Lazy Loading, please copy/replace the following lines above,
@@ -138,6 +138,20 @@
                             <h:outputText value="Unidad"/>
                         </f:facet>
                         <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
+                    </p:column>
+                    
+                    <p:column filterBy="#{item.bus.patente}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Unidad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.patente}"/>
+                    </p:column>
+                    
+                    <p:column filterBy="#{item.bus.flota}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Flota"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.flota}"/>
                     </p:column>
 
                     <p:column filterBy="#{item.tipoCargo}" style="text-align: center;">
@@ -177,7 +191,9 @@
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.montoCargoBus}"/>
+                        <h:outputText value="#{item.montoCargoBus}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column filterBy="#{item.fechaIngresoCargoBus}" style="text-align: center;">

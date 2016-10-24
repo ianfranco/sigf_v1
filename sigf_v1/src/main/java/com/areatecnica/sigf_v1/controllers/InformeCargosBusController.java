@@ -15,6 +15,7 @@ import com.areatecnica.sigf_v1.entities.AbonoBus;
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
+import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -24,6 +25,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.view.ViewScoped;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -132,7 +136,24 @@ public class InformeCargosBusController implements Serializable {
     }
 
     public void delete() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
 
+            try {
+                session.delete(this.selected);
+                tx.commit();
+                
+                JsfUtil.addSuccessMessage("El cargo:"+this.selected.getTipoCargo()+" fue eliminado del Bus N°: "+this.selected.getBus()+" Patente: "+this.selected.getBus().getPatente());
+                
+                this.items.remove(this.selected);
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {

@@ -24,7 +24,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist, suma" />
+                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist, suma" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
                     
@@ -149,7 +149,9 @@
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.montoCargoBus}"/>
+                        <h:outputText value="#{item.montoCargoBus}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column filterBy="#{item.fechaIngresoCargoBus}" style="text-align: center;">

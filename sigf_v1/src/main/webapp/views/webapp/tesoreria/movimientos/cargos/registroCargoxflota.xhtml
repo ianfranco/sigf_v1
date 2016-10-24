@@ -28,7 +28,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroCargoFlotaController.setMontoXDefectoTipoCargo}" global="false"/>
+                                <p:ajax event="valueChange" update="montoCargoBus,flota,:CargoBusListForm:datalist" listener="#{registroCargoFlotaController.setMontoXDefectoTipoCargo}" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
                         
@@ -91,7 +91,7 @@
                         
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroCargoFlotaController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="Registrar?" icon="ui-icon-alert"/>
                     </p:commandButton>
 
                 </h:panelGroup>
@@ -103,17 +103,13 @@
         <h:form id="CargoBusListForm">
 
             <p:panel style="margin-top: 10px;" >
-                <p:contextMenu id="CargoBusDataTableContextMenu" for="datalist">                    
-                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                    <p:separator/>                   
-                </p:contextMenu>
                 <p:dataTable id="datalist"
                              value="#{registroCargoFlotaController.registroCargoItems}"
                              lazy="false"                             
                              var="item"                             
-                             selection="#{registroCargoFlotaController.registro}"
-                             rowKey="#{item.key}"
-                             selectionMode="single"
+                             
+                             rowKey="#{not empty item.idCargoBus ? item.idCargoBus : item.hashCode()}"
+                             
                              rowIndexVar="rowIndex"                              
                              emptyMessage="No se han encontrado registros" >
                     <!--
@@ -124,10 +120,6 @@
                              lazy="true"
                              rowKey="HASH{item.idCargoBus}"  <<< Remove this line
                     -->
-
-
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}" global="false"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Buses 
@@ -165,23 +157,26 @@
                         <f:facet name="header">
                             <h:outputText value="Cargo"/>
                         </f:facet>
-                        <h:outputText value="#{item.cargoBus.tipoCargo}"/>
+                        <h:outputText value="#{item.tipoCargo}"/>
                     </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Descripción"/>
                         </f:facet>
-                        <p:inputText value="#{item.descripcion}"/>
+                        <p:inputText value="#{item.descripcion}">
+                            <p:ajax event="blur" listener="#{registroCargoFlotaController.showMessage(item.descripcion)}" global="false"/>
+                        </p:inputText>
                     </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <p:inputText value="#{item.monto}">
-                            <p:ajax event="blur" listener="#{registroCargoFlotaController.showMessage}" global="false" update="growl"/>
-                        </p:inputText>
+                        <p:inputNumber value="#{item.montoCargoBus}" decimalPlaces="0">
+                            <p:ajax event="blur" listener="#{registroCargoFlotaController.showMessage(item.montoCargoBus)}" global="false"/>
+                        </p:inputNumber>
+                        
                     </p:column>
 
                     <!--
@@ -197,10 +192,6 @@
                     -->
 
                 </p:dataTable>
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoBusController.delete}" update=":growl,datalist" disabled="#{empty registroCargoBusController.selected}">
-                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-                </p:commandButton>
-
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>

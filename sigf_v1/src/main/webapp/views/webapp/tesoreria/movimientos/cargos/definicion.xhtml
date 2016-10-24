@@ -83,20 +83,20 @@
         </h:form>
         
         
-        <p:dialog id="TipoCargoCreateDlg" modal="true" resizable="false" appendTo="@(body)"   widgetVar="TipoCargoCreateDialog" header="#{bundle.CreateTipoCargoTitle}" closeOnEscape="true">
+        <p:dialog id="TipoCargoCreateDlg" modal="true" resizable="false" appendTo="@(body)"   widgetVar="TipoCargoCreateDialog" header="Creación de Cargo" closeOnEscape="true">
 
             <h:form id="TipoCargoCreateForm">
 
                 <h:panelGroup id="display" rendered="#{tipoCargoController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_nombreTipoCargo}" for="nombreTipoCargo" />
+                        <p:outputLabel value="Nombre:" for="nombreTipoCargo" />
                         <h:panelGroup>
                             <p:inputText id="nombreTipoCargo" value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.CreateTipoCargoTitle_nombreTipoCargo}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_nombreTipoCargo}"/>
                             <p:tooltip for="nombreTipoCargo" value="#{tipoCargoController.getComponentMessages('nombreTipoCargo', bundle.CreateTipoCargoHelpText_nombreTipoCargo)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_montoDefecto}" for="montoDefecto" />
+                        <p:outputLabel value="Monto x Defecto:" for="montoDefecto" />
                         <h:panelGroup>
                             <p:inputText id="montoDefecto" value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.CreateTipoCargoTitle_montoDefecto}"/>
                             <p:tooltip for="montoDefecto" value="#{tipoCargoController.getComponentMessages('montoDefecto', bundle.CreateTipoCargoHelpText_montoDefecto)}"/>
@@ -113,7 +113,7 @@
 
         </p:dialog>
         
-        <p:dialog id="TipoCargoEditDlg" widgetVar="TipoCargoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoCargoTitle}" closeOnEscape="true">
+        <p:dialog id="TipoCargoEditDlg" widgetVar="TipoCargoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Cargo" closeOnEscape="true">
 
             <h:form id="TipoCargoEditForm">
 
@@ -121,19 +121,19 @@
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoCargoController.selected != null}">
 
 
-                        <h:outputLabel value="#{bundle.EditTipoCargoLabel_idTipoCargo}" for="idTipoCargo" />
+                        <h:outputLabel value="N°:" for="idTipoCargo" />
                         <h:panelGroup>
                             <h:outputText id="idTipoCargo" value="#{tipoCargoController.selected.idTipoCargo}" />
                             <p:tooltip for="idTipoCargo" value="#{tipoCargoController.getComponentMessages('idTipoCargo', bundle.EditTipoCargoHelpText_idTipoCargo)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditTipoCargoLabel_nombreTipoCargo}" for="nombreTipoCargo" />
+                        <p:outputLabel value="Nombre:" for="nombreTipoCargo" />
                         <h:panelGroup>
                             <p:inputText id="nombreTipoCargo" value="#{tipoCargoController.selected.nombreTipoCargo}" title="#{bundle.EditTipoCargoTitle_nombreTipoCargo}" required="true" requiredMessage="#{bundle.EditTipoCargoRequiredMessage_nombreTipoCargo}"/>
                             <p:tooltip for="nombreTipoCargo" value="#{tipoCargoController.getComponentMessages('nombreTipoCargo', bundle.EditTipoCargoHelpText_nombreTipoCargo)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.EditTipoCargoLabel_montoDefecto}" for="montoDefecto" />
+                        <p:outputLabel value="Monto x Defecto:" for="montoDefecto" />
                         <h:panelGroup>
                             <p:inputText id="montoDefecto" value="#{tipoCargoController.selected.montoDefecto}" title="#{bundle.EditTipoCargoTitle_montoDefecto}"/>
                             <p:tooltip for="montoDefecto" value="#{tipoCargoController.getComponentMessages('montoDefecto', bundle.EditTipoCargoHelpText_montoDefecto)}"/>
