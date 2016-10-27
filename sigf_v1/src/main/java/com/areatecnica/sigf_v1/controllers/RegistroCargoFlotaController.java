@@ -46,6 +46,7 @@ public class RegistroCargoFlotaController implements Serializable {
     private BusDaoImpl busDaoImpl;
 
     private CargoBus selected;
+    private CargoBus rowSelected;
     private TipoCargo tipoCargo;
     private List<TipoCargo> tipoCargoItems;
     private List<CargoBus> items;
@@ -156,12 +157,12 @@ public class RegistroCargoFlotaController implements Serializable {
     }
 
     public void save() {
-        if (this.selected != null) {
+        if (this.rowSelected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
             try {
-                session.update(this.selected);
+                session.update(this.rowSelected);
                 tx.commit();
 
             } catch (HibernateException e) {
@@ -192,6 +193,32 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 this.registroCargoItems.remove(this.selected);
                 this.selected = null;
+            } catch (HibernateException e) {
+                tx.rollback();
+
+                //JsfUtil.addErrorMessage(e.getLocalizedMessage());
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
+    }
+    
+    public void deleteRow() {
+        if (this.rowSelected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+
+                session.delete(this.rowSelected);
+
+                tx.commit();
+
+                JsfUtil.addSuccessMessage("El cargo:" + this.rowSelected.getTipoCargo() + " fue eliminado del Bus N°: " + this.rowSelected.getBus() + " Unidad: " + this.rowSelected.getBus().getUnidadNegocio().getNombreUnidadNegocio() + " Patente: " + this.rowSelected.getBus().getPatente());
+
+                this.registroCargoItems.remove(this.rowSelected);
+                this.rowSelected = null;
             } catch (HibernateException e) {
                 tx.rollback();
 
@@ -506,6 +533,14 @@ public class RegistroCargoFlotaController implements Serializable {
 
     public void showMessage(String value) {
         //JsfUtil.addSuccessMessage("modificado:"+value);
+    }
+
+    public CargoBus getRowSelected() {
+        return rowSelected;
+    }
+
+    public void setRowSelected(CargoBus rowSelected) {
+        this.rowSelected = rowSelected;
     }
 
 }

@@ -126,7 +126,7 @@ public class InformeCargosBusController implements Serializable {
         this.cargoBusDaoImpl = new CargoBusDaoImpl();
 
         if (this.bus != null) {
-            this.items = this.cargoBusDaoImpl.findByBus(bus);
+            this.items = this.cargoBusDaoImpl.findByBusAndDate(bus, fecha);
         }
 
     }
@@ -135,6 +135,25 @@ public class InformeCargosBusController implements Serializable {
         //JsfUtil.addSuccessMessage("Guía:" + this.selected.getFolio());
     }
 
+    public void save() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.saveOrUpdate(this.selected);
+                tx.commit();
+                JsfUtil.addSuccessMessage("El cargo:" + this.selected.getTipoCargo() + " fue actualizado en el Bus N°: " + this.selected.getBus() + " Patente: " + this.selected.getBus().getPatente());
+
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
+    }
+    
     public void delete() {
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();

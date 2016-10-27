@@ -56,16 +56,17 @@
                     <p:outputLabel for="anio" value="Año:" />
                     <p:inputText id="anio" value="#{registroCargoFlotaController.anio}" size="5" />
                     
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar cargos" update="GuiaListForm:datalist, growl" style="width:160px" actionListener="#{registroCargoFlotaController.init}">
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar cargos" update="CargoBusListForm:datalist, growl" style="width:130px" actionListener="#{registroCargoFlotaController.init}">
                     </p:commandButton>
                 </h:panelGrid>
 
             </p:panel>
         </h:form>        
-        <h:form id="GuiaListForm">            
+        <h:form id="CargoBusListForm">            
             <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >
-                <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
-                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargoListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
+                <p:contextMenu id="CargoBusDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="Editar" onclick="document.getElementById('CargoBusListForm:editButton').click();" icon="ui-icon-pencil"/>                    
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
                 </p:contextMenu>
                 <p:dataTable id="datalist" 
                              value="#{registroCargoFlotaController.registroCargoItems}"
@@ -73,7 +74,7 @@
                              var="item"
                              rowKey="#{item}"
                              rowIndexVar="rowIndex"
-                             selection="#{registroCargoFlotaController.selected}"
+                             selection="#{registroCargoFlotaController.rowSelected}"
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
@@ -85,6 +86,9 @@
                              lazy="true"
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
+                    
+                    <p:ajax event="rowSelect"   update="@form:editButton, @form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoFlotaController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton, @form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroCargoFlotaController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Cargo Registrados x Flota
@@ -122,7 +126,16 @@
                         <f:facet name="header">
                             <h:outputText value="Descripción"/>
                         </f:facet>
-                        <h:outputText value="#{item.tipoCargo}"/>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="F.Cargo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicioCargoBus}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column >
@@ -136,7 +149,9 @@
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.montoCargoBus}"/>
+                        <h:outputText value="#{item.montoCargoBus}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column >
@@ -149,14 +164,56 @@
                     </p:column>
                     
                 </p:dataTable>
-
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoFlotaController.delete}" update=":growl,datalist" disabled="#{empty registroCargoFlotaController.selected}">
+                <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('CargoBusEditDialog').show()" disabled="#{empty registroCargoFlotaController.rowSelected}"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroCargoFlotaController.deleteRow}" update=":growl,datalist" disabled="#{empty registroCargoFlotaController.rowSelected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
+        
+        <p:dialog id="CargoBusEditDlg" widgetVar="CargoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Cargo x Bus" closeOnEscape="true">
 
+            <h:form id="CargoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:focus context="descripcion"/>
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroCargoFlotaController.rowSelected != null}">
+                        
+                        <p:outputLabel value="N° Bus:" for="bus" />
+                        <p:outputLabel value="#{registroCargoFlotaController.rowSelected.bus}" id="bus" />
+                        
+                        <p:outputLabel value="Patente:" for="patente" />
+                        <p:outputLabel value="#{registroCargoFlotaController.rowSelected.bus.patente}" id="patente" />
+                        
+                        <p:outputLabel value="Descripción:" for="descripcion" />
+                        <p:inputText value="#{registroCargoFlotaController.rowSelected.descripcion}" id="descripcion" />
+                        
+                        <p:outputLabel value="Fecha Cargo:" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.rowSelected.fechaInicioCargoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>                            
+                        </h:panelGroup>
+
+                        <p:outputLabel value="N° Cuotas:" for="numeroCuotasCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.rowSelected.numeroCuotasCargoBus}" title="#{bundle.EditCargoBusTitle_numeroCuotasCargoBus}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Monto:" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.rowSelected.montoCargoBus}" title="#{bundle.EditCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_montoCargoBus}"/>
+                        </h:panelGroup>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroCargoFlotaController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="Editar" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
 
     </ui:define>
 
