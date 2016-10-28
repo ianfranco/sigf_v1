@@ -82,7 +82,23 @@ public class RegistroCargoBusController implements Serializable {
                 tx.commit();
                 this.items.add(0, this.selected);
                 
-                this.selected.setBus(null);
+                Date fechaCargo = this.selected.getFechaInicioCargoBus();
+                String descripcion = this.selected.getDescripcion();
+                TipoCargo tipoCargo = this.selected.getTipoCargo();
+                int monto = this.selected.getMontoCargoBus();
+                int numeroCuotas = this.selected.getNumeroCuotasCargoBus();
+                
+                
+                this.selected = null;
+                this.selected = new CargoBus();
+                this.selected.setDescripcion(descripcion);
+                this.selected.setFechaInicioCargoBus(fechaCargo);
+                this.selected.setTipoCargo(tipoCargo);
+                this.selected.setMontoCargoBus(monto);
+                this.selected.setNumeroCuotasCargoBus(numeroCuotas);
+                
+                this.bus = null;
+                
                 JsfUtil.addSuccessMessage("Se ha ingresado el cargo de tipo:" + this.selected.getTipoCargo() + " al Bus N°:" + this.selected.getBus() + " por un monto de:" + this.selected.getMontoCargoBus());
 
             } catch (HibernateException e) {

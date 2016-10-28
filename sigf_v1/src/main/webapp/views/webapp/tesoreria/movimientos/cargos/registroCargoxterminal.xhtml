@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
 
-        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Registro de Cargos x Flota">
+        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Registro de Cargos x Terminal">
 
             <h:form id="CargoBusCreateForm">
 
@@ -17,80 +17,67 @@
                     <p:focus context="tipoCargo"/>
                     <h:panelGrid columns="2" columnClasses="column">
 
-
-
+                                                
+                        
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="tipoCargo" value="#{registroCargoFlotaController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
+                            <p:selectOneMenu id="tipoCargo" value="#{registroCargoTerminalController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
                                 <f:selectItem itemLabel=""/>
                                 <f:selectItems value="#{registroCargoFlotaController.tipoCargoItems}"
                                                var="tipoCargoItem"
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" update="montoCargoBus,flota,:CargoBusListForm:datalist" listener="#{registroCargoFlotaController.setMontoXDefectoTipoCargo}" global="false"/>
+                                <p:ajax event="valueChange" update="montoCargoBus,terminal,:CargoBusListForm:datalist" listener="#{registroCargoTerminalController.setMontoXDefectoTipoCargo}" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
-
-                        <p:outputLabel value="Flota:" for="flota" />
+                        
+                        <p:outputLabel value="Terminal:" for="terminal" />
                         <h:panelGrid columns="8">
-                            <p:selectOneMenu id="flota" value="#{registroCargoFlotaController.flota}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_bus}" converter="flotaConverter">
+                            <p:selectOneMenu id="terminal" value="#{registroCargoTerminalController.terminal}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_bus}" converter="terminalConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{registroCargoFlotaController.flotaItems}"
-                                               var="flotaItem"
-                                               itemValue="#{flotaItem}"
-                                               itemLabel="#{flotaItem}"
+                                <f:selectItems value="#{registroCargoTerminalController.terminalItems}"
+                                               var="terminalItem"
+                                               itemValue="#{terminalItem}"
+                                               itemLabel="#{terminalItem}"
                                                />
-                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist, growl" listener="#{registroCargoFlotaController.handleFlota}"/>
-                            </p:selectOneMenu>                           
-                        </h:panelGrid>
-
-                        <p:outputLabel value="Unidad:" for="unidad"  />
-                        <h:panelGrid columns="2">
-                            <p:selectOneMenu id="unidad" value="#{registroCargoFlotaController.unidadNegocio}" converter="unidadNegocioConverter">
-                                <f:selectItem itemLabel="Todas"/>
-                                <f:selectItems value="#{registroCargoFlotaController.unidadNegocioItems}"
-                                               var="unidadItem"
-                                               itemValue="#{unidadItem}"
-                                               itemLabel="#{unidadItem}"
-                                               />
-                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist, growl" listener="#{registroCargoFlotaController.loadUnidad}"/>
+                                <p:ajax event="valueChange" update=":CargoBusListForm:datalist, growl" listener="#{registroCargoTerminalController.handleTerminal}"/>
                             </p:selectOneMenu>                           
                         </h:panelGrid>
 
                         <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoTerminalController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Descripcion:" for="descripcion" />
                         <h:panelGroup>
-                            <p:inputText id="descripcion" value="#{registroCargoFlotaController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
-                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoFlotaController.loadDescripcion}" global="false"/>
+                            <p:inputText id="descripcion" value="#{registroCargoTerminalController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
+                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoTerminalController.loadDescripcion}" global="false"/>
                             </p:inputText>
                         </h:panelGroup>
 
                         <p:outputLabel value="N° Cuotas" for="numeroCuotasCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoFlotaController.numeroCuotas}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>                            
+                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoTerminalController.numeroCuotas}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>                            
                         </h:panelGroup>
 
                         <p:outputLabel value="Monto" for="montoCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{registroCargoFlotaController.monto}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
-                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoFlotaController.setMontoXDefecto}" global="false"/>
+                            <p:inputText id="montoCargoBus" value="#{registroCargoTerminalController.monto}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" update=":CargoBusListForm:datalist" listener="#{registroCargoTerminalController.setMontoXDefecto}" global="false"/>
                             </p:inputText>
                         </h:panelGroup>
-
+                        
                         <p:outputLabel value="Cod. Fina:" for="idFina" />
                         <h:panelGroup>
-                            <p:inputText id="idFina" value="#{registroCargoFlotaController.idFina}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}"  onfocus="this.setSelectionRange(0, this.value.length)">
-
+                            <p:inputText id="idFina" value="#{registroCargoTerminalController.idFina}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}"  onfocus="this.setSelectionRange(0, this.value.length)">
+                                
                             </p:inputText>
                         </h:panelGroup>
-
+                        
                     </h:panelGrid>
-                    <p:commandButton actionListener="#{registroCargoFlotaController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
+                    <p:commandButton actionListener="#{registroCargoTerminalController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="Registrar?" icon="ui-icon-alert"/>
                     </p:commandButton>
 
@@ -104,10 +91,10 @@
 
             <p:panel style="margin-top: 10px;" >
                 <p:dataTable id="datalist"
-                             value="#{registroCargoFlotaController.registroCargoItems}"
+                             value="#{registroCargoTerminalController.registroCargoItems}"
                              lazy="false"                             
-                             var="item"
-                             rowKey="#{not empty item.idCargoBus ? item.idCargoBus : item.hashCode()}"
+                             var="item"                             
+                             rowKey="#{not empty item.idCargoBus ? item.idCargoBus : item.hashCode()}"                             
                              rowIndexVar="rowIndex"                              
                              emptyMessage="No se han encontrado registros" 
                              tableStyle="table-layout: auto" >
@@ -121,7 +108,7 @@
                     -->
 
                     <f:facet name="header">
-                        Buses 
+                        Buses en Terminal
                     </f:facet>
 
                     <p:column style="text-align: center;">
@@ -137,21 +124,28 @@
                         </f:facet>
                         <h:outputText value="#{item.bus.numeroBus}"/>
                     </p:column>
-
+                    
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Unidad"/>
                         </f:facet>
                         <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
                     </p:column>
-
+                    
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Patente"/>
                         </f:facet>
                         <h:outputText value="#{item.bus.patente}"/>
                     </p:column>
-
+                    
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Flota"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.flota}"/>
+                    </p:column>
+                    
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Empresa"/>
@@ -161,17 +155,10 @@
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="Terminal"/>
-                        </f:facet>
-                        <h:outputText value="#{item.bus.terminal}"/>
-                    </p:column>                    
-
-                    <p:column style="text-align: center;">
-                        <f:facet name="header">
                             <h:outputText value="Cargo"/>
                         </f:facet>
                         <h:outputText value="#{item.tipoCargo}"/>
-                    </p:column>
+                    </p:column>                    
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -189,7 +176,7 @@
                         <p:inputNumber value="#{item.montoCargoBus}" decimalPlaces="0">
                             <p:ajax event="blur" listener="#{registroCargoFlotaController.showMessage(item.montoCargoBus)}" global="false"/>
                         </p:inputNumber>
-
+                        
                     </p:column>
 
                     <!--

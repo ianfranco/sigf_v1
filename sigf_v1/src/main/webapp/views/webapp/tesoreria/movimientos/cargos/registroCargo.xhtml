@@ -52,7 +52,7 @@
                             <p:outputLabel id="empresa" value="#{registroCargoBusController.bus.empresa.nombreEmpresa}"/>
                         </h:panelGrid>
 
-                        <p:outputLabel value="Fecha Cargo:" for="fechaInicioCargoBus" />
+                        <p:outputLabel value="F.Cargo:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
                         </h:panelGroup>
@@ -102,7 +102,8 @@
                              rowsPerPageTemplate="50,100,200"
                              selectionMode="single"
                              selection="#{registroCargoBusController.rowSelected}" 
-                             emptyMessage="No se han encontrado registros">
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
                     <!--
                              To enable Lazy Loading, please copy/replace the following lines above,
                              and be sure to replace the word HASH with the # symbol:
@@ -127,14 +128,14 @@
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.bus.numeroBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.bus.numeroBus}" filterStyle="width:10px;" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListCargoBusTitle_bus}"/>
                         </f:facet>
                         <h:outputText value="#{item.bus.numeroBus}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.bus.unidadNegocio.numeroUnidadNegocio}" style="text-align: center;">
+                    <p:column filterBy="#{item.bus.unidadNegocio.numeroUnidadNegocio}" style="text-align: center;" filterStyle="width:10px;">
                         <f:facet name="header">
                             <h:outputText value="Unidad"/>
                         </f:facet>
@@ -153,6 +154,13 @@
                             <h:outputText value="Flota"/>
                         </f:facet>
                         <h:outputText value="#{item.bus.flota}"/>
+                    </p:column>
+                    
+                    <p:column filterBy="#{item.bus.empresa}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.empresa}"/>
                     </p:column>
 
                     <p:column filterBy="#{item.tipoCargo}" style="text-align: center;">
