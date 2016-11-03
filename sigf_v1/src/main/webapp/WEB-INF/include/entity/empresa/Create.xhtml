@@ -17,38 +17,32 @@
 
                         <p:outputLabel value="Rut:" for="rutEmpresa" />
                         <h:panelGroup>
-                            <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.CreateEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_rutEmpresa}"/>
-                            <p:tooltip for="rutEmpresa" value="#{empresaController.getComponentMessages('rutEmpresa', bundle.CreateEmpresaHelpText_rutEmpresa)}"/>
+                            <p:inputText id="rutEmpresa" value="#{empresaController.selected.rutEmpresa}" title="#{bundle.CreateEmpresaTitle_rutEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_rutEmpresa}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="Nombre:" for="nombreEmpresa" />
+                        <p:outputLabel value="Nombre o Razón Social:" for="nombreEmpresa" />
                         <h:panelGroup>
-                            <p:inputText id="nombreEmpresa" value="#{empresaController.selected.nombreEmpresa}" title="#{bundle.CreateEmpresaTitle_nombreEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_nombreEmpresa}"/>
-                            <p:tooltip for="nombreEmpresa" value="#{empresaController.getComponentMessages('nombreEmpresa', bundle.CreateEmpresaHelpText_nombreEmpresa)}"/>
+                            <p:inputText id="nombreEmpresa" value="#{empresaController.selected.nombreEmpresa}" title="#{bundle.CreateEmpresaTitle_nombreEmpresa}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_nombreEmpresa}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Giro:" for="giro" />
                         <h:panelGroup>
-                            <p:inputText id="giro" value="#{empresaController.selected.giro}" title="#{bundle.CreateEmpresaTitle_giro}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_giro}"/>
-                            <p:tooltip for="giro" value="#{empresaController.getComponentMessages('giro', bundle.CreateEmpresaHelpText_giro)}"/>
+                            <p:inputText id="giro" value="#{empresaController.selected.giro}" title="#{bundle.CreateEmpresaTitle_giro}" required="true" requiredMessage="#{bundle.CreateEmpresaRequiredMessage_giro}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Dirección:" for="direccionEmpresa" />
                         <h:panelGroup>
-                            <p:inputText id="direccionEmpresa" value="#{empresaController.selected.direccionEmpresa}" title="#{bundle.CreateEmpresaTitle_direccionEmpresa}"/>
-                            <p:tooltip for="direccionEmpresa" value="#{empresaController.getComponentMessages('direccionEmpresa', bundle.CreateEmpresaHelpText_direccionEmpresa)}"/>
+                            <p:inputText id="direccionEmpresa" value="#{empresaController.selected.direccionEmpresa}" title="#{bundle.CreateEmpresaTitle_direccionEmpresa}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Teléfono:" for="telefonoEmpresa" />
                         <h:panelGroup>
-                            <p:inputText id="telefonoEmpresa" value="#{empresaController.selected.telefonoEmpresa}" title="#{bundle.CreateEmpresaTitle_telefonoEmpresa}"/>
-                            <p:tooltip for="telefonoEmpresa" value="#{empresaController.getComponentMessages('telefonoEmpresa', bundle.CreateEmpresaHelpText_telefonoEmpresa)}"/>
+                            <p:inputText id="telefonoEmpresa" value="#{empresaController.selected.telefonoEmpresa}" title="#{bundle.CreateEmpresaTitle_telefonoEmpresa}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Email:" for="emailEmpresa" />
                         <h:panelGroup>
-                            <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.CreateEmpresaTitle_emailEmpresa}"/>
-                            <p:tooltip for="emailEmpresa" value="#{empresaController.getComponentMessages('emailEmpresa', bundle.CreateEmpresaHelpText_emailEmpresa)}"/>
+                            <p:inputText id="emailEmpresa" value="#{empresaController.selected.emailEmpresa}" title="#{bundle.CreateEmpresaTitle_emailEmpresa}" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateEmpresaLabel_cajaCompensacion}" for="cajaCompensacion" />
@@ -58,11 +52,10 @@
                                 <f:selectItems value="#{cajaCompensacionController.items}"
                                                var="cajaCompensacionItem"
                                                itemValue="#{cajaCompensacionItem}"
-                                               itemLabel="#{cajaCompensacionItem}"
+                                               itemLabel="#{cajaCompensacionItem.nombreCajaCompensacion}"
                                                />
 
                             </p:selectOneMenu>
-                            <p:tooltip for="cajaCompensacion" value="#{empresaController.getComponentMessages('cajaCompensacion', bundle.CreateEmpresaHelpText_cajaCompensacion)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateEmpresaLabel_mutual}" for="mutual" />
@@ -72,17 +65,15 @@
                                 <f:selectItems value="#{mutualController.items}"
                                                var="mutualItem"
                                                itemValue="#{mutualItem}"
-                                               itemLabel="#{mutualItem}"
+                                               itemLabel="#{mutualItem.nombreMutual}"
                                                />
 
                             </p:selectOneMenu>
-                            <p:tooltip for="mutual" value="#{empresaController.getComponentMessages('mutual', bundle.CreateEmpresaHelpText_mutual)}"/>
                         </h:panelGroup>
                         
                         <p:outputLabel value="% Mutual:" for="porcentaje" />
                         <h:panelGroup>
-                            <p:inputText id="porcentaje" value="#{empresaController.selected.porcentajeMutual}" required="true" requiredMessage="Debe ingresar el valor"/>
-                            <p:tooltip for="porcentaje" value="Ingrese la información"/>
+                            <p:inputText id="porcentaje" value="#{empresaController.selected.porcentajeMutual}" required="true" requiredMessage="Debe ingresar el valor" onkeypress="return event.keyCode != 13"/>
                         </h:panelGroup>
                         
                     </p:panelGrid>

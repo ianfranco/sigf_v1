@@ -48,6 +48,8 @@ public class RegistroLicenciaMedicaController implements Serializable {
         this.items = this.licenciaMedicaDao.findWithLimit();
 
         this.selected = prepareCreate();
+        this.selected.setFechaDesdeReposo(new Date());
+        this.selected.setFechaHastaReposo(new Date());
     }
 
     public List<LicenciaMedica> getItems() {
@@ -86,13 +88,22 @@ public class RegistroLicenciaMedicaController implements Serializable {
                     this.selected.setFechaIngresoLicencia(new Date());
                     this.selected.setFechaRecepcionLicencia(new Date());
                     this.selected.setFechaEmisionLicencia(new Date());
+                    
+                    Date fechaInicio = this.selected.getFechaDesdeReposo();
+                    Date fechaTermino = this.selected.getFechaHastaReposo();
+                    
                     session.save(this.selected);
                     tx.commit();
 
+                    JsfUtil.addSuccessMessage("Se ha registrado una licencia al trabajador: "+this.selected.getTrabajador());
+                    
                     this.items.add(0, selected);
                     this.selected = null;
                     this.trabajador = null;
                     this.selected = prepareCreate();
+                    this.selected.setFechaDesdeReposo(fechaInicio);
+                    this.selected.setFechaHastaReposo(fechaTermino);
+                    
                 } else {
                     JsfUtil.addErrorMessage("Fechas mal ingresadas");
                 }

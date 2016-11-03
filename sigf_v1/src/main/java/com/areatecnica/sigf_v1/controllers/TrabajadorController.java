@@ -91,6 +91,7 @@ public class TrabajadorController implements Serializable {
     private AsignacionFamiliar asignacionFamiliar;
     private InstitucionPrevision institucionPrevision;
     private RelacionLaboral relacionLaboral;
+    private TipoCotizacionTrabajador tipoCotizacionTrabajador;
 
     private Empresa selectedEmpresa;
     private TipoContrato tipoContrato;
@@ -109,7 +110,7 @@ public class TrabajadorController implements Serializable {
 
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.asignacionFamiliarItems = this.asignacionFamiliarDaoImpl.findAll();
-        //
+        
     }
 
     public void loadContratos() {
@@ -291,18 +292,21 @@ public class TrabajadorController implements Serializable {
         sexo = "1";
         fonasa = true;
         ahorro = false;
-        regimen = true;
+        regimen = false;
 
         this.institucionSaludDaoImpl = new InstitucionSaludDaoImpl();
         this.institucionAPVDaoImpl = new InstitucionAPVDaoImpl();
         this.monedaPactadaInstitucionSaludImpl = new MonedaPactadaInstitucionSaludImpl();
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.institucionPrevisionDaoImpl = new InstitucionPrevisionDaoImpl();
+        this.tipoCotizacionTrabajadorDaoImpl = new TipoCotizacionTrabajadorDaoImpl();
 
         this.saludFonasa = this.institucionSaludDaoImpl.findById(7);
         this.institucionApv = this.institucionAPVDaoImpl.findById(1000);
         this.monedaPactadaInstitucionSalud = this.monedaPactadaInstitucionSaludImpl.findById(1);
         this.asignacionFamiliar = this.asignacionFamiliarDaoImpl.findById(5);
+        this.tipoCotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
+        this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(34);
 
         Trabajador newTrabajador;
         newTrabajador = new Trabajador(true);
@@ -313,12 +317,15 @@ public class TrabajadorController implements Serializable {
         this.selected.setInstitucionApv(institucionApv);
         this.selected.setMonedaPactadaInstitucionSalud(monedaPactadaInstitucionSalud);
         this.selected.setAsignacionFamiliar(asignacionFamiliar);
+        this.selected.setTipoCotizacionTrabajador(tipoCotizacionTrabajador);
         this.selected.setNumeroCargas(0);
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
-
-        return newTrabajador;
+        
+        setDefaultValues();
+        
+        return this.selected;
     }
 
     public void saveNew() {
@@ -344,8 +351,9 @@ public class TrabajadorController implements Serializable {
                 session.save(this.selected);
 
                 tx.commit();
-                this.items.add(selected);
+                this.items.add(this.items.size()-1, selected);
 
+                JsfUtil.addSuccessMessage("Se ha registrado el nuevo trabajador: "+this.selected+" con código: "+this.selected.getCodigoTrabajador());
                 this.selected = null;
 
             } catch (HibernateException e) {
@@ -405,9 +413,6 @@ public class TrabajadorController implements Serializable {
                 ahorro = false;
             }
 
-            if (this.selected.getInstitucionPrevision().getIdInstitucionPrevision() > 98) {
-                regimen = false;
-            }
         }
     }
 

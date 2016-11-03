@@ -6,7 +6,6 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.EmpresaDao;
 import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoContratoDaoImpl;
@@ -21,8 +20,8 @@ import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -94,6 +93,7 @@ public class RegistroContratosController implements Serializable {
 
             try {
 
+                Date fechaContrato = this.selected.getFechaInicio();
                 this.selected.setTipoTrabajador(this.tipoTrabajador);
                 this.selected.setFechaFin(this.selected.getFechaInicio());
                 this.selected.setEstado(Boolean.TRUE);
@@ -102,8 +102,12 @@ public class RegistroContratosController implements Serializable {
                 tx.commit();
 
                 this.items.add(0, selected);
-
+                
+                JsfUtil.addSuccessMessage("Se ha ingresado un nuevo contrato al trabajador:"+this.selected.getTrabajador()+" con la empresa: "+this.selected.getEmpresa()+" ");
+                
                 this.selected = new RelacionLaboral();
+                this.selected.setFechaInicio(fechaContrato);
+                this.selected.setSueldoBase(257500);
             } catch (HibernateException e) {
                 System.err.println("SAVE:Relacion Laboral");
                 tx.rollback();

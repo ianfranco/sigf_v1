@@ -116,7 +116,7 @@ public class RegistroCargoFlotaController implements Serializable {
                             CargoBus cargo = new CargoBus();
 
                             cargo.setFechaIngresoCargoBus(new Date());
-                            cargo.setFechaInicioCargoBus(r.getFechaInicioCargoBus());
+                            cargo.setFechaInicioCargoBus(this.fecha);
                             cargo.setDescripcion(r.getDescripcion());
                             cargo.setNumeroCuotasCargoBus(this.numeroCuotas);
                             cargo.setMontoCargoBus(r.getMontoCargoBus());

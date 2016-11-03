@@ -101,6 +101,8 @@ public class RegistroFiniquitosController implements Serializable {
 
                 this.items.add(0, selected);
                 
+                JsfUtil.addSuccessMessage("Se registrado un nuevo finiquito al trabajador: "+this.selected.getRelacionLaboral().getTrabajador());
+                
                 this.selected = new FiniquitoRelacionLaboral();
                 this.trabajador = null;
                 this.relacionLaboral = null;

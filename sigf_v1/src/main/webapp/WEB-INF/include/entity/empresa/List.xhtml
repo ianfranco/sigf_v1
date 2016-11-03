@@ -9,7 +9,10 @@
     <h:form id="EmpresaListForm">
 
 
-        <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist">              
+        <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist">
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EmpresaListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EmpresaListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EmpresaListForm:editButton').click();" icon="ui-icon-pencil"/>
         </p:contextMenu>
         <p:dataTable id="datalist"
                      value="#{empresaController.items}"                     
@@ -41,7 +44,7 @@
                 Listado de Empresas
             </f:facet>
 
-            <p:column sortBy="#{item.idEmpresa}" filterBy="#{item.idEmpresa}">
+            <p:column sortBy="#{item.idEmpresa}" filterBy="#{item.idEmpresa}" filterStyle="width:50px;" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="N°"/>
                 </f:facet>
@@ -49,7 +52,7 @@
             </p:column>
 
 
-            <p:column sortBy="#{item.rutEmpresa}" filterBy="#{item.rutEmpresa}">
+            <p:column sortBy="#{item.rutEmpresa}" filterBy="#{item.rutEmpresa}" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="Rut"/>
                 </f:facet>
@@ -93,6 +96,13 @@
                 <h:outputText value="#{item.mutual.nombreMutual}"/>
             </p:column>
 
+            <p:column sortBy="#{item.porcentajeMutual}" filterBy="#{item.porcentajeMutual}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="% Mutual"/>
+                </f:facet>
+                <h:outputText value="#{item.porcentajeMutual}"/>
+            </p:column>
+            
         </p:dataTable>
 
         <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{empresaController.prepareCreate}" update=":EmpresaCreateForm" oncomplete="PF('EmpresaCreateDialog').show()"/>

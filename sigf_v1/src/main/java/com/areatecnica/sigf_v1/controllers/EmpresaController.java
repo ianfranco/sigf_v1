@@ -70,8 +70,9 @@ public class EmpresaController implements Serializable {
             try {
                 session.save(this.selected);
                 tx.commit();
+                JsfUtil.addSuccessMessage("Se ha registrado la empresa: "+this.selected+" con código: "+this.selected.getIdEmpresa());
                 
-                this.items.add(selected);
+                this.items.add(this.items.size()-1, selected);
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:Empresa");
@@ -91,7 +92,7 @@ public class EmpresaController implements Serializable {
             try {
                 session.merge(this.selected);
                 tx.commit();
-
+                
             } catch (HibernateException e) {
                 System.err.println("SAVE:Empresa");
                 tx.rollback();

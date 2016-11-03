@@ -7,7 +7,7 @@
                 template="./../../templateRemuneraciones.xhtml">
 
     <ui:define name="content" class="ui-corner-all" >
-        <h:form id="selector">
+        <h:form id="selector" >
             <p:panel header="Registro Contratos">
                 <p:focus context="trabajador"/>
                 <h:panelGrid columns="4">
@@ -21,7 +21,7 @@
                                            itemValue="#{trabajadorItem}"
                                            itemLabel="#{trabajadorItem.codigoTrabajador}"
                                            />
-                            <p:ajax event="valueChange" update="informacionConductor"  listener="#{registroContratosController.findConductor}"/>
+                            <p:ajax event="valueChange" update="informacionConductor"  listener="#{registroContratosController.findConductor}" global="false"/>
                         </p:selectOneMenu>
                     </h:panelGroup>
                     <p:outputLabel value="Nombre:" style="margin-left: 15px;"/>
@@ -35,7 +35,7 @@
                                        itemValue="#{item}"
                                        itemLabel="#{item.idEmpresa}"
                                        />
-                        <p:ajax event="valueChange" update="informacionEmpresa"  listener="#{registroContratosController.findConductor}"/>
+                        <p:ajax event="valueChange" update="informacionEmpresa"  listener="#{registroContratosController.findConductor}" global="false"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Razón Social:" style="margin-left: 15px;"/>
@@ -55,16 +55,17 @@
                     <p:outputLabel value=""/>
 
                     <p:outputLabel for="inicio" value="Fecha Inicio:"/>
-                    <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" required="true"  />
+                    <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" required="true" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13"/>
+                                        
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
                     
-                    <p:outputLabel for="fin" value="Fecha Término:"/>
-                    <p:calendar id="fin" value="#{registroContratosController.selected.fechaFin}" required="true"  pattern="dd/MM/yyyy"/>
-
                     <p:outputLabel value="Sueldo Base:"/>
-                    <p:inputNumber symbol="$ " decimalPlaces="0" required="true"  value="#{registroContratosController.selected.sueldoBase}"/>
+                    <p:inputNumber symbol="$ " decimalPlaces="0" required="true"  value="#{registroContratosController.selected.sueldoBase}" onkeypress="return event.keyCode != 13"/>
 
                 </h:panelGrid>
-                <p:commandButton value="Ingresar" update=":Display:datalist, :selector" actionListener="#{registroContratosController.saveNew}"  resetValues="true" >
+                <p:commandButton value="Ingresar" update=":Display:datalist, :selector, :growl" actionListener="#{registroContratosController.saveNew}"  resetValues="true" onkeypress="return event.keyCode === 13">
+                    <p:confirm header="¿Registrar contrato?" message="Confirmación" icon="ui-icon-alert"/>
                 </p:commandButton>
             </p:panel>
 

@@ -80,35 +80,35 @@
                         <h:outputText value="#{item.empresa.idEmpresa}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;" filterBy="#{item.empresa}" >
+                    <p:column filterBy="#{item.empresa}" >
                         <f:facet name="header">
                             <h:outputText value="Empresa"/>
                         </f:facet>
                         <h:outputText value="#{item.empresa}"/>
                     </p:column>
                     
-                    <p:column style="width: 20px;" filterBy="#{item.trabajador.codigoTrabajador}">
+                    <p:column filterBy="#{item.trabajador.codigoTrabajador}">
                         <f:facet name="header">
                             <h:outputText value="Cód. Trabajador"/>
                         </f:facet>
                         <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;" filterBy="#{item.trabajador}">
+                    <p:column  filterBy="#{item.trabajador}">
                         <f:facet name="header">
                             <h:outputText value="Trabajador"/>
                         </f:facet>
                         <h:outputText value="#{item.trabajador}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;text-align: center;" filterBy="#{item.tipoContrato}">
+                    <p:column style="text-align: center;" filterBy="#{item.tipoContrato}">
                         <f:facet name="header">
                             <h:outputText value="Contrato"/>
                         </f:facet>
                         <h:outputText value="#{item.tipoContrato}"/>
                     </p:column>
 
-                    <p:column style="width: 20px;text-align: center;">
+                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="F.Inicio"/>
                         </f:facet>

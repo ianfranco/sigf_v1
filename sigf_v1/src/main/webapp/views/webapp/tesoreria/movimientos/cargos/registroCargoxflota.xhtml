@@ -60,7 +60,7 @@
 
                         <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.fecha}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Descripcion:" for="descripcion" />

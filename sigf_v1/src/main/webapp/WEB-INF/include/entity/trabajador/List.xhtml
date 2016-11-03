@@ -14,7 +14,7 @@
             <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
             <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>            
             <p:separator/>
-            
+
         </p:contextMenu>
         <p:dataTable id="datalist"
                      value="#{trabajadorController.items}"                     
@@ -25,7 +25,8 @@
                      selectionMode="single"
                      selection="#{trabajadorController.selected}"
                      emptyMessage="No se han encontrado registros"
-                     rowKey="#{item.idTrabajador}">
+                     rowKey="#{item.idTrabajador}"
+                     tableStyle="table-layout: auto" >
             <!--
                      To disable Lazy Loading, please copy/replace the following lines above,
                      and be sure to replace the word HASH with the # symbol:
@@ -36,23 +37,23 @@
             -->
 
 
-            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
-            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
-            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton" listener="#{trabajadorController.resetParents}"/>
-            <p:ajax event="rowDblselect" onsuccess="document.getElementById('TrabajadorListForm:viewButton').click();"/>
+            <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}" global="false"/>
+            <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}" global="false"/>
+            <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton" listener="#{trabajadorController.resetParents}" global="false"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('TrabajadorListForm:viewButton').click();" global="false"/>
 
             <f:facet name="header">
                 Lista de Trabajadores
             </f:facet>
-            
-            <p:column sortBy="#{item.codigoTrabajador}" filterBy="#{item.codigoTrabajador}">
+
+            <p:column sortBy="#{item.codigoTrabajador}" filterBy="#{item.codigoTrabajador}" style="text-align: center;" filterStyle="witdh:40px;">
                 <f:facet name="header">
                     <h:outputText value="Cód."/>
                 </f:facet>
                 <h:outputText value="#{item.codigoTrabajador}"/>
             </p:column>
 
-            <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}">
+            <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="Rut"/>
                 </f:facet>
@@ -87,7 +88,7 @@
                 <h:outputText value="#{item.celularTrabajador}"/>
             </p:column>
 
-            <p:column sortBy="#{item.institucionPrevision.nombreInstitucionPrevision}" filterBy="#{item.institucionPrevision.nombreInstitucionPrevision}">
+            <p:column sortBy="#{item.institucionPrevision.nombreInstitucionPrevision}" filterBy="#{item.institucionPrevision.nombreInstitucionPrevision}" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="Previsión"/>
                 </f:facet>
@@ -95,13 +96,20 @@
             </p:column>
 
 
-            <p:column sortBy="#{item.institucionSalud.nombreInstitucionSalud}" filterBy="#{item.institucionSalud.nombreInstitucionSalud}">
+            <p:column sortBy="#{item.institucionSalud.nombreInstitucionSalud}" filterBy="#{item.institucionSalud.nombreInstitucionSalud}" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="Salud"/>
                 </f:facet>
                 <h:outputText value="#{item.institucionSalud.nombreInstitucionSalud}"/>
             </p:column>
-                        
+
+            <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroCargas}"/>
+            </p:column>
+
             <!--
                                 <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">
                                     <f:facet name="header">

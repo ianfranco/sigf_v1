@@ -23,7 +23,7 @@
                                                itemValue="#{trabajadorItem}"
                                                itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                />
-                                <p:ajax event="valueChange" update="informacionConductor"  />
+                                <p:ajax event="valueChange" update="informacionConductor" global="false" />
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -32,7 +32,7 @@
 
                         <p:outputLabel value="Desde" for="fechaDesdeFeriado" />
                         <h:panelGroup>
-                            <p:calendar id="fechaDesdeFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaDesdeFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" />
+                            <p:calendar id="fechaDesdeFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaDesdeFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13" />
                         </h:panelGroup>
 
                         <p:outputLabel value=""/>
@@ -40,7 +40,7 @@
 
                         <p:outputLabel value="Hasta" for="fechaHastaFeriado" />
                         <h:panelGroup>
-                            <p:calendar id="fechaHastaFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaHastaFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" />
+                            <p:calendar id="fechaHastaFeriado" pattern="dd/MM/yyyy" value="#{registroFeriadoLegalController.selected.fechaHastaFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13" />
                         </h:panelGroup>
 
                         <p:outputLabel value=""/>
@@ -91,7 +91,7 @@
                     <p:ajax event="rowUnselect" update="@form:deleteButton" />
 
                     <f:facet name="header">
-                        Últimas 100 Vacaciones Ingresadas
+                        Últimas Vacaciones Ingresadas
                     </f:facet>
 
                     <p:column style="text-align: center;">

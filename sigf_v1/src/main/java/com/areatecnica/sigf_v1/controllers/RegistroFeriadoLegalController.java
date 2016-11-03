@@ -70,6 +70,8 @@ public class RegistroFeriadoLegalController implements Serializable {
         FeriadoLegal newFeriadoLegal;
 
         newFeriadoLegal = new FeriadoLegal();
+        newFeriadoLegal.setFechaDesdeFeriado(new Date());
+        newFeriadoLegal.setFechaHastaFeriado(new Date());
         newFeriadoLegal.setDiasHabiles(0);
         newFeriadoLegal.setDomingosInhabiles(0);
         newFeriadoLegal.setFeriadoFraccionado(0);
@@ -89,13 +91,21 @@ public class RegistroFeriadoLegalController implements Serializable {
                 if (diferenciaEnDias2(this.selected.getFechaHastaFeriado(), this.selected.getFechaDesdeFeriado())>=0) {
                     this.selected.setTrabajador(trabajador);
                     this.selected.setFechaIngresoFeriado(new Date());
+                    
+                    Date fechaInicio = this.selected.getFechaDesdeFeriado();
+                    Date fechaTermino = this.selected.getFechaHastaFeriado();
+                    
                     session.save(this.selected);
                     tx.commit();
 
+                    JsfUtil.addSuccessMessage("Se ha registrado un nuevo feriado al trabajador: "+this.selected.getTrabajador());
+                    
                     this.items.add(0, selected);
                     this.selected = null;
                     this.trabajador = null;
                     this.selected = prepareCreate();
+                    this.selected.setFechaDesdeFeriado(fechaInicio);
+                    this.selected.setFechaHastaFeriado(fechaTermino);
                 } else {
                     JsfUtil.addErrorMessage("Fechas mal ingresadas: ");
                 }
