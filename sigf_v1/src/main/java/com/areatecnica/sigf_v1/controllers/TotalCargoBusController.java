@@ -40,6 +40,7 @@ public class TotalCargoBusController implements Serializable {
     private List<CargoBus> items;
     private List<TipoCargo> tiposCargos;
     private CargoBus selected;
+    private CargoBus rowSelected;
     private int elcargo;
     private int suma;
     private int mes;
@@ -61,7 +62,7 @@ public class TotalCargoBusController implements Serializable {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
-
+        
     }
 
     public List<CargoBus> getItems() {
@@ -123,12 +124,12 @@ public class TotalCargoBusController implements Serializable {
     }
 
     public void save() {
-        if (this.selected != null) {
+        if (this.rowSelected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
             try {
-                session.saveOrUpdate(this.selected);
+                session.update(this.rowSelected);
                 tx.commit();
 
             } catch (HibernateException e) {
@@ -145,7 +146,7 @@ public class TotalCargoBusController implements Serializable {
     }
 
     public void delete() {
-        if (this.selected != null) {
+        if (this.rowSelected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
@@ -229,5 +230,13 @@ public class TotalCargoBusController implements Serializable {
 
     public void setCargo(TipoCargo cargo) {
         this.cargo = cargo;
+    }
+
+    public CargoBus getRowSelected() {
+        return rowSelected;
+    }
+
+    public void setRowSelected(CargoBus rowSelected) {
+        this.rowSelected = rowSelected;
     }
 }

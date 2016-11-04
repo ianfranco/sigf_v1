@@ -111,7 +111,13 @@ public class RegistroCargoTerminalController implements Serializable {
 
                             cargo.setFechaIngresoCargoBus(new Date());
                             cargo.setFechaInicioCargoBus(this.fecha);
-                            cargo.setDescripcion(r.getDescripcion());
+                            
+                            if(r.getDescripcion().equals("")){
+                                cargo.setDescripcion(" ");
+                            }else{
+                                cargo.setDescripcion(r.getDescripcion());
+                            }
+                            
                             cargo.setNumeroCuotasCargoBus(this.numeroCuotas);
                             cargo.setMontoCargoBus(r.getMontoCargoBus());
                             cargo.setBus(r.getBus());
