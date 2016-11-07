@@ -27,8 +27,7 @@
                                                    itemLabel="#{descuentoTrabajadorItem}"
                                                    />
 
-                                </p:selectOneMenu>
-                                <p:tooltip for="descuentoTrabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('descuentoTrabajador', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_descuentoTrabajador)}"/>
+                                </p:selectOneMenu>                                
 
                             </h:panelGrid>
 
@@ -44,10 +43,8 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado"/>
+                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado" global="false"/>
                                 </p:selectOneMenu>
-
-                                <p:tooltip for="trabajador" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('trabajador', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_trabajador)}"/>
                                 <p:outputLabel id="nombreTrabajador" value="#{descuentoTrabajadorLiquidacionController.selected.trabajador}"/>
 
                             </h:panelGrid>
@@ -65,7 +62,6 @@
                         <p:outputLabel value="N° Cuotas" for="numeroCuotas" />
                         <h:panelGroup>
                             <p:inputText id="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.selected.numeroCuotas}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_numeroCuotas}"/>
-                            <p:tooltip for="numeroCuotas" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('numeroCuotas', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_numeroCuotas)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
@@ -73,7 +69,6 @@
                             <p:inputText id="monto" value="#{descuentoTrabajadorLiquidacionController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
 
                             </p:inputText>
-                            <p:tooltip for="monto" value="#{descuentoTrabajadorLiquidacionController.getComponentMessages('monto', bundle.CreateDescuentoTrabajadorLiquidacionHelpText_monto)}"/>
                         </h:panelGroup>
 
                     </h:panelGrid>
@@ -114,9 +109,9 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Últimos Descuentos Ingresados 

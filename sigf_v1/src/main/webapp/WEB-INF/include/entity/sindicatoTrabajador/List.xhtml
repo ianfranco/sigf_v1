@@ -38,10 +38,10 @@
                 -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoTrabajadorDataTableContextMenu" listener="#{sindicatoTrabajadorController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoTrabajadorDataTableContextMenu" listener="#{sindicatoTrabajadorController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{sindicatoTrabajadorController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SindicatoTrabajadorListForm:viewButton').click();"/>
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoTrabajadorDataTableContextMenu" listener="#{sindicatoTrabajadorController.resetParents}" global="false"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoTrabajadorDataTableContextMenu" listener="#{sindicatoTrabajadorController.resetParents}" global="false"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{sindicatoTrabajadorController.resetParents}" global="false"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SindicatoTrabajadorListForm:viewButton').click();" global="false"/>
 
                 <f:facet name="header">
                     Asignación Sindicatos - Trabajados

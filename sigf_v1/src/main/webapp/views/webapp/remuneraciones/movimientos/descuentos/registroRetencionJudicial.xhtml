@@ -26,7 +26,7 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado"/>
+                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado" global="false"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel id="nombreTrabajador" value="#{registroSaldoAnteriorController.selected.trabajador}"/>
                             </h:panelGrid>
@@ -85,9 +85,9 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroSaldoAnteriorController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroSaldoAnteriorController.resetParents}"/>
-                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{registroSaldoAnteriorController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroSaldoAnteriorController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroSaldoAnteriorController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{registroSaldoAnteriorController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Últimos Saldos Anteriores Ingresados 

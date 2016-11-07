@@ -26,7 +26,7 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update=":DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado"/>
+                                    <p:ajax event="valueChange" update=":DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado" global="false"/>
                                 </p:selectOneMenu>                                
                             </h:panelGrid>
                         </h:panelGroup>
