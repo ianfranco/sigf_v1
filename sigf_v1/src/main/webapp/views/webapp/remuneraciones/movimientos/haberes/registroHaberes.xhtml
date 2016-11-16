@@ -42,7 +42,7 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado"/>
+                                    <p:ajax event="valueChange" update="nombreTrabajador, contratado" global="false"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel id="nombreTrabajador" value="#{haberTrabajadorLiquidacionController.selected.trabajador}"/>
                             </h:panelGrid>
