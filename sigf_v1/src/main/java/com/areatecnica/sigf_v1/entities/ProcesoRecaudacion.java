@@ -30,6 +30,7 @@ public class ProcesoRecaudacion implements java.io.Serializable {
     private String nombreProceso;
     private Date fechaCreacionProceso;
     private Boolean activo;
+    private int idUnidad;
     private Set<ServicioProcesoRecaudacion> servicioProcesoRecaudacions = new HashSet<ServicioProcesoRecaudacion>(0);
     private Set<EgresoRecaudacion> egresoRecaudacions = new HashSet<EgresoRecaudacion>(0);
     private Set<Guia> guias = new HashSet<Guia>(0);
@@ -43,11 +44,12 @@ public class ProcesoRecaudacion implements java.io.Serializable {
         this.fechaCreacionProceso = fechaCreacionProceso;
     }
 
-    public ProcesoRecaudacion(Usuario usuario, String nombreProceso, Date fechaCreacionProceso, Boolean activo, Set<ServicioProcesoRecaudacion> servicioProcesoRecaudacions, Set<EgresoRecaudacion> egresoRecaudacions, Set<Guia> guias) {
+    public ProcesoRecaudacion(Usuario usuario, String nombreProceso, Date fechaCreacionProceso, Boolean activo, int idUnidad, Set<ServicioProcesoRecaudacion> servicioProcesoRecaudacions, Set<EgresoRecaudacion> egresoRecaudacions, Set<Guia> guias) {
         this.usuario = usuario;
         this.nombreProceso = nombreProceso;
         this.fechaCreacionProceso = fechaCreacionProceso;
         this.activo = activo;
+        this.idUnidad = idUnidad;
         this.servicioProcesoRecaudacions = servicioProcesoRecaudacions;
         this.egresoRecaudacions = egresoRecaudacions;
         this.guias = guias;
@@ -101,6 +103,15 @@ public class ProcesoRecaudacion implements java.io.Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+    
+    @Column(name = "id_unidad")
+    public int getIdUnidad() {
+        return this.idUnidad;
+    }
+
+    public void setIdUnidad(int idUnidad) {
+        this.idUnidad = idUnidad;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "procesoRecaudacion")

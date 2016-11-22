@@ -20,6 +20,9 @@
         <property name="activo" type="java.lang.Boolean">
             <column name="activo" />
         </property>
+        <property name="idUnidad" type="int">
+            <column name="id_unidad" />
+        </property>
         <set name="servicioProcesoRecaudacions" table="servicio_proceso_recaudacion" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_proceso_recaudacion" not-null="true" />

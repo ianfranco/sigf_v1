@@ -423,7 +423,16 @@ public class PlanillonGuiaController implements Serializable {
         for (ServicioProcesoRecaudacion spr : this.setServicioProcesoRecaudacion) {
             if (this.terminal != spr.getServicio().getTerminal()) {
                 this.terminal = spr.getServicio().getTerminal();
-                this.busItems.addAll(this.terminal.getBuses());
+                
+                Set<Bus> listAuxiliarBuses = this.terminal.getBuses();
+                
+                for (Bus b:listAuxiliarBuses){
+                    if(b.getUnidadNegocio().getIdUnidadNegocio()==this.procesoRecaudacion.getIdUnidad()){
+                        this.busItems.add(b);
+                    }
+                }
+                
+                //this.busItems.addAll(listAuxiliarBuses);
             }
 
         }

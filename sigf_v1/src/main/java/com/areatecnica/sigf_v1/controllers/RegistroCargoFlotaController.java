@@ -9,11 +9,13 @@ import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
+import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoCargoDaoImpl;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDaoImpl;
 import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.entities.Flota;
+import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.TipoCargo;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
@@ -26,6 +28,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -44,6 +49,7 @@ public class RegistroCargoFlotaController implements Serializable {
     private TipoCargoDaoImpl tipoCargoDao;
     private CargoBusDaoImpl cargoBusDaoImpl;
     private BusDaoImpl busDaoImpl;
+    private GuiaDaoImpl guiaDaoImpl;
 
     private CargoBus selected;
     private CargoBus rowSelected;
@@ -61,6 +67,7 @@ public class RegistroCargoFlotaController implements Serializable {
     private int monto;
     private int numeroCuotas;
     private Date fecha;
+    private Date fechaAux;
     private int idFina;
     private int mes;
     private int anio;
@@ -81,13 +88,23 @@ public class RegistroCargoFlotaController implements Serializable {
         this.cargoBusDaoImpl = new CargoBusDaoImpl();
         this.items = this.cargoBusDaoImpl.findAll();
 
+        this.guiaDaoImpl = new GuiaDaoImpl();
+        
         this.selected = prepareCreate();
         this.selected.setFechaInicioCargoBus(new Date());
 
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
-
+        
+        String aux = "01-"+this.mes+"-"+this.anio;
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            fechaAux = format.parse(aux);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistroCargoFlotaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public CargoBus prepareCreate() {
@@ -189,15 +206,10 @@ public class RegistroCargoFlotaController implements Serializable {
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
-
             try {
-
                 session.delete(this.selected);
-
                 tx.commit();
-
                 JsfUtil.addSuccessMessage("El cargo:" + this.selected.getTipoCargo() + " fue eliminado del Bus N°: " + this.selected.getBus() + " Unidad: " + this.selected.getBus().getUnidadNegocio().getNombreUnidadNegocio() + " Patente: " + this.selected.getBus().getPatente());
-
                 this.registroCargoItems.remove(this.selected);
                 this.selected = null;
             } catch (HibernateException e) {
@@ -215,20 +227,15 @@ public class RegistroCargoFlotaController implements Serializable {
         if (this.rowSelected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
-
             try {
-
                 session.delete(this.rowSelected);
-
                 tx.commit();
-
                 JsfUtil.addSuccessMessage("El cargo:" + this.rowSelected.getTipoCargo() + " fue eliminado del Bus N°: " + this.rowSelected.getBus() + " Unidad: " + this.rowSelected.getBus().getUnidadNegocio().getNombreUnidadNegocio() + " Patente: " + this.rowSelected.getBus().getPatente());
-
                 this.registroCargoItems.remove(this.rowSelected);
                 this.rowSelected = null;
+                
             } catch (HibernateException e) {
                 tx.rollback();
-
                 //JsfUtil.addErrorMessage(e.getLocalizedMessage());
                 System.err.println("NULL:CargoBus");
             }
@@ -329,10 +336,11 @@ public class RegistroCargoFlotaController implements Serializable {
             this.busItems = this.busDaoImpl.findByFlotaVinabus(flota);
 
             registroCargoItems = new ArrayList<>();
-
+            
+            
             int i = 0;
             for (Bus b : this.busItems) {
-
+                
                 this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
 
                 if (!this.items.isEmpty()) {
