@@ -52,6 +52,13 @@
                 </f:facet>
                 <h:outputText value="#{item.nombreFlota}"/>
             </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="N° de Buses"/>
+                </f:facet>
+                <h:outputText value="#{item.buses.size()}"/>
+            </p:column>
 
 
         </p:dataTable>

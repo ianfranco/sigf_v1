@@ -25,7 +25,7 @@
                          paginator="true"
                          rows="50"                         
                          scrollWidth="true"
-                         rowsPerPageTemplate="10,20,30,40,50"
+                         rowsPerPageTemplate="50,100,200,400,1000"
                          selectionMode="single"
                          selection="#{registroBusesController.selected}"
                          emptyMessage="No se han encontrado BUSES en la base de datos">
@@ -217,7 +217,7 @@
             </h:form>
 
         </p:dialog>
-        <p:dialog id="BusEditDlg" widgetVar="BusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición" closeOnEscape="true">
+        <p:dialog id="BusEditDlg" widgetVar="BusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Bus" closeOnEscape="true">
 
             <h:form id="BusEditForm">
 

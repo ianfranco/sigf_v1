@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
 
-        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Registro de Cargos x Bus">
+        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Edición Masiva de Cargos">
 
             <h:form id="CargoBusCreateForm">
 
@@ -31,27 +31,7 @@
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateAbonoBusLabel_bus}" for="bus" />
-                        <h:panelGrid columns="8">
-                            <p:selectOneMenu id="bus" value="#{registroCargoBusController.bus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_bus}" converter="busConverter">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{registroCargoBusController.busItems}"
-                                               var="busItem"
-                                               itemValue="#{busItem}"
-                                               itemLabel="#{busItem}"
-                                               />
-                                <p:ajax event="valueChange" update="patente, flota, empresa" global="false"/>
-                            </p:selectOneMenu>
-
-                            <p:outputLabel value="Patente:" for="patente" />
-                            <p:outputLabel id="patente" value="#{registroCargoBusController.bus.patente}"/>
-
-                            <p:outputLabel value="Flota:" for="flota" />
-                            <p:outputLabel id="flota" value="#{registroCargoBusController.bus.flota.nombreFlota}"/>
-
-                            <p:outputLabel value="Empresa:" for="empresa" />
-                            <p:outputLabel id="empresa" value="#{registroCargoBusController.bus.empresa.nombreEmpresa}"/>
-                        </h:panelGrid>
-
+                        
                         <p:outputLabel value="F.Cargo:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
@@ -62,7 +42,12 @@
                             <p:inputText id="descripcion" value="#{registroCargoBusController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" />                            
                         </h:panelGroup>
 
-                        <p:outputLabel value="N° Cuotas" for="numeroCuotasCargoBus" />
+                        <p:outputLabel value="N° Cuota:" for="numeroCuotasCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>                            
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="Total Cuotas:" for="numeroCuotasCargoBus" />
                         <h:panelGroup>
                             <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>                            
                         </h:panelGroup>
