@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateGuias.xhtml">
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="EmpresaListForm">
+            <p:dataTable id="datalist"
+                         value="#{empresaController.items}"                     
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowKey="#{item.idEmpresa}"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{empresaController.selected}"
+                         emptyMessage="No se han encontrado registros"
+                         tableStyle="table-layout: auto" >
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{empresaController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idEmpresa}"
+                -->
+
+                <f:facet name="header">
+                    Listado de Empresas
+                </f:facet>
+
+                <p:column sortBy="#{item.idEmpresa}" filterBy="#{item.idEmpresa}" filterStyle="width:50px;" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmpresa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rutEmpresa}" filterBy="#{item.rutEmpresa}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Rut"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rutEmpresa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreEmpresa}" filterBy="#{item.nombreEmpresa}" filterStyle="width:250px;" >
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreEmpresa}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.telefonoEmpresa}" filterBy="#{item.telefonoEmpresa}">
+                    <f:facet name="header">
+                        <h:outputText value="Teléfono"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefonoEmpresa}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.emailEmpresa}" filterBy="#{item.emailEmpresa}">
+                    <f:facet name="header">
+                        <h:outputText value="Email"/>
+                    </f:facet>
+                    <h:outputText value="#{item.emailEmpresa}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.cajaCompensacion.nombreCajaCompensacion}" filterBy="#{item.cajaCompensacion.nombreCajaCompensacion}">
+                    <f:facet name="header">
+                        <h:outputText value="Caja Comp."/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaCompensacion.nombreCajaCompensacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mutual.nombreMutual}" filterBy="#{item.mutual.nombreMutual}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_mutual}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutual.nombreMutual}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.porcentajeMutual}" filterBy="#{item.porcentajeMutual}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="% Mutual"/>
+                    </f:facet>
+                    <h:outputText value="#{item.porcentajeMutual}"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

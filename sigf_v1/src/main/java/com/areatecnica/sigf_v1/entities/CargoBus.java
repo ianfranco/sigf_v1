@@ -32,6 +32,7 @@ public class CargoBus implements java.io.Serializable {
     private Date fechaIngresoCargoBus;
     private Date fechaInicioCargoBus;
     private Integer numeroCuotasCargoBus;
+    private Integer totalCuotasCargoBus;
     private int montoCargoBus;
     private boolean activoCargoBus;
     private String descripcion;
@@ -51,12 +52,13 @@ public class CargoBus implements java.io.Serializable {
         this.idCargo = idCargo;
     }
 
-    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, Integer numeroCuotasCargoBus, int montoCargoBus, boolean activoCargoBus, String descripcion,int idCargo, Set<CargoLiquidacion> cargoLiquidacions) {
+    public CargoBus(Bus bus, TipoCargo tipoCargo, Date fechaIngresoCargoBus, Date fechaInicioCargoBus, Integer numeroCuotasCargoBus, Integer totalCuotasCargoBus, int montoCargoBus, boolean activoCargoBus, String descripcion,int idCargo, Set<CargoLiquidacion> cargoLiquidacions) {
         this.bus = bus;
         this.tipoCargo = tipoCargo;
         this.fechaIngresoCargoBus = fechaIngresoCargoBus;
         this.fechaInicioCargoBus = fechaInicioCargoBus;
         this.numeroCuotasCargoBus = numeroCuotasCargoBus;
+        this.totalCuotasCargoBus = totalCuotasCargoBus;
         this.montoCargoBus = montoCargoBus;
         this.activoCargoBus = activoCargoBus;
         this.descripcion = descripcion;
@@ -125,6 +127,15 @@ public class CargoBus implements java.io.Serializable {
         this.numeroCuotasCargoBus = numeroCuotasCargoBus;
     }
 
+    @Column(name = "total_cuotas_cargo_bus")
+    public Integer getTotalCuotasCargoBus() {
+        return this.totalCuotasCargoBus;
+    }
+
+    public void setTotalCuotasCargoBus(Integer totalCuotasCargoBus) {
+        this.totalCuotasCargoBus = totalCuotasCargoBus;
+    }
+    
     @Column(name = "monto_cargo_bus", nullable = false)
     public int getMontoCargoBus() {
         return this.montoCargoBus;

@@ -54,7 +54,7 @@
                              lazy="true"
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
-                    <p:ajax event="rowSelect" update="growl,editButton,deleteButton" listener="#{planillonGuiaController.loadGuia}"/>
+                    <p:ajax event="rowSelect" update="growl,editButton,deleteButton" listener="#{planillonGuiaController.loadGuia}" global="false"/>
 
                     <f:facet name="header">
                         Guías:#{planillonGuiaController.stringHeader} 
@@ -130,9 +130,9 @@
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
                                 <h:panelGroup>
                                     <p:inputNumber decimalPlaces="0" decimalSeparator="" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" ">
-                                        <p:ajax event="blur" listener="#{planillonGuiaController.findFolio}" update="growl, okButton, msgFolio"/>
+                                        <p:ajax event="blur" listener="#{planillonGuiaController.findFolio}" update="growl, okButton, msgFolio" global="false"/>
                                     </p:inputNumber>
-                                    <p:message for="folio" id="msgFolio" display="icon" />
+                                    <p:message for="folio" id="msgFolio" display="icon"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Fecha:" for="fechaGuia" />
@@ -149,7 +149,7 @@
                                                        itemValue="#{busItem}"
                                                        itemLabel="#{busItem}"
                                                        />                                        
-                                        <p:ajax event="valueChange" update="informacionBus"  listener="#{planillonGuiaController.findBus}"/>
+                                        <p:ajax event="valueChange" update="informacionBus"  listener="#{planillonGuiaController.findBus}" global="false"/>
 
                                     </p:selectOneMenu>
                                 </h:panelGroup>
@@ -163,14 +163,14 @@
                                                        itemValue="#{trabajadorItem}"
                                                        itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                        />
-                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{planillonGuiaController.findConductor}"/>
+                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{planillonGuiaController.findConductor}" global="false"/>
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
                                 <h:panelGroup>
                                     <p:inputNumber symbol="$ "  decimalPlaces="0" id="totalIngresos" value="#{planillonGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14">
-                                        <p:ajax event="blur" update="datalistEgresos" listener="#{planillonGuiaController.setValoresVariables}"/>
+                                        <p:ajax event="blur" update="datalistEgresos" listener="#{planillonGuiaController.setValoresVariables}" global="false"/>
                                     </p:inputNumber>
                                 </h:panelGroup>
                             </p:panelGrid>
@@ -231,7 +231,7 @@
                                         <h:outputText value="Valor"/>
                                     </f:facet>
                                     <p:inputNumber decimalPlaces="0"  value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
-                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" ></p:ajax>
+                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
                                     </p:inputNumber>
                                 </p:column>
                             </p:dataTable>
@@ -261,7 +261,7 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.saveNew}" value="#{bundle.Save}" update=":growl, displayCreateForm" disabled="#{planillonGuiaController.guiaIngresada}" >                                    
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.saveNew}" value="#{bundle.Save}" update=":growl, displayCreateForm" disabled="#{planillonGuiaController.guiaIngresada}" global="false">
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaCreateDialog').hide()" update="GuiaListForm:datalist, GuiaListForm:tablaTotales" process="@this" immediate="true" resetValues="true" actionListener="#{planillonGuiaController.init}"/>
                             </p:panelGrid>
@@ -317,7 +317,7 @@
                                                        itemValue="#{busItem}"
                                                        itemLabel="#{busItem.numeroBus}"
                                                        />                                        
-                                        <p:ajax event="valueChange" update="informacionBus"  listener="#{planillonGuiaController.findBus}"/>
+                                        <p:ajax event="valueChange" update="informacionBus"  listener="#{planillonGuiaController.findBus}" global="false"/>
 
                                     </p:selectOneMenu>
                                 </h:panelGroup>
@@ -331,14 +331,14 @@
                                                        itemValue="#{trabajadorItem}"
                                                        itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                        />
-                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{planillonGuiaController.findConductor}"/>
+                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{planillonGuiaController.findConductor}" global="false"/>
                                     </p:selectOneMenu>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
                                 <h:panelGroup>
                                     <p:inputNumber symbol="$ "  decimalPlaces="0" id="totalIngresos" value="#{planillonGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14">
-                                        <p:ajax event="blur" update="datalistEgresos" listener="#{planillonGuiaController.setValoresVariables}"/>
+                                        <p:ajax event="blur" update="datalistEgresos" listener="#{planillonGuiaController.setValoresVariables}" global="false"/>
                                     </p:inputNumber>
                                 </h:panelGroup>
                             </p:panelGrid>
@@ -398,7 +398,7 @@
                                         <h:outputText value="Valor"/>
                                     </f:facet>
                                     <p:inputNumber symbol="$ " decimalPlaces="0"  value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
-                                        <p:ajax event="blur" update=":GuiaEditForm:totales" listener="#{planillonGuiaController.setTotal}" ></p:ajax>
+                                        <p:ajax event="blur" update=":GuiaEditForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
                                     </p:inputNumber>
                                 </p:column>
                             </p:dataTable>
@@ -428,9 +428,9 @@
                                 </h:panelGroup>
 
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update="GuiaListForm:datalist,  GuiaListForm:tablaTotales, :growl"  oncomplete="PF('GuiaEditDialog').hide()">                                    
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update="GuiaListForm:datalist,  GuiaListForm:tablaTotales, :growl"  oncomplete="PF('GuiaEditDialog').hide()" global="false">                                    
                                 </p:commandButton>                                
-                                <p:commandButton value="#{bundle.Cancel}" actionListener="#{planillonGuiaController.init}" oncomplete="PF('GuiaEditDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true"/>
+                                <p:commandButton value="#{bundle.Cancel}" actionListener="#{planillonGuiaController.init}" oncomplete="PF('GuiaEditDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true" global="false"/>
                             </p:panelGrid>
                         </p:panel>
 

@@ -10,14 +10,6 @@
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="TerminalListForm">
 
-
-            <p:contextMenu id="TerminalDataTableContextMenu" for="datalist">  
-                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TerminalListForm:createButton').click();" icon="ui-icon-plus"/>
-                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TerminalListForm:viewButton').click();" icon="ui-icon-search"/>
-                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
-                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                <p:separator/>                
-            </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{registroTerminalesController.items}"
                          var="item"
@@ -28,10 +20,6 @@
                          selectionMode="single"
                          selection="#{registroTerminalesController.selected}"
                          emptyMessage="No se han encontrado TERMINALES en la base de datos">
-
-                <p:ajax event="rowSelect"   update=":TerminalListForm:createButton :TerminalListForm:viewButton :TerminalListForm:editButton :TerminalListForm:deleteButton :TerminalListForm:TerminalDataTableContextMenu" listener="#{registroTerminalesController.resetParents}"/>
-                <p:ajax event="rowUnselect" update=":TerminalListForm:createButton :TerminalListForm:viewButton :TerminalListForm:editButton :TerminalListForm:deleteButton :TerminalListForm:TerminalDataTableContextMenu" listener="#{registroTerminalesController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TerminalListForm:viewButton').click();"/>
 
                 <f:facet name="header">
                     Lista de Terminales
@@ -76,13 +64,6 @@
                 </p:column>
                
             </p:dataTable>
-
-            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{registroTerminalesController.prepareCreate}" update=":TerminalCreateForm" oncomplete="PF('TerminalCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty registroTerminalesController.selected}"/>
-            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TerminalEditForm" oncomplete="PF('TerminalEditDialog').show()" disabled="#{empty registroTerminalesController.selected}"/>
-            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroTerminalesController.delete}" update=":growl,datalist" disabled="#{empty registroTerminalesController.selected}">
-                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
             <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
                 <p:printer target="datalist" />
             </p:commandButton>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateGuias.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selectProcesoForm">
+            <p:panel header="Búsqueda Códigos Uno" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="8">
+
+                    <p:outputLabel for="mes" value="Mes:" />
+                    <p:selectOneMenu id="mes" value="#{codigosUnoController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{codigosUnoController.anio}" size="5" />
+
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{codigosUnoController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="GuiaListForm">            
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px;" >                
+                
+                <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">                      
+                    <p:menuitem value="Editar" icon="ui-icon-pencil" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()"/>                    
+                </p:contextMenu>
+                <p:dataTable id="datalist" rendered="#{not empty codigosUnoController.listOfMaps}"
+                             value="#{codigosUnoController.listOfMaps}"
+                             lazy="false"
+                             var="item"
+                             rowKey="#{item}"                             
+                             rowIndexVar="rowIndex"                             
+                             selectionMode="single"
+                             selection="#{codigosUnoController.selectedHashMap}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{guiaController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idGuia}"  <<< Remove this line
+                    -->
+                   <p:ajax event="rowSelect" update="growl,editButton" listener="#{codigosUnoController.loadGuia}" global="false"/> 
+                    
+                    
+                   <f:facet name="header">
+                        #{codigosUnoController.stringHeader} 
+                    </f:facet>
+
+                    <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:columns value="#{codigosUnoController.listOfMaps.get(0).keySet().toArray()}" var="key" headerText="#{codigosUnoController.resultsHeader.get(col)}" footerText="#{codigosUnoController.resultsTotals.get(col)}" columnIndexVar="col" style="text-align: center">
+                        <p:outputLabel value="#{item[key]}">                            
+                        </p:outputLabel>
+                    </p:columns>
+                   
+                   <f:facet name="footer">                        
+                        <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm:displayEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty codigosUnoController.selectedHashMap}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+        
+        <p:dialog id="GuiaEditDlg" widgetVar="GuiaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Edición Guía" closeOnEscape="true">
+
+            <h:form id="GuiaEditForm" onkeypress="return event.keyCode != 13">
+
+                <h:panelGroup id="displayEditForm" rendered="#{codigosUnoController.selected != null}">
+                    <p:dashboard id="board" model="#{dashboardGuia.model}">                        
+                        <p:panel id="datosGuias" header="Datos" style="margin-right: 5px;width: 500px">
+                            <p:focus context="folio"/>
+                            <p:panelGrid columns="2" layout="grid" columnClasses="column" >
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="folio" value="#{codigosUnoController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" onfocus="this.setSelectionRange(0, this.value.length)"/>                                    
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Fecha:" for="fechaGuia" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="fechaGuia" value="#{codigosUnoController.selected.fechaGuia}" title="#{bundle.CreateGuiaTitle_fechaGuia}" onfocus="this.setSelectionRange(0, 2)" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />
+                                <p:outputLabel id="fechaRecaudacion" value="#{codigosUnoController.selected.fechaRecaudacion}" title="#{bundle.CreateGuiaTitle_fechaGuia}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+
+                                <p:outputLabel value="N° Bus:" for="bus" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="bus" value="#{codigosUnoController.selected.bus.numeroBus}" />
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N° Conductor" for="trabajador" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="trabajador" value="#{codigosUnoController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{trabajadorController.items}"
+                                                       var="trabajadorItem"
+                                                       itemValue="#{trabajadorItem}"
+                                                       itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                                       />
+                                        <p:ajax event="valueChange" update="informacionConductor"  listener="#{codigosUnoController.findConductor}" global="false"/>
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalIngresos}" for="totalIngresos" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="totalIngresos" value="#{codigosUnoController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" onfocus="this.setSelectionRange(0, this.value.length)" >                                        
+                                    </p:outputLabel>
+                                </h:panelGroup>
+                            </p:panelGrid>
+
+                        </p:panel>
+                        <p:panel id="informacionBus" header="Datos Bus " style="margin-top: 5px;margin-right: 5px;width: 500px">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
+                                <p:outputLabel value="Patente:"/>
+                                <p:outputLabel value="#{codigosUnoController.bus.patente}"/>
+
+                                <p:outputLabel value="Año:"/>
+                                <p:outputLabel value="#{codigosUnoController.bus.anio}"/>
+
+                                <p:outputLabel value="Empresario:"/>
+                                <p:outputLabel value="#{codigosUnoController.bus.empresa.nombreEmpresa}"/>   
+
+                            </p:panelGrid>
+
+                        </p:panel>
+
+                        <p:panel id="informacionConductor" header="Datos Conductor" style="margin-top: 5px;margin-right: 5px;width: 500px">
+                            <p:panelGrid layout="grid" columnClasses="column" columns="2" style="width: 100%;">
+                                <p:outputLabel value="Conductor:"/>
+                                <p:outputLabel value="#{codigosUnoController.trabajador}"/>
+
+                                <p:outputLabel value="Rut:"/>
+                                <p:outputLabel value="#{codigosUnoController.trabajador.rutTrabajador}"/>
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="egresos" header="Egresos" style="width: 300px;margin-right: 5px">
+                            <p:dataTable id="datalistEgresos"
+                                         value="#{codigosUnoController.egresosGuiaItems}"
+                                         var="item"
+                                         rowKey="#{item.idEgresoGuia}"
+                                         rowIndexVar="rowIndex"
+                                         widgetVar="dataList"
+                                         emptyMessage="No se han encontrado registros"
+                                         >
+
+                                <p:column width="25" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="N°"/>
+                                    </f:facet>
+                                    <h:outputText value="#{rowIndex+1}"/>
+                                </p:column>
+
+                                <p:column width="100" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.egresoRecaudacion.egreso.nombreEgreso}"/>
+                                </p:column>
+
+                                <p:column width="80" style="text-align: center; font-weight: bold;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor"/>
+                                    </f:facet>
+                                    <p:outputLabel value="#{item.monto}" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" />                                    
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:panel>
+
+                        <p:panel id="totales" header="Totales">
+                            <p:panelGrid layout="grid" columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_totalEgresos}" for="totalEgresos" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="totalEgresos" value="#{codigosUnoController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_saldo}" for="saldo" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="saldo" value="#{codigosUnoController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" onfocus="this.setSelectionRange(0, this.value.length)" />
+                                </h:panelGroup>
+
+                                <p:outputLabel value="N° Vueltas" for="numeroVueltas" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="numeroVueltas" value="#{codigosUnoController.selected.numeroVueltas}" title="#{bundle.CreateGuiaTitle_numeroVueltas}" onfocus="this.setSelectionRange(0, this.value.length)" />
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{bundle.CreateGuiaLabel_turno}" for="turno" />
+                                <h:panelGroup>
+                                    <p:outputLabel id="turno" value="#{codigosUnoController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" onfocus="this.setSelectionRange(0, this.value.length)" />
+                                </h:panelGroup>
+
+
+                                <p:commandButton id="okButton" actionListener="#{codigosUnoController.save}" value="#{bundle.Save}" update="GuiaListForm:datalist, :growl"  oncomplete="PF('GuiaEditDialog').hide()" global="false">                                    
+                                </p:commandButton>                                
+                                <p:commandButton value="#{bundle.Cancel}" actionListener="#{codigosUnoController.init}" oncomplete="PF('GuiaEditDialog').hide()"  process="@this" immediate="true" resetValues="true" global="false"/>
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel id="panelObservacion" header="Observación" style="margin-top: 5px;">
+                            <h:panelGroup>
+                                <p:inputTextarea id="observacion" value="#{codigosUnoController.selected.observacion}" title="#{bundle.CreateGuiaTitle_observacion}" onfocus="this.setSelectionRange(0, this.value.length)" cols="30" rows="3" />
+                            </h:panelGroup>
+                        </p:panel>
+                    </p:dashboard>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+
+
+</ui:composition>

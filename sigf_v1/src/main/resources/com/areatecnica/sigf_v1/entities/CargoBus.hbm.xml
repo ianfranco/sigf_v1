@@ -23,6 +23,9 @@
         <property name="numeroCuotasCargoBus" type="java.lang.Integer">
             <column name="numero_cuotas_cargo_bus" />
         </property>
+        <property name="totalCuotasCargoBus" type="java.lang.Integer">
+            <column name="total_cuotas_cargo_bus" />
+        </property>
         <property name="montoCargoBus" type="int">
             <column name="monto_cargo_bus" not-null="true" />
         </property>

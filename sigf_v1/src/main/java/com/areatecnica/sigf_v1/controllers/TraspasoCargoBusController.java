@@ -31,9 +31,9 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "edicionMasivaCargoBusController")
+@Named(value = "traspasoCargoBusController")
 @ViewScoped
-public class EdicionMasivaCargoBusController implements Serializable {
+public class TraspasoCargoBusController implements Serializable {
 
     private TipoCargoDaoImpl tipoCargoDao;
     private CargoBusDaoImpl cargoBusDaoImpl;
@@ -50,11 +50,12 @@ public class EdicionMasivaCargoBusController implements Serializable {
     private int mes;
     private int anio;
     private Date fecha;
+    private Date fechaCargo;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public EdicionMasivaCargoBusController() {
+    public TraspasoCargoBusController() {
         this.tipoCargoDao = new TipoCargoDaoImpl();
         this.tipoCargoItems = this.tipoCargoDao.findAll();
 
@@ -68,21 +69,35 @@ public class EdicionMasivaCargoBusController implements Serializable {
         this.selected = new CargoBus();
     }
 
-    public void save() {
+    public void saveNew() {
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
 
             try {
-                
-                for(CargoBus cargo:this.items){
-                    session.update(cargo);
+
+                for (CargoBus cargo : this.items) {
+
+                    CargoBus cargoBus = new CargoBus();
+                    cargoBus.setActivoCargoBus(cargo.isActivoCargoBus());
+                    cargoBus.setBus(cargo.getBus());
+                    cargoBus.setDescripcion(cargo.getDescripcion());
+                    cargoBus.setFechaIngresoCargoBus(new Date());
+                    cargoBus.setFechaInicioCargoBus(this.fechaCargo);
+                    cargoBus.setTipoCargo(cargo.getTipoCargo());
+                    cargoBus.setMontoCargoBus(cargo.getMontoCargoBus());
+                    cargoBus.setNumeroCuotasCargoBus(cargo.getNumeroCuotasCargoBus());
+                    cargoBus.setTotalCuotasCargoBus(cargo.getTotalCuotasCargoBus());
+
+                    session.saveOrUpdate(cargoBus);
                 }
-                
+
                 tx.commit();
-                JsfUtil.addSuccessMessage("Se han editado "+ this.items.size()+" cargos");
+                JsfUtil.addSuccessMessage("Se han registrado " + this.items.size() + " cargos");
                 this.items = new ArrayList<>();
                 this.selected = new CargoBus();
+                this.fechaCargo = new Date();
+                
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:CargoBus");
@@ -116,17 +131,17 @@ public class EdicionMasivaCargoBusController implements Serializable {
 
         }
     }
-    
-    public void setDate(){
+
+    public void setDate() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String from = "01/" + this.mes + "/" + this.anio;
         try {
             this.fecha = format.parse(from);
-            
+
             this.selected = new CargoBus();
             this.items = new ArrayList<>();
-            
+
         } catch (ParseException p) {
 
         }
@@ -137,7 +152,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
             this.selected.setMontoCargoBus(this.selected.getTipoCargo().getMontoDefecto());
         }
     }
-    
+
     public void loadDescripcion() {
         if (this.items != null && !this.items.isEmpty()) {
             for (CargoBus r : this.items) {
@@ -147,7 +162,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
             }
         }
     }
-    
+
     public void loadNumeroCuotas() {
         if (this.items != null && !this.items.isEmpty()) {
             for (CargoBus r : this.items) {
@@ -157,7 +172,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
             }
         }
     }
-    
+
     public void loadTotalCuotas() {
         if (this.items != null && !this.items.isEmpty()) {
             for (CargoBus r : this.items) {
@@ -167,7 +182,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
             }
         }
     }
-    
+
     public void loadActivo() {
         if (this.items != null && !this.items.isEmpty()) {
             for (CargoBus r : this.items) {
@@ -176,7 +191,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
             }
         }
     }
-    
+
     public void loadMonto() {
         if (this.items != null && !this.items.isEmpty()) {
             for (CargoBus r : this.items) {
@@ -193,7 +208,7 @@ public class EdicionMasivaCargoBusController implements Serializable {
         String from = "01/" + this.mes + "/" + this.anio;
         try {
             this.fecha = format.parse(from);
-            System.err.println("FECHA SELECCIONADA:"+this.mes+" "+this.anio+" :"+this.fecha);
+            System.err.println("FECHA SELECCIONADA:" + this.mes + " " + this.anio + " :" + this.fecha);
         } catch (ParseException p) {
 
         }
@@ -201,9 +216,17 @@ public class EdicionMasivaCargoBusController implements Serializable {
 
         this.items = this.cargoBusDaoImpl.findByCargoAndDate(this.selected.getTipoCargo(), fecha);
     }
-    
-    public void remove(){
-        if(this.rowSelected!=null){
+
+    public void loadFecha() {
+        if (this.items != null && !this.items.isEmpty()) {
+            for (CargoBus r : this.items) {
+                r.setFechaInicioCargoBus(this.fechaCargo);
+            }
+        }
+    }
+
+    public void remove() {
+        if (this.rowSelected != null) {
             this.items.remove(this.rowSelected);
         }
     }
@@ -282,5 +305,13 @@ public class EdicionMasivaCargoBusController implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public Date getFechaCargo() {
+        return fechaCargo;
+    }
+
+    public void setFechaCargo(Date fechaCargo) {
+        this.fechaCargo = fechaCargo;
     }
 }

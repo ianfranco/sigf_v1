@@ -41,6 +41,10 @@ public class RegistroCargoBusController implements Serializable {
     private List<CargoBus> items;
     private Bus bus;
     private List<Bus> busItems;
+    
+    private int mes;
+    private int anio;
+    private Date fecha;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -210,5 +214,21 @@ public class RegistroCargoBusController implements Serializable {
 
     public void setRowSelected(CargoBus rowSelected) {
         this.rowSelected = rowSelected;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 }

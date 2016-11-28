@@ -616,7 +616,21 @@ public class PlanillonGuiaController implements Serializable {
     }
 
     public void delete() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
 
+            try {
+                session.delete(this.selected);
+                tx.commit();
+                this.listOfMaps.remove(this.selectedHashMap);                
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:Guia");
+            }
+        } else {
+
+        }
     }
 
     private void setPorcentajes() {

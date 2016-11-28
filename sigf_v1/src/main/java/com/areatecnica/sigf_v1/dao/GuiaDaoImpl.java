@@ -179,7 +179,30 @@ public class GuiaDaoImpl implements GuiaDao {
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador()+ " AND fechaGuia BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador()+ " AND fechaRecaudacion BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findCodigosUnoBetweenDates(Date from) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=1 AND fechaRecaudacion BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
         try {
             list = session.createQuery(sql).list();
 

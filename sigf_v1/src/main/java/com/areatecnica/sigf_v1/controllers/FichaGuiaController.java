@@ -7,17 +7,22 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.BusDao;
+import com.areatecnica.sigf_v1.dao.EgresoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.GuiaDao;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDao;
 import com.areatecnica.sigf_v1.entities.Bus;
+import com.areatecnica.sigf_v1.entities.EgresoGuia;
+import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
@@ -41,6 +46,7 @@ public class FichaGuiaController implements Serializable {
     private Trabajador trabajador;
     private Bus bus;
     private UnidadNegocio unidad;
+    private ArrayList<EgresoGuia> egresosGuiaItems;
 
     private int codigo;
     private String rut;
@@ -51,7 +57,7 @@ public class FichaGuiaController implements Serializable {
     public FichaGuiaController() {
         this.selected = new Guia();
         this.guiaDao = new GuiaDaoImpl();
-
+        this.egresosGuiaItems = new ArrayList<>();
     }
 
     @PostConstruct
@@ -100,13 +106,13 @@ public class FichaGuiaController implements Serializable {
         try {
             this.selected = this.guiaDao.findByFolio(codigo);
             if (this.selected == null) {
-                JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: " + codigo);
+                JsfUtil.addErrorMessage("No se ha encontrado una Guía con el Folio: " + codigo);
             } else {
-
+                loadEgresosByGuia(this.selected.getIdGuia());
             }
         } catch (NullPointerException | NumberFormatException e) {
             
-            JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: ");
+            JsfUtil.addErrorMessage("No se ha encontrado una Guía con el Folio: ");
         }
 
     }
@@ -138,5 +144,19 @@ public class FichaGuiaController implements Serializable {
     public void setUnidad(UnidadNegocio unidad) {
         this.unidad = unidad;
     }
+    
+    public List<EgresoGuia> getEgresosGuiaItems() {
+        return egresosGuiaItems;
+    }
+    
+    private void loadEgresosByGuia(int idGuia) {
+        EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
 
+        for (EgresoRecaudacion eg : this.selected.getProcesoRecaudacion().getEgresoRecaudacions()) {
+            EgresoGuia egresoGuia = daoImpl.findByGuiaAndEgreso(idGuia, eg);
+            if (egresoGuia != null) {
+                this.egresosGuiaItems.add(egresoGuia);
+            }
+        }        
+    }
 }

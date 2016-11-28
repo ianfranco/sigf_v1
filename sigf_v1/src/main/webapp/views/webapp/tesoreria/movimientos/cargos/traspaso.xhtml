@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
 
-        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Edición Masiva de Cargos">
+        <p:panel id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" header="Traspaso de Cargos x Mes">
 
             <h:form id="CargoBusCreateForm">
 
@@ -17,7 +17,7 @@
                     <p:focus context="tipoCargo"/>
                     <h:panelGrid columns="2" columnClasses="column">
                         <p:outputLabel for="mes" value="Mes:" />
-                        <p:selectOneMenu id="mes" value="#{edicionMasivaCargoBusController.mes}" style="width:125px">
+                        <p:selectOneMenu id="mes" value="#{traspasoCargoBusController.mes}" style="width:125px">
                             <f:selectItem itemLabel="Enero" itemValue="1" />
                             <f:selectItem itemLabel="Febrero" itemValue="2" />
                             <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -30,63 +30,70 @@
                             <f:selectItem itemLabel="Octubre" itemValue="10" />
                             <f:selectItem itemLabel="Noviembre" itemValue="11" />
                             <f:selectItem itemLabel="Diciembre" itemValue="12" />
-                            <p:ajax listener="#{edicionMasivaCargoBusController.setDate}" event="valueChange" update="growl, tipoCargo, CargoBusListForm:datalist" global="false"/>
+                            <p:ajax listener="#{traspasoCargoBusController.setDate}" event="valueChange" update="growl, tipoCargo, CargoBusListForm:datalist" global="false"/>
                         </p:selectOneMenu>
 
                         <p:outputLabel for="anio" value="Año:" />
-                        <p:inputText id="anio" value="#{edicionMasivaCargoBusController.anio}" size="5" />                            
+                        <p:inputText id="anio" value="#{traspasoCargoBusController.anio}" size="5" />                            
 
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="tipoCargo" value="#{edicionMasivaCargoBusController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
+                            <p:selectOneMenu id="tipoCargo" value="#{traspasoCargoBusController.selected.tipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
                                 <f:selectItem itemLabel=""/>
-                                <f:selectItems value="#{edicionMasivaCargoBusController.tipoCargoItems}"
+                                <f:selectItems value="#{traspasoCargoBusController.tipoCargoItems}"
                                                var="tipoCargoItem"
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" listener="#{edicionMasivaCargoBusController.loadCargos}" update="CargoBusListForm:datalist" />
+                                <p:ajax event="valueChange" listener="#{traspasoCargoBusController.loadCargos}" update="CargoBusListForm:datalist" />
                             </p:selectOneMenu>
                         </h:panelGroup>
 
+                        <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{traspasoCargoBusController.fechaCargo}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)">
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadFecha}" update="CargoBusListForm:datalist" />
+                            </p:calendar> 
+                        </h:panelGroup>
+                        
                         <p:outputLabel value="Descripción:" for="descripcion" />
                         <h:panelGroup>
-                            <p:inputText id="descripcion" value="#{edicionMasivaCargoBusController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
-                                <p:ajax event="blur" listener="#{edicionMasivaCargoBusController.loadDescripcion}" update="CargoBusListForm:datalist" global="false"/>
+                            <p:inputText id="descripcion" value="#{traspasoCargoBusController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadDescripcion}" update="CargoBusListForm:datalist" global="false"/>
                             </p:inputText>                            
                         </h:panelGroup>
 
                         <p:outputLabel value="N° Cuota:" for="numeroCuotasCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="numeroCuotasCargoBus" value="#{edicionMasivaCargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
-                                <p:ajax event="blur" listener="#{edicionMasivaCargoBusController.loadNumeroCuotas}" update="CargoBusListForm:datalist" global="false"/>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{traspasoCargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadNumeroCuotas}" update="CargoBusListForm:datalist" global="false"/>
                             </p:inputText>                            
                         </h:panelGroup>
 
                         <p:outputLabel value="Total Cuotas:" for="totalCuotas" />
                         <h:panelGroup>
-                            <p:inputText id="totalCuotas" value="#{edicionMasivaCargoBusController.selected.totalCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
-                                <p:ajax event="blur" listener="#{edicionMasivaCargoBusController.loadTotalCuotas}" update="CargoBusListForm:datalist" global="false"/>
+                            <p:inputText id="totalCuotas" value="#{traspasoCargoBusController.selected.totalCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadTotalCuotas}" update="CargoBusListForm:datalist" global="false"/>
                             </p:inputText>
                         </h:panelGroup>
                         
                         <p:outputLabel value="Indefinido:" for="indefinido" />
                         <h:panelGroup>
-                            <p:selectBooleanCheckbox id="indefinido" value="#{edicionMasivaCargoBusController.selected.activoCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
-                                <p:ajax event="blur" listener="#{edicionMasivaCargoBusController.loadActivo}" update="CargoBusListForm:datalist" global="false"/>
+                            <p:selectBooleanCheckbox id="indefinido" value="#{traspasoCargoBusController.selected.activoCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadActivo}" update="CargoBusListForm:datalist" global="false"/>
                             </p:selectBooleanCheckbox>
                         </h:panelGroup>
 
                         <p:outputLabel value="Monto" for="montoCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{edicionMasivaCargoBusController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
-                                <p:ajax event="blur" listener="#{edicionMasivaCargoBusController.loadMonto}" update="CargoBusListForm:datalist" global="false"/>
+                            <p:inputText id="montoCargoBus" value="#{traspasoCargoBusController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadMonto}" update="CargoBusListForm:datalist" global="false"/>
                             </p:inputText>
                         </h:panelGroup>
 
                     </h:panelGrid>
-                    <p:commandButton actionListener="#{edicionMasivaCargoBusController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
-                        <p:confirm header="¿Realizar actualización masiva de cargos?" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    <p:commandButton actionListener="#{traspasoCargoBusController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >
+                        <p:confirm header="¿Realizar traspaso de cargos?" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
                 </h:panelGroup>
@@ -102,18 +109,18 @@
                     <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>                    
                 </p:contextMenu>
                 <p:dataTable id="datalist"
-                             value="#{edicionMasivaCargoBusController.items}"
+                             value="#{traspasoCargoBusController.items}"
                              lazy="false"
                              rowKey="#{item.idCargoBus}"
                              var="item"                             
                              rowIndexVar="rowIndex" 
                              selectionMode="single"
-                             selection="#{edicionMasivaCargoBusController.rowSelected}" 
+                             selection="#{traspasoCargoBusController.rowSelected}" 
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{edicionMasivaCargoBusController.resetParents}" global="false"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{edicionMasivaCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{traspasoCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{traspasoCargoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Cargos Registrados
@@ -216,14 +223,14 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Remover?" actionListener="#{edicionMasivaCargoBusController.remove}" update=":growl,datalist" disabled="#{empty edicionMasivaCargoBusController.rowSelected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Remover?" actionListener="#{traspasoCargoBusController.remove}" update=":growl,datalist" disabled="#{empty traspasoCargoBusController.rowSelected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
-    </ui:define>
+    </ui:define> 
 </ui:composition>
 
 

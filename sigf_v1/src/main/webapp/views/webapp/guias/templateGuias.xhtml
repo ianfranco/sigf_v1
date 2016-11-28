@@ -28,6 +28,10 @@
     </h:head>
 
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+            <p:graphicImage library="images" name="ajax-loader.gif" />
+        </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Registro de Guías"  collapsible="true">
@@ -51,12 +55,10 @@
                                     <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/conductores/List" />
                                 </p:submenu>
                                 <p:submenu label="Empresas">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
+                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/empresas/List" />
                                 </p:submenu>
                                 <p:submenu label="Servicios">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/servicios/List" />
-                                    <p:menuitem value="Terminales" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
-                                    
+                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/servicios/List" />                                    
                                 </p:submenu>
                                 <p:submenu label="Terminales">
                                     <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/guias/terminales/List" />
@@ -69,18 +71,10 @@
                                 </p:submenu>
                                 <p:submenu label="Conductores">
                                     <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/guias/reportes/produccionxconductor"  />
-                                </p:submenu>                                
-                                <p:submenu label="Flota">
-                                    <p:menuitem value="Saldos" />
-                                </p:submenu>
-                                <p:submenu label="Varios">
-                                    <p:menuitem value="Días Trabajados" />
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="Varios">
-                                <p:submenu label="Avanzado">                                    
-
-                                </p:submenu>
+                                <p:menuitem value="Búsqueda Códigos Uno" outcome="#{appBean.basePath}webapp/guias/varios/busquedacodigosuno"/>
                             </p:submenu>
 
                             <f:facet name="options">                        

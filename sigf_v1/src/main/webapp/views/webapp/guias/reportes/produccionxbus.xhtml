@@ -22,7 +22,7 @@
                                        itemValue="#{unidadItem}"
                                        itemLabel="#{unidadItem}"
                                        />
-                        <p:ajax update="numeroBus" listener="#{informeProduccionBusController.handleUnidadChange}"/>
+                        <p:ajax update="numeroBus" listener="#{informeProduccionBusController.handleUnidadChange}" global="false"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="N° Bus:" for="numeroBus"/>
@@ -53,7 +53,7 @@
 
                     <p:outputLabel for="anio" value="Año:" />
                     <p:inputText id="anio" value="#{informeProduccionBusController.anio}" size="5" />
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{informeProduccionBusController.init}">
+                    <p:commandButton id="value2" icon="fa fa-database" value="Cargar Guías" update="GuiaListForm:datalist, growl" style="width:120px" actionListener="#{informeProduccionBusController.init}">
                     </p:commandButton>
                 </h:panelGrid>
 

@@ -429,6 +429,8 @@ public class InformeProduccionBusController implements Serializable {
                     hashMap.put(er.getEgreso().getNombreEgreso(), "");
                 }
             }*/
+            resultsTotals.add("0");
+            
             resultsHeader.add("Administracion");
             hashMap.put("Administracion", "0");
             resultsTotals.add("0");
