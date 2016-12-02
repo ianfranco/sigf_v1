@@ -160,7 +160,24 @@ public class UltimosContratosController implements Serializable {
     }
 
     public void delete() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
 
+            try {
+                session.delete(this.selected);
+                tx.commit();
+
+                JsfUtil.addSuccessMessage("Se ha eliminado el contrato");
+                
+                this.contratos.remove(this.selected);
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
     }
 
     public void save() {
@@ -169,10 +186,10 @@ public class UltimosContratosController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                
+                this.selected.setFechaFin(this.selected.getFechaInicio());
                 session.update(this.selected);
                 tx.commit();
-
+                JsfUtil.addSuccessMessage("Se ha actualizado el contrato");
                 this.selected = null;
             } catch (HibernateException e) {
                 System.err.println("SAVE:Relacion Laboral");

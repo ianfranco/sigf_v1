@@ -4,190 +4,150 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
 
-    <h:form id="TrabajadorListForm">
+    <ui:define name="content" class="ui-corner-all" >
 
-        <p:dataTable id="datalist"
-                     value="#{registroCargasFamiliaresController.items}"                     
-                     var="item"
-                     paginator="true"
-                     rows="100"
-                     rowsPerPageTemplate="50,100,200"
-                     selectionMode="single"
-                     selection="#{registroCargasFamiliaresController.selected}"
-                     emptyMessage="No se han encontrado registros"
-                     rowKey="#{item.idTrabajador}">
-            <!--
-                     To disable Lazy Loading, please copy/replace the following lines above,
-                     and be sure to replace the word HASH with the # symbol:
-            
-                     value="HASH{trabajadorController.items}"
-                     lazy="false"
-                     rowKey="HASH{item.idTrabajador}"
-            -->
+        <h:form id="selectProcesoForm">
+            <p:panel header="Cargas Familiares" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+                <h:panelGrid columns="10">
+                    <p:outputLabel for="operador" value="Seleccionar:" />
+                    <p:selectOneMenu id="operador" value="#{registroCargasFamiliaresController.operador}" style="width:125px">
+                        <f:selectItem itemLabel="Viña Bus" itemValue="1" />
+                        <f:selectItem itemLabel="Sol y Mar" itemValue="2" />                        
+                    </p:selectOneMenu>
 
-            <f:facet name="header">
-                Lista de Trabajadores c/Contrato
-            </f:facet>
+                    <p:outputLabel value="" />                    
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="TrabajadorListForm:datalist, growl" style="width:150px" actionListener="#{registroCargasFamiliaresController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
 
-            <p:column sortBy="#{item.codigoTrabajador}" filterBy="#{item.codigoTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Cód."/>
-                </f:facet>
-                <h:outputText value="#{item.codigoTrabajador}"/>
-            </p:column>
+            </p:panel>
+        </h:form>
 
-            <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Rut"/>
-                </f:facet>
-                <h:outputText value="#{item.rutTrabajador}"/>
-            </p:column>
+        <h:form id="TrabajadorListForm">
+            <p:panel style="margin-top: 10px;">
+                <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">                      
+                    <p:menuitem value="Editar" icon="ui-icon-pencil" onclick="document.getElementById('TrabajadorListForm:editButton').click();" />                    
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{registroCargasFamiliaresController.items}"                                                  
+                             rowKey="#{item.idTrabajador}" 
+                             var="item"                              
+                             paginator="true"
+                             rows="200"
+                             rowsPerPageTemplate="50,100,200"
+                             rowIndexVar="rowIndex"
+                             selectionMode="single"                             
+                             selection="#{registroCargasFamiliaresController.selected}"
+                             emptyMessage="No se han encontrado registros"
+                             >
 
-            <p:column sortBy="#{item.celularTrabajador}" filterBy="#{item.celularTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Celular"/>
-                </f:facet>
-                <h:outputText value="#{item.celularTrabajador}"/>
-            </p:column>
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:GuiaDataTableContextMenu, growl" listener="#{registroCargasFamiliaresController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:GuiaDataTableContextMenu, growl" listener="#{registroCargasFamiliaresController.resetParents}" global="false"/>
 
-            <p:column sortBy="#{item.apellidoPaternoTrabajador}" filterBy="#{item.apellidoPaternoTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Apellido P."/>
-                </f:facet>
-                <h:outputText value="#{item.apellidoPaternoTrabajador}"/>
-            </p:column>
+                    <f:facet name="header">
+                        Lista de Trabajadores c/Contrato
+                    </f:facet>
 
-            <p:column sortBy="#{item.apellidoMaternoTrabajador}" filterBy="#{item.apellidoMaternoTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Apellido M."/>
-                </f:facet>
-                <h:outputText value="#{item.apellidoMaternoTrabajador}"/>
-            </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
 
-            <p:column sortBy="#{item.nombreTrabajador}" filterBy="#{item.nombreTrabajador}">
-                <f:facet name="header">
-                    <h:outputText value="Nombres"/>
-                </f:facet>
-                <h:outputText value="#{item.nombreTrabajador}"/>
-            </p:column>
+                    <p:column sortBy="#{item.codigoTrabajador}" filterStyle="width:40px" filterBy="#{item.codigoTrabajador}" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Cód."/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoTrabajador}"/>
+                    </p:column>
 
-            <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}">
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroCargas}"/>
-            </p:column>
+                    <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}" filterStyle="width:80px" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Rut"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rutTrabajador}"/>
+                    </p:column>
 
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Grupo"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroCargas}"/>
-            </p:column>
+                    <p:column sortBy="#{item.apellidoPaternoTrabajador}" filterBy="#{item.apellidoPaternoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido P."/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellidoPaternoTrabajador}"/>
+                    </p:column>
 
-            <!--
-                                <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_fechaNacimientoTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.fechaNacimientoTrabajador}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                                    </h:outputText>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.nacionalidad}" filterBy="#{item.nacionalidad}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_nacionalidad}"/>
-                                    </f:facet>
-                                    <h:selectBooleanCheckbox id="nacionalidad" value="#{item.nacionalidad}" title="#{bundle.EditTrabajadorTitle_nacionalidad}"  disabled="true"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_sexo}"/>
-                                    </f:facet>
-                                    <h:selectBooleanCheckbox id="sexo" value="#{item.sexo}" title="#{bundle.EditTrabajadorTitle_sexo}"  disabled="true"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.estadoCivil}" filterBy="#{item.estadoCivil}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_estadoCivil}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.estadoCivil}"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.calleTrabajador}" filterBy="#{item.calleTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_calleTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.calleTrabajador}"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.telefonoFijoTrabajador}" filterBy="#{item.telefonoFijoTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_telefonoFijoTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.telefonoFijoTrabajador}"/>
-                                </p:column>
-            -->
-            <!--
-                                
-            -->
-            <!--
-                                <p:column sortBy="#{item.emailTrabajador}" filterBy="#{item.emailTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_emailTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.emailTrabajador}"/>
-                                </p:column>
-            -->
-            <!--
-                                
-            -->
-            <!--
-                                <p:column sortBy="#{item.montoSalud}" filterBy="#{item.montoSalud}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_montoSalud}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.montoSalud}"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.formaPagoApv}" filterBy="#{item.formaPagoApv}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_formaPagoApv}"/>
-                                    </f:facet>
-                                    <h:selectBooleanCheckbox id="formaPagoApv" value="#{item.formaPagoApv}" title="#{bundle.EditTrabajadorTitle_formaPagoApv}"  disabled="true"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.subsidioJoven}" filterBy="#{item.subsidioJoven}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_subsidioJoven}"/>
-                                    </f:facet>
-                                    <h:selectBooleanCheckbox id="subsidioJoven" value="#{item.subsidioJoven}" title="#{bundle.EditTrabajadorTitle_subsidioJoven}"  disabled="true"/>
-                                </p:column>
-            -->
-            <!--
-                                <p:column sortBy="#{item.fechaIngresoTrabajador}" filterBy="#{item.fechaIngresoTrabajador}">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListTrabajadorTitle_fechaIngresoTrabajador}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.fechaIngresoTrabajador}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                                    </h:outputText>
-                                </p:column>
-            -->
+                    <p:column sortBy="#{item.apellidoMaternoTrabajador}" filterBy="#{item.apellidoMaternoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido M."/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellidoMaternoTrabajador}"/>
+                    </p:column>
 
-        </p:dataTable>
+                    <p:column sortBy="#{item.nombreTrabajador}" filterBy="#{item.nombreTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombres"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreTrabajador}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}" style="text-align: center;" filterStyle="width:70px" >
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCargas}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Grupo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.asignacionFamiliar.codigoAsignacionFamiliar}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Total"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCargas*item.asignacionFamiliar.monto}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton id="editButton" value="Editar"  icon="ui-icon-pencil" disabled="#{empty registroCargasFamiliaresController.selected}" oncomplete="PF('CargasEditDialog').show()" update=":CargasEditForm" />                    
+            </p:panel>
+        </h:form>
         
-    </h:form>
+        <p:dialog id="displayEditForm" header="Edición de Cargas" widgetVar="CargasEditDialog" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true">
+            <h:form id="CargasEditForm">
+                <h:panelGroup id="display">
+                    <p:focus context="trabajador"/>
+                    <h:panelGrid id="trabajador" columns="2">
+                        <p:outputLabel value="Trabajador:"/>
+                        <p:outputLabel value="#{registroCargasFamiliaresController.selected}"/>
 
+                        <p:outputLabel value="N° de Cargas:"/>
+                        <p:inputText value="#{registroCargasFamiliaresController.selected.numeroCargas}" size="10"/>
+
+                        <p:outputLabel value="Grupo:"/>
+                        <p:selectOneMenu id="grupo" value="#{registroCargasFamiliaresController.selected.asignacionFamiliar}" required="true" requiredMessage="Debe seleccionar el grupo" converter="asignacionFamiliarConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroCargasFamiliaresController.grupoAsignacion}"
+                                           var="grupoItem"
+                                           itemValue="#{grupoItem}"
+                                           itemLabel="#{grupoItem}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value=""/>
+                        <h:panelGroup>
+                            <p:commandButton value="Aceptar" update=":growl, displayEditForm, :TrabajadorListForm:datalist" actionListener="#{registroCargasFamiliaresController.save}" oncomplete="handleSubmit(xhr,status,args,PF('CargasEditDialog'));"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('CargasEditDialog').hide()"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
 </ui:composition>

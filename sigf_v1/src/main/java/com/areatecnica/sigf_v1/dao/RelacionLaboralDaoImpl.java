@@ -57,6 +57,40 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         return list;
     }
     
+    public List<RelacionLaboral> findAllVinaBus() {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = 1 AND idOperador = 0 ORDER BY empresa.nombreEmpresa ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<RelacionLaboral> findAllSolyMar() {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE estado = 1 AND idOperador = 1 ORDER BY empresa.nombreEmpresa ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     
     public List<RelacionLaboral> findWithLimit() {
         List<RelacionLaboral> list = null;

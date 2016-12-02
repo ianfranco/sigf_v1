@@ -58,9 +58,9 @@
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
 
-                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu"/>
-                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu"/>
-                    <p:ajax event="contextMenu" update="@form:editButton @form:deleteButton"/>
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:editButton @form:deleteButton" global="false"/>
 
                     <f:facet name="header">
                         Contratos x Mes: #{ultimoContratosController.header}
@@ -73,21 +73,21 @@
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
                     
-                    <p:column filterBy="#{item.empresa.idEmpresa}" >
+                    <p:column filterBy="#{item.empresa.idEmpresa}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Cod.Empresa"/>
                         </f:facet>
                         <h:outputText value="#{item.empresa.idEmpresa}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.empresa}" >
+                    <p:column filterBy="#{item.empresa}" filterStyle="width:100px;" >
                         <f:facet name="header">
                             <h:outputText value="Empresa"/>
                         </f:facet>
                         <h:outputText value="#{item.empresa}"/>
                     </p:column>
                     
-                    <p:column filterBy="#{item.trabajador.codigoTrabajador}">
+                    <p:column filterBy="#{item.trabajador.codigoTrabajador}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Cód. Trabajador"/>
                         </f:facet>
@@ -116,14 +116,14 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
-
                 </p:dataTable>
 
                 <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update="EdicionContrato:Edicion" oncomplete="PF('ContratoEditDialog').show()" disabled="#{empty ultimoContratosController.selected}" />
                 <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ultimoContratosController.delete()}" update="growl,datalist" disabled="#{empty ultimoContratosController.selected}">
-                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Eliminar el Contrato?" icon="ui-icon-alert"/>
                 </p:commandButton>
             </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
 
         <p:dialog id="ContratoEditDlg" widgetVar="ContratoEditDialog" header="Edición" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true">
@@ -166,27 +166,23 @@
                         <p:outputLabel value=""/>
 
                         <p:outputLabel for="inicio" value="Fecha Inicio"/>
-                        <p:calendar id="inicio" value="#{ultimoContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy"/>
+                        <p:calendar id="inicio" value="#{ultimoContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" onfocus="this.setSelectionRange(0, 2)"/>
 
-                        <p:outputLabel for="fin" value="Fecha Fin"/>
-                        <p:calendar id="fin" value="#{ultimoContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy"/>
+                        <p:outputLabel  value=""/>
+                        <p:outputLabel  value=""/>
 
                         <p:outputLabel value="Sueldo Base"/>
                         <p:inputNumber symbol="$ " decimalPlaces="0" value="#{ultimoContratosController.selected.sueldoBase}"/>
 
                     </h:panelGrid>
-                    <p:commandButton value="Actualizar" update=":Display:datalist, :selector" actionListener="#{ultimoContratosController.save}"  resetValues="true" oncomplete="PF('ContratoEditDialog').hide()" >
+                    <p:commandButton value="Actualizar" update=":Display:datalist, :selector, :growl" actionListener="#{ultimoContratosController.save}"  resetValues="true" oncomplete="PF('ContratoEditDialog').hide()" >
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
                     
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('ContratoEditDialog').hide()" actionListener="#{ultimoContratosController.cancel()}"/>
                 </p:panel>
-
-
-
+                <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
             </h:form>
         </p:dialog>
-
-
     </ui:define>
-
 </ui:composition>

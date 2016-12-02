@@ -6,10 +6,13 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.CausalFiniquitoDaoImpl;
 import com.areatecnica.sigf_v1.dao.FiniquitoDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.entities.CausalFiniquito;
 import com.areatecnica.sigf_v1.entities.FiniquitoRelacionLaboral;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -20,6 +23,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.view.ViewScoped;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -35,6 +41,9 @@ public class UltimosFiniquitosController implements Serializable {
     private int mes;
     private int anio;
     private String header;
+    private FiniquitoRelacionLaboral selected;
+    private List<CausalFiniquito> causalFiniquitosItems;
+    private CausalFiniquitoDaoImpl causalFiniquitoDaoImpl;
 
     public UltimosFiniquitosController() {
         this.finiquitoDao = new FiniquitoDaoImpl();
@@ -43,6 +52,7 @@ public class UltimosFiniquitosController implements Serializable {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
+        this.causalFiniquitoDaoImpl = new CausalFiniquitoDaoImpl();
     }
 
     public void init() {
@@ -55,7 +65,8 @@ public class UltimosFiniquitosController implements Serializable {
             
             this.finiquitos = this.finiquitoDao.findByDate(fecha);
             
-            System.err.println("PRINTING HEADER"+this.header);
+            this.causalFiniquitoDaoImpl = new CausalFiniquitoDaoImpl();
+            this.causalFiniquitosItems = this.causalFiniquitoDaoImpl.findAll();
         } catch (ParseException p) {
 
         }
@@ -95,11 +106,7 @@ public class UltimosFiniquitosController implements Serializable {
     public void resetParents() {
 
     }
-
-    public void delete() {
-
-    }
-
+   
     public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
@@ -144,5 +151,69 @@ public class UltimosFiniquitosController implements Serializable {
         this.header = header;
     }
 
+    public List<FiniquitoRelacionLaboral> getFiniquitos() {
+        return finiquitos;
+    }
+
+    public void setFiniquitos(List<FiniquitoRelacionLaboral> finiquitos) {
+        this.finiquitos = finiquitos;
+    }
+
+    public FiniquitoRelacionLaboral getSelected() {
+        return selected;
+    }
+
+    public void setSelected(FiniquitoRelacionLaboral finiquitoRelacionLaboral) {
+        this.selected = finiquitoRelacionLaboral;
+    }
+
+    public List<CausalFiniquito> getCausalFiniquitosItems() {
+        return causalFiniquitosItems;
+    }
+
+    public void setCausalFiniquitosItems(List<CausalFiniquito> causalFiniquitosItems) {
+        this.causalFiniquitosItems = causalFiniquitosItems;
+    }
+
+    public void save() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                
+                session.update(this.selected);
+                tx.commit();
+                JsfUtil.addSuccessMessage("Se ha actualizado el finiquito");
+                this.selected = null;
+            } catch (HibernateException e) {
+                System.err.println("SAVE:Relacion Laboral");
+                tx.rollback();
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+        } else {
+
+        }
+    }
     
+    public void delete() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.delete(this.selected);
+                tx.commit();
+
+                JsfUtil.addSuccessMessage("Se ha eliminado el finiquito");
+                
+                this.finiquitos.remove(this.selected);
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:CargoBus");
+            }
+        } else {
+
+        }
+    }
 }

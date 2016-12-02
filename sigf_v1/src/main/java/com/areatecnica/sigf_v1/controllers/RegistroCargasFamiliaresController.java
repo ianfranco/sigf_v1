@@ -30,30 +30,41 @@ import org.hibernate.Transaction;
 @ViewScoped
 public class RegistroCargasFamiliaresController implements Serializable {
 
-    
     private AsignacionFamiliarDaoImpl asignacionFamiliarDao;
     private TrabajadorDaoImpl trabajadorDaoImpl;
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
-    private List<AsignacionFamiliar> grupoAsignacion;    
+    private List<AsignacionFamiliar> grupoAsignacion;
     private List<RelacionLaboral> relacionLaboralItems;
     private List<Trabajador> items;
     private Trabajador selected;
-    
+    private int operador;
+
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroCargasFamiliaresController() {        
+    public RegistroCargasFamiliaresController() {
         this.asignacionFamiliarDao = new AsignacionFamiliarDaoImpl();
         this.grupoAsignacion = this.asignacionFamiliarDao.findAll();
-        
-        this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
-        this.relacionLaboralItems = this.relacionLaboralDaoImpl.findAll();
-        
+    }
+
+    public void init() {
+
+        if (this.operador == 1) {
+
+            this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
+            this.relacionLaboralItems = this.relacionLaboralDaoImpl.findAllVinaBus();
+
+        } else {
+            this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
+            this.relacionLaboralItems = this.relacionLaboralDaoImpl.findAllSolyMar();
+        }
         this.items = new ArrayList<>();
-        
-        for(RelacionLaboral r:this.relacionLaboralItems){
+
+        for (RelacionLaboral r : this.relacionLaboralItems) {
             Trabajador t = r.getTrabajador();
-            this.items.add(t);
+            if (t.getNumeroCargas() > 0) {
+                this.items.add(t);
+            }
         }
     }
 
@@ -72,8 +83,6 @@ public class RegistroCargasFamiliaresController implements Serializable {
     public void setSelected(Trabajador selected) {
         this.selected = selected;
     }
-    
-    
 
     public void saveNew() {
         if (this.selected != null) {
@@ -94,7 +103,12 @@ public class RegistroCargasFamiliaresController implements Serializable {
         }
     }
 
+    public void prepareCreate() {
+
+    }
+
     public void save() {
+        System.err.println("blablabla");
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
@@ -111,16 +125,16 @@ public class RegistroCargasFamiliaresController implements Serializable {
 
         }
     }
-    
-    public void resetParents(){
-        
-    }
-    
-    public void delete(){
+
+    public void resetParents() {
         
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage){
+    public void delete() {
+
+    }
+
+    public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
 
@@ -130,5 +144,21 @@ public class RegistroCargasFamiliaresController implements Serializable {
 
     public void setGrupoAsignacion(List<AsignacionFamiliar> grupoAsignacion) {
         this.grupoAsignacion = grupoAsignacion;
+    }
+
+    public List<RelacionLaboral> getRelacionLaboralItems() {
+        return relacionLaboralItems;
+    }
+
+    public void setRelacionLaboralItems(List<RelacionLaboral> relacionLaboralItems) {
+        this.relacionLaboralItems = relacionLaboralItems;
+    }
+
+    public int getOperador() {
+        return operador;
+    }
+
+    public void setOperador(int operador) {
+        this.operador = operador;
     }
 }
