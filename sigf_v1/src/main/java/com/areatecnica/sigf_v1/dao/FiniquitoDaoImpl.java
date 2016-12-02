@@ -7,6 +7,7 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.FiniquitoRelacionLaboral;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -115,6 +116,40 @@ public class FiniquitoDaoImpl implements GenericDao<FiniquitoRelacionLaboral>{
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM FiniquitoRelacionLaboral WHERE fechaFiniquito BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"')  ORDER BY fechaFiniquito ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<FiniquitoRelacionLaboral> findByTrabajador(Trabajador selected) {
+        List<FiniquitoRelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM FiniquitoRelacionLaboral WHERE  relacionLaboral.trabajador="+selected.getIdTrabajador()+" ORDER BY fechaFiniquito ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<FiniquitoRelacionLaboral> findHistoricoByTrabajador(Trabajador trabajador) {
+        List<FiniquitoRelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM FiniquitoRelacionLaboral WHERE relacionLaboral.trabajador="+trabajador.getIdTrabajador()+" ORDER BY fechaFiniquito DESC";
         try {
 
             list = session.createQuery(sql).list();

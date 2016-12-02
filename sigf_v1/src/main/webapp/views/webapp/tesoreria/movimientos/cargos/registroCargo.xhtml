@@ -52,6 +52,11 @@
                             <p:outputLabel id="empresa" value="#{registroCargoBusController.bus.empresa.nombreEmpresa}"/>
                         </h:panelGrid>
 
+                        <p:outputLabel value="Monto" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{registroCargoBusController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                        </h:panelGroup>
+                        
                         <p:outputLabel value="F.Cargo:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoBusController.selected.fechaInicioCargoBus}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
@@ -67,10 +72,7 @@
                             <p:inputText id="numeroCuotasCargoBus" value="#{registroCargoBusController.selected.numeroCuotasCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>                            
                         </h:panelGroup>
 
-                        <p:outputLabel value="Monto" for="montoCargoBus" />
-                        <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{registroCargoBusController.selected.montoCargoBus}" title="#{bundle.CreateCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_montoCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)"/>
-                        </h:panelGroup>
+                        
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroCargoBusController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" >

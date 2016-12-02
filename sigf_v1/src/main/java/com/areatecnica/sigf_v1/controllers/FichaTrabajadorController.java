@@ -6,16 +6,19 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.FiniquitoDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
+import com.areatecnica.sigf_v1.entities.FiniquitoRelacionLaboral;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
@@ -33,6 +36,12 @@ public class FichaTrabajadorController implements Serializable {
     private TrabajadorDao trabajadorDao;
     private Trabajador selected;
     private ArrayList<Trabajador> items;
+    private List<RelacionLaboral> relacionLaboralItems;
+    private List<FiniquitoRelacionLaboral> finiquitoRelacionLaboralItems;
+    private RelacionLaboral selectedRelacionLaboral;
+    private FiniquitoRelacionLaboral selectedFiniquito;
+    private FiniquitoDaoImpl finiquitoDaoImpl;
+    private RelacionLaboralDaoImpl relacionLaboralDao;
     private Empresa empresa;
 
     private int codigo;
@@ -58,6 +67,7 @@ public class FichaTrabajadorController implements Serializable {
     public void init() {
         this.selected = new Trabajador();
         this.trabajadorDao = new TrabajadorDaoImpl();
+        this.relacionLaboralDao = new RelacionLaboralDaoImpl();
     }
 
     public Trabajador getSelected() {
@@ -194,6 +204,8 @@ public class FichaTrabajadorController implements Serializable {
             } else {
                 regimen = false;
             }
+            
+            findRelaciones();
         }
     }
 
@@ -254,7 +266,7 @@ public class FichaTrabajadorController implements Serializable {
             if (this.selected == null) {
                 JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: " + codigo);
             } else {
-                setDefaultValues();
+                setDefaultValues();//acá
             }
         } catch (NullPointerException | NumberFormatException e) {
             JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el código: ");
@@ -268,13 +280,23 @@ public class FichaTrabajadorController implements Serializable {
             if (this.selected == null) {
                 JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el RUT: " + rut);
             } else {
-                setDefaultValues();
+                setDefaultValues();//acá
             }
         } catch (NullPointerException | NumberFormatException e) {
             JsfUtil.addErrorMessage("No se ha encontrado un trabajador con el RUT: " + rut);
         }
 
     }
+    
+    public void findRelaciones(){
+        this.relacionLaboralItems = this.relacionLaboralDao.findHistoricoByTrabajador(selected);
+        
+        if(this.relacionLaboralItems.size()>0){
+            this.finiquitoDaoImpl = new FiniquitoDaoImpl();
+            this.finiquitoRelacionLaboralItems = this.finiquitoDaoImpl.findHistoricoByTrabajador(this.selected);
+        }
+    }
+    
 
     public void findByRut(String rut) {
         this.trabajadorDao = new TrabajadorDaoImpl();
@@ -306,6 +328,38 @@ public class FichaTrabajadorController implements Serializable {
 
     public void setItems(ArrayList<Trabajador> items) {
         this.items = items;
+    }
+
+    public List<RelacionLaboral> getRelacionLaboralItems() {
+        return relacionLaboralItems;
+    }
+
+    public void setRelacionLaboralItems(List<RelacionLaboral> relacionLaboralItems) {
+        this.relacionLaboralItems = relacionLaboralItems;
+    }
+
+    public RelacionLaboral getSelectedRelacionLaboral() {
+        return selectedRelacionLaboral;
+    }
+
+    public void setSelectedRelacionLaboral(RelacionLaboral selectedRelacionLaboral) {
+        this.selectedRelacionLaboral = selectedRelacionLaboral;
+    }
+
+    public List<FiniquitoRelacionLaboral> getFiniquitoRelacionLaboralItems() {
+        return finiquitoRelacionLaboralItems;
+    }
+
+    public void setFiniquitoRelacionLaboralItems(List<FiniquitoRelacionLaboral> finiquitoRelacionLaboralItems) {
+        this.finiquitoRelacionLaboralItems = finiquitoRelacionLaboralItems;
+    }
+
+    public FiniquitoRelacionLaboral getSelectedFiniquito() {
+        return selectedFiniquito;
+    }
+
+    public void setSelectedFiniquito(FiniquitoRelacionLaboral selectedFiniquito) {
+        this.selectedFiniquito = selectedFiniquito;
     }
 
 }

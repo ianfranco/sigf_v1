@@ -32,6 +32,9 @@
         <property name="sueldoBase" type="java.lang.Integer">
             <column name="sueldo_base" />
         </property>
+        <property name="idOperador" type="java.lang.Integer">
+            <column name="id_operador" />
+        </property>
         <property name="rutaArchivoRespaldo" type="string">
             <column name="ruta_archivo_respaldo" />
         </property>
