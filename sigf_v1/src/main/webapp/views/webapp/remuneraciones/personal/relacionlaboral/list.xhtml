@@ -56,7 +56,7 @@
                              selection="#{ultimoContratosController.selected}"
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
-                             tableStyle="table-layout: auto" >
+                             tableStyle="table-layout: auto" filterEvent="blur">
 
                     <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>
                     <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>

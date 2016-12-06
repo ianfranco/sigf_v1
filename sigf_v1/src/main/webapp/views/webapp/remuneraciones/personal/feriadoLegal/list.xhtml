@@ -8,10 +8,10 @@
 
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="selector">
-            <p:panel header="Licencias x Mes">
+            <p:panel header="Feriados x Mes">
                 <h:panelGrid columns="8">
                     <p:outputLabel for="mes" value="Seleccionar:" />
-                    <p:selectOneMenu id="mes" value="#{registroLicenciasMesController.mes}" style="width:125px">
+                    <p:selectOneMenu id="mes" value="#{registroVacacionesMesController.mes}" style="width:125px">
                         <f:selectItem itemLabel="Enero" itemValue="1" />
                         <f:selectItem itemLabel="Febrero" itemValue="2" />
                         <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -27,9 +27,9 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel for="anio" value="Año:" />
-                    <p:inputText id="anio" value="#{registroLicenciasMesController.anio}" size="5" />
+                    <p:inputText id="anio" value="#{registroVacacionesMesController.anio}" size="5" />
 
-                    <p:commandButton value="Buscar" update=":Display:datalist" actionListener="#{registroLicenciasMesController.init}"  />
+                    <p:commandButton value="Buscar" update=":Display:datalist" actionListener="#{registroVacacionesMesController.init}"  />
 
                 </h:panelGrid>
             </p:panel>
@@ -46,13 +46,13 @@
             </p:contextMenu>
             <p:panel style="margin-top: 5px;">
                 <p:dataTable id="datalist" 
-                             value="#{registroLicenciasMesController.items}"
+                             value="#{registroVacacionesMesController.items}"
                              lazy="false"
                              var="item"
-                             rowKey="#{item.idLicenciaMedica}"
+                             rowKey="#{item.idFeriadoLegal}"
                              rowIndexVar="rowIndex"                         
                              selectionMode="single"
-                             selection="#{registroLicenciasMesController.selected}"
+                             selection="#{registroVacacionesMesController.selected}"
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" filterEvent="blur">
 
@@ -61,7 +61,7 @@
                     <p:ajax event="contextMenu" update="@form:editButton @form:deleteButton" global="false"/>
 
                     <f:facet name="header">
-                        Licencias Médicas x Mes: #{registroLicenciasMesController.header}
+                        Feriado Legal x Mes: #{registroVacacionesMesController.header}
                     </f:facet>
 
                     <p:column style="text-align: center;">
@@ -89,7 +89,7 @@
                         <f:facet name="header">
                             <h:outputText value="Desde"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaDesdeReposo}">
+                        <h:outputText value="#{item.fechaDesdeFeriado}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
@@ -98,31 +98,41 @@
                         <f:facet name="header">
                             <h:outputText value="Hasta"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaHastaReposo}">
+                        <h:outputText value="#{item.fechaHastaFeriado}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valorFeriado}">
+                            
                         </h:outputText>
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update="FiniquitoRelacionLaboralEditForm:display" oncomplete="PF('FiniquitoRelacionLaboralEditDialog').show()" disabled="#{empty registroLicenciasMesController.selected}" />
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroLicenciasMesController.delete()}" update="growl,datalist" disabled="#{empty registroLicenciasMesController.selected}">
-                    <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Eliminar Licencia Médica?" icon="ui-icon-alert"/>
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update="FiniquitoRelacionLaboralEditForm:display" oncomplete="PF('FiniquitoRelacionLaboralEditDialog').show()" disabled="#{empty registroVacacionesMesController.selected}" />
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroVacacionesMesController.delete()}" update="growl,datalist" disabled="#{empty registroVacacionesMesController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Eliminar Feriado?" icon="ui-icon-alert"/>
                 </p:commandButton>
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
 
-        <p:dialog id="FiniquitoRelacionLaboralEditDlg" widgetVar="FiniquitoRelacionLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Licencia Médica" closeOnEscape="true">
+        <p:dialog id="FiniquitoRelacionLaboralEditDlg" widgetVar="FiniquitoRelacionLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Feriado" closeOnEscape="true">
 
             <h:form id="FiniquitoRelacionLaboralEditForm">
 
                 <h:panelGroup id="display">
                     <h:panelGrid columns="4">
+
                         <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="trabajador" value="#{registroLicenciasMesController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_trabajador}" converter="trabajadorConverter">
+                            <p:selectOneMenu id="trabajador" value="#{registroVacacionesMesController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_trabajador}" converter="trabajadorConverter">
                                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{registroLicenciaMedicaController.trabajadorItems}"
+                                <f:selectItems value="#{registroFeriadoLegalController.trabajadorItems}"
                                                var="trabajadorItem"
                                                itemValue="#{trabajadorItem}"
                                                itemLabel="#{trabajadorItem.codigoTrabajador}"
@@ -132,11 +142,11 @@
                         </h:panelGroup>
 
                         <p:outputLabel value="Nombre:"  style="margin-left: 20px;"/>
-                        <h:outputText value="#{registroLicenciasMesController.selected.trabajador}" id="informacionConductor"/>
+                        <h:outputText value="#{registroVacacionesMesController.selected.trabajador}" id="informacionConductor"/>
 
                         <p:outputLabel value="Desde" for="fechaDesdeFeriado" />
                         <h:panelGroup>
-                            <p:calendar id="fechaDesdeFeriado" pattern="dd/MM/yyyy" value="#{registroLicenciasMesController.selected.fechaDesdeReposo}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13"/>
+                            <p:calendar id="fechaDesdeFeriado" pattern="dd/MM/yyyy" value="#{registroVacacionesMesController.selected.fechaDesdeFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaDesdeFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaDesdeFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13" />
                         </h:panelGroup>
 
                         <p:outputLabel value=""/>
@@ -144,16 +154,20 @@
 
                         <p:outputLabel value="Hasta" for="fechaHastaFeriado" />
                         <h:panelGroup>
-                            <p:calendar id="fechaHastaFeriado" pattern="dd/MM/yyyy" value="#{registroLicenciasMesController.selected.fechaHastaReposo}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13"/>
+                            <p:calendar id="fechaHastaFeriado" pattern="dd/MM/yyyy" value="#{registroVacacionesMesController.selected.fechaHastaFeriado}" title="#{bundle.CreateFeriadoLegalTitle_fechaHastaFeriado}" required="true" requiredMessage="#{bundle.CreateFeriadoLegalRequiredMessage_fechaHastaFeriado}" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13" />
                         </h:panelGroup>
 
                         <p:outputLabel value=""/>
                         <p:outputLabel value=""/>
 
+                        <p:outputLabel value="#{bundle.CreateFeriadoLegalLabel_valorFeriado}" for="valorFeriado" />
+                        <h:panelGroup>
+                            <p:inputText id="valorFeriado" value="#{registroVacacionesMesController.selected.valorFeriado}" title="#{bundle.CreateFeriadoLegalTitle_valorFeriado}"/>                            
+                        </h:panelGroup>
                     </h:panelGrid>
 
-                    <p:commandButton actionListener="#{registroLicenciasMesController.save}" value="#{bundle.Save}" update="display,Display:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FiniquitoRelacionLaboralEditDialog'));">
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Actualizar Licencia Médica?" icon="ui-icon-alert"/>
+                    <p:commandButton actionListener="#{registroVacacionesMesController.save}" value="#{bundle.Save}" update="display,Display:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FiniquitoRelacionLaboralEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Actualizar Feriado?" icon="ui-icon-alert"/>
                     </p:commandButton>
                     <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FiniquitoRelacionLaboralEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
                 </h:panelGroup>
