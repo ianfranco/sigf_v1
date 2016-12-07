@@ -15,8 +15,12 @@ import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
@@ -43,6 +47,11 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
     private List<Trabajador> trabajadorItems;
 
     private Trabajador trabajador;
+    private int mes;
+    private int anio;
+    private Date fecha;
+    private String header;
+    private int cinco;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -57,7 +66,9 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         /*this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
         this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findWithLimit();*/
         this.selected = prepareCreate();
-
+        Calendar calendar = GregorianCalendar.getInstance();
+        this.mes = calendar.get(Calendar.MONTH) + 1;
+        this.anio = calendar.get(Calendar.YEAR);
     }
 
     public DescuentoTrabajador getDescuentoTrabajador() {
@@ -77,8 +88,23 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
     }
 
     public void init() {
-        this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
-        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findBy(trabajador);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        String from = "01/" + mes + "/" + anio;
+        try {
+            this.fecha = format.parse(from);
+            this.header = "Mes:" + getStringMonth() + " Año:" + anio;
+
+            this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
+            this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findByTrabajadorAndDate(trabajador, fecha);
+            
+            this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
+            
+            
+            JsfUtil.addSuccessMessage(this.header);
+        } catch (ParseException p) {
+        }
+
     }
 
     public void saveNew() {
@@ -116,7 +142,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         Transaction tx = session.beginTransaction();
 
         try {
-                        
+
             for (DescuentoTrabajadorLiquidacion d : this.items) {
                 session.update(d);
             }
@@ -151,6 +177,36 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         } else {
 
         }
+    }
+    
+    public String getStringMonth() {
+        switch (this.mes) {
+            case 1:
+                return "Enero";
+            case 2:
+                return "Febrero";
+            case 3:
+                return "Marzo";
+            case 4:
+                return "Abril";
+            case 5:
+                return "Mayo";
+            case 6:
+                return "Junio";
+            case 7:
+                return "Julio";
+            case 8:
+                return "Agosto";
+            case 9:
+                return "Septiembre";
+            case 10:
+                return "Octubre";
+            case 11:
+                return "Noviembre";
+            case 12:
+                return "Diciembre";
+        }
+        return "";
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
@@ -195,5 +251,45 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public int getCinco() {
+        return cinco;
+    }
+
+    public void setCinco(int cinco) {
+        this.cinco = cinco;
     }
 }

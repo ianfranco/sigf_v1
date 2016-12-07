@@ -26,9 +26,9 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "registroSaldoAnteriorController")
+@Named(value = "registroCreditoCajaController")
 @ViewScoped
-public class RegistroSaldoAnteriorController implements Serializable {
+public class RegistroCreditoCajaController implements Serializable {
 
     private DescuentoTrabajadorDaoImpl descuentoTrabajadorDao;
     private DescuentoTrabajadorLiquidacionDaoImpl descuentoTrabajadorLiquidacionDaoImpl;
@@ -43,9 +43,9 @@ public class RegistroSaldoAnteriorController implements Serializable {
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public RegistroSaldoAnteriorController() {
+    public RegistroCreditoCajaController() {
         this.descuentoTrabajadorDao = new DescuentoTrabajadorDaoImpl();
-        this.saldoAnterior = this.descuentoTrabajadorDao.findById(4);
+        this.saldoAnterior = this.descuentoTrabajadorDao.findById(2);
 
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
         this.trabajadorItems = this.trabajadorDaoImpl.findAll();
@@ -83,7 +83,7 @@ public class RegistroSaldoAnteriorController implements Serializable {
                 this.items.add(0, selected);
                 
                 Date fecha = this.selected.getFechaInicioDescuento();
-                JsfUtil.addSuccessMessage("Se ha registrado un Saldo Anterior de: "+this.selected.getMonto()+" al Trabajador:"+this.selected.getTrabajador());
+                JsfUtil.addSuccessMessage("Se ha registrado un Crédito Caja de: "+this.selected.getMonto()+" al Trabajador:"+this.selected.getTrabajador());
                 this.selected = null;
                 this.selected = new DescuentoTrabajadorLiquidacion();
                 this.selected.setMonto(0);

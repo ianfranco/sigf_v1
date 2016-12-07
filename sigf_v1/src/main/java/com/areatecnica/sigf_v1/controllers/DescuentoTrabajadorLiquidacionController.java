@@ -40,6 +40,8 @@ public class DescuentoTrabajadorLiquidacionController implements Serializable {
     private List<DescuentoTrabajadorLiquidacion> items;
     private List<DescuentoTrabajador> descuentosItems;
     private List<Trabajador> trabajadorItems;
+    private int mes;
+    private int anio;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -89,6 +91,7 @@ public class DescuentoTrabajadorLiquidacionController implements Serializable {
                 
                 Date fecha = this.selected.getFechaInicioDescuento();
                 
+                JsfUtil.addSuccessMessage("Se ha ingresado un descuento de tipo: "+this.selected.getDescuentoTrabajador().getNombreTipoDescuento()+" de:"+this.selected.getMonto()+" al trabajador: "+this.selected.getTrabajador());
                 this.selected = null;
                 this.selected = new DescuentoTrabajadorLiquidacion();
                 this.selected.setMonto(0);
@@ -177,5 +180,21 @@ public class DescuentoTrabajadorLiquidacionController implements Serializable {
 
     public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
         this.trabajadorItems = trabajadorItems;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 }

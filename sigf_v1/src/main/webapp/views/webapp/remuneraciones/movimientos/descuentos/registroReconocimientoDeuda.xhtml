@@ -8,7 +8,7 @@
                 template="./../../templateRemuneraciones.xhtml">
 
     <ui:define name="content" class="ui-corner-all" >
-        <p:panel id="DescuentoTrabajadorLiquidacionCreateDlg" widgetVar="DescuentoTrabajadorLiquidacionCreateDialog" header="Registro: RETENCIÓN JUDICIAL" >
+        <p:panel id="DescuentoTrabajadorLiquidacionCreateDlg" widgetVar="DescuentoTrabajadorLiquidacionCreateDialog" header="Registro: RECONOCIMIENTO DEUDA" >
 
             <h:form id="DescuentoTrabajadorLiquidacionCreateForm">
 
@@ -19,36 +19,36 @@
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="trabajador" value="#{registroRetencionJudicialController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <p:selectOneMenu id="trabajador" value="#{registroReconocimientoDeudaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{registroRetencionJudicialController.trabajadorItems}"
+                                    <f:selectItems value="#{registroReconocimientoDeudaController.trabajadorItems}"
                                                    var="trabajadorItem"
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
                                     <p:ajax event="valueChange" update="nombreTrabajador, contratado" global="false"/>
                                 </p:selectOneMenu>
-                                <p:outputLabel id="nombreTrabajador" value="#{registroRetencionJudicialController.selected.trabajador}"/>
+                                <p:outputLabel id="nombreTrabajador" value="#{registroReconocimientoDeudaController.selected.trabajador}"/>
                             </h:panelGrid>
                         </h:panelGroup>
 
                         <p:outputLabel value="Estado:"/>
-                        <h:outputLabel id="contratado"  value="#{registroRetencionJudicialController.selected.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
+                        <h:outputLabel id="contratado"  value="#{registroReconocimientoDeudaController.selected.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
 
                         <p:outputLabel value="F.Inicio" for="fechaInicioDescuento" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioDescuento" pattern="dd/MM/yyyy" value="#{registroRetencionJudicialController.selected.fechaInicioDescuento}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" />                            
+                            <p:calendar id="fechaInicioDescuento" pattern="dd/MM/yyyy" value="#{registroReconocimientoDeudaController.selected.fechaInicioDescuento}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" />                            
                         </h:panelGroup>
 
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
                         <h:panelGroup>
-                            <p:inputText id="monto" value="#{registroRetencionJudicialController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
+                            <p:inputText id="monto" value="#{registroReconocimientoDeudaController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
 
                             </p:inputText>                            
                         </h:panelGroup>
 
                     </h:panelGrid>
-                    <p:commandButton actionListener="#{registroRetencionJudicialController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
+                    <p:commandButton actionListener="#{registroReconocimientoDeudaController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
@@ -67,13 +67,13 @@
                     <p:separator/>
                 </p:contextMenu>
                 <p:dataTable id="datalist"
-                             value="#{registroRetencionJudicialController.items}"
+                             value="#{registroReconocimientoDeudaController.items}"
                              lazy="false"
                              rowKey="#{item.idDescuentoTrabajadorLiquidacion}"
                              rowIndexVar="rowIndex"
                              var="item"                             
                              selectionMode="single"
-                             selection="#{registroRetencionJudicialController.selected}"
+                             selection="#{registroReconocimientoDeudaController.selected}"
                              emptyMessage="No se han encontrado registros">
                     <!--
                              To enable Lazy Loading, please copy/replace the following lines above,
@@ -85,12 +85,12 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroRetencionJudicialController.resetParents}" global="false"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroRetencionJudicialController.resetParents}" global="false"/>
-                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{registroRetencionJudicialController.resetParents}" global="false"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroReconocimientoDeudaController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{registroReconocimientoDeudaController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{registroReconocimientoDeudaController.resetParents}" global="false"/>
 
                     <f:facet name="header">
-                        Últimas Retenciones Judiciales Ingresadas 
+                        Últimos Reconocimientos de Deudas ingresados
                     </f:facet>
 
                     <p:column style="text-align: center;">
@@ -157,7 +157,7 @@
 
                 </p:dataTable>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroRetencionJudicialController.delete}" update=":growl,datalist" disabled="#{empty registroRetencionJudicialController.selected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroReconocimientoDeudaController.delete}" update=":growl,datalist" disabled="#{empty registroReconocimientoDeudaController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 

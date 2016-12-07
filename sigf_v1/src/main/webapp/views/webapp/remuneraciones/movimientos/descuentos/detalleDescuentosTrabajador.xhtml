@@ -14,7 +14,26 @@
 
                 <h:panelGroup id="display" >
                     <p:focus context="trabajador"/>
-                    <h:panelGrid columns="4" columnClasses="column">
+                    <h:panelGrid columns="8" columnClasses="column">
+
+                        <p:outputLabel for="mes" value="Seleccionar:" />
+                        <p:selectOneMenu id="mes" value="#{detalleDescuentoTrabajadorController.mes}" style="width:125px">
+                            <f:selectItem itemLabel="Enero" itemValue="1" />
+                            <f:selectItem itemLabel="Febrero" itemValue="2" />
+                            <f:selectItem itemLabel="Marzo" itemValue="3" />
+                            <f:selectItem itemLabel="Abril" itemValue="4" />
+                            <f:selectItem itemLabel="Mayo" itemValue="5" />
+                            <f:selectItem itemLabel="Junio" itemValue="6" />
+                            <f:selectItem itemLabel="Julio" itemValue="7" />
+                            <f:selectItem itemLabel="Agosto" itemValue="8" />
+                            <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                            <f:selectItem itemLabel="Octubre" itemValue="10" />
+                            <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                            <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="anio" value="Año:" />
+                        <p:inputText id="anio" value="#{detalleDescuentoTrabajadorController.anio}" size="5" />
 
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
@@ -26,14 +45,14 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update=":DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado" global="false"/>
+                                    <p:ajax event="valueChange" update=":DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado, :DescuentoTrabajadorLiquidacionListForm:cinco, :growl" global="false"/>
                                 </p:selectOneMenu>                                
                             </h:panelGrid>
                         </h:panelGroup>
 
 
                         <p:commandButton actionListener="#{detalleDescuentoTrabajadorController.init}" value="Cargar Descuentos" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
-                            
+
                         </p:commandButton>
 
                     </h:panelGrid>
@@ -46,11 +65,16 @@
 
         <h:form id="DescuentoTrabajadorLiquidacionListForm">
             <p:panel header="Información:" style="margin-top: 15px;">
-                <p:outputLabel value="Nombre:"/>
-                <p:outputLabel id="nombreTrabajador" value="#{detalleDescuentoTrabajadorController.trabajador}"/>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre:"/>
+                    <p:outputLabel id="nombreTrabajador" value="#{detalleDescuentoTrabajadorController.trabajador}"/>
 
-                <p:outputLabel value="Estado:"/>
-                <h:outputLabel id="contratado"  value="#{detalleDescuentoTrabajadorController.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
+                    <p:outputLabel value="Estado:"/>
+                    <h:outputLabel id="contratado"  value="#{detalleDescuentoTrabajadorController.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
+
+                    <p:outputLabel value="5% (Total)" for="cinco"/>
+                    <h:outputLabel id="cinco"  value="#{detalleDescuentoTrabajadorController.cinco}"/>
+                </p:panelGrid>
 
             </p:panel>
             <p:panel style="margin-top: 15px;">
@@ -77,9 +101,9 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{descuentoTrabajadorLiquidacionController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Descuentos x Trabajador
@@ -92,37 +116,44 @@
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
 
-                    <p:column  filterBy="#{item.descuentoTrabajador}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Descuento"/>
                         </f:facet>
                         <h:outputText value="#{item.descuentoTrabajador}"/>
                     </p:column>
 
-                    <p:column  filterBy="#{item.trabajador.codigoTrabajador}" style="text-align: center;">
+                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Cód.Trabajador"/>
                         </f:facet>
                         <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.trabajador}">
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="Trabajador"/>
                         </f:facet>
                         <h:outputText value="#{item.trabajador}"/>
                     </p:column>
 
-                    <p:column  filterBy="#{item.monto}" style="text-align: center;">
+                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
                         </f:facet>
-                        <p:inputNumber value="#{item.monto}" decimalPlaces="0">
-
-                        </p:inputNumber>
+                        <p:inputNumber value="#{item.monto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.fechaIngresoDescuento}" style="text-align: center;">
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Descuento"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicioDescuento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="F.Registro"/>
                         </f:facet>
@@ -130,18 +161,6 @@
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
-
-                    <!--
-                                        
-                    -->
-                    <!--
-                                        <p:column sortBy="#{item.activoDescuentoTrabajador}" filterBy="#{item.activoDescuentoTrabajador}">
-                                            <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}"/>
-                                            </f:facet>
-                                            <h:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{item.activoDescuentoTrabajador}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}" disabled="true"/>
-                                        </p:column>
-                    -->
 
                 </p:dataTable>
 

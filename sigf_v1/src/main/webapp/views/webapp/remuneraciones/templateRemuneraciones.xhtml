@@ -98,7 +98,8 @@
                                     <p:submenu label="Registro x">
                                         <p:menuitem value="Saldo Anterior" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroSaldoAnterior"/>
                                         <p:menuitem value="Retención Judicial" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroRetencionJudicial"/>
-                                        <p:menuitem value="R. de Deudas" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
+                                        <p:menuitem value="R. de Deudas" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroReconocimientoDeuda"/>
+                                        <p:menuitem value="Crédito Caja" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroCreditoCaja"/>
                                     </p:submenu>
                                     <p:separator/>
                                     <p:menuitem value="Descuentos x Trabajador" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/detalleDescuentosTrabajador"/>
@@ -120,12 +121,9 @@
                             <p:submenu label="Procesos">
                                 <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                            
                                 <p:menuitem value="Liquidaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
-                                <p:submenu label="Avanzado">
-                                    <p:menuitem value="Definición de Tipos de Controles" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
-                                </p:submenu>
                             </p:submenu>
                             <p:submenu label="RR.HH">
-                                <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/remuneraciones/personal/rrhh/guiasxconductor" />
+                                <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/remuneraciones/reportes/produccionxconductor" />
                                 <p:menuitem value="Control de Asistencia" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:submenu label="Personal x Cargo">
                                     <p:menuitem value="Jefes de Servicios" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                    
