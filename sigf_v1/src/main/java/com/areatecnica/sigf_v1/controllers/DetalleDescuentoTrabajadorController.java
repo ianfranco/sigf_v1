@@ -52,6 +52,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
     private Date fecha;
     private String header;
     private int cinco;
+    private int saldo;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -94,14 +95,12 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         try {
             this.fecha = format.parse(from);
             this.header = "Mes:" + getStringMonth() + " Año:" + anio;
-
+            
             this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
             this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findByTrabajadorAndDate(trabajador, fecha);
             
             this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
             
-            
-            JsfUtil.addSuccessMessage(this.header);
         } catch (ParseException p) {
         }
 
@@ -146,9 +145,10 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
             for (DescuentoTrabajadorLiquidacion d : this.items) {
                 session.update(d);
             }
-
+            JsfUtil.addSuccessMessage("Se han actualizado los descuentos ");
             tx.commit();
             this.items = new ArrayList<DescuentoTrabajadorLiquidacion>();
+            this.trabajador = null;
 
         } catch (HibernateException e) {
             tx.rollback();

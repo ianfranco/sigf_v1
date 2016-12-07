@@ -1,6 +1,12 @@
 package com.areatecnica.sigf_v1.controllers;
 
-class InventarioInternoController {
+import java.io.Serializable;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
+@Named(value = "inventarioInternoController")
+@ViewScoped
+class InventarioInternoController implements Serializable{
 
     public InventarioInternoController() {
     }

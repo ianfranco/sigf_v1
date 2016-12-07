@@ -1,14 +1,12 @@
 package com.areatecnica.sigf_v1.controllers;
 
-import com.areatecnica.sigf_v1.entities.DetalleCompraBoleto;
+import java.io.Serializable;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 
 @Named(value = "detalleCompraBoletoController")
 @ViewScoped
-public class DetalleCompraBoletoController{
+public class DetalleCompraBoletoController implements Serializable{
 
     public DetalleCompraBoletoController() {
     }

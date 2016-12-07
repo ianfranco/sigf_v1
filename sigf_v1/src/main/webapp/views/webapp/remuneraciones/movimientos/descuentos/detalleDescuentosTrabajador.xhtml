@@ -45,13 +45,13 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    <p:ajax event="valueChange" update=":DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado, :DescuentoTrabajadorLiquidacionListForm:cinco, :growl" global="false"/>
+                                    
                                 </p:selectOneMenu>                                
                             </h:panelGrid>
                         </h:panelGroup>
 
 
-                        <p:commandButton actionListener="#{detalleDescuentoTrabajadorController.init}" value="Cargar Descuentos" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
+                        <p:commandButton actionListener="#{detalleDescuentoTrabajadorController.init}" value="Cargar Descuentos" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
 
                         </p:commandButton>
 
@@ -63,7 +63,7 @@
 
         </p:panel>
 
-        <h:form id="DescuentoTrabajadorLiquidacionListForm">
+        <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
             <p:panel header="Información:" style="margin-top: 15px;">
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Nombre:"/>
@@ -149,7 +149,7 @@
                             <h:outputText value="F.Descuento"/>
                         </f:facet>
                         <h:outputText value="#{item.fechaInicioDescuento}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 

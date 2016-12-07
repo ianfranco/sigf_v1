@@ -21,7 +21,7 @@
                     <h:panelGroup id="display">
                         <h:panelGrid columns="2" columnClasses="value" id="grupoInicial">
                             <p:outputLabel value="Fecha" for="fechaVenta"/>
-                            <p:calendar id="fechaVenta" value="#{newVentaBoletoController.selected.fechaVenta}" required="true"  autocomplete="off" disabled="true"/> 
+                            <p:calendar id="fechaVenta" value="#{newVentaBoletoController.selected.fechaVentaBoleto}" required="true"  autocomplete="off" disabled="true"/> 
 
                             <p:outputLabel value="Terminal" for="terminal"/>
                             <p:selectOneMenu id="terminal" value="#{newVentaBoletoController.selected.terminal}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" converter="terminalConverter">

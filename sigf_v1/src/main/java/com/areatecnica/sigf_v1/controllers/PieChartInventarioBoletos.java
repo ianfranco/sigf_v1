@@ -5,7 +5,8 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.model.chart.PieChartModel;
 
@@ -14,8 +15,8 @@ import org.primefaces.model.chart.PieChartModel;
  * @author Ian Franco
  */
 @Named(value = "pieChartInventarioBoletos")
-@ManagedBean
-public class PieChartInventarioBoletos {
+@ViewScoped
+public class PieChartInventarioBoletos implements Serializable{
 
     private PieChartModel model;
     

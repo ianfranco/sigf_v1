@@ -154,7 +154,7 @@ public class DescuentoTrabajadorLiquidacionDaoImpl implements GenericDao<Descuen
 "		FROM egreso_guia \n" +
 "			LEFT JOIN guia ON egreso_guia.id_guia = guia.id_guia \n" +
 "			LEFT JOIN egreso_recaudacion ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion \n" +
-"            WHERE guia.id_trabajador = 1211 AND  guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND egreso_recaudacion.id_egreso = 12";
+"            WHERE guia.id_trabajador = "+trabajador.getIdTrabajador()+" AND  guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND egreso_recaudacion.id_egreso = 12";
         try{
             totalCinco = (BigInteger) session.createSQLQuery(query).uniqueResult();
             
