@@ -7,9 +7,7 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.AbonoBusDaoImpl;
-import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
 import com.areatecnica.sigf_v1.entities.AbonoBus;
-import com.areatecnica.sigf_v1.entities.CargoBus;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
