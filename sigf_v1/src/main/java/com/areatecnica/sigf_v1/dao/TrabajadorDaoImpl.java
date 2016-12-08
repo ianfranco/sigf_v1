@@ -48,12 +48,30 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         }
         return list;
     }
+    
+    public List<Trabajador> findAllClean() {
+        List<Trabajador> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Trabajador ORDER BY codigoTrabajador";
+        try {
+
+            list = session.createQuery(sql).list();
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     @Override
     public List<Trabajador> findByTerminal(Terminal terminal) {
         List<Trabajador> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Trabajador WHERE  terminal=" + terminal.getIdTerminal() + " ORDER BY apellidoPaternoTrabajador ASC";
         try {

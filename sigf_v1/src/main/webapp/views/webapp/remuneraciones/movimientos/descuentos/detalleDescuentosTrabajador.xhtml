@@ -45,13 +45,13 @@
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
-                                    
+
                                 </p:selectOneMenu>                                
                             </h:panelGrid>
                         </h:panelGroup>
 
 
-                        <p:commandButton actionListener="#{detalleDescuentoTrabajadorController.init}" value="Cargar Descuentos" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:contratado, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
+                        <p:commandButton actionListener="#{detalleDescuentoTrabajadorController.init}" value="Cargar Descuentos" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
 
                         </p:commandButton>
 
@@ -65,17 +65,16 @@
 
         <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
             <p:panel header="Información:" style="margin-top: 15px;">
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="4">
                     <p:outputLabel value="Nombre:"/>
                     <p:outputLabel id="nombreTrabajador" value="#{detalleDescuentoTrabajadorController.trabajador}"/>
-
-                    <p:outputLabel value="Estado:"/>
-                    <h:outputLabel id="contratado"  value="#{detalleDescuentoTrabajadorController.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
-
+                    
+                    
+                    
                     <p:outputLabel value="5% (Total)" for="cinco"/>
                     <h:outputLabel id="cinco"  value="#{detalleDescuentoTrabajadorController.cinco}"/>
                 </p:panelGrid>
-
+                
             </p:panel>
             <p:panel style="margin-top: 15px;">
                 <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          

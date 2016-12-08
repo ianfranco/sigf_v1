@@ -73,6 +73,9 @@ public class RegistroAbonoBusController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
+                Date fechaAux = this.selected.getFechaInicioAbonoBus();
+                TipoAbono abonoAux = this.selected.getTipoAbono();
+                
                 this.selected.setFechaIngresoAbonoBus(new Date());
                 this.selected.setActivoAbonoBus(Boolean.TRUE);
                 this.selected.setNumeroCuotasAbonoBus(1);
@@ -82,10 +85,13 @@ public class RegistroAbonoBusController implements Serializable {
                 tx.commit();
                 this.items.add(0, selected);
                                                 
-                this.selected = null;
+                
                 this.selected = new AbonoBus();
+                this.bus = null;
+                this.selected.setTipoAbono(abonoAux);
                 this.selected.setMontoAbonoBus(0);
                 this.selected.setNumeroCuotasAbonoBus(0);
+                this.selected.setFechaInicioAbonoBus(fechaAux);
                 
             } catch (HibernateException e) {
                 tx.rollback();

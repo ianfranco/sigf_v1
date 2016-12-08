@@ -457,6 +457,7 @@ public class RegistroGuiaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
+                tx.rollback();
             }
         } else {
 
@@ -491,6 +492,7 @@ public class RegistroGuiaController implements Serializable {
 
             } catch (HibernateException e) {
                 System.err.println("NULL:Guia");
+                tx.rollback();
             }
         } else {
 

@@ -567,6 +567,7 @@ public class InformeProcesoRecaudacionController implements Serializable {
                 setPorcentajes();
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -607,6 +608,7 @@ public class InformeProcesoRecaudacionController implements Serializable {
                 this.selectedHashMap = null;
 
             } catch (HibernateException e) {
+                tx.rollback();
                 System.err.println("NULL:Guia");
             }
         } else {

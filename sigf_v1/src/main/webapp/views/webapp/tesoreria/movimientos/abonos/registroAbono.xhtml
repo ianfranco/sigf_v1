@@ -39,7 +39,7 @@
                                                itemValue="#{busItem}"
                                                itemLabel="#{busItem}"
                                                />
-                                <p:ajax event="valueChange" update="patente, flota, empresa"/>
+                                <p:ajax event="valueChange" update="patente, flota, empresa" global="false"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Patente:" for="patente" />

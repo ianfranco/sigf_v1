@@ -8,9 +8,11 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.DescuentoTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.DescuentoTrabajadorLiquidacionDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.DescuentoTrabajador;
 import com.areatecnica.sigf_v1.entities.DescuentoTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -46,6 +48,9 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
     private List<DescuentoTrabajador> descuentosItems;
     private List<Trabajador> trabajadorItems;
 
+    private List<RelacionLaboral> relacionLaboralItems;
+    private RelacionLaboral selectedRelacionLaboral;
+    private RelacionLaboralDaoImpl relacionLaboralDao;
     private Trabajador trabajador;
     private int mes;
     private int anio;
@@ -62,7 +67,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         //this.descuentosItems = this.descuentoTrabajadorDao.findAll();
 
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
-        this.trabajadorItems = this.trabajadorDaoImpl.findAll();
+        this.trabajadorItems = this.trabajadorDaoImpl.findAllClean();
 
         /*this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
         this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findWithLimit();*/
@@ -88,6 +93,14 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         return newDescuentoTrabajadorLiquidacion;
     }
 
+    public void findRelaciones() {
+
+        if (this.relacionLaboralItems.size() > 0) {
+            /*this.finiquitoDaoImpl = new FiniquitoDaoImpl();
+            this.finiquitoRelacionLaboralItems = this.finiquitoDaoImpl.findHistoricoByTrabajador(this.selected);*/
+        }
+    }
+
     public void init() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -95,12 +108,15 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         try {
             this.fecha = format.parse(from);
             this.header = "Mes:" + getStringMonth() + " Año:" + anio;
-            
+
             this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
             this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findByTrabajadorAndDate(trabajador, fecha);
-            
+
             this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
             
+            //this.relacionLaboralDao = new RelacionLaboralDaoImpl();
+
+            //this.relacionLaboralItems = this.relacionLaboralDao.findHistoricoByTrabajador(this.trabajador);
         } catch (ParseException p) {
         }
 
@@ -178,7 +194,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
 
         }
     }
-    
+
     public String getStringMonth() {
         switch (this.mes) {
             case 1:
@@ -291,5 +307,29 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
 
     public void setCinco(int cinco) {
         this.cinco = cinco;
+    }
+
+    public List<RelacionLaboral> getRelacionLaboralItems() {
+        return relacionLaboralItems;
+    }
+
+    public void setRelacionLaboralItems(List<RelacionLaboral> relacionLaboralItems) {
+        this.relacionLaboralItems = relacionLaboralItems;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
+    public RelacionLaboral getSelectedRelacionLaboral() {
+        return selectedRelacionLaboral;
+    }
+
+    public void setSelectedRelacionLaboral(RelacionLaboral selectedRelacionLaboral) {
+        this.selectedRelacionLaboral = selectedRelacionLaboral;
     }
 }

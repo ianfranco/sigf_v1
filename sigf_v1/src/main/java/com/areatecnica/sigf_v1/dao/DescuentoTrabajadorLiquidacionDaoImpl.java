@@ -160,6 +160,7 @@ public class DescuentoTrabajadorLiquidacionDaoImpl implements GenericDao<Descuen
             
         
         }catch (HibernateException e){
+            tx.rollback();
             e.printStackTrace();
             return 99;
         }        
