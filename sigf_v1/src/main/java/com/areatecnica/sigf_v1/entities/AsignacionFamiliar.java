@@ -136,7 +136,7 @@ public class AsignacionFamiliar implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return codigoAsignacionFamiliar;
+        return codigoAsignacionFamiliar+" - "+monto;
     }
 
 }

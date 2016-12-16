@@ -70,6 +70,23 @@ public class HaberTrabajadorLiquidacionDaoImpl implements GenericDao<HaberTrabaj
         return list;
     }
     
+    public List<HaberTrabajadorLiquidacion> findAllById(int id) {
+        List<HaberTrabajadorLiquidacion> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM HaberTrabajadorLiquidacion WHERE haberTrabajador = "+id+" ORDER BY trabajador.apellidoPaternoTrabajador ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     public List<HaberTrabajadorLiquidacion> findSaldoAnteriorWithLimit() {
         List<HaberTrabajadorLiquidacion> list = null;
 

@@ -93,13 +93,13 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         return newDescuentoTrabajadorLiquidacion;
     }
 
-    public void findRelaciones() {
+    /*public void findRelaciones() {
 
         if (this.relacionLaboralItems.size() > 0) {
             /*this.finiquitoDaoImpl = new FiniquitoDaoImpl();
-            this.finiquitoRelacionLaboralItems = this.finiquitoDaoImpl.findHistoricoByTrabajador(this.selected);*/
-        }
-    }
+            this.finiquitoRelacionLaboralItems = this.finiquitoDaoImpl.findHistoricoByTrabajador(this.selected);
+        //}//
+    }*/
 
     public void init() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -112,7 +112,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
             this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
             this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findByTrabajadorAndDate(trabajador, fecha);
 
-            this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
+            //this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
             
             //this.relacionLaboralDao = new RelacionLaboralDaoImpl();
 

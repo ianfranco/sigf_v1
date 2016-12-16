@@ -151,10 +151,10 @@ public class TotalCargoBusController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.delete(this.selected);
+                session.delete(this.rowSelected);
                 tx.commit();
-                this.items.add(selected);
-
+                JsfUtil.addSuccessMessage("Se ha eliminado el cargo:"+this.rowSelected+" del Bus N°:"+this.rowSelected.getBus());
+                this.items.remove(this.rowSelected);
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:CargoBus");

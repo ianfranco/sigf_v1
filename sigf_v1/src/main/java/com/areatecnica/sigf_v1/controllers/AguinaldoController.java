@@ -8,15 +8,21 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.HaberTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.HaberTrabajadorLiquidacionDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
+import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.HaberTrabajador;
 import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -26,9 +32,9 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "haberTrabajadorLiquidacionController")
+@Named(value = "aguinaldoController")
 @ViewScoped
-public class HaberTrabajadorLiquidacionController implements Serializable {
+public class AguinaldoController implements Serializable {
 
     private HaberTrabajadorDaoImpl haberTrabajadorDaoImpl;
     private HaberTrabajadorLiquidacionDaoImpl haberTrabajadorLiquidacionDaoImpl;
@@ -40,22 +46,43 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
     private List<HaberTrabajadorLiquidacion> items;
     private List<HaberTrabajador> haberItems;
     private List<Trabajador> trabajadorItems;
+    
+    private RelacionLaboral relacionLaboral;
+    private List<RelacionLaboral> relacionLaboralItems;
+    private RelacionLaboralDaoImpl relacionLaboralDao;
+    
+    private Empresa empresa; 
+    private List<Empresa> empresasList;
+    
+    private Map empresasMap;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public HaberTrabajadorLiquidacionController() {
+    public AguinaldoController() {
         this.haberTrabajadorDaoImpl = new HaberTrabajadorDaoImpl();
-        this.haberItems = this.haberTrabajadorDaoImpl.findAll();
+        this.haberTrabajador = this.haberTrabajadorDaoImpl.findById(8);
 
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
-        this.trabajadorItems = this.trabajadorDaoImpl.findAll();
+        //this.trabajadorItems = this.trabajadorDaoImpl.findAll();
 
         this.haberTrabajadorLiquidacionDaoImpl = new HaberTrabajadorLiquidacionDaoImpl();
-        this.items = this.haberTrabajadorLiquidacionDaoImpl.findWithLimit();
+        this.items = this.haberTrabajadorLiquidacionDaoImpl.findAllById(8);
 
-        this.selected = prepareCreate();
-
+        //this.selected = prepareCreate();
+        /*this.relacionLaboralDao = new RelacionLaboralDaoImpl();
+        this.relacionLaboralItems = this.relacionLaboralDao.findActivas(new Date(), 0);
+        
+        this.empresasMap = new HashMap();
+        
+        this.empresasList = new ArrayList<>();
+        
+        for (RelacionLaboral r:this.relacionLaboralItems){
+            this.empresasMap.put(r.getEmpresa().getIdEmpresa(), r.getEmpresa());
+        }
+        
+        this.empresasList = new ArrayList<Empresa>(empresasMap.values());*/
+        
     }
 
     public HaberTrabajador getHaberTrabajador() {
@@ -118,7 +145,7 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
             try {
                 session.saveOrUpdate(this.selected);
                 tx.commit();
-
+                JsfUtil.addSuccessMessage("Se ha actualizado el aguinaldo");
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:selected");
@@ -140,6 +167,8 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
             try {
                 session.delete(this.selected);
                 tx.commit();
+                
+                JsfUtil.addSuccessMessage("Se ha eliminado el aguinaldo");
                 this.items.remove(this.selected);
             } catch (HibernateException e) {
                 tx.rollback();
@@ -184,5 +213,45 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
 
     public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
         this.trabajadorItems = trabajadorItems;
+    }
+
+    public RelacionLaboral getRelacionLaboral() {
+        return relacionLaboral;
+    }
+
+    public void setRelacionLaboral(RelacionLaboral relacionLaboral) {
+        this.relacionLaboral = relacionLaboral;
+    }
+
+    public List<RelacionLaboral> getRelacionLaboralItems() {
+        return relacionLaboralItems;
+    }
+
+    public void setRelacionLaboralItems(List<RelacionLaboral> relacionLaboralItems) {
+        this.relacionLaboralItems = relacionLaboralItems;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public List<Empresa> getEmpresasList() {
+        return empresasList;
+    }
+
+    public void setEmpresasList(List<Empresa> empresasList) {
+        this.empresasList = empresasList;
+    }
+
+    public Map getEmpresasMap() {
+        return empresasMap;
+    }
+
+    public void setEmpresasMap(Map empresasMap) {
+        this.empresasMap = empresasMap;
     }
 }

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel id="DescuentoTrabajadorLiquidacionCreateDlg" widgetVar="DescuentoTrabajadorLiquidacionCreateDialog" header="Registro Haberes" >
+
+            <h:form id="DescuentoTrabajadorLiquidacionCreateForm">
+
+                <!--<p:selectOneMenu id="flota" value="#{aguinaldoController.empresa}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_bus}" converter="empresaConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{aguinaldoController.empresasList}"
+                                   var="flotaItem"
+                                   itemValue="#{flotaItem}"
+                                   itemLabel="#{flotaItem}"
+                                   />
+                    
+                </p:selectOneMenu>  -->
+
+            </h:form>
+
+        </p:panel>
+
+        <h:form id="DescuentoTrabajadorLiquidacionListForm">
+
+            <p:panel style="margin-top: 15px;">
+                <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          
+                    <p:menuitem value="Editar" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:editButton').click();" icon="ui-icon-pencil"/>                    
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{aguinaldoController.items}"
+                             lazy="false"
+                             rowKey="#{item.idHaberTrabajadorLiquidacion}"
+                             rowIndexVar="rowIndex"
+                             var="item"                             
+                             selectionMode="single"
+                             selection="#{aguinaldoController.selected}"
+                             emptyMessage="No se han encontrado registros"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{descuentoTrabajadorLiquidacionController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idDescuentoTrabajadorLiquidacion}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{aguinaldoController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{aguinaldoController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:editButton,@form:deleteButton" listener="#{aguinaldoController.resetParents}" global="false"/>
+
+                    <f:facet name="header">
+                        Aguinaldo Diciembre 2016
+                    </f:facet>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Haber"/>
+                        </f:facet>
+                        <h:outputText value="#{item.haberTrabajador}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Cód.Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Trabajador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="F.Inicio"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicioHaber}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.monto}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                                        
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.activoDescuentoTrabajador}" filterBy="#{item.activoDescuentoTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}"/>
+                                            </f:facet>
+                                            <h:selectBooleanCheckbox id="activoDescuentoTrabajador" value="#{item.activoDescuentoTrabajador}" title="#{bundle.EditDescuentoTrabajadorLiquidacionTitle_activoDescuentoTrabajador}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorLiquidacionRequiredMessage_activoDescuentoTrabajador}" disabled="true"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+                <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('HaberAguinaldoEditDialog').show()" disabled="#{empty aguinaldoController.selected}"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{aguinaldoController.delete}" update=":growl,datalist" disabled="#{empty aguinaldoController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+        
+        <p:dialog id="HaberAguinaldoEditDlg" widgetVar="HaberAguinaldoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Aguinaldo x Trabajador" closeOnEscape="true">
+
+            <h:form id="CargoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:focus context="montoCargoBus"/>
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{aguinaldoController.selected != null}">
+                        
+                        <p:outputLabel value="Codigo:" for="bus" />
+                        <p:outputLabel value="#{aguinaldoController.selected.trabajador.codigoTrabajador}" id="bus" />
+                        
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:outputLabel value="#{aguinaldoController.selected.trabajador}" id="nombre" />
+
+                        <p:outputLabel value="Monto:" for="montoCargoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoCargoBus" value="#{aguinaldoController.selected.monto}" title="#{bundle.EditCargoBusTitle_montoCargoBus}" required="true" requiredMessage="Debe ingresar el Monto" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                        </h:panelGroup>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{aguinaldoController.save}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberAguinaldoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="Editar" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberAguinaldoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        
+    </ui:define>
+</ui:composition>
+

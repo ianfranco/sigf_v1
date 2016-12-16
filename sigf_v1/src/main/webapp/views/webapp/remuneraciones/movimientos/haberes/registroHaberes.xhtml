@@ -50,7 +50,7 @@
 
                         <p:outputLabel value="Estado:"/>
                         <h:outputLabel id="contratado"  value="#{haberTrabajadorLiquidacionController.selected.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
-
+                        
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
                         <h:panelGroup>
                             <p:inputText id="monto" value="#{haberTrabajadorLiquidacionController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
@@ -58,6 +58,13 @@
                             </p:inputText>
                             
                         </h:panelGroup>
+                        
+                        <p:outputLabel value="F.Inicio" for="fechaInicioDescuento" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioDescuento" pattern="dd/MM/yyyy" value="#{haberTrabajadorLiquidacionController.selected.fechaInicioHaber}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" />                            
+                        </h:panelGroup>
+                        
+                        
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{haberTrabajadorLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
@@ -97,9 +104,9 @@
                     -->
 
 
-                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{haberTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{haberTrabajadorLiquidacionController.resetParents}"/>
-                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{haberTrabajadorLiquidacionController.resetParents}"/>
+                    <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{haberTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{haberTrabajadorLiquidacionController.resetParents}" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{haberTrabajadorLiquidacionController.resetParents}" global="false"/>
 
                     <f:facet name="header">
                         Últimos Haberes Ingresados 
@@ -176,7 +183,7 @@
 
                 </p:dataTable>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{descuentoTrabajadorLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty descuentoTrabajadorLiquidacionController.selected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{aguinaldoController.delete}" update=":growl,datalist" disabled="#{empty aguinaldoController.selected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 

@@ -631,7 +631,7 @@ public class Trabajador implements java.io.Serializable {
         if(this.nombreTrabajador.equals("")){
             this.nombreTrabajador = " ";
         }
-        return apellidoPaternoTrabajador+" "+apellidoMaternoTrabajador+" "+nombreTrabajador.substring(0, 1)+".";
+        return apellidoPaternoTrabajador+" "+apellidoMaternoTrabajador+" "+nombreTrabajador;
     }
 
 }

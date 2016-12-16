@@ -12,6 +12,7 @@ import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import static javax.print.attribute.Size2DSyntax.MM;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,6 +23,8 @@ import org.hibernate.Transaction;
  */
 public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
 
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    
     @Override
     public RelacionLaboral findById(int id) {
         RelacionLaboral relacionLaboral = null;
@@ -46,6 +49,25 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM RelacionLaboral WHERE estado = 1 ORDER BY empresa.nombreEmpresa ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    		
+    public List<RelacionLaboral> findActivas(Date fechaMes, int idOperador) {
+        List<RelacionLaboral> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM RelacionLaboral WHERE fechaInicio <= LAST_DAY('2016-11-01') AND fechaFin BETWEEN IF(fechaInicio = fechaFin, fechaFin, '2016-11-01')";
+        /* AND IF(fechaFin>LAST_DAY('2016-12-01'), fechaFin, LAST_DAY('2016-12-01')) AND idOperador ="+ idOperador*/
         try {
 
             list = session.createQuery(sql).list();
