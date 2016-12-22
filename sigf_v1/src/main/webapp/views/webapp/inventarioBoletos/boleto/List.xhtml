@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="./../../templateBoletos.xhtml">
+        <ui:define name="content">
+            <h:form id="BoletoListForm">
+
+
+                <p:contextMenu id="BoletoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="Crear" onclick="document.getElementById('BoletoListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="Ver" onclick="document.getElementById('BoletoListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="Editar" onclick="document.getElementById('BoletoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="Eliminar" onclick="document.getElementById('BoletoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{boletoController.items}"
+                             var="item"
+                             rowKey="#{item.idBoleto}"
+                             selectionMode="single"
+                             selection="#{boletoController.selected}"
+                             rowIndexVar="rowIndex"                             
+                             emptyMessage="No se han encontrado BOLETOS ">
+
+                    <p:ajax event="rowSelect"   update=":BoletoListForm:createButton :BoletoListForm:viewButton :BoletoListForm:editButton :BoletoListForm:deleteButton :BoletoListForm:BoletoDataTableContextMenu" listener="#{boletoController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update=":BoletoListForm:createButton :BoletoListForm:viewButton :BoletoListForm:editButton :BoletoListForm:deleteButton :BoletoListForm:BoletoDataTableContextMenu" listener="#{boletoController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('BoletoListForm:viewButton').click();"/>
+
+                    <f:facet name="header">
+                        Lista de Boletos
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idBoleto}" filterBy="#{item.idBoleto}">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreBoleto}" filterBy="#{item.nombreBoleto}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreBoleto}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                        <f:facet name="header">
+                            <h:outputText value="Estado"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{bundle.EditBoletoTitle_activo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_activo}" disabled="true"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{boletoController.prepareCreate}" update=":BoletoCreateForm" oncomplete="PF('BoletoCreateDialog').show()" styleClass="ui-priority-primary"/>
+                <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":BoletoViewForm" oncomplete="PF('BoletoViewDialog').show()" disabled="#{empty boletoController.selected}" styleClass="ui-priority-primary"/>
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar" update=":BoletoEditForm" oncomplete="PF('BoletoEditDialog').show()" disabled="#{empty boletoController.selected}" styleClass="ui-priority-primary"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{boletoController.delete}" update=":growl,datalist" disabled="#{empty boletoController.selected}" styleClass="ui-priority-primary">
+                    <p:confirm header="Confirmación" message="Ingresar el Nuevo Boleto" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+
+                <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+            </h:form>
+
+            <p:dialog id="BoletoCreateDlg" widgetVar="BoletoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear nuevo Boleto" closeOnEscape="true">
+
+                <h:form id="BoletoCreateForm">
+
+                    <h:panelGroup id="display" rendered="#{boletoController.selected != null}">
+                        <p:panelGrid columns="2" columnClasses="column">
+
+                            <p:outputLabel value="Nombre" for="nombreBoleto" />
+                            <p:inputText id="nombreBoleto" value="#{boletoController.selected.nombreBoleto}" title="#{bundle.CreateBoletoTitle_nombreBoleto}" required="true" requiredMessage="#{bundle.CreateBoletoRequiredMessage_nombreBoleto}" size="45" maxlength="45"/>
+
+                            <p:outputLabel value="Estado" for="activo" />
+                            <p:selectBooleanCheckbox id="activo" value="#{boletoController.selected.activo}" required="true" requiredMessage="#{bundle.CreateBoletoRequiredMessage_activo}"/>
+                        </p:panelGrid>
+                        <p:commandButton actionListener="#{boletoController.saveNew}" value="Guardar" update="display,:BoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BoletoCreateDialog'));" styleClass="ui-priority-primary">
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" onclick="PF('BoletoCreateDialog').hide()" styleClass="ui-priority-primary"/>
+                    </h:panelGroup>
+
+                </h:form>
+
+            </p:dialog>
+
+            <p:dialog id="BoletoEditDlg" widgetVar="BoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Boleto" closeOnEscape="true">
+
+                <h:form id="BoletoEditForm">
+
+                    <h:panelGroup id="display">
+                        <p:panelGrid  columns="2" columnClasses="column" rendered="#{boletoController.selected != null}">
+
+                            <p:outputLabel value="#{bundle.EditBoletoLabel_nombreBoleto}" for="nombreBoleto" />
+                            <p:inputText id="nombreBoleto" value="#{boletoController.selected.nombreBoleto}" title="#{bundle.EditBoletoTitle_nombreBoleto}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_nombreBoleto}" size="45" maxlength="45"/>
+
+                            <p:outputLabel value="#{bundle.EditBoletoLabel_activo}" for="activo" />
+                            <p:selectBooleanCheckbox id="activo" value="#{boletoController.selected.activo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_activo}"/>
+                        </p:panelGrid>
+                        <p:commandButton actionListener="#{boletoController.save}" value="#{bundle.Save}" update="display,:BoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BoletoEditDialog'));">
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('BoletoEditDialog').hide()"/>
+                    </h:panelGroup>
+
+                </h:form>
+
+            </p:dialog>
+            <p:dialog id="BoletoViewDlg" widgetVar="BoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Vista de Boleto" closeOnEscape="true">
+
+                <h:form id="BoletoViewForm">
+
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" columnClasses="column" rendered="#{boletoController.selected != null}">
+
+                            <h:outputText value="#{bundle.ViewBoletoLabel_nombreBoleto}"/>
+                            <h:outputText value="#{boletoController.selected.nombreBoleto}" title="#{bundle.ViewBoletoTitle_nombreBoleto}"/>
+
+                            <h:outputText value="#{bundle.ViewBoletoLabel_activo}"/>
+                            <h:selectBooleanCheckbox id="activo" value="#{boletoController.selected.activo}" title="#{bundle.EditBoletoTitle_activo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_activo}" disabled="true"/>
+                        </p:panelGrid>
+                        <p:commandButton value="#{bundle.Close}" onclick="PF('BoletoViewDialog').hide()"/>
+                    </h:panelGroup>
+
+                </h:form>
+
+            </p:dialog>
+        </ui:define>
+
+
+    </ui:composition>
+</html>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TipoControlListForm">            
+                <p:contextMenu id="TipoControlDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoControlListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoControlListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoControlListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoControlListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.TipoControlMenuItem_controlCollection}" icon="ui-icon-search"  action="#{tipoControlController.navigateControlCollection}" disabled="#{empty tipoControlController.selected.controlCollection}" ajax="false"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{tipoControlController.items}"
+                             var="item"
+                             rowKey="#{item.idTipoControl}"
+                             paginator="true"
+                             paginatorPosition="top"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{tipoControlController.selected}"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No se han encontrado TIPOS DE CONTROLES en la base de datos">
+
+                    <p:ajax event="rowSelect"   update=":TipoControlListForm:createButton :TipoControlListForm:viewButton :TipoControlListForm:editButton :TipoControlListForm:deleteButton :TipoControlListForm:TipoControlDataTableContextMenu" listener="#{tipoControlController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update=":TipoControlListForm:createButton :TipoControlListForm:viewButton :TipoControlListForm:editButton :TipoControlListForm:deleteButton :TipoControlListForm:TipoControlDataTableContextMenu" listener="#{tipoControlController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoControlListForm:viewButton').click();"/>
+
+                    <f:facet name="header">
+                        Definición de Tipos Controles
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idTipoControl}" filterBy="#{item.idTipoControl}">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreTipoControl}" filterBy="#{item.nombreTipoControl}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTipoControlTitle_nombreTipoControl}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreTipoControl}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.clasificacion}" filterBy="#{item.clasificacion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTipoControlTitle_clasificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clasificacion}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoControlController.prepareCreate}" update=":TipoControlCreateForm" oncomplete="PF('TipoControlCreateDialog').show()"/>
+                <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoControlViewForm" oncomplete="PF('TipoControlViewDialog').show()" disabled="#{empty tipoControlController.selected}"/>
+                <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoControlEditForm" oncomplete="PF('TipoControlEditDialog').show()" disabled="#{empty tipoControlController.selected}"/>
+                <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoControlController.delete}" update=":growl,datalist" disabled="#{empty tipoControlController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+        <p:dialog id="TipoControlCreateDlg" widgetVar="TipoControlCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear Nuevo Tipo de Control" closeOnEscape="true">
+
+            <h:form id="TipoControlCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoControlController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoControlLabel_nombreTipoControl}" for="nombreTipoControl" />
+                        <p:inputText id="nombreTipoControl" value="#{tipoControlController.selected.nombreTipoControl}" title="#{bundle.CreateTipoControlTitle_nombreTipoControl}" required="true" requiredMessage="#{bundle.CreateTipoControlRequiredMessage_nombreTipoControl}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoControlLabel_clasificacion}" for="clasificacion" />
+                        <p:inputText id="clasificacion" value="#{tipoControlController.selected.clasificacion}" title="#{bundle.CreateTipoControlTitle_clasificacion}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoControlController.saveNew}" value="#{bundle.Save}" update="display,:TipoControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoControlCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('TipoControlCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="TipoControlEditDlg" widgetVar="TipoControlEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Tipo de Control" closeOnEscape="true">
+
+            <h:form id="TipoControlEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoControlController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoControlLabel_idTipoControl}" for="idTipoControl" />
+                        <h:outputText id="idTipoControl" value="#{tipoControlController.selected.idTipoControl}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoControlLabel_nombreTipoControl}" for="nombreTipoControl" />
+                        <p:inputText id="nombreTipoControl" value="#{tipoControlController.selected.nombreTipoControl}" title="#{bundle.EditTipoControlTitle_nombreTipoControl}" required="true" requiredMessage="#{bundle.EditTipoControlRequiredMessage_nombreTipoControl}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoControlLabel_clasificacion}" for="clasificacion" />
+                        <p:inputText id="clasificacion" value="#{tipoControlController.selected.clasificacion}" title="#{bundle.EditTipoControlTitle_clasificacion}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoControlController.save}" value="#{bundle.Save}" update="display,:TipoControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoControlEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('TipoControlEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="TipoControlViewDlg" widgetVar="TipoControlViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Vista de Control" closeOnEscape="true">
+
+            <h:form id="TipoControlViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoControlController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoControlLabel_idTipoControl}"/>
+                        <h:outputText value="#{tipoControlController.selected.idTipoControl}" title="#{bundle.ViewTipoControlTitle_idTipoControl}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoControlLabel_nombreTipoControl}"/>
+                        <h:outputText value="#{tipoControlController.selected.nombreTipoControl}" title="#{bundle.ViewTipoControlTitle_nombreTipoControl}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoControlLabel_clasificacion}"/>
+                        <h:outputText value="#{tipoControlController.selected.clasificacion}" title="#{bundle.ViewTipoControlTitle_clasificacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoControlViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

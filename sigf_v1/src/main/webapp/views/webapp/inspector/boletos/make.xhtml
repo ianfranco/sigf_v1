@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+
+        <p:panel header="Ventas de Boletos x Guía">
+            <h:form id="VentaBoletoGuiaListForm">        
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="6" columnClasses="value" id="panelServicio">                        
+                        <p:outputLabel value="Bus" for="bus"/>
+                        <p:outputLabel value="Tipo Boleto" for="tipoBoleto"/>
+                        <p:outputLabel value="Serie" for="serie"/>
+                        <p:outputLabel value="Valor" for="valor"/>
+                        <p:outputLabel value="Cancelado" for="cancelado"/>
+                        <p:outputLabel value="" for="ok"/>
+
+                        <p:selectOneMenu id="bus" value="#{newVentaBoletoGuiaController.bus}" requiredMessage="Debe seleccionar el Bus" converter="busConverter" required="false">
+                            <f:selectItem itemLabel="Seleccionar..."/>
+                            <f:selectItems value="#{newVentaBoletoGuiaController.busItems}"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="tipoBoleto" value="#{newVentaBoletoGuiaController.boleto}" requiredMessage="Debe seleccionar el tipo de Boleto" converter="boletoConverter" required="false">
+                            <f:selectItem itemLabel="Seleccionar..."/>
+                            <f:selectItems value="#{newVentaBoletoGuiaController.boletoItems}"/>
+                            <p:ajax update="serie" listener="#{newVentaBoletoGuiaController.handleBoletoChange}"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="serie" value="#{newVentaBoletoGuiaController.inventarioTerminal}" requiredMessage="Debe seleccionar la Serie" converter="inventarioTerminalConverter" required="false">
+                            <f:selectItem itemLabel="Seleccionar..."/>
+                            <f:selectItems value="#{newVentaBoletoGuiaController.inventarioTerminalItems}"/>
+                        </p:selectOneMenu>
+                        <p:inputText id="valor" requiredMessage="Debe ingresar el valor del rollo" required="false" value="#{newVentaBoletoGuiaController.ventaBoletoGuia.valor}"/>
+                        <p:selectBooleanCheckbox id="cancelado" value="#{newVentaBoletoGuiaController.ventaBoletoGuia.recaudado}"/>
+                        
+                        <p:commandButton id="ok" actionListener="#{newVentaBoletoGuiaController.saveNew}" value="Aceptar" update=":VentaBoletoGuiaListForm:datalist,:growl" styleClass="ui-priority-primary" >                           
+                        </p:commandButton>
+
+                    </h:panelGrid>
+
+                    <h3 style="margin-top:10px;margin-bottom:0px"></h3>
+                    <p:separator class="ui-priority-primary"/>
+                    <p:dataTable id="datalist"
+                                 value="#{newVentaBoletoGuiaController.ventaBoletoGuiaItems}"
+                                 var="item"
+                                 rowKey="#{item.idVentaBoletoGuia}"
+                                 widgetVar="datalist" 
+                                 rowIndexVar="rowIndex">
+
+                        <f:facet name="header">
+                            Ventas durante el día 
+                        </f:facet>
+
+                        <p:column width="10">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N° Bus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.guia.bus.numeroBus}" />
+                        </p:column>
+
+                        <p:column width="151">
+                            <f:facet name="header">
+                                <h:outputText value="Conductor"/>
+                            </f:facet>
+                            <h:outputText value="#{item.guia.trabajador}"/>
+                        </p:column>
+
+                        <p:column width="60" >
+                            <f:facet name="header">
+                                <h:outputText value="Boleto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.inventarioTerminal.boleto}"/>
+                        </p:column>
+
+                        <p:column width="80">
+                            <f:facet name="header">
+                                <h:outputText value="Serie" />
+                            </f:facet>
+                            <h:outputText value="#{item.inventarioTerminal}" />
+                        </p:column>
+
+                        <p:column width="80">
+                            <f:facet name="header">
+                                <h:outputText value="Valor" />
+                            </f:facet>
+                            <h:outputText value="#{item.valor}" />
+                        </p:column>
+                        
+                        <p:column width="180">
+                            <f:facet name="header">
+                                <h:outputText value="Cancelado" />
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.recaudado}" />
+                        </p:column>
+                        
+                        <!--
+                                            <p:column sortBy="#{item.saldo}" filterBy="#{item.saldo}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_saldo}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.saldo}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            <p:column sortBy="#{item.numeroVueltas}" filterBy="#{item.numeroVueltas}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_numeroVueltas}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.numeroVueltas}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            <p:column sortBy="#{item.turno}" filterBy="#{item.turno}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_turno}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.turno}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            <p:column sortBy="#{item.observacion}" filterBy="#{item.observacion}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_observacion}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.observacion}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            <p:column sortBy="#{item.idBus.idBus}" filterBy="#{item.idBus.idBus}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_idBus}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.idBus.idBus}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            <p:column sortBy="#{item.idServicio.idServicio}" filterBy="#{item.idServicio.idServicio}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListGuiaTitle_idServicio}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.idServicio.idServicio}"/>
+                                            </p:column>
+                        -->
+                        <!--
+                                            
+                        -->
+
+                    </p:dataTable>
+                    
+                </h:panelGroup>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="CalleListForm">
+
+            <p:panel header="#{bundle.ListCalleTitle}">
+                <p:contextMenu id="CalleDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CalleListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CalleListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CalleListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CalleListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.CalleMenuItem_calleServicioCollection}" icon="ui-icon-search"  action="#{calleController.navigateCalleServicioCollection}" disabled="#{empty calleController.selected.calleServicioCollection}" ajax="false"/>  
+                    <p:menuitem value="#{bundle.CalleMenuItem_idComuna}" icon="ui-icon-search"  actionListener="#{calleController.prepareIdComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty calleController.selected.idComuna}"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{calleController.items}"
+                             var="item"
+                             rowKey="#{item.idCalle}"
+                             paginator="true"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{calleController.selected}">
+
+                    <p:ajax event="rowSelect"   update=":CalleListForm:createButton :CalleListForm:viewButton :CalleListForm:editButton :CalleListForm:deleteButton :CalleListForm:CalleDataTableContextMenu" listener="#{calleController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update=":CalleListForm:createButton :CalleListForm:viewButton :CalleListForm:editButton :CalleListForm:deleteButton :CalleListForm:CalleDataTableContextMenu" listener="#{calleController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('CalleListForm:viewButton').click();"/>
+
+                    <p:column sortBy="#{item.idCalle}" filterBy="#{item.idCalle}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListCalleTitle_idCalle}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCalle}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreCalle}" filterBy="#{item.nombreCalle}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListCalleTitle_nombreCalle}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreCalle}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.idComuna.idComuna}" filterBy="#{item.idComuna.idComuna}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListCalleTitle_idComuna}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idComuna.idComuna}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{calleController.prepareCreate}" update=":CalleCreateForm" oncomplete="PF('CalleCreateDialog').show()"/>
+                <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CalleViewForm" oncomplete="PF('CalleViewDialog').show()" disabled="#{empty calleController.selected}"/>
+                <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CalleEditForm" oncomplete="PF('CalleEditDialog').show()" disabled="#{empty calleController.selected}"/>
+                <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{calleController.delete}" update=":growl,datalist" disabled="#{empty calleController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            </p:panel>
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+    </ui:define>
+
+    <p:dialog id="CalleCreateDlg" widgetVar="CalleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCalleTitle}" closeOnEscape="true">
+
+        <h:form id="CalleCreateForm">
+
+            <h:panelGroup id="display" rendered="#{calleController.selected != null}">
+                <p:panelGrid columns="2" columnClasses="column">
+
+                    <p:outputLabel value="#{bundle.CreateCalleLabel_nombreCalle}" for="nombreCalle" />
+                    <p:inputText id="nombreCalle" value="#{calleController.selected.nombreCalle}" title="#{bundle.CreateCalleTitle_nombreCalle}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_nombreCalle}" size="45" maxlength="45"/>
+
+                    <p:outputLabel value="#{bundle.CreateCalleLabel_idComuna}" for="idComuna" />
+                    <p:selectOneMenu id="idComuna" value="#{calleController.selected.idComuna}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_idComuna}" converter="comunaConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{comunaController.items}"
+                                       var="idComunaItem"
+                                       itemValue="#{idComunaItem}"
+                                       itemLabel="#{idComunaItem.idComuna.toString()}"
+                                       />
+
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{calleController.saveNew}" value="#{bundle.Save}" update="display,:CalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleCreateDialog'));">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+                <p:commandButton value="#{bundle.Cancel}" onclick="PF('CalleCreateDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog id="CalleEditDlg" widgetVar="CalleEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCalleTitle}" closeOnEscape="true">
+
+        <h:form id="CalleEditForm">
+
+            <h:panelGroup id="display">
+                <p:panelGrid  columns="2" columnClasses="column" rendered="#{calleController.selected != null}">
+
+
+                    <h:outputLabel value="#{bundle.EditCalleLabel_idCalle}" for="idCalle" />
+                    <h:outputText id="idCalle" value="#{calleController.selected.idCalle}" />
+
+                    <p:outputLabel value="#{bundle.EditCalleLabel_nombreCalle}" for="nombreCalle" />
+                    <p:inputText id="nombreCalle" value="#{calleController.selected.nombreCalle}" title="#{bundle.EditCalleTitle_nombreCalle}" required="true" requiredMessage="#{bundle.EditCalleRequiredMessage_nombreCalle}" size="45" maxlength="45"/>
+
+                    <p:outputLabel value="#{bundle.EditCalleLabel_idComuna}" for="idComuna" />
+                    <p:selectOneMenu id="idComuna" value="#{calleController.selected.idComuna}" required="true" requiredMessage="#{bundle.EditCalleRequiredMessage_idComuna}" converter="comunaConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{comunaController.items}"
+                                       var="idComunaItem"
+                                       itemValue="#{idComunaItem}"
+                                       itemLabel="#{idComunaItem.idComuna.toString()}"
+                                       />
+
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{calleController.save}" value="#{bundle.Save}" update="display,:CalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleEditDialog'));">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+                <p:commandButton value="#{bundle.Cancel}" onclick="PF('CalleEditDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog id="CalleViewDlg" widgetVar="CalleViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCalleTitle}" closeOnEscape="true">
+
+        <h:form id="CalleViewForm">
+
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" columnClasses="column" rendered="#{calleController.selected != null}">
+
+                    <h:outputText value="#{bundle.ViewCalleLabel_idCalle}"/>
+                    <h:outputText value="#{calleController.selected.idCalle}" title="#{bundle.ViewCalleTitle_idCalle}"/>
+
+                    <h:outputText value="#{bundle.ViewCalleLabel_nombreCalle}"/>
+                    <h:outputText value="#{calleController.selected.nombreCalle}" title="#{bundle.ViewCalleTitle_nombreCalle}"/>
+
+                    <h:outputText value="#{bundle.ViewCalleLabel_idComuna}"/>
+                    <h:outputText value="#{calleController.selected.idComuna.idComuna}"/>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Close}" onclick="PF('CalleViewDialog').hide()"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+</ui:composition>

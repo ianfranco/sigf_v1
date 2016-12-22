@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../../templateServicio.xhtml">
+
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="MarcaBusListForm">            
+                <p:contextMenu id="MarcaBusDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('MarcaBusListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('MarcaBusListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('MarcaBusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('MarcaBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.MarcaBusMenuItem_modeloMarcaBusCollection}" icon="ui-icon-search"  action="#{marcaBusController.navigateModeloMarcaBusCollection}" disabled="#{empty marcaBusController.selected.modeloMarcaBusCollection}" ajax="false"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{marcaBusController.items}"
+                             var="item"
+                             rowKey="#{item.idMarcasBus}"
+                             paginator="true"
+                             paginatorPosition="top"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{marcaBusController.selected}"
+                             emptyMessage="No se han encontrado MARCAS DE BUSES en la base de datos">
+
+                    <p:ajax event="rowSelect"   update=":MarcaBusListForm:createButton :MarcaBusListForm:viewButton :MarcaBusListForm:editButton :MarcaBusListForm:deleteButton :MarcaBusListForm:MarcaBusDataTableContextMenu" listener="#{marcaBusController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update=":MarcaBusListForm:createButton :MarcaBusListForm:viewButton :MarcaBusListForm:editButton :MarcaBusListForm:deleteButton :MarcaBusListForm:MarcaBusDataTableContextMenu" listener="#{marcaBusController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('MarcaBusListForm:viewButton').click();"/>
+
+                    <f:facet name="header">
+                        Lista de Marcas de Buses
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idMarcasBus}" filterBy="#{item.idMarcasBus}">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idMarcasBus}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreMarcaBus}" filterBy="#{item.nombreMarcaBus}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreMarcaBus}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="createButton"  disabled="true"  icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{marcaBusController.prepareCreate}" update=":MarcaBusCreateForm" oncomplete="PF('MarcaBusCreateDialog').show()"/>
+                <p:commandButton id="viewButton"    disabled="true" icon="ui-icon-search" value="#{bundle.View}" update=":MarcaBusViewForm" oncomplete="PF('MarcaBusViewDialog').show()" />
+                <p:commandButton id="editButton"    disabled="true" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MarcaBusEditForm" oncomplete="PF('MarcaBusEditDialog').show()" />
+                <p:commandButton id="deleteButton"  disabled="true" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{marcaBusController.delete}" update=":growl,datalist" >
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+
+
+
+        <p:dialog id="MarcaBusCreateDlg" widgetVar="MarcaBusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="MarcaBusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{marcaBusController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateMarcaBusLabel_nombreMarcaBus}" for="nombreMarcaBus" />
+                        <p:inputText id="nombreMarcaBus" value="#{marcaBusController.selected.nombreMarcaBus}" title="#{bundle.CreateMarcaBusTitle_nombreMarcaBus}" required="true" requiredMessage="#{bundle.CreateMarcaBusRequiredMessage_nombreMarcaBus}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marcaBusController.saveNew}" value="#{bundle.Save}" update="display,:MarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MarcaBusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('MarcaBusCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+
+
+
+        <p:dialog id="MarcaBusEditDlg" widgetVar="MarcaBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="MarcaBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{marcaBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMarcaBusLabel_idMarcasBus}" for="idMarcasBus" />
+                        <h:outputText id="idMarcasBus" value="#{marcaBusController.selected.idMarcasBus}" />
+
+                        <p:outputLabel value="#{bundle.EditMarcaBusLabel_nombreMarcaBus}" for="nombreMarcaBus" />
+                        <p:inputText id="nombreMarcaBus" value="#{marcaBusController.selected.nombreMarcaBus}" title="#{bundle.EditMarcaBusTitle_nombreMarcaBus}" required="true" requiredMessage="#{bundle.EditMarcaBusRequiredMessage_nombreMarcaBus}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marcaBusController.save}" value="#{bundle.Save}" update="display,:MarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MarcaBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('MarcaBusEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+
+
+        <p:dialog id="MarcaBusViewDlg" widgetVar="MarcaBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="MarcaBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{marcaBusController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewMarcaBusLabel_idMarcasBus}"/>
+                        <h:outputText value="#{marcaBusController.selected.idMarcasBus}" title="#{bundle.ViewMarcaBusTitle_idMarcasBus}"/>
+
+                        <h:outputText value="#{bundle.ViewMarcaBusLabel_nombreMarcaBus}"/>
+                        <h:outputText value="#{marcaBusController.selected.nombreMarcaBus}" title="#{bundle.ViewMarcaBusTitle_nombreMarcaBus}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('MarcaBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

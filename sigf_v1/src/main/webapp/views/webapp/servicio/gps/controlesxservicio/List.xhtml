@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ControlServicioListForm">
+
+            <p:panel id="panelSeleccion" header="CONTROLES:Detalle x Servicio" >
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="5" columnClasses="value" id="panelServicio"> 
+                        <p:outputLabel value="Terminal" for="terminal" style="font-weight: bold;font-size: 14px; margin-top: 25px;width: 100%;"/>
+                        <p:selectOneMenu id="terminal" value="#{setControlServicio.selectedTerminal}" required="true" requiredMessage="Debe seleccionar un Terminal" converter="terminalConverter" >
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{setControlServicio.terminalItems}"
+                                           var="idTerminal"
+                                           itemValue="#{idTerminal}"
+                                           itemLabel="#{idTerminal.nombreTerminal}" 
+                                           />
+                            <p:ajax update="servicio" listener="#{setControlServicio.handleServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Servicio" for="servicio" style="font-weight: bold;font-size: 14px; margin-top: 25px;width: 100%;"/>
+                        <p:selectOneMenu id="servicio" value="#{setControlServicio.selectedServicio}" required="true" requiredMessage="Debe seleccionar un Servicio" converter="servicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{setControlServicio.servicioItems}"
+                                           var="idServicio"
+                                           itemValue="#{idServicio}"
+                                           itemLabel="#{idServicio.numeroServicio}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Aceptar" actionListener="#{setControlServicio.initComponents}" update=":growl, PojoPickList" />
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:panel>
+            <p:layout style="padding-top: 5px;">                
+                <p:layoutUnit position="center" style="padding: 0px 0px 0px 0px;border: none;">
+
+                    <p:pickList id="PojoPickList" value="#{setControlServicio.controles}" var="control" effect="bounce"
+                                itemValue="#{control}" itemLabel="#{control.control.nombreControl}" showSourceControls="true" showTargetControls="true" showCheckbox="false"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="controlServicioConverter"  style="padding-left: 30px;" >
+
+                        <f:facet name="sourceCaption">Disponibles</f:facet>
+                        <f:facet name="targetCaption">Controles x Servicio</f:facet>
+
+                        <p:ajax event="transfer" listener="#{setControlServicio.onTransfer}" update=":growl" />
+                        
+                                                                       
+                        <p:column style="width:100%;">
+                            <h:outputText value="#{control.control.nombreControl}"  style="font-weight: bold;font-size: 12px; margin-top: 25px;width: 100%;padding-left: 10px;"/>
+                        </p:column>
+                    </p:pickList>
+                    
+                    
+                    <p:commandButton id="saveButton" icon="ui-icon-disk" actionListener="#{setControlServicio.save}"  value="Guardar" style="margin-left: 70px;">
+                        <p:confirm header="Confirmación" message="¿Guardar los cambios?" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                </p:layoutUnit>
+            </p:layout>                
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>        
+       
+        
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

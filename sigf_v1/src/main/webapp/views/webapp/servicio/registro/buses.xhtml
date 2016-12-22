@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >        
+        <h:form id="BusListForm">            
+            <p:contextMenu id="BusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('BusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('BusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('BusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('BusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>                    
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{registroBusesController.items}"
+                         var="item"
+                         rowKey="#{item.idBus}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"                         
+                         scrollWidth="true"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{registroBusesController.selected}"
+                         emptyMessage="No se han encontrado BUSES en la base de datos">
+
+                <p:ajax event="rowSelect"   update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('BusListForm:viewButton').click();"/>
+
+                <f:facet name="header">
+                    Lista de Buses
+                </f:facet>
+
+                <p:column style="width: 30px;">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idBus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroBus}" filterBy="#{item.numeroBus}" style="width: 110px;text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="N° Bus"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroBus}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.unidadNegocio.numeroUnidadNegocio}" filterBy="#{item.unidadNegocio.numeroUnidadNegocio}" style="width: 100px;text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocio.numeroUnidadNegocio}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.patente}" filterBy="#{item.patente}" style="width: 110px;text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusTitle_patente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.patente}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" style="width: 250px;">
+                    <f:facet name="header">
+                        <h:outputText value="Empresa"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dataList').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{registroBusesController.forFilterEmpresa}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.empresa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.flota}" filterBy="#{item.flota}" style="width: 150px;text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="flota"/>
+                    </f:facet>
+                    <h:outputText value="#{item.flota}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminal}" filterBy="#{item.terminal}" style="width: 120px;">
+                    <f:facet name="header">
+                        <h:outputText value="Terminal"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.año}" filterBy="#{item.año}" style="text-align: center;width: 100px;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListBusTitle_año}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.año}"/>
+                </p:column>
+
+
+
+
+                <!--
+                                    <p:column sortBy="#{item.carroceria}" filterBy="#{item.carroceria}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_carroceria}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.carroceria}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    
+                -->
+                <f:facet name="footer">
+
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{registroBusesController.prepareCreate}" update=":BusCreateForm" oncomplete="PF('BusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty registroBusesController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BusEditForm" oncomplete="PF('BusEditDialog').show()" disabled="#{empty registroBusesController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroBusesController.delete}" update=":growl,datalist" disabled="#{empty registroBusesController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                <p:printer target="datalist" />
+            </p:commandButton>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="BusCreateDlg" widgetVar="BusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo" closeOnEscape="true">
+
+            <h:form id="BusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{registroBusesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="N° Bus" for="numeroBus" />
+                        <p:inputText id="numeroBus" value="#{registroBusesController.selected.numeroBus}" title="#{bundle.CreateBusTitle_numeroBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_numeroBus}"/>
+
+                        <p:outputLabel value="Unidad de Negocio" for="idUnidadNegocio" />
+                        <p:selectOneMenu id="idUnidadNegocio" value="#{registroBusesController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idUnidadNegocio}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="idUnidadNegocioItem"
+                                           itemValue="#{idUnidadNegocioItem}"
+                                           itemLabel="#{idUnidadNegocioItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateBusLabel_patente}" for="patente" />
+                        <p:inputText id="patente" value="#{registroBusesController.selected.patente}" title="#{bundle.CreateBusTitle_patente}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_patente}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Terminal" for="idTerminal" />
+                        <p:selectOneMenu id="idTerminal" value="#{registroBusesController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="idTerminalItem"
+                                           itemValue="#{idTerminalItem}"
+                                           itemLabel="#{idTerminalItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Empresa" for="idEmpresa" />
+                        <p:selectOneMenu id="idEmpresa" value="#{registroBusesController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idEmpresa}" converter="empresaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaController.items}"
+                                           var="idEmpresaItem"
+                                           itemValue="#{idEmpresaItem}"
+                                           itemLabel="#{idEmpresaItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Flota" for="idFlota" />
+                        <p:selectOneMenu id="idFlota" value="#{registroBusesController.selected.flota}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idFlota}" converter="flotaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{flotaController.items}"
+                                           var="idFlotaItem"
+                                           itemValue="#{idFlotaItem}"
+                                           itemLabel="#{idFlotaItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateBusLabel_año}" for="año" />
+                        <p:inputText id="año" value="#{registroBusesController.selected.año}" title="#{bundle.CreateBusTitle_año}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_año}"/>
+
+                        <p:outputLabel value="Modelo" for="idModelo" />
+                        <p:selectOneMenu id="idModelo" value="#{registroBusesController.selected.modeloMarcaBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idModelo}" converter="modeloMarcaBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{modeloMarcaBusController.items}"
+                                           var="idModeloItem"
+                                           itemValue="#{idModeloItem}"
+                                           itemLabel="#{idModeloItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="N° Motor" for="numeroMotor" />
+                        <p:inputText id="numeroMotor" value="#{registroBusesController.selected.numeroMotor}" title="#{bundle.CreateBusTitle_numeroMotor}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="N° Chasis" for="numeroChasis" />
+                        <p:inputText id="numeroChasis" value="#{registroBusesController.selected.numeroChasis}" title="#{bundle.CreateBusTitle_numeroChasis}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Carrocería" for="carroceria" />
+                        <p:inputText id="carroceria" value="#{registroBusesController.selected.carroceria}" title="#{bundle.CreateBusTitle_carroceria}" size="45" maxlength="45"/>
+
+                    </p:panelGrid>
+                    <p:commandButton disabled="true" actionListener="#{registroBusesController.saveNew}" value="#{bundle.Save}" update="display,:BusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('BusCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="BusEditDlg" widgetVar="BusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición" closeOnEscape="true">
+
+            <h:form id="BusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroBusesController.selected != null}">
+
+                        <p:outputLabel value="N° Bus" for="numeroBus" />
+                        <p:inputText id="numeroBus" value="#{registroBusesController.selected.numeroBus}" title="#{bundle.EditBusTitle_numeroBus}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_numeroBus}"/>
+
+                        <p:outputLabel value="#{bundle.EditBusLabel_patente}" for="patente" />
+                        <p:inputText id="patente" value="#{registroBusesController.selected.patente}" title="#{bundle.EditBusTitle_patente}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_patente}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditBusLabel_año}" for="año" />
+                        <p:inputText id="año" value="#{registroBusesController.selected.año}" title="#{bundle.EditBusTitle_año}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_año}"/>
+
+                        <p:outputLabel value="N° Motor" for="numeroMotor" />
+                        <p:inputText id="numeroMotor" value="#{registroBusesController.selected.numeroMotor}" title="#{bundle.EditBusTitle_numeroMotor}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="N° Chasis" for="numeroChasis" />
+                        <p:inputText id="numeroChasis" value="#{registroBusesController.selected.numeroChasis}" title="#{bundle.EditBusTitle_numeroChasis}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Carrocería" for="carroceria" />
+                        <p:inputText id="carroceria" value="#{registroBusesController.selected.carroceria}" title="#{bundle.EditBusTitle_carroceria}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Empresa" for="idEmpresa" />
+                        <p:selectOneMenu id="idEmpresa" value="#{registroBusesController.selected.empresa}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idEmpresa}" converter="empresaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaController.items}"
+                                           var="idEmpresaItem"
+                                           itemValue="#{idEmpresaItem}"
+                                           itemLabel="#{idEmpresaItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Flota" for="idFlota" />
+                        <p:selectOneMenu id="idFlota" value="#{registroBusesController.selected.flota}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idFlota}" converter="flotaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{flotaController.items}"
+                                           var="idFlotaItem"
+                                           itemValue="#{idFlotaItem}"
+                                           itemLabel="#{idFlotaItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Modelo" for="idModelo" />
+                        <p:selectOneMenu id="idModelo" value="#{registroBusesController.selected.modeloMarcaBus}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idModelo}" converter="modeloMarcaBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{modeloMarcaBusController.items}"
+                                           var="idModeloItem"
+                                           itemValue="#{idModeloItem}"
+                                           itemLabel="#{idModeloItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditBusLabel_idTerminal}" for="idTerminal" />
+                        <p:selectOneMenu id="idTerminal" value="#{registroBusesController.selected.terminal}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="idTerminalItem"
+                                           itemValue="#{idTerminalItem}"
+                                           itemLabel="#{idTerminalItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditBusLabel_idUnidadNegocio}" for="idUnidadNegocio" />
+                        <p:selectOneMenu id="idUnidadNegocio" value="#{registroBusesController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idUnidadNegocio}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="idUnidadNegocioItem"
+                                           itemValue="#{idUnidadNegocioItem}"
+                                           itemLabel="#{idUnidadNegocioItem}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton disabled="true" actionListener="#{registroBusesController.save}" value="#{bundle.Save}" update="display,:BusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('BusEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="BusViewDlg" widgetVar="BusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Bus" closeOnEscape="true">
+
+            <h:form id="BusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{registroBusesController.selected != null}">
+                        <h:outputText value="N° Bus"/>
+                        <h:outputText value="#{registroBusesController.selected.numeroBus}" title="#{bundle.ViewBusTitle_numeroBus}"/>
+
+                        <h:outputText value="#{bundle.ViewBusLabel_patente}"/>
+                        <h:outputText value="#{registroBusesController.selected.patente}" title="#{bundle.ViewBusTitle_patente}"/>
+
+                        <h:outputText value="#{bundle.ViewBusLabel_año}"/>
+                        <h:outputText value="#{registroBusesController.selected.año}" title="#{bundle.ViewBusTitle_año}"/>
+
+                        <h:outputText value="N° Motor"/>
+                        <h:outputText value="#{registroBusesController.selected.numeroMotor}" title="#{bundle.ViewBusTitle_numeroMotor}"/>
+
+                        <h:outputText value="N° Chasis"/>
+                        <h:outputText value="#{registroBusesController.selected.numeroChasis}" title="#{bundle.ViewBusTitle_numeroChasis}"/>
+
+                        <h:outputText value="Carrocería"/>
+                        <h:outputText value="#{registroBusesController.selected.carroceria}" title="#{bundle.ViewBusTitle_carroceria}"/>
+
+                        <h:outputText value="Empresa"/>
+                        <h:outputText value="#{registroBusesController.selected.empresa}"/>
+
+                        <h:outputText value="Flota"/>
+                        <h:outputText value="#{registroBusesController.selected.flota}"/>
+
+                        <h:outputText value="Modelo"/>
+                        <h:outputText value="#{registroBusesController.selected.modeloMarcaBus}"/>
+
+                        <h:outputText value="Terminal"/>
+                        <h:outputText value="#{registroBusesController.selected.terminal}"/>
+
+                        <h:outputText value="Unidad de Negocio"/>
+                        <h:outputText value="#{registroBusesController.selected.unidadNegocio}"/>
+                        
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('BusViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                        
+                    </p:panelGrid>
+                    
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ControlHorarioServicioListForm">  
+            <p:panel id="panelSeleccion" header="Selección" >
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="7" columnClasses="value" id="panelServicio"> 
+                        <p:outputLabel value="Terminal" for="terminal"/>
+                        <p:selectOneMenu id="terminal" value="#{setControlXHorarioController.selectedTerminal}" required="true" requiredMessage="Debe seleccionar un Terminal" converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{setControlXHorarioController.itemsTerminal}"
+                                           var="idTerminal"
+                                           itemValue="#{idTerminal}"
+                                           itemLabel="#{idTerminal.nombreTerminal}"
+                                           />
+                            <p:ajax update="servicio" listener="#{setControlXHorarioController.handleServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Servicio" for="servicio"/>
+                        <p:selectOneMenu id="servicio" value="#{setControlXHorarioController.selectedServicio}" required="true" requiredMessage="Debe seleccionar un Servicio" converter="servicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{setControlXHorarioController.itemsServicio}"
+                                           var="idServicio"
+                                           itemValue="#{idServicio}"
+                                           itemLabel="#{idServicio.numeroServicio}"
+                                           />
+                            <p:ajax update="horarioServicio" listener="#{setControlXHorarioController.handleHorarioServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Horario" for="horarioServicio"/>
+                        <p:selectOneMenu id="horarioServicio" value="#{setControlXHorarioController.selectedHorarioServicio}" required="true" requiredMessage="Debe seleccionar un Horario" converter="horarioServicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{setControlXHorarioController.itemsHorarioServicio}"
+                                           var="idControlHorarioServicio"
+                                           itemValue="#{idHorarioServicio}"
+                                           itemLabel="#{idHorarioServicio}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Aceptar" actionListener="#{setControlXHorarioController.initComponents}" update="display,:ControlHorarioServicioListForm:datalist,:growl"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:panel>
+
+
+            <p:dataTable id="datalist"
+                         value="#{setControlXHorarioController.items}"
+                         var="item"
+                         rowKey="#{item.idControlHorarioServicio}"
+                         selectionMode="single"   
+                         selection="#{setControlXHorarioController.selected}"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros">
+
+                <f:facet name="header">
+                    Multas / Minutos x Horarios
+                </f:facet>
+
+                <p:column  style="width: 60px;">
+                    <f:facet name="header">
+                        <h:outputText value="N°" style="width: 60px;"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}" />
+                </p:column>
+
+                <p:column sortBy="#{item.controlServicio.control.nombreControl}" filterBy="#{item.controlServicio.control.nombreControl}" style="width:80%;">
+                    <f:facet name="header">
+                        <h:outputText value="Control" style="width:70%;"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicio.control.nombreControl}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.tiempo}" filterBy="#{item.tiempo}" style="width:240px;">
+                    <f:facet name="header">
+                        <h:outputText value="Tiempo" style="width: 200px;"/>
+                    </f:facet>
+                    <p:inputText value="#{item.tiempo}" style="width:230px;"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.multa}" filterBy="#{item.multa}" style="width:240px;">
+                    <f:facet name="header">
+                        <h:outputText value="Multa" style="width: 200px;"/>
+                    </f:facet>
+                    <p:inputText value="#{item.multa}" style="width: 230px;"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton id="saveButton" icon="ui-icon-save"   value="Guardar" actionListener="#{setControlXHorarioController.save}" update="display,:ControlHorarioServicioListForm:datalist,:growl">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Guardar los cambios?" icon="ui-icon-alert"/>
+            </p:commandButton>
+            <p:commandButton id="cancelButton"   icon="ui-icon-cancel" value="Cancelar" actionListener="#{setControlXHorarioController.cancel}" update="display,:ControlHorarioServicioListForm:datalist,:growl">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Cancelar los cambios?" icon="ui-icon-alert"/>
+            </p:commandButton>
+            
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+
+
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateBoletos.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="VentaBoletoListForm">
+
+            <p:dataTable id="datalist"
+                         value="#{historialVentasContoller.list}"
+                         var="item"
+                         rowKey="#{item.idVentaBoleto}"
+                         paginator="true"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{historialVentasContoller.selected}"
+                         rowIndexVar="rowIndex"                         
+                         widgetVar="ventasTable"
+                         scrollable="true"
+                         scrollHeight="250"
+                         emptyMessage="No se han encontrado registros">
+
+                <f:facet name="header">
+                    VENTAS DE BOLETOS
+                </f:facet>
+                <p:column width="40" style="text-align: center">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.fechaVenta}" style="text-align: center">
+                    <f:facet name="header">
+                        <h:outputText value="Fecha"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaVenta}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column filterBy="#{item.nombreComprador}" style="text-align: center">
+                    <f:facet name="header">
+                        <h:outputText value="Comprador"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreComprador}"/>
+                </p:column>
+
+                <p:column  filterBy="#{item.terminal.nombreTerminal}" style="text-align: center">
+                    <f:facet name="header">
+                        <h:outputText value="Terminal"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('ventasTable').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{historialVentasContoller.filterListTerminal}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.terminal.nombreTerminal}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.totalCompra}" style="text-align: right">
+                    <f:facet name="header">
+                        <h:outputText value="Total"/>
+                    </f:facet>
+                    <h:outputText value="#{item.totalCompra}">
+                        <f:convertNumber type="currency" currencySymbol="$ " />
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":VentaBoletoViewForm" oncomplete="PF('VentaBoletoViewDialog').show()" disabled="#{empty historialVentasContoller.selected}" styleClass="ui-priority-primary"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar"  oncomplete="PF('VentaBoletoEditDialog').show()" disabled="#{empty historialVentasContoller.selected}" styleClass="ui-priority-primary"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{ventaBoletoController.delete}" update=":growl,datalist" disabled="#{empty historialVentasContoller.selected}" styleClass="ui-priority-primary">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="VentaBoletoViewDlg" widgetVar="VentaBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{historialVentasContoller.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_idVentaBoleto}"/>
+                        <h:outputText value="#{historialVentasContoller.selected.idVentaBoleto}" title="#{bundle.ViewVentaBoletoTitle_idVentaBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_fechaVenta}"/>
+                        <h:outputText value="#{historialVentasContoller.selected.fechaVenta}" title="#{bundle.ViewVentaBoletoTitle_fechaVenta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_nombreComprador}"/>
+                        <h:outputText value="#{historialVentasContoller.selected.nombreComprador}" title="#{bundle.ViewVentaBoletoTitle_nombreComprador}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_totalCompra}"/>
+                        <h:outputText value="#{historialVentasContoller.selected.totalCompra}" title="#{bundle.ViewVentaBoletoTitle_totalCompra}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_idTerminal}"/>
+                        <h:outputText value="#{historialVentasContoller.selected.terminal.idTerminal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('VentaBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

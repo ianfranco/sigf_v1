@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../../templateServicio.xhtml">
+
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ModeloMarcaBusListForm">           
+            <p:dataTable id="datalist"
+                         value="#{modeloMarcaBusController.items}"
+                         var="item"
+                         rowKey="#{item.idModeloMarcaBus}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{modeloMarcaBusController.selected}">
+
+                <f:facet name="header">
+                    Lista de Modelos de Buses
+                </f:facet>
+
+                <p:column sortBy="#{item.idModeloMarcaBus}" filterBy="#{item.idModeloMarcaBus}" style="text-align: center;width: 80px">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idModeloMarcaBus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreModeloMarcaBus}" filterBy="#{item.nombreModeloMarcaBus}" style="text-align: center;width: 200px">
+                    <f:facet name="header">
+                        <h:outputText value="Modelo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreModeloMarcaBus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.marcaBus.idMarcasBus}" filterBy="#{item.marcaBus.idMarcasBus}" style="text-align: center;width: 200px">
+                    <f:facet name="header">
+                        <h:outputText value="Marca"/>
+                    </f:facet>
+                    <h:outputText value="#{item.marcaBus.nombreMarcaBus}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" disabled="true" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{modeloMarcaBusController.prepareCreate}" update=":ModeloMarcaBusCreateForm" oncomplete="PF('ModeloMarcaBusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ModeloMarcaBusViewForm" oncomplete="PF('ModeloMarcaBusViewDialog').show()" disabled="true"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ModeloMarcaBusEditForm" oncomplete="PF('ModeloMarcaBusEditDialog').show()" disabled="true"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{modeloMarcaBusController.delete}" update=":growl,datalist" disabled="true">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+
+        <p:dialog id="ModeloMarcaBusCreateDlg" widgetVar="ModeloMarcaBusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateModeloMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="ModeloMarcaBusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{modeloMarcaBusController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateModeloMarcaBusLabel_nombreModeloMarcaBus}" for="nombreModeloMarcaBus" />
+                        <p:inputText id="nombreModeloMarcaBus" value="#{modeloMarcaBusController.selected.nombreModeloMarcaBus}" title="#{bundle.CreateModeloMarcaBusTitle_nombreModeloMarcaBus}" required="true" requiredMessage="#{bundle.CreateModeloMarcaBusRequiredMessage_nombreModeloMarcaBus}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateModeloMarcaBusLabel_idMarcaBus}" for="idMarcaBus" />
+                        <p:selectOneMenu id="idMarcaBus" value="#{modeloMarcaBusController.selected.marcaBus}" required="true" requiredMessage="#{bundle.CreateModeloMarcaBusRequiredMessage_idMarcaBus}" converter="marcaBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcaBusController.items}"
+                                           var="idMarcaBusItem"
+                                           itemValue="#{idMarcaBusItem}"
+                                           itemLabel="#{idMarcaBusItem.marcaBus.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modeloMarcaBusController.saveNew}" value="#{bundle.Save}" update="display,:ModeloMarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ModeloMarcaBusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ModeloMarcaBusCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="ModeloMarcaBusEditDlg" widgetVar="ModeloMarcaBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditModeloMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="ModeloMarcaBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{modeloMarcaBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditModeloMarcaBusLabel_idModeloMarcaBus}" for="idModeloMarcaBus" />
+                        <h:outputText id="idModeloMarcaBus" value="#{modeloMarcaBusController.selected.idModeloMarcaBus}" />
+
+                        <p:outputLabel value="#{bundle.EditModeloMarcaBusLabel_nombreModeloMarcaBus}" for="nombreModeloMarcaBus" />
+                        <p:inputText id="nombreModeloMarcaBus" value="#{modeloMarcaBusController.selected.nombreModeloMarcaBus}" title="#{bundle.EditModeloMarcaBusTitle_nombreModeloMarcaBus}" required="true" requiredMessage="#{bundle.EditModeloMarcaBusRequiredMessage_nombreModeloMarcaBus}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditModeloMarcaBusLabel_idMarcaBus}" for="idMarcaBus" />
+                        <p:selectOneMenu id="idMarcaBus" value="#{modeloMarcaBusController.selected.marcaBus}" required="true" requiredMessage="#{bundle.EditModeloMarcaBusRequiredMessage_idMarcaBus}" converter="marcaBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcaBusController.items}"
+                                           var="idMarcaBusItem"
+                                           itemValue="#{idMarcaBusItem}"
+                                           itemLabel="#{idMarcaBusItem.marcaBus.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modeloMarcaBusController.save}" value="#{bundle.Save}" update="display,:ModeloMarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ModeloMarcaBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ModeloMarcaBusEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="ModeloMarcaBusViewDlg" widgetVar="ModeloMarcaBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewModeloMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="ModeloMarcaBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{modeloMarcaBusController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewModeloMarcaBusLabel_idModeloMarcaBus}"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.idModeloMarcaBus}" title="#{bundle.ViewModeloMarcaBusTitle_idModeloMarcaBus}"/>
+
+                        <h:outputText value="#{bundle.ViewModeloMarcaBusLabel_nombreModeloMarcaBus}"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.nombreModeloMarcaBus}" title="#{bundle.ViewModeloMarcaBusTitle_nombreModeloMarcaBus}"/>
+
+                        <h:outputText value="#{bundle.ViewModeloMarcaBusLabel_idMarcaBus}"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.marcaBus.idMarcasBus}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ModeloMarcaBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

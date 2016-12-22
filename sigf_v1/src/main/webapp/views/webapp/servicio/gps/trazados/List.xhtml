@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="CalleServicioListForm">
+            <p:contextMenu id="CalleServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CalleServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CalleServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CalleServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:panel id="panelSeleccion" header="TRAZADOS" >
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="5" columnClasses="value" id="panelServicio"> 
+                        <p:outputLabel value="Terminal" for="terminal"/>
+                        <p:selectOneMenu id="terminal" value="#{trazadosController.selectedTerminal}" required="true" requiredMessage="Debe seleccionar un Terminal" converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{trazadosController.terminalItems}"
+                                           var="idTerminal"
+                                           itemValue="#{idTerminal}"
+                                           itemLabel="#{idTerminal.nombreTerminal}"
+                                           />
+                            <p:ajax update="servicio" listener="#{trazadosController.handleServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Servicio" for="servicio"/>
+                        <p:selectOneMenu id="servicio" value="#{trazadosController.selectedServicio}" required="true" requiredMessage="Debe seleccionar un Servicio" converter="servicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{trazadosController.servicioItems}"
+                                           var="idServicio"
+                                           itemValue="#{idServicio}"
+                                           itemLabel="#{idServicio.numeroServicio}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Aceptar" actionListener="#{trazadosController.initComponents}" update="display,:CalleServicioListForm:datalist,:growl"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:panel>
+            <p:dataTable id="datalist"
+                         value="#{trazadosController.items}"
+                         var="item"
+                         rowKey="#{item.idCalleServicio}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="100"
+                         rowsPerPageTemplate="10,20,30,40,50,100"
+                         selectionMode="single"
+                         selection="#{trazadosController.selected}"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado CALLES para el Servicio seleccionado">
+
+                <p:ajax event="rowSelect"   update=":CalleServicioListForm:createButton :CalleServicioListForm:viewButton :CalleServicioListForm:deleteButton :CalleServicioListForm:CalleServicioDataTableContextMenu" listener="#{trazadosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":CalleServicioListForm:createButton :CalleServicioListForm:viewButton :CalleServicioListForm:deleteButton :CalleServicioListForm:CalleServicioDataTableContextMenu" listener="#{trazadosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CalleServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.numeroOrden}" filterBy="#{item.numeroOrden}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="N° Orden"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.calle.nombreCalle}" filterBy="#{item.calle.nombreCalle}">
+                    <f:facet name="header">
+                        <h:outputText value="Calle"/>
+                    </f:facet>
+                    <h:outputText value="#{item.calle.nombreCalle}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.calle.comuna.nombreComuna}" filterBy="#{item.calle.comuna.nombreComuna}">
+                    <f:facet name="header">
+                        <h:outputText value="Comuna"/>
+                    </f:facet>
+                    <h:outputText value="#{item.calle.comuna.nombreComuna}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.sentido}" filterBy="#{item.sentido}">
+                    <f:facet name="header">
+                        <h:outputText value="Sentido"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sentido?'REGRESO':'IDA'}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{trazadosController.prepareCreate}" update=":CalleServicioCreateForm" oncomplete="PF('CalleServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":CalleServicioViewForm" oncomplete="PF('CalleServicioViewDialog').show()" disabled="#{empty trazadosController.selected}"/>            
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{trazadosController.delete}" update=":growl,datalist" disabled="#{empty trazadosController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>            
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                <p:printer target="datalist" />
+            </p:commandButton>
+
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="CalleServicioCreateDlg" widgetVar="CalleServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Calle" closeOnEscape="true">
+
+            <h:form id="CalleServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{trazadosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCalleServicioLabel_numeroOrden}" for="numeroOrden" />
+                        <p:inputText id="numeroOrden" value="#{trazadosController.selected.numeroOrden}" title="#{bundle.CreateCalleServicioTitle_numeroOrden}" required="true" requiredMessage="#{bundle.CreateCalleServicioRequiredMessage_numeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCalleServicioLabel_idCalle}" for="idCalle" />
+                        <p:selectOneMenu id="idCalle" value="#{trazadosController.selected.idCalle}" required="true" requiredMessage="#{bundle.CreateCalleServicioRequiredMessage_idCalle}" converter="calleConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{calleController.items}"
+                                           var="idCalleItem"
+                                           itemValue="#{idCalleItem}"
+                                           itemLabel="#{idCalleItem.calle.nombreCalle}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateCalleServicioLabel_idServicio}" for="idServicio" />
+                        <p:selectOneMenu id="idServicio" value="#{calleServicioController.selected.idServicio}" required="true" requiredMessage="#{bundle.CreateCalleServicioRequiredMessage_idServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="idServicioItem"
+                                           itemValue="#{idServicioItem}"
+                                           itemLabel="#{idServicioItem.servicio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calleServicioController.saveNew}" value="#{bundle.Save}" update="display,:CalleServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('CalleServicioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="CalleServicioEditDlg" widgetVar="CalleServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCalleServicioTitle}" closeOnEscape="true">
+
+            <h:form id="CalleServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{trazadosController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCalleServicioLabel_idCalleServicio}" for="idCalleServicio" />
+                        <h:outputText id="idCalleServicio" value="#{trazadosController.selected.idCalleServicio}" />
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_numeroOrden}" for="numeroOrden" />
+                        <p:inputText id="numeroOrden" value="#{trazadosController.selected.numeroOrden}" title="#{bundle.EditCalleServicioTitle_numeroOrden}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_numeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_idCalle}" for="idCalle" />
+                        <p:selectOneMenu id="idCalle" value="#{trazadosController.selected.idCalle}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_idCalle}" converter="calleConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trazadosController.items}"
+                                           var="idCalleItem"
+                                           itemValue="#{idCalleItem}"
+                                           itemLabel="#{idCalleItem.calle.nombreCalle}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_idServicio}" for="idServicio" />
+                        <p:selectOneMenu id="idServicio" value="#{trazadosController.selected.idServicio}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_idServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trazadosController.items}"
+                                           var="idServicioItem"
+                                           itemValue="#{idServicioItem}"
+                                           itemLabel="#{idServicioItem.servicio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{trazadosController.save}" value="#{bundle.Save}" update="display,:CalleServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('CalleServicioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="CalleServicioViewDlg" widgetVar="CalleServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Calle x Servicio" closeOnEscape="true">
+
+            <h:form id="CalleServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{trazadosController.selected != null}">
+
+                        <h:outputText value="N°Orden:"/>
+                        <h:outputText value="#{trazadosController.selected.numeroOrden}" title="#{bundle.ViewCalleServicioTitle_numeroOrden}"/>
+
+                        <h:outputText value="Calle"/>
+                        <h:outputText value="#{trazadosController.selected.calle.nombreCalle}"/>
+
+                        <h:outputText value="Servicio"/>
+                        <h:outputText value="#{trazadosController.selected.servicio}"/>
+
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('CalleServicioViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

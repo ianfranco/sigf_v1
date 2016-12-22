@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TarifaServicioListForm">            
+            <p:panel id="panelSeleccion" header="Modificación de Tarifas x Servicio" >
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="9" columnClasses="value" id="panelServicio"> 
+                        <p:outputLabel value="Terminal" for="terminal"/>
+                        <p:selectOneMenu id="terminal" value="#{variacionXTarifasChartController.terminal}" required="true" requiredMessage="Debe seleccionar un Terminal" converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{tarifasController.terminalItems}"
+                                           var="idTerminal"
+                                           itemValue="#{idTerminal}"
+                                           itemLabel="#{idTerminal.nombreTerminal}"
+                                           />
+                            <p:ajax update="servicio" listener="#{tarifasController.handleServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Servicio" for="servicio"/>
+                        <p:selectOneMenu id="servicio" value="#{tarifasController.selectedServicio}" required="true" requiredMessage="Debe seleccionar un Servicio" converter="servicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{tarifasController.servicioItems}"
+                                           var="idServicio"
+                                           itemValue="#{idServicio}"
+                                           itemLabel="#{idServicio.numeroServicio}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Año" for="año"/>
+                        <p:inputMask id="año" value="#{tarifasController.year}" mask="9999" style="width: 40px;"/>
+
+
+                        <p:commandButton value="Aceptar"  actionListener="#{tarifasController.initComponents}" update="display,:growl"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:panel>
+            <p:layout style="padding-top: 5px">                
+                <p:layoutUnit position="center" style="padding: 0px 0px 0px 0px;border: none;">
+                    
+                    <p:chart type="line" model="#{variacionXTarifasChartController.lineModel}" style="height:300px; padding-right: 10px"/>
+
+                    
+
+                </p:layoutUnit>
+            </p:layout>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

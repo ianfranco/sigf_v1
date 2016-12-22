@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="ServicioListForm">
+
+            <p:dataTable id="datalist"
+                         value="#{servicioController.items}"
+                         var="item"
+                         rowKey="#{item.idServicio}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{servicioController.selected}" 
+                         rowIndexVar="rowIndex">
+
+                <f:facet name="header">
+                    Lista de Servicios
+                </f:facet>
+
+                <p:column sortBy="#{rowIndex+1}" filterBy="#{rowIndex+1}">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroServicio}" filterBy="#{item.numeroServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Servicio"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.longitud}" filterBy="#{item.longitud}">
+                    <f:facet name="header">
+                        <h:outputText value="Longitud"/>
+                    </f:facet>
+                    <h:outputText value="#{item.longitud}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminal.nombreTerminal}" filterBy="#{item.terminal.nombreTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="Terminal"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminal.nombreTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocio.numeroUnidadNegocio}" filterBy="#{item.unidadNegocio.numeroUnidadNegocio}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocio.numeroUnidadNegocio}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

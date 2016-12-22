@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+
+
+        <p:panel>
+            <h:form id="GuiaListForm">        
+                <h:panelGroup id="display" >
+                    
+                    <p:panel id="datos" widgetVar="datos" header="Datos" style="width: 100%;">
+                            <h:panelGrid columns="8" columnClasses="value" id="panelServicio2">
+                                <p:outputLabel value="Fecha:" for="fecha" style="font-size: 14px;font-weight: bold;text-align: right;"/>
+                                <p:outputLabel id="fecha" value="#{recaudacionIndividual.formatFechaRecaudacion}" style="font-size: 14px;font-weight: bold;"/>
+
+                                <p:outputLabel value="N° Bus:" for="bus" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                                <p:selectOneMenu id="bus" value="#{recaudacionIndividual.selectedBus}" requiredMessage="Debe seleccionar un Bus" converter="busConverter"  required="true" >
+                                    <f:selectItem itemLabel="Seleccionar"/>
+                                    <f:selectItems value="#{recaudacionIndividual.itemsBus}"/>
+                                    <p:ajax update="guia"  listener="#{recaudacionIndividual.handleBusChange}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Guía:" for="guia" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                                <p:selectOneMenu id="guia" value="#{recaudacionIndividual.selectedGuia}" requiredMessage="Debe seleccionar una Guía" converter="guiaConverter" style="width: 300px;" required="true">
+                                    <f:selectItem itemLabel="Seleccionar"/>
+                                    <f:selectItems value="#{recaudacionIndividual.itemsGuia}"/>
+                                    
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Bruto:" for="bruto" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;" />
+                                <p:inputText id="bruto" value="#{recaudacionIndividual.selectedGuia.totalIngresos}" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Bruto">
+                                    <p:ajax event="blur" update="tableEgresos" listener="#{recaudacionIndividual.setValoresVariables}"/>                                    
+                                </p:inputText>
+                                
+                                
+                            </h:panelGrid>
+                        </p:panel>
+
+                    
+                    <p:separator class="ui-priority-primary" />
+                    <p:panel id="tableEgresos" header="Egresos" style="width: 100%;">
+                        <p:dataTable id="datalist"
+                                     value="#{recaudacionIndividual.itemsEgresoGuia}"
+                                     var="item"
+                                     rowKey="#{item.idEgresoGuia}"
+                                     rowIndexVar="rowIndex"
+                                     widgetVar="dataList"
+                                     emptyMessage="No se han encontrado registros"
+                                     >
+
+                            <p:column width="30" style="text-align: center; font-weight: bold;">
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column width="130" style="text-align: center; font-weight: bold;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.egresoTerminal.egreso.nombreEgreso}"/>
+                            </p:column>
+
+                            <p:column width="130" style="text-align: center; font-weight: bold;">
+                                <f:facet name="header">
+                                    <h:outputText value="Valor"/>
+                                </f:facet>
+                                <p:inputText value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;">
+                                    <p:ajax event="blur" update=":GuiaListForm:totales22" listener="#{recaudacionIndividual.setTotal}" ></p:ajax>
+                                </p:inputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:separator class="ui-priority-primary" /> 
+                    <p:panel id="totales22" widgetVar="totales" header="Total Egresos">
+                        <h:panelGrid id="totales" columns="4">
+                            <p:outputLabel value="Valor" for="total"/>
+                            <p:inputText id="total" value="#{recaudacionIndividual.selectedGuia.totalEgresos}"  /> 
+                            <p:commandButton actionListener="#{recaudacionIndividual.save}"  value="Aceptar" update=":growl, GuiaListForm:datalist, GuiaListForm:datos,GuiaListForm:totales22 " styleClass="ui-priority-primary" >
+                                
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" actionListener="#{recaudacionIndividual.cancelar}" styleClass="ui-priority-primary" update="datos">
+                                <p:ajax resetValues="true" rendered="datos"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+
+                        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+                    </p:panel>
+                </h:panelGroup>
+            </h:form>
+        </p:panel>           
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="ControlListForm">
+            <p:contextMenu id="ControlDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ControlListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ControlListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ControlListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ControlListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>                    
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{setControlController.items}"
+                         var="item"
+                         rowKey="#{item.idControl}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{setControlController.selected}"
+                         rowIndexVar="rowIndex">
+
+                <p:ajax event="rowSelect"   update=":ControlListForm:createButton :ControlListForm:viewButton :ControlListForm:editButton :ControlListForm:deleteButton :ControlListForm:ControlDataTableContextMenu" listener="#{controlController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ControlListForm:createButton :ControlListForm:viewButton :ControlListForm:editButton :ControlListForm:deleteButton :ControlListForm:ControlDataTableContextMenu" listener="#{controlController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ControlListForm:viewButton').click();"/>
+
+                <f:facet name="header">
+                    Lista de Controles
+                </f:facet>
+
+                <p:column style="text-align: center;width: 60px;">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.nombreControl}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreControl}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.latitud}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlTitle_latitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.latitud}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.longitud}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlTitle_longitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.longitud}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.radio}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlTitle_radio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.radio}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.tipoControl.nombreTipoControl}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Tipo Control"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoControl.nombreTipoControl}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{setControlController.prepareCreate}"  update=":ControlCreateForm" oncomplete="PF('ControlCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ControlViewForm" oncomplete="PF('ControlViewDialog').show()" disabled="#{empty setControlController.selected}" actionListener="#{setControlController.setMarker()}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ControlEditForm" oncomplete="PF('ControlEditDialog').show()" disabled="#{empty setControlController.selected}" actionListener="#{setControlController.setMarker()}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Desactivar" actionListener="#{setControlController.delete}" update=":growl,datalist" disabled="#{empty setControlController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                <p:printer target="datalist" />
+            </p:commandButton>
+
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+
+
+        </h:form>
+        <p:dialog id="ControlCreateDlg" widgetVar="ControlCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear nuevo Control" closeOnEscape="true" width="70%">
+
+            <h:form id="ControlCreateForm" >
+
+                <h:panelGroup id="display" rendered="#{setControlController.selected != null}" >
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_nombreControl}" for="nombreControl" />
+                        <p:inputText id="nombreControl" autocomplete="false" value="#{setControlController.selected.nombreControl}" title="#{bundle.CreateControlTitle_nombreControl}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_nombreControl}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Ubicación" for="ubicacion"/>
+                        <p:gmap id="ubicacion" center="-33.07640382976732, -71.45355834960935" zoom="10" type="HYBRID" style="width:800px;height: 300px" model="#{setControlController.draggableModel}" widgetVar="map" >
+                            <p:ajax event="markerDrag" listener="#{setControlController.onMarkerDrag}" update=":growl, longitud, latitud"/>
+                        </p:gmap>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud" />
+                        <p:inputText id="latitud" size="10" value="#{setControlController.lat}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud" />
+                        <p:inputText id="longitud" size="10" value="#{setControlController.lng}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlLabel_radio}" for="radio" />
+                        <p:inputText id="radio" value="#{setControlController.selected.radio}" title="#{bundle.CreateControlTitle_radio}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_radio}"/>
+
+                        <p:outputLabel value="Tipo Control" for="idTipoControl" />
+                        <p:selectOneMenu id="idTipoControl" value="#{setControlController.selected.tipoControl}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_idTipoControl}" converter="tipoControlConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{tipoControlController.items}"
+                                           var="idTipoControlItem"
+                                           itemValue="#{idTipoControlItem}"
+                                           itemLabel="#{idTipoControlItem.nombreTipoControl}"
+                                           />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{setControlController.save}" value="#{bundle.Save}" update="display,:ControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ControlCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="ControlEditDlg" widgetVar="ControlEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Control" closeOnEscape="true" >
+
+            <h:form id="ControlEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{setControlController.selected != null}">
+
+                        <p:outputLabel value="Nombre:" for="nombreControl" />
+                        <p:inputText id="nombreControl" value="#{setControlController.selected.nombreControl}" title="#{bundle.EditControlTitle_nombreControl}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_nombreControl}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Ubicación" for="ubicacion"/>
+                        <p:gmap id="ubicacion" center="#{setControlController.selected.latitud}, #{setControlController.selected.longitud}"  zoom="15" type="HYBRID" style="width:800px;height: 300px" model="#{setControlController.draggableModel}" widgetVar="map" >
+                            <p:ajax event="markerDrag" listener="#{setControlController.onMarkerDrag}" update=":growl, longitud1, latitud1"/>
+                        </p:gmap>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_latitud}" for="latitud1" />
+                        <p:inputText id="latitud1" value="#{setControlController.selected.latitud}" title="#{bundle.EditControlTitle_latitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_longitud}" for="longitud1" />
+                        <p:inputText id="longitud1" value="#{setControlController.selected.longitud}" title="#{bundle.EditControlTitle_longitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_radio}" for="radio" />
+                        <p:inputText id="radio" value="#{setControlController.selected.radio}" title="#{bundle.EditControlTitle_radio}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_radio}"/>
+
+                        <p:outputLabel value="Tipo Control" for="idTipoControl" />
+                        <p:selectOneMenu id="idTipoControl" value="#{setControlController.selected.tipoControl}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_idTipoControl}" converter="tipoControlConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoControlController.items}"
+                                           var="idTipoControlItem"
+                                           itemValue="#{idTipoControlItem}"
+                                           itemLabel="#{idTipoControlItem.nombreTipoControl}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlController.save}" value="#{bundle.Save}" update="display,:ControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ControlEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog id="ControlViewDlg" widgetVar="ControlViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Vista de Control" closeOnEscape="true">
+
+            <h:form id="ControlViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{setControlController.selected != null}">
+                        <h:outputText value="Nombre:"/>
+                        <h:outputText value="#{setControlController.selected.nombreControl}" title="#{bundle.ViewControlTitle_nombreControl}"/>
+
+                        <h:outputText value="Ubicación"/>
+                        <p:gmap id="ubicacion" draggable="false" center="#{setControlController.selected.latitud}, #{setControlController.selected.longitud}"  zoom="15" type="HYBRID" style="width:800px;height: 300px" model="#{setControlController.draggableModel}" widgetVar="map" />
+
+                        <h:outputText value="Latitud:"/>
+                        <h:outputText value="#{setControlController.selected.latitud}" title="#{bundle.ViewControlTitle_latitud}"/>
+
+                        <h:outputText value="Longitud:"/>
+                        <h:outputText value="#{setControlController.selected.longitud}" title="#{bundle.ViewControlTitle_longitud}"/>
+
+                        <h:outputText value="Radio:"/>
+                        <h:outputText value="#{setControlController.selected.radio}" title="#{bundle.ViewControlTitle_radio}"/>
+
+                        <h:outputText value="Tipo Control"/>
+                        <h:outputText value="#{setControlController.selected.tipoControl.nombreTipoControl}"/>
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('ControlViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog widgetVar="dlg" showEffect="fade">
+            <h:form id="forma" prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="¿Agregar marcador?" />                    
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Agregar" actionListener="#{addMarkersView.addMarker}" update=":growl" oncomplete="markerAddComplete()" />
+                        <p:commandButton value="Cancelar" onclick="return cancel()" />
+                    </f:facet>
+                </h:panelGrid>
+
+                <h:inputHidden id="lat" value="#{addMarkersView.lat}" />
+                <h:inputHidden id="lng" value="#{addMarkersView.lng}" />
+            </h:form>
+        </p:dialog>
+        <script type="text/javascript">
+            var currentMarker = null;
+
+            function handlePointClick(event) {
+                if (currentMarker === null) {
+                    document.getElementById('lat').value = event.latLng.lat();
+
+                    document.getElementById('lng').value = event.latLng.lng();
+
+                    jQuery('#latitud').val(event.latLng.lat());
+                    jQuery('#longitud').val(event.latLng.lng());
+
+                    currentMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                    });
+
+                    PF('map').addOverlay(currentMarker);
+
+                    PF('dlg').show();
+                }
+            }
+
+            function markerAddComplete() {
+                currentMarker = null;
+                PF('dlg').hide();
+            }
+
+            function cancel() {
+                PF('dlg').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+
+                jQuery('#latitud').val("0.0");
+                jQuery('#longitud').val("0.0");
+
+
+                return false;
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

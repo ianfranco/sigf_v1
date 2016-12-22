@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="./../../templateBoletos.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Busqueda por Serie"/>
+        </ui:define>
+
+
+        <ui:define name="content">      
+
+            <p:panel id="BusquedaDlg" widgetVar="BusquedaDialog" header="Busqueda de Boletos">
+                <p:focus context="BusquedaForm"/>
+                <h:form id="BusquedaForm">
+
+                    <h:panelGroup id="display">
+                        <h:panelGrid columns="3" columnClasses="value" id="grupoInicial">
+                            <p:outputLabel value="Ingrese la Serie del Boleto" for="serieBoleto"/>
+                            <p:inputText id="serieBoleto" value="#{searchBoletoController.serie}" required="true" requiredMessage="Debe Ingresar el Folio" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
+                            <p:commandButton value="Aceptar"  styleClass="ui-priority-primary" actionListener="#{searchBoletoController.searchBoleto()}" update=":growl, :BusquedaForm"/>
+                        </h:panelGrid>
+
+                        <h3 style="margin-top:10px;margin-bottom:0px"></h3>
+                        <p:separator class="ui-priority-primary"/>
+                        <p:panel id="detalle" header="Detalle">
+                            <h:panelGrid columns="2" id="detalleVentasPanel">
+                                
+                                
+                                <p:outputLabel value="Serie:"/>
+                                <p:inputText id="serie" value="#{searchBoletoController.inventarioInterno.serie}"/>
+                                
+                                <p:outputLabel value="Tipo de Boleto:"/>
+                                <p:inputText id="tipoBoleto" value="#{searchBoletoController.inventarioInterno.boleto}"/>
+                                
+                                <p:outputLabel value="Terminal:"/>
+                                <p:inputText id="terminal" value="#{searchBoletoController.inventarioInterno.terminal}"/>
+                                
+                                <p:outputLabel value="Estado:"/>
+                                <p:inputText id="estado" value="#{searchBoletoController.estado}"/>
+                                
+                                <p:outputLabel value="Fecha de Venta:"/>
+                                <p:inputText id="fechaVenta"/>
+                                 
+                                <p:outputLabel value="N° Bus:"/>
+                                <p:inputText id = "numeroBus" value="00"/>
+                                
+                                <p:outputLabel value="N° Conductor:"/>
+                                <p:inputText id="numeroConductor" value="15"/>
+                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText id="nombreConductor" value="Nombre conductor"/>
+                            </h:panelGrid>
+
+                        </p:panel>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                            <p:printer target="detalle" />
+                        </p:commandButton>       
+                        <h3 style="margin-top:0"></h3>
+                        <p:separator class="ui-priority-primary" />
+                        <h:panelGrid columns="2" columnClasses="value">
+
+                        </h:panelGrid>
+
+
+                    </h:panelGroup>
+                    <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+                </h:form>
+
+            </p:panel>
+
+        </ui:define>
+
+        <p:dialog id="detalleBusquedaBoletoDlg" widgetVar="detalleBusquedaBoleto" modal="true" resizable="false" appendTo="@(body)" header="Nueva Compra de Boletos" closeOnEscape="true">
+
+            <h:form id="DetalleBusquedaForm">
+
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

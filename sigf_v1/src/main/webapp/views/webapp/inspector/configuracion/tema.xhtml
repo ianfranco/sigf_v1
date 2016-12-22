@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+
+        <p:panel header="Selector de Tema">
+            <h:form>
+
+                <h:panelGrid columns="2" cellpadding="10">
+                    <p:outputLabel for="basic" value="Basic:" />
+                    <p:themeSwitcher id="basic" style="width:165px">
+                        <f:selectItem itemLabel="Choose Theme" itemValue="" />
+                        <f:selectItems value="[afterdark, afternoon, afterwork, aristo, black-tie, blitzer, bluesky, bootstrap, casablanca, cupertino, cruze, dark-hive, delta, dot-luv, eggplant, excite-bike, flick, glass-x, home, hot-sneaks, humanity, le-frog, midnight, mint-choc, overcast, pepper-grinder, redmond, rocket, sam, smoothness, south-street, start, sunny, swanky-purse, trontastic, ui-darkness, ui-lightness, vader]" var="theme" itemLabel="" itemValue=""/>
+                    </p:themeSwitcher>
+
+                    <p:outputLabel for="advanced" value="Advanced:" />
+                    <p:themeSwitcher id="advanced" style="width:165px" effect="fade" var="t">
+                        <f:selectItem itemLabel="Choose Theme" itemValue="" />
+                        <f:selectItems value="[afterdark, afternoon, afterwork, aristo, black-tie, blitzer, bluesky, bootstrap, casablanca, cupertino, cruze, dark-hive, delta, dot-luv, eggplant, excite-bike, flick, glass-x, home, hot-sneaks, humanity, le-frog, midnight, mint-choc, overcast, pepper-grinder, redmond, rocket, sam, smoothness, south-street, start, sunny, swanky-purse, trontastic, ui-darkness, ui-lightness, vader]" var="theme" itemLabel="" itemValue="" />
+
+                        <p:column>
+                            <h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+                        </p:column>
+
+                        <p:column>
+
+                        </p:column>
+                    </p:themeSwitcher>
+                </h:panelGrid>
+
+                <p:separator />
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

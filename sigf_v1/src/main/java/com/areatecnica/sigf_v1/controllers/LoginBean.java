@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.areatecnica.sigf_v1.util;
+package com.areatecnica.sigf_v1.controllers;
 
 
 import com.areatecnica.sigf_v1.dao.UsuarioDao;
 import com.areatecnica.sigf_v1.dao.UsuarioDaoImpl;
 import com.areatecnica.sigf_v1.entities.Rol;
 import com.areatecnica.sigf_v1.entities.Usuario;
+import com.areatecnica.sigf_v1.util.MyUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import org.primefaces.context.RequestContext;
  */
 @Named(value = "loginBean")
 @SessionScoped
-public class loginBean implements Serializable {
+public class LoginBean implements Serializable {
 
     private Usuario usuario;
     
@@ -36,7 +37,7 @@ public class loginBean implements Serializable {
     /**
      * Creates a new instance of loginBean
      */
-    public loginBean() {
+    public LoginBean() {
         this.usuarioDao = new UsuarioDaoImpl();
         if (this.usuario == null) {
             this.usuario = new Usuario();
@@ -72,7 +73,7 @@ public class loginBean implements Serializable {
                     loggedIn = true;
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", " " + this.usuario.getNombres() + " " + this.usuario.getApellidoPaterno());
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n" + this.usuario.getRol().getNombreRol(), this.usuario.getNombres());
-                    path = MyUtil.basePathLogin() + "views/appBoletos/indexBoletos.xhtml";
+                    path = MyUtil.basePathLogin() + "views/indexBoletos.xhtml";
                     break;
                 case 2:
                     this.nombreTerminal = this.usuario.getTerminal().getNombreTerminal();
@@ -82,7 +83,7 @@ public class loginBean implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("NombreTerminal", " " + this.usuario.getTerminal().getNombreTerminal());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idTerminal", this.usuario.getTerminal().getIdTerminal());
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n" + this.usuario.getRol().getNombreRol(), this.usuario.getNombres());
-                    path = MyUtil.basePathLogin() + "views/appInspector/indexInspector.xhtml";
+                    path = MyUtil.basePathLogin() + "views/indexInspector.xhtml";
                     break;
                 case 3:
                     loggedIn = true;
@@ -90,7 +91,7 @@ public class loginBean implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("NombreTerminal", " " + this.usuario.getTerminal().getNombreTerminal());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idTerminal", this.usuario.getTerminal().getIdTerminal());
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n" , this.usuario.getNombres());
-                    path = MyUtil.basePathLogin() + "views/appServicio/indexServicio.xhtml";
+                    path = MyUtil.basePathLogin() + "views/indexServicio.xhtml";
                     break;
                 default:
                     loggedIn = false;

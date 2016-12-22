@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TarifaServicioListForm">
+            <p:contextMenu id="HorarioServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TarifaServicioListForm:createButton').click();" icon="ui-icon-plus"/>                
+                <p:separator/>                    
+            </p:contextMenu>
+            <p:panel id="panelSeleccion" header="Modificación de Tarifas x Servicio" >
+                <h:panelGroup id="display" >
+                    <h:panelGrid columns="9" columnClasses="value" id="panelServicio"> 
+                        <p:outputLabel value="Terminal" for="terminal"/>
+                        <p:selectOneMenu id="terminal" value="#{tarifasController.selectedTerminal}" required="true" requiredMessage="Debe seleccionar un Terminal" converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{tarifasController.terminalItems}"
+                                           var="idTerminal"
+                                           itemValue="#{idTerminal}"
+                                           itemLabel="#{idTerminal.nombreTerminal}"
+                                           />
+                            <p:ajax update="servicio" listener="#{tarifasController.handleServicioChange}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Servicio" for="servicio"/>
+                        <p:selectOneMenu id="servicio" value="#{tarifasController.selectedServicio}" required="true" requiredMessage="Debe seleccionar un Servicio" converter="servicioConverter">
+                            <f:selectItem itemLabel="Seleccionar ..."/>
+                            <f:selectItems value="#{tarifasController.servicioItems}"
+                                           var="idServicio"
+                                           itemValue="#{idServicio}"
+                                           itemLabel="#{idServicio.numeroServicio}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Mes" for="mes"/>
+                        <p:selectOneMenu id="mes" value="#{tarifasController.month}" style="width:125px">
+                            <f:selectItem itemLabel="Seleccione mes ..." itemValue="0" />
+                            <f:selectItem itemLabel="Enero" itemValue="1" />
+                            <f:selectItem itemLabel="Febrero" itemValue="2" />
+                            <f:selectItem itemLabel="Marzo" itemValue="3" />
+                            <f:selectItem itemLabel="Abril" itemValue="4" />
+                            <f:selectItem itemLabel="Mayo" itemValue="5" />
+                            <f:selectItem itemLabel="Junio" itemValue="6" />
+                            <f:selectItem itemLabel="Julio" itemValue="7" />
+                            <f:selectItem itemLabel="Agosto" itemValue="8" />
+                            <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                            <f:selectItem itemLabel="Octubre" itemValue="10" />
+                            <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                            <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Año" for="año"/>
+                        <p:inputMask id="año" value="#{tarifasController.year}" mask="9999" style="width: 40px;"/>
+
+
+                        <p:commandButton value="Aceptar"  actionListener="#{tarifasController.initComponents}" update="display,:TarifaServicioListForm:datalist,:growl"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:panel>
+            <p:layout style="padding-top: 5px">                
+                <p:layoutUnit position="center" style="padding: 0px 0px 0px 0px;border: none;">
+                    <p:dataTable id="datalist"
+                                 value="#{tarifasController.items}"
+                                 var="item"
+                                 rowKey="#{item.idTarifaServicio}"                                 
+                                 selectionMode="single"                   
+                                 selection="#{tarifasController.selected}"
+                                 rowIndexVar="rowIndex" 
+                                 emptyMessage="No se han encontrados Tarifas para el servicio/mes seleccionado">
+
+                        
+
+                        <f:facet name="header">
+                            Tarifas x Servicio
+                        </f:facet>
+
+                        <p:column style="width: 5%;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+
+                        </p:column>
+
+                        <p:column style="width: 10%;">
+                            <f:facet name="header">
+                                <h:outputText value="Tarifa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.boleto.nombreBoleto}"/>
+                        </p:column> 
+
+                        <p:column sortBy="#{item.valorTarifa}" style="width: 5%;">
+                            <f:facet name="header">
+                                <h:outputText value="Valor"/>
+                            </f:facet>
+                            <p:inputText value="#{item.valorTarifa}" style="width: 40px;"/>                                
+                        </p:column>
+
+                        <p:column style="width: 80%;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value=""/>
+                        </p:column>
+
+                        
+                    </p:dataTable>
+
+                    <p:commandButton id="createButton" disabled="true" icon="ui-icon-plus"   value="Guardar" actionListener="#{setHorarioServicio.setNewHorarioXServicio()}" update=":HorarioServicioCreateForm" oncomplete="PF('HorarioServicioCreateDialog').show()"/>                   
+
+                </p:layoutUnit>
+            </p:layout>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="HorarioServicioCreateDlg" widgetVar="HorarioServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear Nuevo Horario x Servicio" closeOnEscape="true">
+
+            <h:form id="HorarioServicioCreateForm" rendered="#{setHorarioServicio.selected != null}">
+
+                <h:panelGroup id="display" >
+                    <p:panelGrid columns="2" columnClasses="column">
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{setHorarioServicio.selected.nombre}"/>
+
+                        <p:outputLabel value="Desde:" for="desde" />
+                        <p:calendar id="desde" pattern="HH:mm" value="#{setHorarioServicio.selected.desde}" locale="es" timeOnly="true" title="#{bundle.CreateHorarioServicioTitle_desde}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_desde}" showOn="button"  />
+
+                        <p:outputLabel value="Hasta:" for="hasta" />
+                        <p:calendar id="hasta" pattern="HH:mm" value="#{setHorarioServicio.selected.hasta}" locale="es" timeOnly="true" title="#{bundle.CreateHorarioServicioTitle_hasta}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_hasta}" showOn="button"/>
+
+                        <p:outputLabel value="Días:"/>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <h:outputText value="Lunes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.lunes}" />
+
+                            <h:outputText value="Martes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.martes}"/>
+
+                            <h:outputText value="Miércoles: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.miercoles}" />
+
+                            <h:outputText value="Jueves: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.jueves}" />
+
+                            <h:outputText value="Viernes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.viernes}" />
+
+                            <h:outputText value="Sábado: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.sabado}" />
+
+                            <h:outputText value="Domingo: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.domingo}" />
+
+                        </h:panelGrid>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{setHorarioServicio.saveNew}" value="Guardar" update="display,:TarifaServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioCreateDialog'));">
+                        <p:confirm header="Confimación" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="Cancelar" onclick="PF('HorarioServicioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:dialog id="HorarioServicioEditDlg" widgetVar="HorarioServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Horarios" closeOnEscape="true">
+
+            <h:form id="HorarioServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{setHorarioServicio.selected != null}">
+
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{setHorarioServicio.selected.nombre}"/>
+
+                        <p:outputLabel value="Desde:" for="desde" />
+                        <p:calendar id="desde" pattern="HH:mm" value="#{setHorarioServicio.selected.desde}" locale="es"  title="#{bundle.EditHorarioServicioTitle_desde}" timeOnly="true" required="true" requiredMessage="#{bundle.EditHorarioServicioRequiredMessage_desde}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditHorarioServicioLabel_hasta}" for="hasta" />
+                        <p:calendar id="hasta" pattern="HH:mm" value="#{setHorarioServicio.selected.hasta}" locale="es" title="#{bundle.EditHorarioServicioTitle_hasta}" timeOnly="true" required="true" requiredMessage="#{bundle.EditHorarioServicioRequiredMessage_hasta}" showOn="button"/>
+
+                        <p:outputLabel value="Días:"/>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <h:outputText value="Lunes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.lunes}" />
+
+                            <h:outputText value="Martes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.martes}"/>
+
+                            <h:outputText value="Miércoles: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.miercoles}" />
+
+                            <h:outputText value="Jueves: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.jueves}" />
+
+                            <h:outputText value="Viernes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.viernes}" />
+
+                            <h:outputText value="Sábado: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.sabado}" />
+
+                            <h:outputText value="Domingo: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.domingo}" />
+
+                        </h:panelGrid>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{setHorarioServicio.save}" value="#{bundle.Save}" update="display,:TarifaServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('HorarioServicioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="HorarioServicioViewDlg" widgetVar="HorarioServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Vista de Horario" closeOnEscape="true">
+
+            <h:form id="HorarioServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{setHorarioServicio.selected != null}">
+
+                        <p:outputLabel value="Servicio:" for="servicio" />
+                        <h:outputText id="servicio" value="#{setHorarioServicio.selected.servicio}"/>
+
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <h:outputText id="nombre" value="#{setHorarioServicio.selected.nombre}"/>
+
+                        <h:outputText value="#{bundle.ViewHorarioServicioLabel_desde}"/>
+                        <h:outputText value="#{setHorarioServicio.selected.desde}" title="#{bundle.ViewHorarioServicioTitle_desde}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHorarioServicioLabel_hasta}"/>
+                        <h:outputText value="#{setHorarioServicio.selected.hasta}" title="#{bundle.ViewHorarioServicioTitle_hasta}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+
+                        <p:outputLabel value="Días:"/>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <h:outputText value="Lunes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.lunes}" />
+
+                            <h:outputText value="Martes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.martes}"/>
+
+                            <h:outputText value="Miércoles: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.miercoles}" />
+
+                            <h:outputText value="Jueves: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.jueves}" />
+
+                            <h:outputText value="Viernes: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.viernes}" />
+
+                            <h:outputText value="Sábado: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.sabado}" />
+
+                            <h:outputText value="Domingo: " />
+                            <p:selectBooleanCheckbox value="#{setHorarioServicio.selected.domingo}" />
+
+                        </h:panelGrid>
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('HorarioServicioViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

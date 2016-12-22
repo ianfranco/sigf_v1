@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="TrabajadorListForm">
+                <p:dataTable id="datalist"
+                             value="#{trabajadorController.items}"
+                             var="item"
+                             rowKey="#{item.idTrabajador}"
+                             paginator="true"
+                             paginatorPosition="top"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{trabajadorController.selected}" 
+                             rowIndexVar="rowIndex">
+
+                    <f:facet name="header">
+                        Lista de Conductores
+                    </f:facet>
+                    
+                    <p:column sortBy="#{rowIndex+1}" filterBy="#{rowIndex+1}">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Rut"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rutTrabajador}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreTrabajador}" filterBy="#{item.nombreTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreTrabajador}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.apellidoPaternoTrabajador}" filterBy="#{item.apellidoPaternoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido P."/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellidoPaternoTrabajador}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.apellidoMaternoTrabajador}" filterBy="#{item.apellidoMaternoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido M."/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellidoMaternoTrabajador}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">
+                        <f:facet name="header">
+                            <h:outputText value="F.Nacimiento"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaNacimientoTrabajador}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                                        <p:column sortBy="#{item.nacionalidad}" filterBy="#{item.nacionalidad}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_nacionalidad}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nacionalidad}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_sexo}"/>
+                                            </f:facet>
+                                            <h:selectBooleanCheckbox id="sexo" value="#{item.sexo}" title="#{bundle.EditTrabajadorTitle_sexo}"  disabled="true"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.direccionTrabajador}" filterBy="#{item.direccionTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_direccionTrabajador}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.direccionTrabajador}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.telefonoFijoTrabajador}" filterBy="#{item.telefonoFijoTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_telefonoFijoTrabajador}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.telefonoFijoTrabajador}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.celularTrabajador}" filterBy="#{item.celularTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_celularTrabajador}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.celularTrabajador}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.emailTrabajador}" filterBy="#{item.emailTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_emailTrabajador}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.emailTrabajador}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.numeroCargas}"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>                        
+        </h:form>
+    </ui:define>
+
+</ui:composition>

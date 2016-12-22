@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel header="Planillón">
+
+
+            <h:form id="GuiaListForm">
+                <h:panelGrid columns="2" columnClasses="value" id="panelServicio">                        
+                        
+                        <p:outputLabel value="Fecha" for="fecha"/>
+                        <p:outputLabel value="" for="aceptar"/>
+                        
+                        <p:calendar id="fecha" value="#{newHistorialGuiaController.fecha}" required="true"  pattern="dd/MM/yyyy" requiredMessage="Debe Ingresar la Fecha de Compra"  autocomplete="off" locale="es"/>
+                        <p:commandButton id="aceptar" actionListener="#{newHistorialGuiaController.initComponents}" value="Aceptar" update=":GuiaListForm:datalist" styleClass="ui-priority-primary" >
+                        </p:commandButton>
+
+                    </h:panelGrid>               
+                <p:separator class="ui-priority-primary"/>
+                <p:dataTable id="datalist"
+                             value="#{newHistorialGuiaController.items}"
+                             var="item"
+                             rowKey="#{item.idGuia}"                             
+                             selectionMode="single"
+                             scrollable="true"
+                             scrollHeight="300" 
+                             selection="#{newHistorialGuiaController.selected}"
+                             rowIndexVar="rowIndex"
+                             widgetVar="dataList"
+                             emptyMessage="No se han encontrado registros">
+
+                    <f:facet name="header">
+                        Historial de Guías
+                    </f:facet>
+
+                    <p:column width="30" style="text-align: center; font-weight: bold;">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.fecha}"  width="130" style="text-align: center; font-weight: bold;">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{item.bus.numeroBus}"  width="110" style="text-align: center; font-weight: bold;">
+                        <f:facet name="header">
+                            <h:outputText value="N°Bus"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bus.numeroBus}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.trabajador}"  width="200" style="text-align: center; font-weight: bold;">
+                        <f:facet name="header">
+                            <h:outputText value="Conductor"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trabajador}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{item.recaudada}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Recauadada"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.recaudada}"/>
+                    </p:column>
+
+                    <!--
+                                        <p:column sortBy="#{item.saldo}" filterBy="#{item.saldo}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_saldo}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.saldo}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.numeroVueltas}" filterBy="#{item.numeroVueltas}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_numeroVueltas}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.numeroVueltas}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.turno}" filterBy="#{item.turno}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_turno}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.turno}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.observacion}" filterBy="#{item.observacion}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_observacion}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.observacion}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.idBus.idBus}" filterBy="#{item.idBus.idBus}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_idBus}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.idBus.idBus}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.idServicio.idServicio}" filterBy="#{item.idServicio.idServicio}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_idServicio}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.idServicio.idServicio}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.idTrabajador.idTrabajador}" filterBy="#{item.idTrabajador.idTrabajador}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListGuiaTitle_idTrabajador}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.idTrabajador.idTrabajador}"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>        
+
+
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

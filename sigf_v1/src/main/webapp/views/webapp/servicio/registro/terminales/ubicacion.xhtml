@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >        
+        <h:form id="BusListForm">            
+            <p:growl id="growl" showDetail="true" />
+
+            <p:gmap id="gmap" center="-33.07640382976732,-71.45355834960935" zoom="11" type="HYBRID" model="#{ubicacionTerminalesController.simpleModel}"  style="width:100%;height:500px">
+                <p:ajax event="overlaySelect" listener="#{ubicacionTerminalesController.onMarkerSelect}" update="growl" />
+            </p:gmap>
+        </h:form>        
+    </ui:define>
+</ui:composition>

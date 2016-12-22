@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../../templateServicio.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="HorarioServicioListForm">
+            <p:contextMenu id="HorarioServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('HorarioServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('HorarioServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('HorarioServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('HorarioServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>                    
+            </p:contextMenu>
+
+            <p:layout style="padding-top: 5px">                
+                <p:layoutUnit position="center" style="padding: 0px 0px 0px 0px;border: none;">
+                    <p:dataTable id="datalist"
+                                 value="#{diaFestivoController.items}"
+                                 var="item"
+                                 rowKey="#{item.idDiaFestivo}"                                 
+                                 selectionMode="single"                   
+                                 selection="#{diaFestivoController.selected}"
+                                 rowIndexVar="rowIndex" 
+                                 emptyMessage="No se han encontrados DIAS FESTIVOS ingresados en el sistema">
+
+                        <p:ajax event="rowSelect"   update=":HorarioServicioListForm:createButton :HorarioServicioListForm:viewButton :HorarioServicioListForm:editButton :HorarioServicioListForm:deleteButton :HorarioServicioListForm:HorarioServicioDataTableContextMenu" listener="#{diaFestivoController.resetParents}"/>
+                        <p:ajax event="rowUnselect" update=":HorarioServicioListForm:createButton :HorarioServicioListForm:viewButton :HorarioServicioListForm:editButton :HorarioServicioListForm:deleteButton :HorarioServicioListForm:HorarioServicioDataTableContextMenu" listener="#{diaFestivoController.resetParents}"/>
+                        <p:ajax event="rowDblselect" onsuccess="document.getElementById('HorarioServicioListForm:viewButton').click();"/>
+
+                        <f:facet name="header">
+                            Días Festivos 
+                        </f:facet>
+
+                        <p:column style="width: 40px;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+
+                        </p:column>
+
+                        <p:column sortBy="#{item.nombreDiaFestivo}">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombreDiaFestivo}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column sortBy="#{item.fecha}">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{diaFestivoController.setNewFestivo()}" update=":HorarioServicioCreateForm" oncomplete="PF('HorarioServicioCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" oncomplete="PF('HorarioServicioViewDialog').show()" disabled="#{empty diaFestivoController.selected}" update=":HorarioServicioViewForm"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar" oncomplete="PF('HorarioServicioEditDialog').show()" disabled="#{empty diaFestivoController.selected}" update=":HorarioServicioEditForm"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{diaFestivoController.delete}" update=":growl,datalist" disabled="#{empty diaFestivoController.selected}">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                        <p:printer target="datalist" />
+                    </p:commandButton>
+
+                </p:layoutUnit>
+            </p:layout>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="HorarioServicioCreateDlg" widgetVar="HorarioServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear Nuevo Festivo" closeOnEscape="true">
+
+            <h:form id="HorarioServicioCreateForm" rendered="#{diaFestivoController.selected != null}">
+
+                <h:panelGroup id="display" >
+                    <p:panelGrid columns="2" columnClasses="column">
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{diaFestivoController.selected.nombreDiaFestivo}"/>
+
+                        <p:outputLabel value="Fecha:" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy" value="#{diaFestivoController.selected.fecha}" locale="es" title="Fecha" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_desde}" showOn="button"  />                
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{diaFestivoController.saveNew}" value="Guardar" update="display,:HorarioServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioCreateDialog'));">
+                        <p:confirm header="Confimación" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="Cancelar" onclick="PF('HorarioServicioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:dialog id="HorarioServicioEditDlg" widgetVar="HorarioServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Festivos" closeOnEscape="true">
+
+            <h:form id="HorarioServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{diaFestivoController.selected != null}">
+
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{diaFestivoController.selected.nombreDiaFestivo}"/>
+
+                        <p:outputLabel value="Fecha:" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy" value="#{diaFestivoController.selected.fecha}" locale="es"  title="Fecha" required="true" requiredMessage="Debe seleccionar la fecha" showOn="button"/>
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{setHorarioServicio.save}" value="#{bundle.Save}" update="display,:HorarioServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('HorarioServicioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="HorarioServicioViewDlg" widgetVar="HorarioServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Vista de Festivos" closeOnEscape="true">
+
+            <h:form id="HorarioServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{diaFestivoController.selected != null}">
+
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <h:outputText id="nombre" value="#{diaFestivoController.selected.nombreDiaFestivo}"/>
+
+                        <p:outputLabel value="Fecha:" for="fecha" />
+                        <h:outputText id="fecha" value="#{diaFestivoController.selected.fecha}"/>
+
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{bundle.Close}" onclick="PF('HorarioServicioViewDialog').hide()" icon="ui-icon-print"/>
+                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-close" >
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

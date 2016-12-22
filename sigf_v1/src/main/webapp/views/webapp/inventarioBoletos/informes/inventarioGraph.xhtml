@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../templateBoletos.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="CompraBoletoListForm">
+            <h:panelGroup id="display">
+                <p:panel header="Entradas">
+                    <h:panelGrid columns="3" columnClasses="value">
+                        <p:outputLabel value="Desde: " for="desde"/>
+                        <p:outputLabel value="Hasta: " for="hasta"/>
+                        <p:outputLabel value="" for="aceptar"/>
+                        <p:calendar id="desde" size="10" value="#{informeCompraBoletoController.desde}" locale="es" pattern="dd/MM/yy"/>
+                        <p:calendar id="hasta" size="10" value="#{informeCompraBoletoController.hasta}" locale="es" pattern="dd/MM/yy"/>
+                        <p:commandButton id="aceptar" value="Aceptar"/>
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel header="">
+                    <p:chart type="pie" model="#{pieChartInventarioBoletos.model}" style="width:400px;height:300px" />
+                </p:panel>
+                <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+            </h:panelGroup>
+        </h:form>        
+    </ui:define>
+</ui:composition>
