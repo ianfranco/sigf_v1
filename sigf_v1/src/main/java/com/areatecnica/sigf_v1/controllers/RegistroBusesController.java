@@ -13,6 +13,7 @@ import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.EstadoBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.FlotaDao;
 import com.areatecnica.sigf_v1.dao.FlotaDaoImpl;
+import com.areatecnica.sigf_v1.dao.ModeloMarcaBusDaoImpl;
 import com.areatecnica.sigf_v1.dao.TerminalDao;
 import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.dao.UnidadNegocioDao;
@@ -21,6 +22,7 @@ import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.EstadoBus;
 import com.areatecnica.sigf_v1.entities.Flota;
+import com.areatecnica.sigf_v1.entities.ModeloMarcaBus;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.UnidadNegocio;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
@@ -51,6 +53,7 @@ public class RegistroBusesController implements Serializable {
     private List<Empresa> empresaItems;
     private List<UnidadNegocio> unidadItems;
     private List<Flota> flotaItems;
+    private List<ModeloMarcaBus> modeloMarcaItems;
     
     private Bus selected;
     private EstadoBus estadoBus;
@@ -61,6 +64,7 @@ public class RegistroBusesController implements Serializable {
     private FlotaDao flotaDao;
     private TerminalDao terminalDao;
     private EstadoBusDaoImpl estadoBusDao;
+    private ModeloMarcaBusDaoImpl modeloMarcaBusDao;
     
     /**
      * Creates a new instance of RegistroBusesController
@@ -83,8 +87,7 @@ public class RegistroBusesController implements Serializable {
         this.flotaItems = this.flotaDao.findAll();
         this.unidadItems = this.negocioDao.findAll();
         this.empresaItems = this.empresaDao.findAllClean();
-        
-        
+        this.modeloMarcaItems = this.modeloMarcaBusDao.findAll();        
     }
 
     public Bus prepareCreate(ActionEvent event) {        
@@ -211,6 +214,14 @@ public class RegistroBusesController implements Serializable {
 
     public void setUnidadItems(List<UnidadNegocio> unidadItems) {
         this.unidadItems = unidadItems;
+    }
+
+    public List<ModeloMarcaBus> getModeloMarcaItems() {
+        return modeloMarcaItems;
+    }
+
+    public void setModeloMarcaItems(List<ModeloMarcaBus> modeloMarcaItems) {
+        this.modeloMarcaItems = modeloMarcaItems;
     }
     
     

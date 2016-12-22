@@ -30,9 +30,9 @@
                          selection="#{registroBusesController.selected}"
                          emptyMessage="No se han encontrado BUSES en la base de datos">
 
-                <p:ajax event="rowSelect"   update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}"/>
-                <p:ajax event="rowUnselect" update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('BusListForm:viewButton').click();"/>
+                <p:ajax event="rowSelect"   update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}" global="false"/>
+                <p:ajax event="rowUnselect" update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}" global="false"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('BusListForm:viewButton').click();" global="false"/>
 
                 <f:facet name="header">
                     Lista de Buses
@@ -136,7 +136,7 @@
                         <p:outputLabel value="Unidad de Negocio" for="idUnidadNegocio" />
                         <p:selectOneMenu id="idUnidadNegocio" value="#{registroBusesController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idUnidadNegocio}" converter="unidadNegocioConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{unidadNegocioController.items}"
+                            <f:selectItems value="#{registroBusesController.unidadItems}"
                                            var="idUnidadNegocioItem"
                                            itemValue="#{idUnidadNegocioItem}"
                                            itemLabel="#{idUnidadNegocioItem}"
@@ -150,7 +150,7 @@
                         <p:outputLabel value="Terminal" for="idTerminal" />
                         <p:selectOneMenu id="idTerminal" value="#{registroBusesController.selected.terminal}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idTerminal}" converter="terminalConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{registroTerminalesController.items}"
+                            <f:selectItems value="#{registroBusesController.flotaItems}"
                                            var="idTerminalItem"
                                            itemValue="#{idTerminalItem}"
                                            itemLabel="#{idTerminalItem}"
@@ -161,7 +161,7 @@
                         <p:outputLabel value="Empresa" for="idEmpresa" />
                         <p:selectOneMenu id="idEmpresa" value="#{registroBusesController.selected.empresa}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idEmpresa}" converter="empresaConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{selectEmpresaController.items}"
+                            <f:selectItems value="#{registroBusesController.empresaItems}"
                                            var="idEmpresaItem"
                                            itemValue="#{idEmpresaItem}"
                                            itemLabel="#{idEmpresaItem}"
@@ -172,7 +172,7 @@
                         <p:outputLabel value="Flota" for="idFlota" />
                         <p:selectOneMenu id="idFlota" value="#{registroBusesController.selected.flota}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_idFlota}" converter="flotaConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{flotaController.items}"
+                            <f:selectItems value="#{registroBusesController.flotaItems}"
                                            var="idFlotaItem"
                                            itemValue="#{idFlotaItem}"
                                            itemLabel="#{idFlotaItem}"
@@ -230,7 +230,7 @@
                         <p:outputLabel value="Unidad de Negocio:" for="idUnidadNegocio" />
                         <p:selectOneMenu id="idUnidadNegocio" value="#{registroBusesController.selected.unidadNegocio}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idUnidadNegocio}" converter="unidadNegocioConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{unidadNegocioController.items}"
+                            <f:selectItems value="#{registroBusesController.unidadItems}"
                                            var="idUnidadNegocioItem"
                                            itemValue="#{idUnidadNegocioItem}"
                                            itemLabel="#{idUnidadNegocioItem}"
@@ -244,7 +244,7 @@
                         <p:outputLabel value="Terminal:" for="idTerminal" />
                         <p:selectOneMenu id="idTerminal" value="#{registroBusesController.selected.terminal}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idTerminal}" converter="terminalConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{registroTerminalesController.items}"
+                            <f:selectItems value="#{registroBusesController.flotaItems}"
                                            var="idTerminalItem"
                                            itemValue="#{idTerminalItem}"
                                            itemLabel="#{idTerminalItem}"
@@ -255,7 +255,7 @@
                         <p:outputLabel value="Empresa" for="idEmpresa" />
                         <p:selectOneMenu id="idEmpresa" value="#{registroBusesController.selected.empresa}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idEmpresa}" converter="empresaConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{selectEmpresaController.items}"
+                            <f:selectItems value="#{registroBusesController.empresaItems}"
                                            var="idEmpresaItem"
                                            itemValue="#{idEmpresaItem}"
                                            itemLabel="#{idEmpresaItem}"
@@ -266,7 +266,7 @@
                         <p:outputLabel value="Flota" for="idFlota" />
                         <p:selectOneMenu id="idFlota" value="#{registroBusesController.selected.flota}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idFlota}" converter="flotaConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{flotaController.items}"
+                            <f:selectItems value="#{registroBusesController.flotaItems}"
                                            var="idFlotaItem"
                                            itemValue="#{idFlotaItem}"
                                            itemLabel="#{idFlotaItem}"
@@ -283,7 +283,7 @@
                         <p:outputLabel value="Modelo" for="idModelo" />
                         <p:selectOneMenu id="idModelo" value="#{registroBusesController.selected.modeloMarcaBus}" required="true" requiredMessage="#{bundle.EditBusRequiredMessage_idModelo}" converter="modeloMarcaBusConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{modeloMarcaBusController.items}"
+                            <f:selectItems value="#{registroBusesController.modeloMarcaItems}"
                                            var="idModeloItem"
                                            itemValue="#{idModeloItem}"
                                            itemLabel="#{idModeloItem}"
