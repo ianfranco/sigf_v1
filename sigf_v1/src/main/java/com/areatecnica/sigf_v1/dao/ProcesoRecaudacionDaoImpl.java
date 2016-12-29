@@ -69,7 +69,7 @@ public class ProcesoRecaudacionDaoImpl implements GenericDao<ProcesoRecaudacion>
         try {
 
             list = session.createQuery(sql).list();
-                        
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

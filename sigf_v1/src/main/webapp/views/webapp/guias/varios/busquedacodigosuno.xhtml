@@ -125,7 +125,7 @@
                                 <h:panelGroup>
                                     <p:selectOneMenu id="trabajador" value="#{codigosUnoController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
                                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{trabajadorController.items}"
+                                        <f:selectItems value="#{codigosUnoController.trabajadorItems}"
                                                        var="trabajadorItem"
                                                        itemValue="#{trabajadorItem}"
                                                        itemLabel="#{trabajadorItem.codigoTrabajador}"

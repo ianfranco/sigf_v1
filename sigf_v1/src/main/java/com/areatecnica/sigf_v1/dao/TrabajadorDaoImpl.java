@@ -49,6 +49,8 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         return list;
     }
     
+    
+    @Override
     public List<Trabajador> findAllClean() {
         List<Trabajador> list = null;
 

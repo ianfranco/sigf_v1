@@ -68,7 +68,8 @@ public class PlanillonGuiaController implements Serializable {
     private ArrayList<EgresoGuia> egresosGuiaItems;
     private List<PorcentajeHelper> porcentajesList;
     private List<Bus> busItems;
-    ArrayList<EgresoGuia> arrayEgresosGuias;
+    private List<Trabajador> trabajadorItems;
+    private ArrayList<EgresoGuia> arrayEgresosGuias;
     private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
     private Map folios;
 
@@ -104,7 +105,7 @@ public class PlanillonGuiaController implements Serializable {
         this.procesoRecaudacionDaoImpl = new ProcesoRecaudacionDaoImpl();
         this.trabajadorDao = new TrabajadorDaoImpl();
         this.busDao = new BusDaoImpl();
-
+        this.trabajadorItems = new ArrayList<Trabajador>();
         this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAllClean();
 
         this.stringHeader = "Datos Guías";
@@ -382,6 +383,9 @@ public class PlanillonGuiaController implements Serializable {
     }
 
     public Guia prepareCreate(ActionEvent event) {
+        
+        this.trabajadorItems  = this.trabajadorDao.findAllClean();
+        
         Guia newGuia;
         newGuia = new Guia();
         this.selected = newGuia;
@@ -469,6 +473,13 @@ public class PlanillonGuiaController implements Serializable {
         this.egresosGuiaItems = loadEgresosByGuia(idGuia);
         this.bus = this.selected.getBus();
         this.trabajador = this.selected.getTrabajador();
+        
+        if(this.trabajadorItems.isEmpty()){
+            this.trabajadorItems  = this.trabajadorDao.findAllClean();
+        }else{
+            System.err.println("NO ESTA VACIA LA LISTA");
+        }
+        
     }
 
     private ArrayList<EgresoGuia> loadEgresosByGuia(int idGuia) {
@@ -692,6 +703,14 @@ public class PlanillonGuiaController implements Serializable {
 
     public void setTotales(LinkedHashMap totales) {
         this.totales = totales;
+    }
+
+    public List<Trabajador> getTrabajadorItems() {
+        return trabajadorItems;
+    }
+
+    public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
+        this.trabajadorItems = trabajadorItems;
     }
 
     private class PorcentajeHelper {

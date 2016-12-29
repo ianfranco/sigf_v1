@@ -37,11 +37,11 @@
                 <div id="menu">
                     <h:form> 
                         <p:menubar>
-                            <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/informes/indexTesoreria" icon="ui-icon-home" />
+                            <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/portalEmpresario/indexPortal" icon="ui-icon-home" />
                             
-                            <p:submenu label="Empresas">
-                                <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />                                
-                                <p:menuitem value="Cuentas Bancarias"/>
+                            <p:submenu label="Buses">
+                                <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/portalEmpresario/indexPortal" />                                
+                                <p:menuitem value="Producción"/>
                             </p:submenu>
                             
                             <p:submenu label="Flotas">
@@ -55,7 +55,7 @@
                             </p:submenu>
                             
                             <p:submenu label="Administración">                                
-                                <p:menuitem value="Producción" outcome="#{appBean.basePath}" />
+                                <p:menuitem value="Producción" />
                                 <p:menuitem value="Ranking"/>
                                 <p:menuitem value="Intervalos"/>
                                 <p:menuitem value="Detalle Mensual"/>
@@ -68,11 +68,6 @@
 
                                 </p:submenu>
                             </p:submenu>
-                            
-                            <p:submenu label="Instituciones">                                
-                                <p:menuitem value="Bancos" outcome="#{appBean.basePath}" />                                
-                            </p:submenu>
-
                             <f:facet name="options">                        
                                 <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
                             </f:facet>

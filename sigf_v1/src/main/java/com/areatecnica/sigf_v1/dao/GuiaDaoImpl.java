@@ -96,10 +96,19 @@ public class GuiaDaoImpl implements GuiaDao {
         try {
 
             guia = (Guia) session.createQuery(sql).uniqueResult();
+
+            if (guia != null) {
+                Hibernate.initialize(guia.getTrabajador());
+                Hibernate.initialize(guia.getBus());
+                Hibernate.initialize(guia.getEstadoGuia());
+            }
             tx.commit();
+            
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();
+        } finally{
+              HibernateUtil.close(session);
         }
         return guia;
     }
@@ -149,14 +158,13 @@ public class GuiaDaoImpl implements GuiaDao {
         }
         return list;
     }
-    
-    
+
     public List<Guia> findByBusBetweenDates(Bus bus, Date from) {
         List<Guia> list = null;
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND fechaRecaudacion BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"') ORDER BY fechaGuia";
+        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND LAST_DAY('" + format.format(from) + "') ORDER BY fechaGuia";
         try {
             list = session.createQuery(sql).list();
 
@@ -173,13 +181,13 @@ public class GuiaDaoImpl implements GuiaDao {
         }
         return list;
     }
-    
+
     public List<Guia> findByConductorBetweenDates(Trabajador conductor, Date from) {
         List<Guia> list = null;
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador()+ " AND fechaRecaudacion BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND LAST_DAY('" + format.format(from) + "')";
         try {
             list = session.createQuery(sql).list();
 
@@ -196,13 +204,13 @@ public class GuiaDaoImpl implements GuiaDao {
         }
         return list;
     }
-    
+
     public List<Guia> findCodigosUnoBetweenDates(Date from) {
         List<Guia> list = null;
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE trabajador=1 AND fechaRecaudacion BETWEEN '" + format.format(from)+"' AND LAST_DAY('"+format.format(from)+"')";
+        String sql = "FROM Guia WHERE trabajador=1 AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND LAST_DAY('" + format.format(from) + "')";
         try {
             list = session.createQuery(sql).list();
 
@@ -226,7 +234,7 @@ public class GuiaDaoImpl implements GuiaDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE fechaRecaudacion = '" + format.format(fecha)+"' AND procesoRecaudacion="+procesoRecaudacion.getIdProcesoRecaudacion() + " ORDER BY bus.numeroBus ASC, fechaGuia ASC";
+        String sql = "FROM Guia WHERE fechaRecaudacion = '" + format.format(fecha) + "' AND procesoRecaudacion=" + procesoRecaudacion.getIdProcesoRecaudacion() + " ORDER BY bus.numeroBus ASC, fechaGuia ASC";
         try {
 
             list = session.createQuery(sql).list();

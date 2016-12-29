@@ -318,7 +318,7 @@ public class Bus implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(numeroBus+"-"+unidadNegocio.getNumeroUnidadNegocio());
+        return String.valueOf(numeroBus);
     }
 
 }

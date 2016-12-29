@@ -71,7 +71,8 @@ public class CodigosUnoController implements Serializable {
     private ArrayList<EgresoGuia> egresosGuiaItems;
     private List<PorcentajeHelper> porcentajesList;
     private List<Bus> busItems;
-    ArrayList<EgresoGuia> arrayEgresosGuias;
+    private ArrayList<EgresoGuia> arrayEgresosGuias;
+    private List<Trabajador> trabajadorItems;
     private Set<ServicioProcesoRecaudacion> setServicioProcesoRecaudacion;
     private Map folios;
 
@@ -112,7 +113,8 @@ public class CodigosUnoController implements Serializable {
         this.busDao = new BusDaoImpl();
 
         this.procesoRecaudacionItems = this.procesoRecaudacionDaoImpl.findAllClean();
-
+        this.trabajadorItems = new ArrayList<Trabajador>();
+        
         this.stringHeader = "";
         if (this.selected == null) {
             this.selected = new Guia();
@@ -498,6 +500,9 @@ public class CodigosUnoController implements Serializable {
         this.egresosGuiaItems = loadEgresosByGuia(idGuia);
         this.bus = this.selected.getBus();
         this.trabajador = this.selected.getTrabajador();
+        if(this.trabajadorItems.isEmpty()){
+            this.trabajadorItems = this.trabajadorDao.findAllClean();
+        }
     }
 
     private ArrayList<EgresoGuia> loadEgresosByGuia(int idGuia) {
@@ -672,6 +677,14 @@ public class CodigosUnoController implements Serializable {
 
     public void setAnio(int anio) {
         this.anio = anio;
+    }
+
+    public List<Trabajador> getTrabajadorItems() {
+        return trabajadorItems;
+    }
+
+    public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
+        this.trabajadorItems = trabajadorItems;
     }
 
     private class PorcentajeHelper {

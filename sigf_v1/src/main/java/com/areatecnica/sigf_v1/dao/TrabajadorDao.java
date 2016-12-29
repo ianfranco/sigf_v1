@@ -16,6 +16,7 @@ import java.util.List;
 public interface TrabajadorDao {
     
     public List<Trabajador> findAll();
+    public List<Trabajador> findAllClean();
     public List<Trabajador> findByTerminal(Terminal terminal);
     public Trabajador findByRut(String rut);
     public Trabajador findByCodigo(int codigo);

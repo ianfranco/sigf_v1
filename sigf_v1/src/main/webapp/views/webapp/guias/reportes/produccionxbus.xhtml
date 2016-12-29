@@ -81,7 +81,7 @@
                              lazy="true"
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
-                    <p:ajax event="rowSelect" update="growl" listener="#{informeProduccionBusController.loadGuia}"/>
+
 
                     <f:facet name="{Exporters}">
                         <h:commandLink>
@@ -95,12 +95,12 @@
                         </h:commandLink>
 
                     </f:facet>
-                    
+
                     <f:facet name="header">
                         Guías:#{informeProduccionBusController.stringHeader} 
                     </f:facet>
 
-                    
+
 
                     <p:column style="width: 20px;">
                         <f:facet name="header">
