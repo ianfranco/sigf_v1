@@ -682,6 +682,9 @@ public class PlanillonGuiaController implements Serializable {
         //list.get(getRowCount()-1).setMonto(total);
         this.selected.setTotalEgresos(total);
         this.selected.setSaldo(this.selected.getTotalIngresos() - this.selected.getTotalEgresos());
+        
+        System.err.println("CALCULADO EL TOTAL");
+        
         return total;
     }
 

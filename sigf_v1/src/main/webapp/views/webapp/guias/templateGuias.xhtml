@@ -24,6 +24,8 @@
             fixPFMDialogs();
             });
             });
+
+
         </h:outputScript>
     </h:head>
 
@@ -107,7 +109,7 @@
                             <ui:insert name="body"/>
 
                             <ui:insert name="content" class="ui-corner-all">
-                                
+
                             </ui:insert>
                         </div>
                     </div>
@@ -124,6 +126,8 @@
                 }
             }
 
+
+
             function handleSubmit(xhr, status, args, dialog) {
                 var jqDialog = jQuery('#' + dialog.id);
                 if (args.validationFailed) {
@@ -138,6 +142,9 @@
                     window.location = args.path;
                 }, 500);
             }
+
+
+
 
         </script>
         <script type="text/javascript">
@@ -188,7 +195,7 @@
                 day: 'Día',
                 allDayText: 'Todo el día'
             };
-        </script>
+        </script>       
 
     </h:body>
 </html>
