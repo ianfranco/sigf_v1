@@ -7,6 +7,7 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.AbonoBus;
 import com.areatecnica.sigf_v1.entities.Bus;
+import com.areatecnica.sigf_v1.entities.TipoAbono;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -114,6 +115,24 @@ public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM AbonoBus WHERE bus = "+bus.getIdBus()+" AND fechaInicioAbonoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY idAbonoBus DESC";
+        try {
+            System.err.println(sql);
+            list = session.createQuery(sql).list();
+            System.err.println("tamaño"+list.size());
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<AbonoBus> findByAbonoAndDate(TipoAbono tipoAbono, Date date) {
+        List<AbonoBus> list = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM AbonoBus WHERE tipoAbono = "+tipoAbono.getIdTipoAbono()+" AND fechaInicioAbonoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY bus.numeroBus ASC";
         try {
             System.err.println(sql);
             list = session.createQuery(sql).list();

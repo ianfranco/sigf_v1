@@ -10,26 +10,26 @@
     <ui:define name="content" class="ui-corner-all" >
 
         <h:form id="selectProcesoForm">
-            <p:panel header="Total Buses x Cargos" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
+            <p:panel header="Total Buses x Abonos" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="10">
 
                     <p:focus for="tipoCargo"/>
 
-                    <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
+                    <p:outputLabel value="Tipo Abono:" for="tipoCargo" />
                     <h:panelGroup>
-                        <p:selectOneMenu id="tipoCargo" value="#{totalCargoBusController.cargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_tipoCargo}" converter="tipoCargoConverter">
+                        <p:selectOneMenu id="tipoCargo" value="#{totalAbonoBusController.abono}" required="true" requiredMessage="Debe seleccionar el tipo de abono" converter="tipoAbonoConverter">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{totalCargoBusController.tiposCargos}"
-                                           var="tipoCargoItem"
-                                           itemValue="#{tipoCargoItem}"
-                                           itemLabel="#{tipoCargoItem}"
+                            <f:selectItems value="#{totalAbonoBusController.tipoAbonoItems}"
+                                           var="tipoAbonoItem"
+                                           itemValue="#{tipoAbonoItem}"
+                                           itemLabel="#{tipoAbonoItem}"
                                            />
                             <p:ajax event="valueChange" update=":CargoBusListForm:datalist, suma" global="false"/>
                         </p:selectOneMenu>
                     </h:panelGroup>
 
                     <p:outputLabel for="mes" value="Seleccionar:" />
-                    <p:selectOneMenu id="mes" value="#{totalCargoBusController.mes}" style="width:125px">
+                    <p:selectOneMenu id="mes" value="#{totalAbonoBusController.mes}" style="width:125px">
                         <f:selectItem itemLabel="Enero" itemValue="1" />
                         <f:selectItem itemLabel="Febrero" itemValue="2" />
                         <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -45,13 +45,13 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel for="anio" value="Año:" />
-                    <p:inputText id="anio" value="#{totalCargoBusController.anio}" size="5" />
+                    <p:inputText id="anio" value="#{totalAbonoBusController.anio}" size="5" />
 
-                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{totalCargoBusController.init}">
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar" update="CargoBusListForm:datalist, growl, suma" style="width:120px" actionListener="#{totalAbonoBusController.init}">
                     </p:commandButton>
 
                     <p:outputLabel value="Total:" style="margin-left: 20px;"/>
-                    <p:outputLabel id="suma" value="#{totalCargoBusController.suma}">
+                    <p:outputLabel id="suma" value="#{totalAbonoBusController.suma}">
                         <f:convertNumber currencySymbol="$" />
                     </p:outputLabel>
                 </h:panelGrid>
@@ -69,22 +69,21 @@
                     <p:separator/>
                 </p:contextMenu>
                 <p:dataTable id="datalist"
-                             value="#{totalCargoBusController.items}"
+                             value="#{totalAbonoBusController.items}"
                              lazy="false"
-                             rowKey="#{item.idCargoBus}"
-                             var="item"
-                             rows="100"
+                             rowKey="#{item.idAbonoBus}"
+                             var="item"                             
                              rowIndexVar="rowIndex" 
                              selectionMode="single"
-                             selection="#{totalCargoBusController.rowSelected}" 
+                             selection="#{totalAbonoBusController.rowSelected}" 
                              emptyMessage="No se han encontrado registros"
                              tableStyle="table-layout: auto" >
                     
-                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}" global="false"/>
-                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalCargoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalAbonoBusController.resetParents}" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{totalAbonoBusController.resetParents}" global="false"/>
 
                     <f:facet name="header">
-                        Cargos x Bus
+                        Abonos x Bus
                     </f:facet>
 
                     <p:column style="text-align: center;">
@@ -108,59 +107,59 @@
                         <h:outputText value="#{item.bus.unidadNegocio.numeroUnidadNegocio}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.tipoCargo}" style="text-align: center;">
+                    <p:column filterBy="#{item.tipoAbono}" style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="Cargo"/>
+                            <h:outputText value="Abono"/>
                         </f:facet>
-                        <h:outputText value="#{item.tipoCargo}"/>
+                        <h:outputText value="#{item.tipoAbono}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <p:column filterBy="#{item.descripcion}">
                         <f:facet name="header">
                             <h:outputText value="Descripción"/>
                         </f:facet>
                         <h:outputText value="#{item.descripcion}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.fechaInicioCargoBus}" filterBy="#{item.fechaInicioCargoBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.fechaInicioAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Fecha"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaInicioCargoBus}">
+                        <h:outputText value="#{item.fechaInicioAbonoBus}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column sortBy="#{item.numeroCuotasCargoBus}" filterBy="#{item.numeroCuotasCargoBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.numeroCuotasAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="N° Cuotas"/>
                         </f:facet>
-                        <h:outputText value="#{item.numeroCuotasCargoBus}"/>
+                        <h:outputText value="#{item.numeroCuotasAbonoBus}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.montoCargoBus}" filterBy="#{item.montoCargoBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.montoAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>
                         </f:facet>
-                        <h:outputText value="#{item.montoCargoBus}">
+                        <h:outputText value="#{item.montoAbonoBus}">
                             <f:convertNumber currencySymbol="$"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column filterBy="#{item.fechaIngresoCargoBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.fechaIngresoAbonoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="F.Ingreso"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaIngresoCargoBus}">
+                        <h:outputText value="#{item.fechaIngresoAbonoBus}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
                 </p:dataTable>
 
-                <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('CargoBusEditDialog').show()" disabled="#{empty totalCargoBusController.rowSelected}"/>
+                <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('CargoBusEditDialog').show()" disabled="#{empty totalAbonoBusController.rowSelected}"/>
 
-                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{totalCargoBusController.delete}" update=":growl,datalist" disabled="#{empty totalCargoBusController.rowSelected}">
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{totalAbonoBusController.delete}" update=":growl,datalist" disabled="#{empty totalAbonoBusController.rowSelected}">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 
@@ -168,40 +167,40 @@
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
 
-        <p:dialog id="CargoBusEditDlg" widgetVar="CargoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Cargo x Bus" closeOnEscape="true">
+        <p:dialog id="CargoBusEditDlg" widgetVar="CargoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Edición de Abono x Bus" closeOnEscape="true">
 
             <h:form id="CargoBusEditForm">
 
                 <h:panelGroup id="display">
                     <p:focus context="descripcion"/>
-                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{totalCargoBusController.rowSelected != null}">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{totalAbonoBusController.rowSelected != null}">
 
                         <p:outputLabel value="N° Bus:" for="bus" />
-                        <p:outputLabel value="#{totalCargoBusController.rowSelected.bus}" id="bus" />
+                        <p:outputLabel value="#{totalAbonoBusController.rowSelected.bus}" id="bus" />
 
                         <p:outputLabel value="Patente:" for="patente" />
-                        <p:outputLabel value="#{totalCargoBusController.rowSelected.bus.patente}" id="patente" />
+                        <p:outputLabel value="#{totalAbonoBusController.rowSelected.bus.patente}" id="patente" />
 
                         <p:outputLabel value="Descripción:" for="descripcion" />
-                        <p:inputText value="#{totalCargoBusController.rowSelected.descripcion}" id="descripcion" />
+                        <p:inputText value="#{totalAbonoBusController.rowSelected.descripcion}" id="descripcion" />
 
-                        <p:outputLabel value="Fecha Cargo:" for="fechaInicioCargoBus" />
+                        <p:outputLabel value="Fecha Abono:" for="fechaInicioCargoBus" />
                         <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{totalCargoBusController.rowSelected.fechaInicioCargoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>                            
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{totalAbonoBusController.rowSelected.fechaInicioAbonoBus}" title="#{bundle.EditCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>                            
                         </h:panelGroup>
 
                         <p:outputLabel value="N° Cuotas:" for="numeroCuotasCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="numeroCuotasCargoBus" value="#{totalCargoBusController.rowSelected.numeroCuotasCargoBus}" title="#{bundle.EditCargoBusTitle_numeroCuotasCargoBus}"/>
+                            <p:inputText id="numeroCuotasCargoBus" value="#{totalAbonoBusController.rowSelected.numeroCuotasAbonoBus}" title="#{bundle.EditCargoBusTitle_numeroCuotasCargoBus}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="Monto:" for="montoCargoBus" />
                         <h:panelGroup>
-                            <p:inputText id="montoCargoBus" value="#{totalCargoBusController.rowSelected.montoCargoBus}" title="#{bundle.EditCargoBusTitle_montoCargoBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_montoCargoBus}"/>
+                            <p:inputText id="montoCargoBus" value="#{totalAbonoBusController.rowSelected.montoAbonoBus}" title="#{bundle.EditCargoBusTitle_montoCargoBus}" required="true" requiredMessage="Debe ingresar el monto"/>
                         </h:panelGroup>
 
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{totalCargoBusController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusEditDialog'));">
+                    <p:commandButton actionListener="#{totalAbonoBusController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusEditDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="Editar" icon="ui-icon-alert"/>
                     </p:commandButton>
                     <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>

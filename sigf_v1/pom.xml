@@ -4,7 +4,7 @@
 
     <groupId>com.areatecnica</groupId>
     <artifactId>sigf_v1</artifactId>
-    <version>1</version>
+    <version>2</version>
     <packaging>war</packaging>
 
     <name>sigf_v1</name>
