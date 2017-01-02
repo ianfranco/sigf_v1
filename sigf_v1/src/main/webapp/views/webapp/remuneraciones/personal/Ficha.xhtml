@@ -65,7 +65,7 @@
         <h:form id="TrabajadorDisplay">
             <h:panelGroup id="display" >
                 <p:fieldset legend="Información Personal" style="margin-bottom:20px">
-                    <h:panelGrid columns="4" >
+                    <h:panelGrid columns="4" columnClasses="column, , column, ">
                         <p:outputLabel value="Cód.:" for="codigoTrabajador" />
                         <h:panelGroup>
                             <p:inputText id="codigoTrabajador" value="#{fichaTrabajadorController.selected.codigoTrabajador}" required="true" requiredMessage="Debe ingresar un código"/>                                    

@@ -31,6 +31,7 @@ public class RelacionLaboral implements java.io.Serializable {
     private TipoContrato tipoContrato;
     private TipoTrabajador tipoTrabajador;
     private Trabajador trabajador;
+    private Terminal terminal;
     private Date fechaInicio;
     private Date fechaFin;
     private String tipoContrato_1;
@@ -44,18 +45,20 @@ public class RelacionLaboral implements java.io.Serializable {
     public RelacionLaboral() {
     }
 
-    public RelacionLaboral(Empresa empresa, TipoContrato tipoContrato, TipoTrabajador tipoTrabajador, Trabajador trabajador) {
+    public RelacionLaboral(Empresa empresa, TipoContrato tipoContrato, TipoTrabajador tipoTrabajador, Trabajador trabajador, Terminal terminal) {
         this.empresa = empresa;
         this.tipoContrato = tipoContrato;
         this.tipoTrabajador = tipoTrabajador;
         this.trabajador = trabajador;
+        this.terminal = terminal;
     }
 
-    public RelacionLaboral(Empresa empresa, TipoContrato tipoContrato, TipoTrabajador tipoTrabajador, Trabajador trabajador, Date fechaInicio, Date fechaFin, String tipoContrato_1, Integer sueldoBase, String rutaArchivoRespaldo, Boolean estado, Integer idOperador, Set<FiniquitoRelacionLaboral> finiquitoRelacionLaborals, Set<LiquidacionSueldo> liquidacionSueldos) {
+    public RelacionLaboral(Empresa empresa, TipoContrato tipoContrato, TipoTrabajador tipoTrabajador, Trabajador trabajador, Terminal terminal, Date fechaInicio, Date fechaFin, String tipoContrato_1, Integer sueldoBase, String rutaArchivoRespaldo, Boolean estado, Integer idOperador, Set<FiniquitoRelacionLaboral> finiquitoRelacionLaborals, Set<LiquidacionSueldo> liquidacionSueldos) {
         this.empresa = empresa;
         this.tipoContrato = tipoContrato;
         this.tipoTrabajador = tipoTrabajador;
         this.trabajador = trabajador;
+        this.terminal = terminal;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.tipoContrato_1 = tipoContrato_1;
@@ -117,6 +120,16 @@ public class RelacionLaboral implements java.io.Serializable {
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_terminal", nullable = false)
+    public Terminal getTerminal() {
+        return this.terminal;
+    }
+    
+    public void setTerminal(Terminal terminal) {
+        this.terminal = terminal;
     }
 
     @Temporal(TemporalType.DATE)

@@ -27,9 +27,9 @@
                          emptyMessage="No se han encontrado SERVICIOS en la base de datos"
                          rowIndexVar="rowIndex">
 
-                <p:ajax event="rowSelect"   update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" />
-                <p:ajax event="rowUnselect" update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" />
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicioListForm:viewButton').click();"/>
+                <p:ajax event="rowSelect"   update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" global="false"/>
+                <p:ajax event="rowUnselect" update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" global="false"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicioListForm:viewButton').click();" global="false"/>
 
                 <f:facet name="header">
                     Lista de Servicios
@@ -43,49 +43,49 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.numeroServicio}" filterBy="#{item.numeroServicio}" style="text-align: center;">
+                <p:column filterBy="#{item.numeroServicio}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="N° de Servicio"/>
                     </f:facet>
                     <h:outputText value="#{item.numeroServicio}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.nombreServicio}" filterBy="#{item.nombreServicio}" style="text-align: center;" filterStyle="width:170px;">
+                <p:column filterBy="#{item.nombreServicio}" style="text-align: center;" filterStyle="width:170px;">
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreServicio}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.unidadNegocio}" filterBy="#{item.unidadNegocio}" style="text-align: center;">
+                <p:column filterBy="#{item.unidadNegocio}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Unidad"/>
                     </f:facet>
                     <h:outputText value="#{item.unidadNegocio}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.terminal.nombreTerminal}" filterBy="#{item.terminal.nombreTerminal}" filterStyle="width: 180px;">
+                <p:column filterBy="#{item.terminal.nombreTerminal}" filterStyle="width: 180px;">
                     <f:facet name="header">
                         <h:outputText value="Terminal"/>
                     </f:facet>
                     <h:outputText value="#{item.terminal.nombreTerminal}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.longitud}" filterBy="#{item.longitud}" style="text-align: center;">
+                <p:column filterBy="#{item.longitud}" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListServicioTitle_longitud}"/>
                     </f:facet>
                     <h:outputText value="#{item.longitud}"/>
                 </p:column>
                 
-                <p:column sortBy="#{item.origenServicio}" filterBy="#{item.origenServicio}" style="text-align: center;" filterStyle="width: 150px;">
+                <p:column filterBy="#{item.origenServicio}" style="text-align: center;" filterStyle="width: 150px;">
                     <f:facet name="header">
                         <h:outputText value="Origen"/>
                     </f:facet>
                     <h:outputText value="#{item.origenServicio}"/>
                 </p:column>
                 
-                <p:column sortBy="#{item.destinoServicio}" filterBy="#{item.destinoServicio}" style="text-align: center;" filterStyle="width: 150px;">
+                <p:column filterBy="#{item.destinoServicio}" style="text-align: center;" filterStyle="width: 150px;">
                     <f:facet name="header">
                         <h:outputText value="Destino"/>
                     </f:facet>

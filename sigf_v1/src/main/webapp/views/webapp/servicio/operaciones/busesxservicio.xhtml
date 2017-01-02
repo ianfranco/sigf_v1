@@ -5,7 +5,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"                
-                template="./../../templateServicio.xhtml"
+                template="./../templateServicio.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content" class="ui-corner-all" >        
@@ -15,17 +15,12 @@
                          value="#{busesXServicioController.listOfMaps}"
                          var="item"
                          rowIndexVar="rowIndex"
-                         paginator="true"
-                         paginatorPosition="top"
-                         rows="50"                         
-                         scrollWidth="true"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         
+                         scrollWidth="true"                         
                          emptyMessage="No se han encontrado BUSES en la base de datos">
 
 
                 <f:facet name="header">
-                    Detalle de Servicios X Bus
+                    Detalle de Buses x Servicio
                 </f:facet>
 
 

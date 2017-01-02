@@ -33,7 +33,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.nombreTerminal}" filterBy="#{item.nombreTerminal}">
+                <p:column filterBy="#{item.nombreTerminal}">
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
@@ -41,7 +41,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.direccionTerminal}" filterBy="#{item.direccionTerminal}">
+                <p:column filterBy="#{item.direccionTerminal}">
                     <f:facet name="header">
                         <h:outputText value="Dirección"/>
                     </f:facet>
@@ -49,14 +49,14 @@
                 </p:column>
                 
 
-                <p:column sortBy="#{item.telefonoTerminal}" filterBy="#{item.telefonoTerminal}">
+                <p:column filterBy="#{item.telefonoTerminal}">
                     <f:facet name="header">
                         <h:outputText value="Teléfono"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoTerminal}"/>
                 </p:column>
                 
-                <p:column sortBy="#{item.emailTerminal}" filterBy="#{item.emailTerminal}">
+                <p:column filterBy="#{item.emailTerminal}">
                     <f:facet name="header">
                         <h:outputText value="Email"/>
                     </f:facet>

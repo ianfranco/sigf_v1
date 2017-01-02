@@ -8,8 +8,8 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"/>
         <style type="text/css">
             #growl {
@@ -30,57 +30,57 @@
                             <p:menuitem value="Inicio" url="#{appBean.basePath}indexServicio.xhtml" icon="ui-icon-home" />
                             <p:submenu label="Registro">
                                 <p:submenu label="Buses">
-                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}appServicio/registro/buses" />
-                                    <p:menuitem value="Buses -> Servicio" outcome="#{appBean.basePath}appServicio/operaciones/busesxservicio" />
+                                    <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/servicio/registro/buses" />
+                                    <p:menuitem value="Buses -> Servicio" outcome="#{appBean.basePath}webapp/servicio/operaciones/busesxservicio" />
                                     <p:submenu label="Avanzado">                                    
-                                        <p:menuitem value="Marcas de Buses" outcome="#{appBean.basePath}appServicio/registro/marcas"/>
-                                        <p:menuitem value="Modelos" outcome="#{appBean.basePath}appServicio/registro/modelos"/>
+                                        <p:menuitem value="Marcas de Buses" outcome="#{appBean.basePath}webapp/servicio/registro/marcas"/>
+                                        <p:menuitem value="Modelos" outcome="#{appBean.basePath}webapp/servicio/registro/modelos"/>
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label="Servicios">
-                                    <p:menuitem value="Lista de Servicios" outcome="#{appBean.basePath}appServicio/registro/servicios" />                                    
+                                    <p:menuitem value="Lista de Servicios" outcome="#{appBean.basePath}webapp/servicio/registro/servicios" />                                    
                                     <p:submenu label="Avanzado">
                                     </p:submenu>                                
                                 </p:submenu>
                                 <p:submenu label="Terminales">                                    
-                                    <p:menuitem value="Lista de Terminales" outcome="#{appBean.basePath}appServicio/registro/terminales" />
-                                    <p:menuitem value="Ubicación en Mapa" outcome="#{appBean.basePath}appServicio/registro/terminales/ubicacion"/>
+                                    <p:menuitem value="Lista de Terminales" outcome="#{appBean.basePath}webapp/servicio/registro/terminales" />
+                                    <p:menuitem value="Ubicación en Mapa" outcome="#{appBean.basePath}webapp/servicio/registro/terminales/ubicacion"/>
                                     <p:submenu label="Avanzado">
                                     </p:submenu>                                
                                 </p:submenu>
                             </p:submenu>
                             
                             <p:submenu label="Tarifas">
-                                <p:menuitem value="Modificación x Servicio" outcome="#{appBean.basePath}appServicio/tarifas/tarifasxservicio" />
-                                <p:menuitem value="Variación x Tarifa" outcome="#{appBean.basePath}appServicio/tarifas/variacionxservicio" />
-                                <p:menuitem value="Cálculo Mensual" outcome="#{appBean.basePath}appServicio/gps/tarifas/List" />
+                                <p:menuitem value="Modificación x Servicio" outcome="#{appBean.basePath}webapp/servicio/tarifas/tarifasxservicio" />
+                                <p:menuitem value="Variación x Tarifa" outcome="#{appBean.basePath}webapp/servicio/tarifas/variacionxservicio" />
+                                <p:menuitem value="Cálculo Mensual" outcome="#{appBean.basePath}webapp/servicio/gps/tarifas/List" />
                             </p:submenu>
 
                             <p:submenu label="Trazados">
-                                <p:menuitem value="Detalle x Servicio" outcome="#{appBean.basePath}appServicio/gps/trazados/List"/>
-                                <p:menuitem value="Comparación" outcome="#{appBean.basePath}appServicio/gps/trazados/List"/>
-                                <p:menuitem value="Mapa" outcome="#{appBean.basePath}appServicio/gps/trazados/List"/>
+                                <p:menuitem value="Detalle x Servicio" outcome="#{appBean.basePath}webapp/servicio/gps/trazados/List"/>
+                                <p:menuitem value="Comparación" outcome="#{appBean.basePath}webapp/servicio/gps/trazados/List"/>
+                                <p:menuitem value="Mapa" outcome="#{appBean.basePath}webapp/servicio/gps/trazados/List"/>
                             </p:submenu>
 
                             <p:submenu label="Frecuencias">
-                                <p:menuitem value="Detalle x Servicio" outcome="#{appBean.basePath}appServicio/gps/frecuencias/List" />
+                                <p:menuitem value="Detalle x Servicio" outcome="#{appBean.basePath}webapp/servicio/gps/frecuencias/List" />
                                 <p:submenu label="Avanzado">
-                                    <p:menuitem value="Definición Festivos" outcome="#{appBean.basePath}appServicio/gps/frecuencias/diasFestivos" />
-                                    <p:menuitem value="Definición de Periodos" outcome="#{appBean.basePath}appServicio/gps/frecuencias/periodos" />
+                                    <p:menuitem value="Definición Festivos" outcome="#{appBean.basePath}webapp/servicio/gps/frecuencias/diasFestivos" />
+                                    <p:menuitem value="Definición de Periodos" outcome="#{appBean.basePath}webapp/servicio/gps/frecuencias/periodos" />
                                 </p:submenu>
                             </p:submenu>
 
                             <p:submenu label="Controles">
-                                <p:menuitem value="Lista" outcome="#{appBean.basePath}appServicio/gps/control/List" />                            
-                                <p:menuitem value="Controles -> Servicio" outcome="#{appBean.basePath}appServicio/gps/controlesxservicio/List" />
-                                <p:menuitem value="Ubicación en Mapa" outcome="#{appBean.basePath}appServicio/registro/terminales/ubicacion"/>
+                                <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/servicio/gps/control/List" />                            
+                                <p:menuitem value="Controles -> Servicio" outcome="#{appBean.basePath}webapp/servicio/gps/controlesxservicio/List" />
+                                <p:menuitem value="Ubicación en Mapa" outcome="#{appBean.basePath}webapp/servicio/registro/terminales/ubicacion"/>
                                 <p:submenu label="Avanzado">
-                                    <p:menuitem value="Definición de Tipos de Controles" outcome="#{appBean.basePath}appServicio/gps/tiposControles/List" />
+                                    <p:menuitem value="Definición de Tipos de Controles" outcome="#{appBean.basePath}webapp/servicio/gps/tiposControles/List" />
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="Horarios" icon="ui-icon-tag">
-                                <p:menuitem value="Horarios x Servicios" outcome="#{appBean.basePath}appServicio/gps/horariosxservicio/List" />                        
-                                <p:menuitem value="Minutos/Multas x Horario" outcome="#{appBean.basePath}appServicio/gps/controlesxhorarios/List"/>
+                                <p:menuitem value="Horarios x Servicios" outcome="#{appBean.basePath}webapp/servicio/gps/horariosxservicio/List" />                        
+                                <p:menuitem value="Minutos/Multas x Horario" outcome="#{appBean.basePath}webapp/servicio/gps/controlesxhorarios/List"/>
                                 <p:submenu label="Avanzado" icon="ui-icon-newwin">
 
                                 </p:submenu>
@@ -106,7 +106,7 @@
                                     <p:menuitem value="Comunas"/>
                                     <p:menuitem value="Regiones"/>
                                 </p:submenu>
-                                <p:menuitem value="Cambio de Contraseña" url="#{appBean.basePath}appInspector/guias/historialGuias"></p:menuitem>
+                                <p:menuitem value="Cambio de Contraseña" url="#{appBean.basePath}webapp/servicio/guias/historialGuias"></p:menuitem>
                             </p:submenu>
                             <f:facet name="options">                        
                                 <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
@@ -120,7 +120,7 @@
             <p:layoutUnit position="south" size="30" resizable="true" closable="true" collapsible="true">
                 <div id="bottom" class="ui-widget-header">
                     <p:outputLabel value="Bienvenido: #{loginBean.userName}" style="float: left;"/>
-                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2015 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
+                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2016 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
                 </div>
             </p:layoutUnit>      
 
@@ -131,7 +131,7 @@
                         <div id="content" class="ui-corner-all">
 
                             <ui:insert name="content" class="ui-corner-all">
-                                <ui:include src="/WEB-INF/include/entity/compraBoleto/Create.xhtml"/>
+                                
                             </ui:insert>
                         </div>
                     </div>

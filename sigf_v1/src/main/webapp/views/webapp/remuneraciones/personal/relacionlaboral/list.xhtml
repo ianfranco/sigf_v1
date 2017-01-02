@@ -107,6 +107,20 @@
                         </f:facet>
                         <h:outputText value="#{item.tipoContrato}"/>
                     </p:column>
+                    
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Operador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idOperador==0?'VIÑA BUS S.A.':'SOL Y MAR S.A.'}"/>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Terminal"/>
+                        </f:facet>
+                        <h:outputText value="#{item.terminal.nombreTerminal}"/>
+                    </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -146,7 +160,7 @@
                                            itemValue="#{itemEmpresa}"
                                            itemLabel="#{itemEmpresa.idEmpresa}"
                                            />
-                            <p:ajax event="valueChange" update="informacionEmpresa" />
+                            <p:ajax event="valueChange" update="informacionEmpresa" global="false"/>
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Razón Social:" style="margin-left: 15px;"/>
@@ -159,6 +173,30 @@
                                            var="item"
                                            itemValue="#{item}"
                                            itemLabel="#{item.nombreTipoContrato}"
+                                           />                        
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+                        
+                        <p:outputLabel value="Operador" for="idOperador"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idOperador" value="#{ultimoContratosController.selected.idOperador}" >                        
+                                <f:selectItem itemLabel="Viña Bus S.A." itemValue="0"/>
+                                <f:selectItem itemLabel="Sol y Mar S.A." itemValue="1"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel for="terminal" value="Terminal:" />
+                        <p:selectOneMenu id="terminal" value="#{ultimoContratosController.selected.terminal}" required="true"  converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{ultimoContratosController.terminalItems}"
+                                           var="itemTerminal"
+                                           itemValue="#{itemTerminal}"
+                                           itemLabel="#{itemTerminal.nombreTerminal}"
                                            />                        
                         </p:selectOneMenu>
 

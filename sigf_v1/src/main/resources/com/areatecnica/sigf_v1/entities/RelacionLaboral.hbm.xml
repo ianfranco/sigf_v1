@@ -20,6 +20,9 @@
         <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
             <column name="id_trabajador" not-null="true" />
         </many-to-one>
+        <many-to-one name="terminal" class="com.areatecnica.sigf_v1.entities.Terminal" fetch="select">
+            <column name="id_terminal" not-null="true" />
+        </many-to-one>
         <property name="fechaInicio" type="date">
             <column name="fecha_inicio" length="10" />
         </property>

@@ -8,12 +8,14 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoContratoDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDao;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.TipoContrato;
 import com.areatecnica.sigf_v1.entities.TipoTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
@@ -40,11 +42,13 @@ public class RegistroContratosController implements Serializable {
     private EmpresaDaoImpl empresaDao;
     private TipoContratoDaoImpl tipoContratoDaoImpl;
     private TipoTrabajadorDaoImpl tipoTrabajadorDaoImpl;
-
+    private TerminalDaoImpl terminalDaoImpl;
+    
     private List<RelacionLaboral> items;
     private List<Trabajador> trabajadorItems;
     private List<Empresa> empresaItems;
     private List<TipoContrato> tiposContratosItems;
+    private List<Terminal> terminalItems;
 
     private RelacionLaboral selected;
     private Trabajador trabajador;
@@ -66,6 +70,9 @@ public class RegistroContratosController implements Serializable {
 
         this.tipoTrabajadorDaoImpl = new TipoTrabajadorDaoImpl();
         this.tipoTrabajador = this.tipoTrabajadorDaoImpl.findById(1);
+        
+        this.terminalDaoImpl = new TerminalDaoImpl();
+        this.terminalItems = this.terminalDaoImpl.findAll();
 
         prepareCreate();
 
@@ -118,6 +125,27 @@ public class RegistroContratosController implements Serializable {
         }
     }
 
+    public void save() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                this.selected.setFechaFin(this.selected.getFechaInicio());
+                session.update(this.selected);
+                tx.commit();
+                JsfUtil.addSuccessMessage("Se ha actualizado el contrato");
+                this.selected = null;
+            } catch (HibernateException e) {
+                System.err.println("SAVE:Relacion Laboral");
+                tx.rollback();
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+        } else {
+
+        }
+    }
+    
     public void resetParents() {
 
     }
@@ -203,6 +231,14 @@ public class RegistroContratosController implements Serializable {
 
     public void setTiposContratosItems(List<TipoContrato> tiposContratosItems) {
         this.tiposContratosItems = tiposContratosItems;
+    }
+
+    public List<Terminal> getTerminalItems() {
+        return terminalItems;
+    }
+
+    public void setTerminalItems(List<Terminal> terminalItems) {
+        this.terminalItems = terminalItems;
     }
 
 }

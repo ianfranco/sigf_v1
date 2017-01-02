@@ -89,7 +89,7 @@ public class InformeProduccionConductorController implements Serializable {
     public InformeProduccionConductorController() {
         this.guiaDao = new GuiaDaoImpl();
         this.trabajadorDao = new TrabajadorDaoImpl();
-        this.trabajadorItems = this.trabajadorDao.findAll();
+        this.trabajadorItems = this.trabajadorDao.findAllClean();
 
         this.stringHeader = "Días x Conductor";
 
@@ -430,6 +430,14 @@ public class InformeProduccionConductorController implements Serializable {
 
     public void setTotales(LinkedHashMap totales) {
         this.totales = totales;
+    }
+
+    public List<Trabajador> getTrabajadorItems() {
+        return trabajadorItems;
+    }
+
+    public void setTrabajadorItems(List<Trabajador> trabajadorItems) {
+        this.trabajadorItems = trabajadorItems;
     }
 
 }

@@ -21,10 +21,10 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
+public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral> {
 
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     @Override
     public RelacionLaboral findById(int id) {
         RelacionLaboral relacionLaboral = null;
@@ -59,18 +59,20 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
-    		
+
     public List<RelacionLaboral> findActivas(Date fechaMes, int idOperador) {
         List<RelacionLaboral> list = null;
-
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE fechaInicio <= LAST_DAY('2016-11-01') AND fechaFin BETWEEN IF(fechaInicio = fechaFin, fechaFin, '2016-11-01')";
-        /* AND IF(fechaFin>LAST_DAY('2016-12-01'), fechaFin, LAST_DAY('2016-12-01')) AND idOperador ="+ idOperador*/
+        String sql = "SELECT * FROM relacion_laboral "
+                + "WHERE fecha_inicio <= LAST_DAY('"+format.format(fechaMes)+"') AND fecha_fin BETWEEN IF(fecha_inicio = fecha_fin, fecha_fin, '"+format.format(fechaMes)+"')"
+                + " AND IF(fecha_fin>LAST_DAY('"+format.format(fechaMes)+"'), fecha_fin, LAST_DAY('"+format.format(fechaMes)+"')) AND id_operador = "+idOperador;
         try {
 
-            list = session.createQuery(sql).list();
+            list = (List<RelacionLaboral>)session.createSQLQuery(sql).addEntity(RelacionLaboral.class).list();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -78,7 +80,7 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findAllVinaBus() {
         List<RelacionLaboral> list = null;
 
@@ -95,7 +97,7 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findAllSolyMar() {
         List<RelacionLaboral> list = null;
 
@@ -112,8 +114,7 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
-    
+
     public List<RelacionLaboral> findWithLimit() {
         List<RelacionLaboral> list = null;
 
@@ -130,13 +131,13 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findByTrabajador(Trabajador trabajador) {
         List<RelacionLaboral> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE estado = true AND trabajador="+trabajador.getIdTrabajador()+" ORDER BY empresa.nombreEmpresa ASC";
+        String sql = "FROM RelacionLaboral WHERE estado = true AND trabajador=" + trabajador.getIdTrabajador() + " ORDER BY empresa.nombreEmpresa ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -147,13 +148,13 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findHistoricoByTrabajador(Trabajador trabajador) {
         List<RelacionLaboral> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE trabajador="+trabajador.getIdTrabajador()+" ORDER BY estado DESC, fecha_inicio DESC";
+        String sql = "FROM RelacionLaboral WHERE trabajador=" + trabajador.getIdTrabajador() + " ORDER BY estado DESC, fecha_inicio DESC";
         try {
 
             list = session.createQuery(sql).list();
@@ -164,13 +165,13 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findByTrabajador2(Trabajador trabajador) {
         List<RelacionLaboral> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE estado = true AND trabajador="+trabajador.getIdTrabajador()+" ORDER BY empresa.nombreEmpresa ASC";
+        String sql = "FROM RelacionLaboral WHERE estado = true AND trabajador=" + trabajador.getIdTrabajador() + " ORDER BY empresa.nombreEmpresa ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -181,13 +182,13 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findByEmpresa(Empresa empresa) {
         List<RelacionLaboral> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE estado = 1 AND empresa="+empresa.getIdEmpresa()+" ORDER BY empresa.nombreEmpresa ASC";
+        String sql = "FROM RelacionLaboral WHERE estado = 1 AND empresa=" + empresa.getIdEmpresa() + " ORDER BY empresa.nombreEmpresa ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -198,13 +199,13 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findAllByEmpresa(Empresa empresa) {
         List<RelacionLaboral> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE empresa="+empresa.getIdEmpresa()+" ORDER BY trabajador.apellidoPaternoTrabajador ASC";
+        String sql = "FROM RelacionLaboral WHERE empresa=" + empresa.getIdEmpresa() + " ORDER BY trabajador.apellidoPaternoTrabajador ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -215,14 +216,14 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
     public List<RelacionLaboral> findByDate(Date date) {
         List<RelacionLaboral> list = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM RelacionLaboral WHERE fechaInicio BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"')  ORDER BY fechaInicio ASC";
+        String sql = "FROM RelacionLaboral WHERE fechaInicio BETWEEN '" + format.format(date) + "' AND LAST_DAY('" + format.format(date) + "')  ORDER BY fechaInicio ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -233,5 +234,5 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral>{
         }
         return list;
     }
-    
+
 }

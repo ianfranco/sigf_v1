@@ -8,9 +8,11 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.EmpresaDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
+import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoContratoDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
+import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.TipoContrato;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -38,9 +40,13 @@ public class UltimosContratosController implements Serializable {
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
     private EmpresaDaoImpl empresaDao;
     private TipoContratoDaoImpl tipoContratoDaoImpl;
+    private TerminalDaoImpl terminalDaoImpl;
+    
     private List<RelacionLaboral> contratos;
     private List<Empresa> empresaItems;
     private List<TipoContrato> tiposContratosItems;
+    private List<Terminal> terminalItems;
+    
     private RelacionLaboral selected;
     private Date fecha;
     private int mes;
@@ -56,6 +62,9 @@ public class UltimosContratosController implements Serializable {
 
         this.tipoContratoDaoImpl = new TipoContratoDaoImpl();
         this.tiposContratosItems = this.tipoContratoDaoImpl.findAll();
+        
+        this.terminalDaoImpl = new TerminalDaoImpl();
+        this.terminalItems = this.terminalDaoImpl.findAll();
 
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
@@ -271,6 +280,14 @@ public class UltimosContratosController implements Serializable {
 
     public void setTiposContratosItems(List<TipoContrato> tiposContratosItems) {
         this.tiposContratosItems = tiposContratosItems;
+    }
+
+    public List<Terminal> getTerminalItems() {
+        return terminalItems;
+    }
+
+    public void setTerminalItems(List<Terminal> terminalItems) {
+        this.terminalItems = terminalItems;
     }
 
 }

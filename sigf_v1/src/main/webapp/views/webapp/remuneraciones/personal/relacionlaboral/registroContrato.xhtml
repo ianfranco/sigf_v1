@@ -54,12 +54,36 @@
                     <p:outputLabel value=""/>
                     <p:outputLabel value=""/>
 
+                    <p:outputLabel value="Operador" for="idOperador"/>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="idOperador" value="#{registroContratosController.selected.idOperador}" >                        
+                            <f:selectItem itemLabel="Viña Bus S.A." itemValue="0"/>
+                            <f:selectItem itemLabel="Sol y Mar S.A." itemValue="1"/>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel for="terminal" value="Terminal:" />
+                    <p:selectOneMenu id="terminal" value="#{registroContratosController.selected.terminal}" required="true"  converter="terminalConverter">
+                        <f:selectItem itemLabel="Seleccionar"/>
+                        <f:selectItems value="#{registroContratosController.terminalItems}"
+                                       var="itemTerminal"
+                                       itemValue="#{itemTerminal}"
+                                       itemLabel="#{itemTerminal.nombreTerminal}"
+                                       />                        
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value=""/>
+                    <p:outputLabel value=""/>
+
                     <p:outputLabel for="inicio" value="Fecha Inicio:"/>
                     <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" required="true" onfocus="this.setSelectionRange(0, 2)" onkeypress="return event.keyCode != 13"/>
-                                        
+
                     <p:outputLabel value=""/>
                     <p:outputLabel value=""/>
-                    
+
                     <p:outputLabel value="Sueldo Base:"/>
                     <p:inputNumber symbol="$ " decimalPlaces="0" required="true"  value="#{registroContratosController.selected.sueldoBase}" onkeypress="return event.keyCode != 13"/>
 
@@ -74,15 +98,27 @@
         </h:form>
 
         <h:form id="Display">
+
+            <p:contextMenu id="ContratosDataTableContextMenu" for="datalist">                  
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('Display:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('Display:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+            </p:contextMenu>
+
             <p:panel style="margin-top: 5px;">
                 <p:dataTable id="datalist" 
                              value="#{registroContratosController.items}"                             
                              var="item"
                              rowKey="#{item.idRelacionLaboral}"
+                             selection="#{registroContratosController.selected}"
                              rowIndexVar="rowIndex"                         
                              selectionMode="single"
                              emptyMessage="No se han encontrado registros"
-                             tableStyle="table-layout: auto" >
+                             tableStyle="table-layout: auto">
+
+                    <p:ajax event="rowSelect"   update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:editButton,@form:deleteButton,@form:ContratosDataTableContextMenu" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:editButton @form:deleteButton" global="false"/>
 
                     <f:facet name="header">
                         Últimos Contratos Registrados
@@ -116,7 +152,21 @@
                         <h:outputText value="#{item.tipoContrato}"/>
                     </p:column>
 
+                    <p:column style="width: 20px;text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Operador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idOperador==0?'VIÑA BUS S.A.':'SOL Y MAR S.A.'}"/>
+                    </p:column>
+
                     <p:column style="width: 20px;">
+                        <f:facet name="header">
+                            <h:outputText value="Terminal"/>
+                        </f:facet>
+                        <h:outputText value="#{item.terminal.nombreTerminal}"/>
+                    </p:column>
+
+                    <p:column style="width: 10px;">
                         <f:facet name="header">
                             <h:outputText value="F.Inicio"/>
                         </f:facet>
@@ -135,6 +185,7 @@
                     </p:column>                    
                 </p:dataTable>
 
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update="EdicionContrato:Edicion" oncomplete="PF('ContratoEditDialog').show()" disabled="#{empty registroContratosController.selected}" />
                 <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroContratosController.delete()}" update="growl,datalist">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
@@ -142,6 +193,86 @@
             </p:panel>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
+
+        <p:dialog id="ContratoEditDlg" widgetVar="ContratoEditDialog" header="Edición" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true">
+            <h:form id="EdicionContrato">
+                <p:panel id="Edicion" >
+                    <p:focus context="trabajador"/>
+                    <h:panelGrid columns="4">
+
+                        <p:outputLabel value="N° Conductor" for="trabajador" />
+                        <p:outputLabel id="trabajador" value="#{registroContratosController.selected.trabajador.codigoTrabajador}"/>
+
+                        <p:outputLabel value="Nombre:" style="margin-left: 15px;"/>
+                        <h:outputText value="#{registroContratosController.selected.trabajador}" id="informacionConductor"/>
+
+                        <p:outputLabel for="empresa" value="N° Empresa:" />
+                        <p:selectOneMenu id="empresa" value="#{registroContratosController.selected.empresa}" converter="empresaConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{registroContratosController.empresaItems}"
+                                           var="itemEmpresa"
+                                           itemValue="#{itemEmpresa}"
+                                           itemLabel="#{itemEmpresa.idEmpresa}"
+                                           />
+                            <p:ajax event="valueChange" update="informacionEmpresa" global="false"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Razón Social:" style="margin-left: 15px;"/>
+                        <h:outputText value="#{registroContratosController.selected.empresa}" id="informacionEmpresa"/>
+
+                        <p:outputLabel for="tipoContrato" value="Contrato:" />
+                        <p:selectOneMenu id="tipoContrato" value="#{registroContratosController.selected.tipoContrato}" converter="tipoContratoConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{registroContratosController.tiposContratosItems}"
+                                           var="item"
+                                           itemValue="#{item}"
+                                           itemLabel="#{item.nombreTipoContrato}"
+                                           />                        
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Operador" for="idOperador"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idOperador" value="#{registroContratosController.selected.idOperador}" >                        
+                                <f:selectItem itemLabel="Viña Bus S.A." itemValue="0"/>
+                                <f:selectItem itemLabel="Sol y Mar S.A." itemValue="1"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel for="terminal" value="Terminal:" />
+                        <p:selectOneMenu id="terminal" value="#{registroContratosController.selected.terminal}" required="true"  converter="terminalConverter">
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{registroContratosController.terminalItems}"
+                                           var="itemTerminal"
+                                           itemValue="#{itemTerminal}"
+                                           itemLabel="#{itemTerminal.nombreTerminal}"
+                                           />                        
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel for="inicio" value="Fecha Inicio"/>
+                        <p:calendar id="inicio" value="#{registroContratosController.selected.fechaInicio}" pattern="dd/MM/yyyy" onfocus="this.setSelectionRange(0, 2)"/>
+
+                        <p:outputLabel  value=""/>
+                        <p:outputLabel  value=""/>
+
+                        <p:outputLabel value="Sueldo Base"/>
+                        <p:inputNumber symbol="$ " decimalPlaces="0" value="#{registroContratosController.selected.sueldoBase}"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="Actualizar" update=":Display:datalist, :selector, :growl" actionListener="#{registroContratosController.save}"  resetValues="true" oncomplete="PF('ContratoEditDialog').hide()" >
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ContratoEditDialog').hide()" />
+                </p:panel>
+                <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+            </h:form>
+        </p:dialog>
     </ui:define>
 
 </ui:composition>

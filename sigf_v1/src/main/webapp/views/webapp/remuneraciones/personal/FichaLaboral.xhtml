@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="TrabajadorFichaFormDisplay">
+
+
+
+            <p:tabView>
+                <p:tab title="Código">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelCódigo">                        
+                        <p:outputLabel value="Código:" for="busquedaCodigo" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <p:inputText id="busquedaCodigo" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" required="true" requiredMessage="Debe Ingresar el Código" value="#{fichaTrabajadorController.codigo}" />                        
+                        <p:commandButton id="buscarCodigo" value="Buscar" actionListener="#{fichaTrabajadorController.findByCodigo}" update=":TrabajadorDisplay:display,growl"/>
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Rut">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelRut">
+                        <p:outputLabel value="Rut:" for="busquedaRut" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <p:inputText id="busquedaRut" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"  value="#{fichaTrabajadorController.rut}"/>
+                        <p:commandButton id="buscarRut" value="Buscar" actionListener="#{fichaTrabajadorController.findByRut()}" update=":TrabajadorDisplay:display,growl" ajax="true"/>
+                    </h:panelGrid>
+                </p:tab>
+                <!--<p:tab title="Empresa">
+                    <h:panelGrid columns="8" columnClasses="value" id="panelEmpresa"> 
+                        <p:outputLabel value="Empresa:" for="busquedaEmpresa" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="busquedaEmpresa" value="#{fichaTrabajadorController.empresa}" converter="empresaConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empresaController.items}"
+                                               var="empresaItem"
+                                               itemValue="#{empresaItem}"
+                                               itemLabel="#{empresaItem}"
+                                               />
+                                <p:ajax event="valueChange" update="busquedaConductor, growl" listener="#{fichaTrabajadorController.handleEmpresaChange}"/>
+                            </p:selectOneMenu>                                        
+                        </h:panelGroup>                     
+                        
+                        <p:outputLabel value="Conductor:" for="busquedaConductor" style="font-size: 14px;font-weight: bold;text-align: right;padding-left: 10px;"/>
+                        <h:panelGroup>                            
+                            <p:selectOneMenu id="busquedaConductor" value="#{fichaTrabajadorController.selected}" converter="trabajadorConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{fichaTrabajadorController.items}"
+                                               var="trabajadorItem"
+                                               itemValue="#{trabajadorItem}"
+                                               itemLabel="#{trabajadorItem}"
+                                               />                                
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:commandButton id="buscarEmpresa" value="Cargar" update=":TrabajadorDisplay:display"/>
+                    </h:panelGrid>
+                </p:tab>-->
+            </p:tabView>
+        </h:form>
+
+        <p:separator class="ui-priority-primary" />
+        <h:form id="TrabajadorDisplay">
+            <h:panelGroup id="display" >
+                <p:fieldset legend="Información Personal" style="margin-bottom:20px">
+                    <h:panelGrid columns="2" columnClasses="column, column, column, column, column, column, column, column, column, column">
+                        <p:outputLabel value="Cód.:" for="codigoTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="codigoTrabajador" value="#{fichaTrabajadorController.selected.codigoTrabajador}" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Rut:" for="rutTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="rutTrabajador" value="#{fichaTrabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" />                                    
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Apellido P." for="apellidoPaternoTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="apellidoPaternoTrabajador" value="#{fichaTrabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoPaternoTrabajador}" style="margin-top: 5px;"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Apellido M.:" for="apellidoMaternoTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="apellidoMaternoTrabajador" value="#{fichaTrabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoMaternoTrabajador}" style="margin-top: 5px;"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Nombres" for="nombreTrabajador" />
+                        <h:panelGroup>
+                            <p:outputLabel id="nombreTrabajador" value="#{fichaTrabajadorController.selected.nombreTrabajador}" style="margin-top: 5px;"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="Contratos" style="margin-bottom:20px">
+                    <p:dataTable id="datalist" 
+                                 value="#{fichaTrabajadorController.relacionLaboralItems}"
+                                 lazy="false"
+                                 var="item"
+                                 rowKey="#{item.idRelacionLaboral}"
+                                 rowIndexVar="rowIndex"            
+                                 selection="#{fichaTrabajadorController.selectedRelacionLaboral}"
+                                 selectionMode="single"
+                                 emptyMessage="No se han encontrado registros"
+                                 tableStyle="table-layout: auto" >
+
+                        <p:column style="width: 20px;text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Cod.Empresa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.empresa.idEmpresa}"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Empresa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.empresa}"/>
+                        </p:column>
+
+                        <p:column style="text-align: center;" >
+                            <f:facet name="header">
+                                <h:outputText value="Contrato"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoContrato}"/>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="F.Inicio"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Estado"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.estado}"/>                                
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Operador"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.idOperador==0?'Viña Bus':'Sol y Mar'}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+
+                <p:fieldset legend="Finiquitos" style="margin-bottom:20px">
+                    <p:dataTable id="datalist2" 
+                                 value="#{fichaTrabajadorController.finiquitoRelacionLaboralItems}"
+                                 lazy="false"
+                                 var="item"
+                                 rowKey="#{item.idFiniquitoRelacionLaboral}"
+                                 rowIndexVar="rowIndex"            
+                                 selection="#{fichaTrabajadorController.selectedFiniquito}"
+                                 selectionMode="single"
+                                 emptyMessage="No se han encontrado registros"
+                                 tableStyle="table-layout: auto" >
+
+                        <p:column style="width: 20px;text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Cod.Empresa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.relacionLaboral.empresa.idEmpresa}"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Empresa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.relacionLaboral.empresa}"/>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaFiniquito}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Causal"/>
+                            </f:facet>
+                            <h:outputText value="#{item.causalFiniquito.codigoCausalFiniquito}">
+                                
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

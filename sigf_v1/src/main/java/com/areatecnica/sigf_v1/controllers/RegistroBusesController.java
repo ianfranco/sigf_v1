@@ -5,7 +5,6 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
-
 import com.areatecnica.sigf_v1.dao.BusDao;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EmpresaDao;
@@ -48,16 +47,16 @@ public class RegistroBusesController implements Serializable {
     private List<Empresa> forFilterEmpresa;
     private List<UnidadNegocio> forFilterUnidad;
     private List<Flota> forFilterFlota;
-    
+
     private List<Terminal> terminalItems;
     private List<Empresa> empresaItems;
     private List<UnidadNegocio> unidadItems;
     private List<Flota> flotaItems;
     private List<ModeloMarcaBus> modeloMarcaItems;
-    
+
     private Bus selected;
     private EstadoBus estadoBus;
-    
+
     private BusDao busDao;
     private EmpresaDao empresaDao;
     private UnidadNegocioDao negocioDao;
@@ -65,43 +64,43 @@ public class RegistroBusesController implements Serializable {
     private TerminalDao terminalDao;
     private EstadoBusDaoImpl estadoBusDao;
     private ModeloMarcaBusDaoImpl modeloMarcaBusDao;
-    
+
     /**
      * Creates a new instance of RegistroBusesController
      */
-    
     public RegistroBusesController() {
         this.busDao = new BusDaoImpl();
-        this.empresaDao         = new EmpresaDaoImpl();
-        this.negocioDao         = new UnidadNegocioDaoImpl();
-        this.flotaDao           = new FlotaDaoImpl();
+        this.empresaDao = new EmpresaDaoImpl();
+        this.negocioDao = new UnidadNegocioDaoImpl();
+        this.flotaDao = new FlotaDaoImpl();
         this.terminalDao = new TerminalDaoImpl();
         this.estadoBusDao = new EstadoBusDaoImpl();
-        
+        this.modeloMarcaBusDao = new ModeloMarcaBusDaoImpl();
+
         this.items = this.busDao.findAll();
-        this.forFilterEmpresa   =   this.empresaDao.findAll();
-        this.forFilterUnidad    =   this.negocioDao.findAll();
-        this.forFilterFlota     =   this.flotaDao.findAll();        
-        
+        this.forFilterEmpresa = this.empresaDao.findAll();
+        this.forFilterUnidad = this.negocioDao.findAll();
+        this.forFilterFlota = this.flotaDao.findAll();
+
         this.terminalItems = this.terminalDao.findAll();
         this.flotaItems = this.flotaDao.findAll();
         this.unidadItems = this.negocioDao.findAll();
         this.empresaItems = this.empresaDao.findAllClean();
-        this.modeloMarcaItems = this.modeloMarcaBusDao.findAll();        
+        this.modeloMarcaItems = this.modeloMarcaBusDao.findAll();
     }
 
-    public Bus prepareCreate(ActionEvent event) {        
+    public Bus prepareCreate(ActionEvent event) {
         Bus newItem;
         newItem = new Bus();
-        this.selected = newItem;        
-        this.estadoBus = this.estadoBusDao.findById(1);        
+        this.selected = newItem;
+        this.estadoBus = this.estadoBusDao.findById(1);
         return newItem;
     }
-    
+
     public void resetParents() {
-        
+
     }
-    
+
     public void saveNew() {
 
         if (this.selected != null) {
@@ -112,13 +111,13 @@ public class RegistroBusesController implements Serializable {
                 this.selected.setEstadoBus(estadoBus);
                 this.selected.setFechaIngresoBus(new Date());
                 this.selected.setActivo(Boolean.TRUE);
-                
+
                 session.saveOrUpdate(this.selected);
                 tx.commit();
                 this.items.add(this.selected);
-                
+
                 this.selected = null;
-                                
+
             } catch (HibernateException e) {
                 e.printStackTrace();
                 tx.rollback();
@@ -128,7 +127,7 @@ public class RegistroBusesController implements Serializable {
         }
 
     }
-    
+
     public void save() {
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -143,7 +142,7 @@ public class RegistroBusesController implements Serializable {
             }
         }
     }
-    
+
     public List<Bus> getItems() {
         return items;
     }
@@ -223,7 +222,5 @@ public class RegistroBusesController implements Serializable {
     public void setModeloMarcaItems(List<ModeloMarcaBus> modeloMarcaItems) {
         this.modeloMarcaItems = modeloMarcaItems;
     }
-    
-    
-    
+
 }

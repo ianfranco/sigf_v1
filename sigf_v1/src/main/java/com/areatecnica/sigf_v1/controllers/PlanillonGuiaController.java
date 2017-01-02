@@ -607,12 +607,14 @@ public class PlanillonGuiaController implements Serializable {
 
                 this.listOfMaps.set(index, this.selectedHashMap);
 
+                JsfUtil.addSuccessMessage("SE HA ACTUALIZADO LA GUÍA N°:"+this.selected.getFolio());
+                
                 //this.items.add(selected);
                 this.selected = new Guia();
                 this.selected.setTotalEgresos(0);
                 this.selected.setTotalIngresos(0);
                 this.selectedHashMap = null;
-
+                
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:Guia");
@@ -634,7 +636,10 @@ public class PlanillonGuiaController implements Serializable {
             try {
                 session.delete(this.selected);
                 tx.commit();
-                this.listOfMaps.remove(this.selectedHashMap);                
+                this.listOfMaps.remove(this.selectedHashMap);   
+                init();
+                JsfUtil.addSuccessMessage("SE HA ELIMINADO LA GUÍA DE FOLIO N°: "+this.selected.getFolio());
+                this.selected = null;
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:Guia");
@@ -671,6 +676,7 @@ public class PlanillonGuiaController implements Serializable {
             egresosGuiaItems.get(a.getIndex()).setMonto((int) (a.getBd().floatValue() / 100 * this.selected.getTotalIngresos()));
             i++;
         }
+        setTotal();
         return null;
     }
 

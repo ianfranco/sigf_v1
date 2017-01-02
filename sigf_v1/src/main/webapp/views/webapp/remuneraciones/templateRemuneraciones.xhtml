@@ -41,7 +41,12 @@
                             <p:menuitem value="Inicio" url="#{appBean.basePath}indexRemuneraciones.xhtml" icon="ui-icon-home" />
 
                             <p:submenu label="Administración de Personal">
-                                <p:menuitem value="Ficha Individual" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
+                                <p:submenu label="Ficha">
+                                    <p:menuitem value="Completa" outcome="#{appBean.basePath}webapp/remuneraciones/personal/Ficha" />
+                                    <p:menuitem value="Laboral" outcome="#{appBean.basePath}webapp/remuneraciones/personal/FichaLaboral" />
+                                    <p:menuitem value="Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/FichaLaboral" />
+                                </p:submenu>
+                                
                                 <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:submenu label="Cargas Familiares">
                                     <p:menuitem value="Registro por R.Laboral" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares/registroCargasFamiliares"/>
@@ -120,7 +125,8 @@
 
                             </p:submenu>
                             <p:submenu label="Procesos">
-                                <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                            
+                                <p:menuitem value="Planillón" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillon" />
+                                <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:menuitem value="Liquidaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
                             </p:submenu>
                             <p:submenu label="RR.HH">

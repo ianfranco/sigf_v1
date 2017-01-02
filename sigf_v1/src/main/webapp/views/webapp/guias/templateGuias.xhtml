@@ -9,7 +9,8 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
         <h:outputStylesheet name="css/default.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>        
+        <h:outputStylesheet name="css/cssLayout.css"/>    
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
         <style type="text/css">
             #growl {
                 background: #D20005;
@@ -22,6 +23,14 @@
             jQuery(document).ready(function() {
             jQuery(document).ready(function() {
             fixPFMDialogs();
+            $('input').keydown( function(e) {
+            var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            if(key == 13) {
+            e.preventDefault();
+            var inputs = $(this).closest('form').find(':input:visible');
+            inputs.eq( inputs.index(this)+ 1 ).focus();
+            }
+            });
             });
             });
 
