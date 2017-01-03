@@ -53,10 +53,12 @@ public class PlanillonImponiblesController implements Serializable {
      * Creates a new instance of InstitucionPrevisionController
      */
     public PlanillonImponiblesController() {
-        
+
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
+        this.idOperador = -1;
+        
     }
 
     public HaberTrabajadorLiquidacion prepareCreate() {
@@ -73,7 +75,7 @@ public class PlanillonImponiblesController implements Serializable {
 
     }
 
-    public void init() {
+    public void setDate() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String from = "01/" + mes + "/" + anio;
@@ -82,17 +84,32 @@ public class PlanillonImponiblesController implements Serializable {
         } catch (ParseException p) {
 
         }
+    }
+
+    public void init() {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        String from = "01/" + this.mes + "/" + this.anio;
+        try {
+            this.fecha = format.parse(from);
+        } catch (ParseException p) {
+
+        }
+                
+        System.err.println("IDENTIFICACIÓN OPERADOR:" + this.idOperador + " Fecha:" + this.fecha);
 
         this.relacionLaboralDao = new RelacionLaboralDaoImpl();
-        this.relacionLaboralItems = this.relacionLaboralDao.findActivas(this.fecha, 0);
+        this.relacionLaboralItems = this.relacionLaboralDao.findActivas(this.fecha, this.idOperador);
 
         this.empresasMap = new HashMap();
 
         this.empresasList = new ArrayList<>();
-
+        this.trabajadorItems = new ArrayList<>();
+        
         for (RelacionLaboral r : this.relacionLaboralItems) {
             this.empresasMap.put(r.getEmpresa().getIdEmpresa(), r.getEmpresa());
             System.err.println("EMPRESA:" + r.getEmpresa().getNombreEmpresa());
+            this.trabajadorItems.add(r.getTrabajador());
         }
 
         this.empresasList = new ArrayList<Empresa>(empresasMap.values());

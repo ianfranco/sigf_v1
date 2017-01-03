@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import static javax.print.attribute.Size2DSyntax.MM;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -62,17 +63,23 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral> {
 
     public List<RelacionLaboral> findActivas(Date fechaMes, int idOperador) {
         List<RelacionLaboral> list = null;
-        
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        
+
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "SELECT * FROM relacion_laboral "
-                + "WHERE fecha_inicio <= LAST_DAY('"+format.format(fechaMes)+"') AND fecha_fin BETWEEN IF(fecha_inicio = fecha_fin, fecha_fin, '"+format.format(fechaMes)+"')"
-                + " AND IF(fecha_fin>LAST_DAY('"+format.format(fechaMes)+"'), fecha_fin, LAST_DAY('"+format.format(fechaMes)+"')) AND id_operador = "+idOperador;
+                + "WHERE fecha_inicio <= LAST_DAY('" + format.format(fechaMes) + "') AND fecha_fin BETWEEN IF(fecha_inicio = fecha_fin, fecha_fin, '" + format.format(fechaMes) + "')"
+                + " AND IF(fecha_fin>LAST_DAY('" + format.format(fechaMes) + "'), fecha_fin, LAST_DAY('" + format.format(fechaMes) + "')) AND id_operador = " + idOperador;
+
         try {
 
-            list = (List<RelacionLaboral>)session.createSQLQuery(sql).addEntity(RelacionLaboral.class).list();
+            list = (List<RelacionLaboral>) session.createSQLQuery(sql).addEntity(RelacionLaboral.class).list();
+
+            /*for (RelacionLaboral r : list) {
+                Hibernate.initialize(r.getTrabajador());
+            }*/
+
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

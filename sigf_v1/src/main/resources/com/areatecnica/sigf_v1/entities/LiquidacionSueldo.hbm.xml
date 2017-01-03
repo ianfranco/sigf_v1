@@ -8,9 +8,6 @@
             <column name="id_liquidacion_sueldo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="relacionLaboral" class="com.areatecnica.sigf_v1.entities.RelacionLaboral" fetch="select">
-            <column name="id_relacion_laboral" not-null="true" />
-        </many-to-one>
         <property name="mes" type="int">
             <column name="mes" not-null="true" />
         </property>
@@ -28,9 +25,6 @@
         </property>
         <property name="totalHaberesNoImponibles" type="int">
             <column name="total_haberes_no_imponibles" not-null="true" />
-        </property>
-        <property name="saldoAnterior" type="java.lang.Integer">
-            <column name="saldo_anterior" />
         </property>
         <property name="totalDescuentos" type="int">
             <column name="total_descuentos" not-null="true" />

@@ -34,7 +34,9 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel for="anio" value="Año:" />
-                        <p:inputText id="anio" value="#{traspasoCargoBusController.anio}" size="5" />                            
+                        <p:inputText id="anio" value="#{traspasoCargoBusController.anio}" size="5" >
+                            <p:ajax event="valueChange" listener="#{traspasoCargoBusController.setDate}" />
+                        </p:inputText>
 
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
                         <h:panelGroup>
@@ -55,7 +57,7 @@
                                 <p:ajax event="blur" listener="#{traspasoCargoBusController.loadFecha}" update="CargoBusListForm:datalist" />
                             </p:calendar> 
                         </h:panelGroup>
-                        
+
                         <p:outputLabel value="Descripción:" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{traspasoCargoBusController.selected.descripcion}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}"  onfocus="this.setSelectionRange(0, this.value.length)" >
@@ -76,7 +78,7 @@
                                 <p:ajax event="blur" listener="#{traspasoCargoBusController.loadTotalCuotas}" update="CargoBusListForm:datalist" global="false"/>
                             </p:inputText>
                         </h:panelGroup>
-                        
+
                         <p:outputLabel value="Indefinido:" for="indefinido" />
                         <h:panelGroup>
                             <p:selectBooleanCheckbox id="indefinido" value="#{traspasoCargoBusController.selected.activoCargoBus}" title="#{bundle.CreateCargoBusTitle_numeroCuotasCargoBus}" onfocus="this.setSelectionRange(0, this.value.length)">
@@ -197,14 +199,14 @@
                         </f:facet>
                         <h:outputText value="#{item.numeroCuotasCargoBus}"/>
                     </p:column>
-                    
+
                     <p:column sortBy="#{item.totalCuotasCargoBus}" filterBy="#{item.totalCuotasCargoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Total Cuotas"/>
                         </f:facet>
                         <h:outputText value="#{item.totalCuotasCargoBus}"/>
                     </p:column>
-                    
+
                     <p:column sortBy="#{item.montoCargoBus}" filterBy="#{item.montoCargoBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Monto"/>

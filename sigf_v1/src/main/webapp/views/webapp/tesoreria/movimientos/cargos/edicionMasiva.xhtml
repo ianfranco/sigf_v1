@@ -34,7 +34,9 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel for="anio" value="Año:" />
-                        <p:inputText id="anio" value="#{edicionMasivaCargoBusController.anio}" size="5" />                            
+                        <p:inputText id="anio" value="#{edicionMasivaCargoBusController.anio}" size="5" >
+                            <p:ajax event="valueChange" listener="#{edicionMasivaCargoBusController.setDate}" />
+                        </p:inputText>                            
 
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
                         <h:panelGroup>

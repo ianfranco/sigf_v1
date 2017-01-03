@@ -15,7 +15,7 @@
 
                     <p:outputLabel value="N° Conductor" for="trabajador" />
                     <h:panelGroup>
-                        <p:selectOneMenu id="trabajador" value="#{informeProduccionConductorController.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
+                        <p:selectOneMenu id="trabajador" value="#{informeProduccionConductorController.trabajador}" required="true" requiredMessage="Debe seleccionar el trabajador" converter="trabajadorConverter" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{trabajadorController.items}"
                                            var="trabajadorItem"
