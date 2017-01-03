@@ -89,22 +89,22 @@ public class RegistroCargoFlotaController implements Serializable {
         this.items = this.cargoBusDaoImpl.findAll();
 
         this.guiaDaoImpl = new GuiaDaoImpl();
-        
+
         this.selected = prepareCreate();
         this.selected.setFechaInicioCargoBus(new Date());
 
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
-        
-        String aux = "01-"+this.mes+"-"+this.anio;
+
+        String aux = "01-" + this.mes + "-" + this.anio;
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
             fechaAux = format.parse(aux);
         } catch (ParseException ex) {
             Logger.getLogger(RegistroCargoFlotaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public CargoBus prepareCreate() {
@@ -125,8 +125,8 @@ public class RegistroCargoFlotaController implements Serializable {
 
                     if (r.getMontoCargoBus() != 0) {
                         if (r.isActivoCargoBus()) {
-                            System.err.println("descripcion;"+r.getDescripcion());
-                            System.err.println("mnto:"+r.getMontoCargoBus());
+                            System.err.println("descripcion;" + r.getDescripcion());
+                            System.err.println("mnto:" + r.getMontoCargoBus());
                             session.update(r);
                         } else {
 
@@ -134,14 +134,13 @@ public class RegistroCargoFlotaController implements Serializable {
 
                             cargo.setFechaIngresoCargoBus(new Date());
                             cargo.setFechaInicioCargoBus(this.fecha);
-                            
-                            if(r.getDescripcion() == null){
+
+                            if (r.getDescripcion() == null) {
                                 cargo.setDescripcion(" ");
-                            }else{
+                            } else {
                                 cargo.setDescripcion(r.getDescripcion());
                             }
-                            
-                            
+
                             cargo.setNumeroCuotasCargoBus(this.numeroCuotas);
                             cargo.setMontoCargoBus(r.getMontoCargoBus());
                             cargo.setBus(r.getBus());
@@ -174,7 +173,7 @@ public class RegistroCargoFlotaController implements Serializable {
             } catch (HibernateException e) {
                 tx.rollback();
                 System.err.println("NULL:CargoBus");
-            } 
+            }
         } else {
 
         }
@@ -222,7 +221,7 @@ public class RegistroCargoFlotaController implements Serializable {
 
         }
     }
-    
+
     public void deleteRow() {
         if (this.rowSelected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -233,7 +232,7 @@ public class RegistroCargoFlotaController implements Serializable {
                 JsfUtil.addSuccessMessage("El cargo:" + this.rowSelected.getTipoCargo() + " fue eliminado del Bus N°: " + this.rowSelected.getBus() + " Unidad: " + this.rowSelected.getBus().getUnidadNegocio().getNombreUnidadNegocio() + " Patente: " + this.rowSelected.getBus().getPatente());
                 this.registroCargoItems.remove(this.rowSelected);
                 this.rowSelected = null;
-                
+
             } catch (HibernateException e) {
                 tx.rollback();
                 //JsfUtil.addErrorMessage(e.getLocalizedMessage());
@@ -329,86 +328,99 @@ public class RegistroCargoFlotaController implements Serializable {
     }
 
     public void handleFlota() {
-        boolean flag = false;
-        if (this.flota != null) {
+        if (this.selected.getTipoCargo() != null) {
+            boolean flag = false;
+            if (this.flota != null) {
 
-            this.busDaoImpl = new BusDaoImpl();
-            this.busItems = this.busDaoImpl.findByFlotaVinabus(flota);
+                this.busDaoImpl = new BusDaoImpl();
+                this.busItems = this.busDaoImpl.findByFlotaVinabus(flota);
 
-            registroCargoItems = new ArrayList<>();
-            
-            
-            int i = 0;
-            for (Bus b : this.busItems) {
-                
-                this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
+                registroCargoItems = new ArrayList<>();
 
-                if (!this.items.isEmpty()) {
-                    for (CargoBus c : this.items) {
-                        registroCargoItems.add(c);
+                int i = 0;
+                for (Bus b : this.busItems) {
+
+                    if (this.selected.getTipoCargo().getIdTipoCargo() == 2 && b.getEmpresa().getIdEmpresa() == 29) {
+                        continue;
+                    }
+                    
+                    
+                    this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
+
+                    if (!this.items.isEmpty()) {
+                        for (CargoBus c : this.items) {
+                            registroCargoItems.add(c);
+                        }
+
+                        flag = true;
+                    } else {
+                        CargoBus cargo = new CargoBus();
+
+                        cargo.setFechaIngresoCargoBus(new Date());
+                        cargo.setFechaInicioCargoBus(this.selected.getFechaInicioCargoBus());
+                        cargo.setMontoCargoBus(0);
+                        cargo.setDescripcion(this.selected.getDescripcion());
+                        cargo.setBus(b);
+                        cargo.setTipoCargo(this.selected.getTipoCargo());
+                        registroCargoItems.add(cargo);
                     }
 
-                    flag = true;
-                } else {
-                    CargoBus cargo = new CargoBus();
-                    
-                    cargo.setFechaIngresoCargoBus(new Date());
-                    cargo.setFechaInicioCargoBus(this.selected.getFechaInicioCargoBus());
-                    cargo.setMontoCargoBus(0);
-                    cargo.setDescripcion(this.selected.getDescripcion());
-                    cargo.setBus(b);
-                    cargo.setTipoCargo(this.selected.getTipoCargo());
-                    registroCargoItems.add(cargo);
+                    i++;
+
                 }
 
-                i++;
             }
-
-        }
-        if (flag) {
-            JsfUtil.addSuccessMessage("Existen cargos del tipo: " + this.selected.getTipoCargo().getNombreTipoCargo() + " ingresados a la flota:" + this.flota.getNombreFlota() + ". Los cambios que realice afectarán a todos los cargos registrados");
+            if (flag) {
+                JsfUtil.addSuccessMessage("Existen cargos del tipo: " + this.selected.getTipoCargo().getNombreTipoCargo() + " ingresados a la flota:" + this.flota.getNombreFlota() + ". Los cambios que realice afectarán a todos los cargos registrados");
+            }
+        } else {
+            JsfUtil.addErrorMessage("Debe seleccionar el tipo de Cargo");
         }
     }
 
     public void loadUnidad() {
-        boolean flag = false;
-        if (this.unidadNegocio != null) {
+        if (this.selected.getTipoCargo() != null) {
+            boolean flag = false;
+            if (this.unidadNegocio != null) {
 
-            this.busDaoImpl = new BusDaoImpl();
-            this.busItems = this.busDaoImpl.findByFlotaAndUnidad(this.flota, this.unidadNegocio);
+                this.busDaoImpl = new BusDaoImpl();
+                this.busItems = this.busDaoImpl.findByFlotaAndUnidad(this.flota, this.unidadNegocio);
 
-            registroCargoItems = new ArrayList<>();
+                registroCargoItems = new ArrayList<>();
 
-            int i = 0;
-            for (Bus b : this.busItems) {
+                int i = 0;
+                for (Bus b : this.busItems) {
 
-                this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
+                    this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
 
-                if (!this.items.isEmpty()) {
-                    for (CargoBus c : this.items) {
-                        registroCargoItems.add(c);
-                        flag = true;
+                    if (!this.items.isEmpty()) {
+                        for (CargoBus c : this.items) {
+                            registroCargoItems.add(c);
+                            flag = true;
+                        }
+                    } else {
+                        CargoBus cargo = new CargoBus();
+
+                        cargo.setFechaIngresoCargoBus(new Date());
+                        cargo.setFechaInicioCargoBus(this.selected.getFechaInicioCargoBus());
+                        cargo.setMontoCargoBus(0);
+                        cargo.setDescripcion(this.selected.getDescripcion());
+                        cargo.setBus(b);
+                        cargo.setTipoCargo(this.selected.getTipoCargo());
+                        registroCargoItems.add(cargo);
                     }
-                } else {
-                    CargoBus cargo = new CargoBus();
-                    
-                    cargo.setFechaIngresoCargoBus(new Date());
-                    cargo.setFechaInicioCargoBus(this.selected.getFechaInicioCargoBus());
-                    cargo.setMontoCargoBus(0);
-                    cargo.setDescripcion(this.selected.getDescripcion());
-                    cargo.setBus(b);
-                    cargo.setTipoCargo(this.selected.getTipoCargo());
-                    registroCargoItems.add(cargo);
+
+                    i++;
                 }
 
-                i++;
+            } else {
+                handleFlota();
             }
-
+            if (flag) {
+                JsfUtil.addSuccessMessage("Existen cargos del tipo: " + this.selected.getTipoCargo().getNombreTipoCargo() + " ingresados a la flota:" + this.flota.getNombreFlota() + ". Los cambios que realice afectarán a todos los cargos registrados");
+            }
         } else {
-            handleFlota();
-        }
-        if (flag) {
-            JsfUtil.addSuccessMessage("Existen cargos del tipo: " + this.selected.getTipoCargo().getNombreTipoCargo() + " ingresados a la flota:" + this.flota.getNombreFlota() + ". Los cambios que realice afectarán a todos los cargos registrados");
+            JsfUtil.addErrorMessage("Debe seleccionar el tipo de Cargo");
         }
     }
 

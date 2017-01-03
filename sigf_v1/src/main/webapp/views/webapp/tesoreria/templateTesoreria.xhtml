@@ -50,11 +50,15 @@
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
                                 <p:menuitem value="Flotas"  outcome="#{appBean.basePath}webapp/tesoreria/flota/index"/>                                                        
                             </p:submenu>
-                            <p:submenu label="Administración">
-                                <p:menuitem value="Registro de Gastos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                            
+                            <p:submenu label="Administración">                                
+                                <p:menuitem value="Registro de Gastos" outcome="#{appBean.basePath}webapp/tesoreria/administracion/registroGastoAdministracion" />
                                 <p:menuitem value="Historial de Gastos" outcome="#{appBean.basePath}webapp/tesoreria/administracion/historialGastos" />
+                                <p:menuitem value="N° Buses x Mes" outcome="#{appBean.basePath}webapp/tesoreria/administracion/historialGastos" />
+                                <p:menuitem value="Traspaso Cargo Admin." outcome="#{appBean.basePath}webapp/tesoreria/administracion/historialGastos" />
                                 <p:submenu label="Avanzado">
                                     <p:menuitem value="Definición de Deptos" outcome="#{appBean.basePath}webapp/tesoreria/administracion/deptos" />
+                                    <p:menuitem value="Intervalos Administración" outcome="#{appBean.basePath}webapp/tesoreria/administracion/intervalos" />
                                 </p:submenu>
                             </p:submenu>
 
@@ -78,7 +82,6 @@
                                 <p:separator/>
                                 <p:submenu label="Avanzado">
                                     <p:menuitem value="Definición de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
-                                    <p:menuitem value="Definición de Deptos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
                                 </p:submenu>
                             </p:submenu>
 

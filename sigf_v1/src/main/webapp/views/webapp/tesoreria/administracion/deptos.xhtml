@@ -17,7 +17,6 @@
                     <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DepartamentoListForm:editButton').click();" icon="ui-icon-pencil"/>
                     <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DepartamentoListForm:deleteButton').click();" icon="ui-icon-trash"/>
                     <p:separator/>
-                    <p:menuitem value="#{bundle.DepartamentoMenuItem_gastosAdministracionMensuals}" icon="ui-icon-search"  action="#{departamentoController.navigateGastosAdministracionMensuals}" disabled="#{empty departamentoController.selected.gastosAdministracionMensuals}" ajax="false"/>  
                 </p:contextMenu>
                 <p:dataTable id="datalist"
                              value="#{departamentoController.items}"

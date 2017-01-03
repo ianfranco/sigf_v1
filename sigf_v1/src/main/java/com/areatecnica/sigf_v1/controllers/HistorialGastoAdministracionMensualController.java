@@ -6,6 +6,7 @@
 package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.dao.DepartamentoDaoImpl;
 import com.areatecnica.sigf_v1.dao.GastoAdministracionMensualDaoImpl;
 import com.areatecnica.sigf_v1.entities.Departamento;
 import com.areatecnica.sigf_v1.entities.GastoAdministracionMensual;
@@ -26,23 +27,28 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-@Named(value = "gastoAdministracionMensualController")
+@Named(value = "historialGastoAdministracionMensualController")
 @ViewScoped
-public class GastoAdministracionMensualController implements Serializable {
+public class HistorialGastoAdministracionMensualController implements Serializable {
 
     private GastoAdministracionMensualDaoImpl gastoAdministracionMensualDaoImpl;
+    private DepartamentoDaoImpl departamentoDaoImpl;
+    
     private List<GastoAdministracionMensual> items;
+    private List<Departamento> departamentoItems;
+    
     private GastoAdministracionMensual selected;
     private GastoAdministracionMensual rowSelected;
     private int mes;
     private int anio;
+    private int suma;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public GastoAdministracionMensualController() {
+    public HistorialGastoAdministracionMensualController() {
         this.gastoAdministracionMensualDaoImpl = new GastoAdministracionMensualDaoImpl();
-        this.items = this.gastoAdministracionMensualDaoImpl.findAll();
+        //this.items = this.gastoAdministracionMensualDaoImpl.findAll();
 
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
@@ -86,9 +92,9 @@ public class GastoAdministracionMensualController implements Serializable {
                 calendarAux.setTime(this.selected.getFechaGastoAdministracion());
                 
                 this.selected.setAnio(calendarAux.get(Calendar.YEAR));
-                this.selected.setMes(calendarAux.get(Calendar.MONTH)+1);                
+                this.selected.setMes(calendarAux.get(Calendar.MONTH));                
                 this.selected.setFechaIngreso(new Date());
-                
+                this.selected.setAnio(anio);
                 
                 session.saveOrUpdate(this.selected);
                 tx.commit();
@@ -161,7 +167,14 @@ public class GastoAdministracionMensualController implements Serializable {
     }
 
     public void init() {
-        this.items = this.gastoAdministracionMensualDaoImpl.findAll();
+        this.items = this.gastoAdministracionMensualDaoImpl.findByMonthAndYear(mes, anio);
+        this.departamentoDaoImpl = new DepartamentoDaoImpl();
+        this.departamentoItems = this.departamentoDaoImpl.findAll();
+        
+        suma = 0;
+        for(GastoAdministracionMensual g:this.items){
+            this.suma += g.getValor();
+        }
     }
 
     public void resetParents() {
@@ -215,5 +228,21 @@ public class GastoAdministracionMensualController implements Serializable {
 
     public void setRowSelected(GastoAdministracionMensual rowSelected) {
         this.rowSelected = rowSelected;
+    }
+
+    public List<Departamento> getDepartamentoItems() {
+        return departamentoItems;
+    }
+
+    public void setDepartamentoItems(List<Departamento> departamentoItems) {
+        this.departamentoItems = departamentoItems;
+    }
+    
+    public int getSuma() {
+        return suma;
+    }
+
+    public void setSuma(int suma) {
+        this.suma = suma;
     }
 }

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="IntervalosAdministracionListForm">
+
+
+            <p:contextMenu id="IntervalosAdministracionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('IntervalosAdministracionListForm:createButton').click();" icon="ui-icon-plus"/>                    
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('IntervalosAdministracionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('IntervalosAdministracionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.IntervalosAdministracionMenuItem_detalleIntervalosMensuals}" icon="ui-icon-search"  action="#{intervalosAdministracionController.navigateDetalleIntervalosMensuals}" disabled="#{empty intervalosAdministracionController.selected.detalleIntervalosMensuals}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{intervalosAdministracionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idIntervalosAdministracion}"
+                         rowIndexVar="rowIndex"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{intervalosAdministracionController.selected}"
+                         emptyMessage="No se han encontrado Intervalos de Administración en la base de datos">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{intervalosAdministracionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idIntervalosAdministracion}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:editButton,@form:deleteButton,@form:IntervalosAdministracionDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:editButton,@form:deleteButton,@form:IntervalosAdministracionDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:editButton @form:deleteButton"/>                    
+                
+                <f:facet name="header">
+                    Lista de Intervalos de Administración
+                </f:facet>
+                
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreIntervaloAdministracion}"/>
+                </p:column>
+
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_desde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.desde}"/>
+                </p:column>
+
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_hasta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.hasta}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{intervalosAdministracionController.prepareCreate}" update=":IntervalosAdministracionCreateForm" oncomplete="PF('IntervalosAdministracionCreateDialog').show()"/>                
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":IntervalosAdministracionEditForm" oncomplete="PF('IntervalosAdministracionEditDialog').show()" disabled="#{empty intervalosAdministracionController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{intervalosAdministracionController.delete}" update=":growl,datalist" disabled="#{empty intervalosAdministracionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="IntervalosAdministracionCreateDlg" widgetVar="IntervalosAdministracionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateIntervalosAdministracionTitle}" closeOnEscape="true">
+
+            <h:form id="IntervalosAdministracionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{intervalosAdministracionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_nombreIntervaloAdministracion}" for="nombreIntervaloAdministracion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreIntervaloAdministracion" value="#{intervalosAdministracionController.selected.nombreIntervaloAdministracion}" title="#{bundle.CreateIntervalosAdministracionTitle_nombreIntervaloAdministracion}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_nombreIntervaloAdministracion}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:inputText id="desde" value="#{intervalosAdministracionController.selected.desde}" title="#{bundle.CreateIntervalosAdministracionTitle_desde}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_desde}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:inputText id="hasta" value="#{intervalosAdministracionController.selected.hasta}" title="#{bundle.CreateIntervalosAdministracionTitle_hasta}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_hasta}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{intervalosAdministracionController.saveNew}" value="#{bundle.Save}" update="display,:IntervalosAdministracionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IntervalosAdministracionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('IntervalosAdministracionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="IntervalosAdministracionEditDlg" widgetVar="IntervalosAdministracionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditIntervalosAdministracionTitle}" closeOnEscape="true">
+
+            <h:form id="IntervalosAdministracionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{intervalosAdministracionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_nombreIntervaloAdministracion}" for="nombreIntervaloAdministracion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreIntervaloAdministracion" value="#{intervalosAdministracionController.selected.nombreIntervaloAdministracion}" title="#{bundle.EditIntervalosAdministracionTitle_nombreIntervaloAdministracion}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_nombreIntervaloAdministracion}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_desde}" for="desde" />
+                        <h:panelGroup>
+                            <p:inputText id="desde" value="#{intervalosAdministracionController.selected.desde}" title="#{bundle.EditIntervalosAdministracionTitle_desde}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_desde}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditIntervalosAdministracionLabel_hasta}" for="hasta" />
+                        <h:panelGroup>
+                            <p:inputText id="hasta" value="#{intervalosAdministracionController.selected.hasta}" title="#{bundle.EditIntervalosAdministracionTitle_hasta}" required="true" requiredMessage="#{bundle.EditIntervalosAdministracionRequiredMessage_hasta}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{intervalosAdministracionController.save}" value="#{bundle.Save}" update="display,:IntervalosAdministracionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IntervalosAdministracionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('IntervalosAdministracionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

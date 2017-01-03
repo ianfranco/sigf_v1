@@ -8,6 +8,7 @@ package com.areatecnica.sigf_v1.dao;
 import com.areatecnica.sigf_v1.entities.GastoAdministracionMensual;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdministracionMensual>{
+public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdministracionMensual> {
 
     @Override
     public GastoAdministracionMensual findById(int id) {
@@ -45,6 +46,9 @@ public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdmini
         try {
 
             list = session.createQuery(sql).list();
+            for (GastoAdministracionMensual g : list) {
+                Hibernate.initialize(g.getDepartamento());
+            }
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -52,5 +56,25 @@ public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdmini
         }
         return list;
     }
-    
+
+    public List<GastoAdministracionMensual> findByMonthAndYear(int month, int year) {
+        List<GastoAdministracionMensual> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM GastoAdministracionMensual WHERE mes = " + month + " AND anio = " + year + " ORDER BY fechaGastoAdministracion ASC";
+        try {
+
+            list = session.createQuery(sql).list();
+            for (GastoAdministracionMensual g : list) {
+                Hibernate.initialize(g.getDepartamento());
+            }
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
