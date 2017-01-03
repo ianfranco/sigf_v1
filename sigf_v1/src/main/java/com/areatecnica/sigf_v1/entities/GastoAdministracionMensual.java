@@ -33,14 +33,14 @@ public class GastoAdministracionMensual  implements java.io.Serializable {
      private String nombreGastoAdministracion;
      private Date fechaGastoAdministracion;
      private Date fechaIngreso;
-     private Date valor;
+     private int valor;
      private String observacion;
 
     public GastoAdministracionMensual() {
     }
 
 	
-    public GastoAdministracionMensual(Departamento departamento, int mes, int anio, int numeroFolio, String nombreGastoAdministracion, Date fechaGastoAdministracion, Date fechaIngreso, Date valor) {
+    public GastoAdministracionMensual(Departamento departamento, int mes, int anio, int numeroFolio, String nombreGastoAdministracion, Date fechaGastoAdministracion, Date fechaIngreso, int valor) {
         this.departamento = departamento;
         this.mes = mes;
         this.anio = anio;
@@ -50,7 +50,7 @@ public class GastoAdministracionMensual  implements java.io.Serializable {
         this.fechaIngreso = fechaIngreso;
         this.valor = valor;
     }
-    public GastoAdministracionMensual(Departamento departamento, int mes, int anio, int numeroFolio, String nombreGastoAdministracion, Date fechaGastoAdministracion, Date fechaIngreso, Date valor, String observacion) {
+    public GastoAdministracionMensual(Departamento departamento, int mes, int anio, int numeroFolio, String nombreGastoAdministracion, Date fechaGastoAdministracion, Date fechaIngreso, int valor, String observacion) {
        this.departamento = departamento;
        this.mes = mes;
        this.anio = anio;
@@ -143,14 +143,13 @@ public class GastoAdministracionMensual  implements java.io.Serializable {
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
-
-    @Temporal(TemporalType.DATE)
+    
     @Column(name="valor", nullable=false, length=10)
-    public Date getValor() {
+    public int getValor() {
         return this.valor;
     }
     
-    public void setValor(Date valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 

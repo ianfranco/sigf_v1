@@ -50,6 +50,13 @@
                                 <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/tesoreria/empresas/index" />
                                 <p:menuitem value="Flotas"  outcome="#{appBean.basePath}webapp/tesoreria/flota/index"/>                                                        
                             </p:submenu>
+                            <p:submenu label="Administración">
+                                <p:menuitem value="Registro de Gastos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                                <p:menuitem value="Historial de Gastos" outcome="#{appBean.basePath}webapp/tesoreria/administracion/historialGastos" />
+                                <p:submenu label="Avanzado">
+                                    <p:menuitem value="Definición de Deptos" outcome="#{appBean.basePath}webapp/tesoreria/administracion/deptos" />
+                                </p:submenu>
+                            </p:submenu>
 
                             <p:submenu label="Cargos">                                
                                 <p:submenu label="Registro">
@@ -71,6 +78,7 @@
                                 <p:separator/>
                                 <p:submenu label="Avanzado">
                                     <p:menuitem value="Definición de Cargos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
+                                    <p:menuitem value="Definición de Deptos" outcome="#{appBean.basePath}webapp/tesoreria/movimientos/cargos/definicion" />
                                 </p:submenu>
                             </p:submenu>
 

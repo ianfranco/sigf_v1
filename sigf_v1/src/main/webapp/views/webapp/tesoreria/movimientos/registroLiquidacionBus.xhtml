@@ -93,8 +93,8 @@
                             -->
 
 
-                            <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroLiquidacionController.resetParents}"/>
-                            <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroLiquidacionController.resetParents}"/>
+                            <p:ajax event="rowSelect"   update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroLiquidacionController.resetParents}" global="false"/>
+                            <p:ajax event="rowUnselect" update="@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{registroLiquidacionController.resetParents}" global="false"/>
 
                             <f:facet name="header">
                                 Cargos 
@@ -170,8 +170,8 @@
                             -->
 
 
-                            <p:ajax event="rowSelect"   update="@form:deleteButton" listener="#{registroLiquidacionController.resetParents}"/>
-                            <p:ajax event="rowUnselect" update="@form:deleteButton" listener="#{registroLiquidacionController.resetParents}"/>                    
+                            <p:ajax event="rowSelect"   update="@form:deleteButton" listener="#{registroLiquidacionController.resetParents}" global="false"/>
+                            <p:ajax event="rowUnselect" update="@form:deleteButton" listener="#{registroLiquidacionController.resetParents}" global="false"/>                    
 
                             <f:facet name="header">
                                 Abonos
@@ -234,7 +234,7 @@
                                  lazy="true"
                                  rowKey="HASH{item.idGuia}"  <<< Remove this line
                         -->
-                        <p:ajax event="rowSelect" update="growl" listener="#{registroLiquidacionController.resetParents()}"/>
+                        <p:ajax event="rowSelect" update="growl" listener="#{registroLiquidacionController.resetParents()}" global="false"/>
 
                         <f:facet name="header">
                             Guías
@@ -333,7 +333,7 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroLiquidacionController.loadDefaultCargoMonto}"/>
+                                <p:ajax event="valueChange" update="montoCargoBus" listener="#{registroLiquidacionController.loadDefaultCargoMonto}" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -437,7 +437,7 @@
                                                itemValue="#{tipoAbonoItem}"
                                                itemLabel="#{tipoAbonoItem}"
                                                />
-                                <p:ajax event="valueChange" update="montoAbonoBus" listener="#{registroLiquidacionController.loadDefaultAbonoMonto}" />
+                                <p:ajax event="valueChange" update="montoAbonoBus" listener="#{registroLiquidacionController.loadDefaultAbonoMonto}" global="false"/>
                             </p:selectOneMenu>                            
                         </h:panelGroup>
                         

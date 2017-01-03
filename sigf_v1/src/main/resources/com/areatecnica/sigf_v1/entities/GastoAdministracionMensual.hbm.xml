@@ -29,8 +29,8 @@
         <property name="fechaIngreso" type="date">
             <column name="fecha_ingreso" length="10" not-null="true" />
         </property>
-        <property name="valor" type="date">
-            <column name="valor" length="10" not-null="true" />
+        <property name="valor" type="int">
+            <column name="valor" not-null="true" />
         </property>
         <property name="observacion" type="string">
             <column name="observacion" />

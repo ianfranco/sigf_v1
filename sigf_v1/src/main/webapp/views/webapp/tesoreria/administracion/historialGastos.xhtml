@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <h:form id="selector">
+            <p:panel>
+                <h:panelGrid columns="8">
+                    <p:outputLabel for="mes" value="Seleccionar:" />
+                    <p:selectOneMenu id="mes" value="#{gastoAdministracionMensualController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{gastoAdministracionMensualController.anio}" size="5" />
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar Gastos" update="GastosAdministracionMensualListForm:datalist, growl" style="width:150px" actionListener="#{gastoAdministracionMensualController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="GastosAdministracionMensualListForm">
+
+
+            <p:contextMenu id="GastosAdministracionMensualDataTableContextMenu" for="datalist">              
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('GastosAdministracionMensualListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('GastosAdministracionMensualListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GastosAdministracionMensualListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>            
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{gastoAdministracionMensualController.items}"
+                         lazy="false"
+                         rowKey="#{item.idGastoAdministracionMensual}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowIndexVar="rowIndex"
+                         rowsPerPageTemplate="50,100,200"
+                         selectionMode="single"
+                         selection="#{gastoAdministracionMensualController.selected}"
+                         emptyMessage="No se han encontrado Gastos en la base de datos"
+                         tableStyle="table-layout: auto" >
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{gastosAdministracionMensualController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idGastosAdministracionMensual}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:viewButton,@form:editButton,@form:deleteButton,@form:GastosAdministracionMensualDataTableContextMenu" listener="#{gastosAdministracionMensualController.resetParents}" global="false"/>
+                <p:ajax event="rowUnselect" update="@form:viewButton,@form:editButton,@form:deleteButton,@form:GastosAdministracionMensualDataTableContextMenu" listener="#{gastosAdministracionMensualController.resetParents}" global="false"/>
+                <p:ajax event="contextMenu" update="@form:viewButton @form:editButton @form:deleteButton" listener="#{gastosAdministracionMensualController.resetParents}" global="false"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('GastosAdministracionMensualListForm:viewButton').click();" global="false"/>
+
+                <f:facet name="header">
+                    Lista de Gastos
+                </f:facet>
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Depto."/>
+                    </f:facet>
+                    <h:outputText value="#{item.departamento.idDepartamento}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.numeroFolio}">
+                    <f:facet name="header">
+                        <h:outputText value="Identificador"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroFolio}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.nombreGastoAdministracion}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreGastoAdministracion}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="F.Gasto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaGastoAdministracion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="F.Registro"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngreso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":GastosAdministracionMensualViewForm" oncomplete="PF('GastosAdministracionMensualViewDialog').show()" disabled="#{empty gastosAdministracionMensualController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GastosAdministracionMensualEditForm" oncomplete="PF('GastosAdministracionMensualEditDialog').show()" disabled="#{empty gastosAdministracionMensualController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{gastoAdministracionMensualController.delete}" update=":growl,datalist" disabled="#{empty gastosAdministracionMensualController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="GastosAdministracionMensualEditDlg" widgetVar="GastosAdministracionMensualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditGastosAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="GastosAdministracionMensualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{gastoAdministracionMensualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_idGastosAdministracionMensual}" for="idGastosAdministracionMensual" />
+                        <h:panelGroup>
+                            <h:outputText id="idGastosAdministracionMensual" value="#{gastoAdministracionMensualController.selected.idGastosAdministracionMensual}" />                            
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_departamento}" for="departamento" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="departamento" value="#{gastoAdministracionMensualController.selected.departamento}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_departamento}" converter="departamentoConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{departamentoController.items}"
+                                               var="departamentoItem"
+                                               itemValue="#{departamentoItem}"
+                                               itemLabel="#{departamentoItem.idDepartamento.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_mes}" for="mes" />
+                        <h:panelGroup>
+                            <p:inputText id="mes" value="#{gastoAdministracionMensualController.selected.mes}" title="#{bundle.EditGastosAdministracionMensualTitle_mes}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_mes}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_anio}" for="anio" />
+                        <h:panelGroup>
+                            <p:inputText id="anio" value="#{gastoAdministracionMensualController.selected.anio}" title="#{bundle.EditGastosAdministracionMensualTitle_anio}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_anio}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_numeroFolio}" for="numeroFolio" />
+                        <h:panelGroup>
+                            <p:inputText id="numeroFolio" value="#{gastoAdministracionMensualController.selected.numeroFolio}" title="#{bundle.EditGastosAdministracionMensualTitle_numeroFolio}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_numeroFolio}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_nombreGastoAdministracion}" for="nombreGastoAdministracion" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreGastoAdministracion" value="#{gastoAdministracionMensualController.selected.nombreGastoAdministracion}" title="#{bundle.EditGastosAdministracionMensualTitle_nombreGastoAdministracion}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_nombreGastoAdministracion}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_fechaGastoAdministracion}" for="fechaGastoAdministracion" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaGastoAdministracion" pattern="dd/MM/yyyy" value="#{gastoAdministracionMensualController.selected.fechaGastoAdministracion}" title="#{bundle.EditGastosAdministracionMensualTitle_fechaGastoAdministracion}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_fechaGastoAdministracion}" showOn="button"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_fechaIngreso}" for="fechaIngreso" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaIngreso" pattern="dd/MM/yyyy" value="#{gastoAdministracionMensualController.selected.fechaIngreso}" title="#{bundle.EditGastosAdministracionMensualTitle_fechaIngreso}" required="true" requiredMessage="#{bundle.EditGastosAdministracionMensualRequiredMessage_fechaIngreso}" showOn="button"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_valor}" for="valor" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditGastosAdministracionMensualLabel_observacion}" for="observacion" />
+                        <h:panelGroup>
+                            <p:inputText id="observacion" value="#{gastoAdministracionMensualController.selected.observacion}" title="#{bundle.EditGastosAdministracionMensualTitle_observacion}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{gastoAdministracionMensualController.save}" value="#{bundle.Save}" update="display,:GastosAdministracionMensualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GastosAdministracionMensualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GastosAdministracionMensualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="GastosAdministracionMensualViewDlg" widgetVar="GastosAdministracionMensualViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGastosAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="GastosAdministracionMensualViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{gastoAdministracionMensualController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_idGastosAdministracionMensual}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.idGastosAdministracionMensual}" title="#{bundle.ViewGastosAdministracionMensualTitle_idGastosAdministracionMensual}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_departamento}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.departamento.idDepartamento}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_mes}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.mes}" title="#{bundle.ViewGastosAdministracionMensualTitle_mes}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_anio}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.anio}" title="#{bundle.ViewGastosAdministracionMensualTitle_anio}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_numeroFolio}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.numeroFolio}" title="#{bundle.ViewGastosAdministracionMensualTitle_numeroFolio}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_nombreGastoAdministracion}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.nombreGastoAdministracion}" title="#{bundle.ViewGastosAdministracionMensualTitle_nombreGastoAdministracion}"/>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_fechaGastoAdministracion}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.fechaGastoAdministracion}" title="#{bundle.ViewGastosAdministracionMensualTitle_fechaGastoAdministracion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_fechaIngreso}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.fechaIngreso}" title="#{bundle.ViewGastosAdministracionMensualTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_valor}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.valor}" title="#{bundle.ViewGastosAdministracionMensualTitle_valor}">
+
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastosAdministracionMensualLabel_observacion}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.observacion}" title="#{bundle.ViewGastosAdministracionMensualTitle_observacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('GastosAdministracionMensualViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="./../templateTesoreria.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="DepartamentoListForm">
+
+            
+                <p:contextMenu id="DepartamentoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DepartamentoListForm:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DepartamentoListForm:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DepartamentoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DepartamentoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                    <p:menuitem value="#{bundle.DepartamentoMenuItem_gastosAdministracionMensuals}" icon="ui-icon-search"  action="#{departamentoController.navigateGastosAdministracionMensuals}" disabled="#{empty departamentoController.selected.gastosAdministracionMensuals}" ajax="false"/>  
+                </p:contextMenu>
+                <p:dataTable id="datalist"
+                             value="#{departamentoController.items}"
+                             lazy="false"
+                             rowKey="#{item.idDepartamento}"
+                             var="item"
+                             paginator="true"
+                             rowIndexVar="rowIndex"
+                             rows="100"
+                             rowsPerPageTemplate="50,100,200"
+                             selectionMode="single"
+                             selection="#{departamentoController.selected}"
+                             emptyMessage="No se han encontrado registros en la base de datos"
+                             tableStyle="table-layout: auto" >
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{departamentoController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idDepartamento}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DepartamentoDataTableContextMenu" global="false"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DepartamentoDataTableContextMenu" global="false"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" global="false"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('DepartamentoListForm:viewButton').click();" global="false"/>
+                    
+                    <f:facet name="header">
+                        Lista de Departamentos
+                    </f:facet>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListDepartamentoTitle_nombre}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombre}"/>
+                    </p:column>
+
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListDepartamentoTitle_activo}"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{bundle.EditDepartamentoTitle_activo}"  disabled="true"/>
+                    </p:column>
+                </p:dataTable>
+
+                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{departamentoController.prepareCreate}" update=":DepartamentoCreateForm" oncomplete="PF('DepartamentoCreateDialog').show()"/>
+                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":DepartamentoViewForm" oncomplete="PF('DepartamentoViewDialog').show()" disabled="#{empty departamentoController.selected}"/>
+                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DepartamentoEditForm" oncomplete="PF('DepartamentoEditDialog').show()" disabled="#{empty departamentoController.selected}"/>
+                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{departamentoController.delete}" update=":growl,datalist" disabled="#{empty departamentoController.selected}">
+                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                </p:commandButton>
+
+            
+            <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+        </h:form>
+
+        <p:dialog id="DepartamentoCreateDlg" widgetVar="DepartamentoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDepartamentoTitle}" closeOnEscape="true">
+
+            <h:form id="DepartamentoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{departamentoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDepartamentoLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{departamentoController.selected.nombre}" title="#{bundle.CreateDepartamentoTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDepartamentoRequiredMessage_nombre}"/>
+                            <p:tooltip for="nombre" value="#{departamentoController.getComponentMessages('nombre', bundle.CreateDepartamentoHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateDepartamentoLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{departamentoController.selected.activo}" />
+                            <p:tooltip for="activo" value="#{departamentoController.getComponentMessages('activo', bundle.CreateDepartamentoHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{departamentoController.saveNew}" value="#{bundle.Save}" update="display,:DepartamentoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DepartamentoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DepartamentoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        
+        <p:dialog id="DepartamentoEditDlg" widgetVar="DepartamentoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDepartamentoTitle}" closeOnEscape="true">
+
+            <h:form id="DepartamentoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{departamentoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDepartamentoLabel_idDepartamento}" for="idDepartamento" />
+                        <h:panelGroup>
+                            <h:outputText id="idDepartamento" value="#{departamentoController.selected.idDepartamento}" />
+                            <p:tooltip for="idDepartamento" value="#{departamentoController.getComponentMessages('idDepartamento', bundle.EditDepartamentoHelpText_idDepartamento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDepartamentoLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{departamentoController.selected.nombre}" title="#{bundle.EditDepartamentoTitle_nombre}" required="true" requiredMessage="#{bundle.EditDepartamentoRequiredMessage_nombre}"/>
+                            <p:tooltip for="nombre" value="#{departamentoController.getComponentMessages('nombre', bundle.EditDepartamentoHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.EditDepartamentoLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectBooleanCheckbox id="activo" value="#{departamentoController.selected.activo}" />
+                            <p:tooltip for="activo" value="#{departamentoController.getComponentMessages('activo', bundle.EditDepartamentoHelpText_activo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{departamentoController.save}" value="#{bundle.Save}" update="display,:DepartamentoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DepartamentoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DepartamentoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        
+        <p:dialog id="DepartamentoViewDlg" widgetVar="DepartamentoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDepartamentoTitle}" closeOnEscape="true">
+
+            <h:form id="DepartamentoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{departamentoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDepartamentoLabel_idDepartamento}"/>
+                        <h:outputText value="#{departamentoController.selected.idDepartamento}" title="#{bundle.ViewDepartamentoTitle_idDepartamento}"/>
+
+                        <h:outputText value="#{bundle.ViewDepartamentoLabel_nombre}"/>
+                        <h:outputText value="#{departamentoController.selected.nombre}" title="#{bundle.ViewDepartamentoTitle_nombre}"/>
+
+                        <h:outputText value="#{bundle.ViewDepartamentoLabel_activo}"/>
+                        <h:selectBooleanCheckbox id="activo" value="#{departamentoController.selected.activo}" title="#{bundle.EditDepartamentoTitle_activo}"  disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DepartamentoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
