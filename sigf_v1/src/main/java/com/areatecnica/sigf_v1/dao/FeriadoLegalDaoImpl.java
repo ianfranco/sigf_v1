@@ -6,7 +6,7 @@
 package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.FeriadoLegal;
-import com.areatecnica.sigf_v1.entities.LicenciaMedica;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,6 +88,23 @@ public class FeriadoLegalDaoImpl implements GenericDao<FeriadoLegal>{
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public FeriadoLegal findByTrabajador(Trabajador trabajador, Date fecha) {
+        FeriadoLegal feriadoLegal = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM FeriadoLegal WHERE trabajador=" + trabajador.getIdTrabajador() +" AND fechaDesdeFeriado BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') ";
+        try {
+            feriadoLegal = (FeriadoLegal) session.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return feriadoLegal;
     }
     
 }

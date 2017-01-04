@@ -8,35 +8,158 @@
             <column name="id_liquidacion_sueldo" />
             <generator class="identity" />
         </id>
+        <many-to-one name="empresa" class="com.areatecnica.sigf_v1.entities.Empresa" fetch="select">
+            <column name="id_empresa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoContrato" class="com.areatecnica.sigf_v1.entities.TipoContrato" fetch="select">
+            <column name="id_tipo_contrato" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="idTerminal" type="int">
+            <column name="id_terminal" not-null="true" />
+        </property>
+        <property name="nombreTerminal" type="string">
+            <column name="nombre_terminal" length="100" not-null="true" />
+        </property>
         <property name="mes" type="int">
             <column name="mes" not-null="true" />
         </property>
         <property name="anio" type="int">
             <column name="anio" not-null="true" />
         </property>
-        <property name="fechaEmision" type="date">
-            <column name="fecha_emision" length="10" not-null="true" />
+        <property name="montoBruto" type="int">
+            <column name="monto_bruto" not-null="true" />
         </property>
-        <property name="fechaPago" type="date">
-            <column name="fecha_pago" length="10" not-null="true" />
+        <property name="montoImponible" type="int">
+            <column name="monto_imponible" not-null="true" />
         </property>
-        <property name="totalHaberesImponibles" type="int">
-            <column name="total_haberes_imponibles" not-null="true" />
+        <property name="montoSueldoBase" type="int">
+            <column name="monto_sueldo_base" not-null="true" />
         </property>
-        <property name="totalHaberesNoImponibles" type="int">
-            <column name="total_haberes_no_imponibles" not-null="true" />
+        <property name="montoCincoPorcientoTotal" type="int">
+            <column name="monto_cinco_porciento_total" not-null="true" />
         </property>
-        <property name="totalDescuentos" type="int">
-            <column name="total_descuentos" not-null="true" />
+        <property name="montoCincoPorcientoFiltrado" type="int">
+            <column name="monto_cinco_porciento_filtrado" not-null="true" />
+        </property>
+        <property name="montoAhorro" type="java.lang.Integer">
+            <column name="monto_ahorro" />
+        </property>
+        <property name="montoAbono" type="int">
+            <column name="monto_abono" not-null="true" />
+        </property>
+        <property name="montoFeriado" type="java.lang.Integer">
+            <column name="monto_feriado" />
+        </property>
+        <property name="montoNoImponible" type="int">
+            <column name="monto_no_imponible" not-null="true" />
+        </property>
+        <property name="numeroCarga" type="java.lang.Integer">
+            <column name="numero_carga" />
+        </property>
+        <property name="montoCarga" type="java.lang.Integer">
+            <column name="monto_carga" />
+        </property>
+        <property name="montoRetroactivo" type="java.lang.Integer">
+            <column name="monto_retroactivo" />
+        </property>
+        <property name="fechaContrato" type="date">
+            <column name="fecha_contrato" length="10" not-null="true" />
+        </property>
+        <property name="fechaFiniquito" type="date">
+            <column name="fecha_finiquito" length="10" />
+        </property>
+        <property name="fechaDesdeFeriado" type="date">
+            <column name="fecha_desde_feriado" length="10" />
+        </property>
+        <property name="fechaHastaFeriado" type="date">
+            <column name="fecha_hasta_feriado" length="10" />
+        </property>
+        <property name="diasFeriado" type="java.lang.Integer">
+            <column name="dias_feriado" />
+        </property>
+        <property name="diasLicencias" type="java.lang.Integer">
+            <column name="dias_licencias" />
+        </property>
+        <property name="diasDescanso" type="java.lang.Integer">
+            <column name="dias_descanso" />
+        </property>
+        <property name="diasGuias" type="java.lang.Integer">
+            <column name="dias_guias" />
+        </property>
+        <property name="diasTrabajados" type="java.lang.Integer">
+            <column name="dias_trabajados" />
+        </property>
+        <property name="nombrePrevision" type="string">
+            <column name="nombre_prevision" length="100" />
+        </property>
+        <property name="porcentajePrevision" type="string">
+            <column name="porcentaje_prevision" length="45" />
+        </property>
+        <property name="montoPrevision" type="int">
+            <column name="monto_prevision" not-null="true" />
+        </property>
+        <property name="montoApv" type="int">
+            <column name="monto_apv" not-null="true" />
+        </property>
+        <property name="montoCesantiaTrabajador" type="int">
+            <column name="monto_cesantia_trabajador" not-null="true" />
+        </property>
+        <property name="montoCesantiaEmpresa" type="int">
+            <column name="monto_cesantia_empresa" not-null="true" />
+        </property>
+        <property name="montoCesantiaTotal" type="int">
+            <column name="monto_cesantia_total" not-null="true" />
+        </property>
+        <property name="montoSis" type="int">
+            <column name="monto_sis" not-null="true" />
+        </property>
+        <property name="montoInp" type="int">
+            <column name="monto_inp" not-null="true" />
+        </property>
+        <property name="montoCajaCompensacion" type="int">
+            <column name="monto_caja_compensacion" not-null="true" />
+        </property>
+        <property name="nombreIsapre" type="string">
+            <column name="nombre_isapre" length="45" />
+        </property>
+        <property name="montoIsapre" type="int">
+            <column name="monto_isapre" not-null="true" />
+        </property>
+        <property name="montoSindicato" type="int">
+            <column name="monto_sindicato" not-null="true" />
+        </property>
+        <property name="montoSaldoAnterior" type="int">
+            <column name="monto_saldo_anterior" not-null="true" />
+        </property>
+        <property name="montoRetencionJudicial" type="int">
+            <column name="monto_retencion_judicial" not-null="true" />
+        </property>
+        <property name="montoCreditoSalud" type="int">
+            <column name="monto_credito_salud" not-null="true" />
+        </property>
+        <property name="montoSeguro" type="int">
+            <column name="monto_seguro" not-null="true" />
+        </property>
+        <property name="montoTotalDescuentos" type="int">
+            <column name="monto_total_descuentos" not-null="true" />
+        </property>
+        <property name="montoAlcanceLiquido" type="int">
+            <column name="monto_alcance_liquido" not-null="true" />
         </property>
         <property name="montoAnticipo" type="int">
             <column name="monto_anticipo" not-null="true" />
         </property>
-        <property name="saldoMonto" type="int">
-            <column name="saldo_monto" not-null="true" />
+        <property name="montoSaldo" type="int">
+            <column name="monto_saldo" not-null="true" />
         </property>
-        <property name="alcanceLiquido" type="int">
-            <column name="alcance_liquido" not-null="true" />
+        <property name="fechaRegistro" type="date">
+            <column name="fecha_registro" length="10" not-null="true" />
+        </property>
+        <property name="fechaActualizacion" type="date">
+            <column name="fecha_actualizacion" length="10" />
         </property>
         <set name="haberLiquidacions" table="haber_liquidacion" inverse="true" lazy="true" fetch="select">
             <key>

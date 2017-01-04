@@ -157,7 +157,7 @@ public class DescuentoTrabajadorLiquidacionDaoImpl implements GenericDao<Descuen
 "            WHERE guia.id_trabajador = "+trabajador.getIdTrabajador()+" AND  guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND egreso_recaudacion.id_egreso = 12";
         try{
             totalCinco = (BigInteger) session.createSQLQuery(query).uniqueResult();
-            
+            tx.commit();
         
         }catch (HibernateException e){
             tx.rollback();
@@ -166,6 +166,24 @@ public class DescuentoTrabajadorLiquidacionDaoImpl implements GenericDao<Descuen
         }        
         
         return totalCinco.intValue();
+    }
+    
+    public int findMontoBruto(Trabajador trabajador, Date fechaDesdeContrato, Date fechaHastaContrato, Date fechaDesdeFeriado, Date fechaHastaFeriado, Date fechaDesdeLicencia, Date fechaHastaLicencia) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        BigInteger montoBruto = BigInteger.ZERO;
+        String query = "SELECT CAST(MONTO_BRUTO("+trabajador.getIdTrabajador()+", '"+format.format(fechaDesdeContrato)+"', '"+format.format(fechaHastaContrato)+"', '"+format.format(fechaDesdeFeriado)+"', '"+format.format(fechaHastaFeriado)+"', '"+format.format(fechaDesdeLicencia)+"', '"+format.format(fechaHastaLicencia)+"')) AS SIGNED) ";
+        try{
+            montoBruto = (BigInteger) session.createSQLQuery(query).uniqueResult();
+            tx.commit();
+        
+        }catch (HibernateException e){
+            tx.rollback();
+            e.printStackTrace();
+            return 99;
+        }        
+        
+        return montoBruto.intValue();
     }
     
 }

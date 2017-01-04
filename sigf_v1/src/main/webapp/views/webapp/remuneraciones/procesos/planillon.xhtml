@@ -49,16 +49,15 @@
                 <p:separator/>
             </p:contextMenu>
             <p:dataTable id="datalist"
-                         value="#{planillonImponiblesController.trabajadorItems}"                     
+                         value="#{planillonImponiblesController.liquidacionItems}"                     
                          var="item"
                          paginator="true"
                          rows="200"
                          rowsPerPageTemplate="50,100,200"
-                         selectionMode="single"
-                         selection="#{planillonImponiblesController.selected}"
+                         
                          rowIndexVar="rowIndex"
                          emptyMessage="No se han encontrado registros"
-                         rowKey="#{item.idTrabajador}"
+                         
                          tableStyle="table-layout: auto" >
                 <!--
                          To disable Lazy Loading, please copy/replace the following lines above,
@@ -83,70 +82,57 @@
                     </f:facet>
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
+                
+                <p:column style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="Empresa"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresa.nombreEmpresa}"/>
+                </p:column>
 
-                <p:column sortBy="#{item.codigoTrabajador}" filterBy="#{item.codigoTrabajador}" style="text-align: center;" filterStyle="witdh:40px;">
+                <p:column style="text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="Cód."/>
                     </f:facet>
-                    <h:outputText value="#{item.codigoTrabajador}"/>
+                    <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.rutTrabajador}" filterBy="#{item.rutTrabajador}" style="text-align: center;">
+                <p:column style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="Trabajador"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador}"/>
+                </p:column>
+                
+                <p:column style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Rut"/>
                     </f:facet>
-                    <h:outputText value="#{item.rutTrabajador}"/>
+                    <h:outputText value="#{item.trabajador.rutTrabajador}"/>
                 </p:column>            
 
-                <p:column sortBy="#{item.nombreTrabajador}" filterBy="#{item.nombreTrabajador}">
+                <p:column >
                     <f:facet name="header">
-                        <h:outputText value="Nombres"/>
+                        <h:outputText value="Bruto"/>
                     </f:facet>
-                    <h:outputText value="#{item.nombreTrabajador}"/>
+                    <h:outputText value="#{item.montoBruto}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.apellidoPaternoTrabajador}" filterBy="#{item.apellidoPaternoTrabajador}">
+                <p:column >
                     <f:facet name="header">
                         <h:outputText value="Apellido P."/>
                     </f:facet>
-                    <h:outputText value="#{item.apellidoPaternoTrabajador}"/>
+                    <h:outputText value="#{item.trabajador.apellidoPaternoTrabajador}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.apellidoMaternoTrabajador}" filterBy="#{item.apellidoMaternoTrabajador}">
+                <p:column >
                     <f:facet name="header">
                         <h:outputText value="Apellido M."/>
                     </f:facet>
-                    <h:outputText value="#{item.apellidoMaternoTrabajador}"/>
+                    <h:outputText value="#{item.trabajador.apellidoMaternoTrabajador}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.celularTrabajador}" filterBy="#{item.celularTrabajador}">
-                    <f:facet name="header">
-                        <h:outputText value="Celular"/>
-                    </f:facet>
-                    <h:outputText value="#{item.celularTrabajador}"/>
-                </p:column>
-
-                <p:column sortBy="#{item.institucionPrevision.nombreInstitucionPrevision}" filterBy="#{item.institucionPrevision.nombreInstitucionPrevision}" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Previsión"/>
-                    </f:facet>
-                    <h:outputText value="#{item.institucionPrevision.nombreInstitucionPrevision}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.institucionSalud.nombreInstitucionSalud}" filterBy="#{item.institucionSalud.nombreInstitucionSalud}" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Salud"/>
-                    </f:facet>
-                    <h:outputText value="#{item.institucionSalud.nombreInstitucionSalud}"/>
-                </p:column>
-
-                <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.numeroCargas}"/>
-                </p:column>
+                
 
                 <!--
                                     <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">

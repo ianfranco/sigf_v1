@@ -8,6 +8,9 @@ package com.areatecnica.sigf_v1.dao;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -19,7 +22,9 @@ import org.hibernate.Transaction;
  * @author Ian Franco
  */
 public class TrabajadorDaoImpl implements TrabajadorDao {
-
+    
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    
     @Override
     public List<Trabajador> findAll() {
         List<Trabajador> list = null;
@@ -209,6 +214,29 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
 
         }
         return trabajador;
+    }
+    
+    public int findCincoPorciento(Trabajador trabajador, Date fecha) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        BigInteger totalCinco = BigInteger.ZERO;
+        String query = "SELECT \n" +
+"			CAST((IFNULL(SUM(egreso_guia.monto), 0)) AS SIGNED) \n" +
+"		FROM egreso_guia \n" +
+"			LEFT JOIN guia ON egreso_guia.id_guia = guia.id_guia \n" +
+"			LEFT JOIN egreso_recaudacion ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion \n" +
+"            WHERE guia.id_trabajador = "+trabajador.getIdTrabajador()+" AND  guia.fecha_recaudacion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') AND egreso_recaudacion.id_egreso = 12";
+        try{
+            totalCinco = (BigInteger) session.createSQLQuery(query).uniqueResult();
+            tx.commit();
+        
+        }catch (HibernateException e){
+            tx.rollback();
+            e.printStackTrace();
+            return 99;
+        }        
+        
+        return totalCinco.intValue();
     }
 
 }

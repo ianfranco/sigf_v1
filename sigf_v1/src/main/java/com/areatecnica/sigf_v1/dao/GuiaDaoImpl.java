@@ -25,7 +25,7 @@ import org.hibernate.Transaction;
  */
 public class GuiaDaoImpl implements GuiaDao {
 
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
     @Override
     public List<Guia> findAll() {
@@ -188,6 +188,98 @@ public class GuiaDaoImpl implements GuiaDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND LAST_DAY('" + format.format(from) + "')";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findBrutoByConductor(Trabajador conductor, Date from, Date to) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND '" + format.format(to) + "' ORDER BY fechaRecaudacion ASC";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findBrutoByConductorWithFeriado(Trabajador conductor, Date from, Date to, Date fromFeriado, Date toFeriado) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND '" + format.format(to) + "' AND fechaRecaudacion NOT BETWEEN '" + format.format(fromFeriado) + "' AND '" + format.format(toFeriado) + "' ORDER BY fechaRecaudacion ASC";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findBrutoByConductorWithLicencias(Trabajador conductor, Date from, Date to, List<String> dates) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND '" + format.format(to) + "' AND fechaRecaudacion NOT IN ("+dates+")  ORDER BY fechaRecaudacion ASC";
+        try {
+            list = session.createQuery(sql).list();
+
+            for (Guia g : list) {
+                Hibernate.initialize(g.getTrabajador());
+                Hibernate.initialize(g.getBus());
+                Hibernate.initialize(g.getEstadoGuia());
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Guia> findBrutoByConductorWithLicenciasAndFeriado(Trabajador conductor, Date from, Date to, Date fromFeriado, Date toFeriado,  List<String> dates) {
+        List<Guia> list = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND '" + format.format(to) + "' AND fechaRecaudacion NOT IN ("+dates+")  AND fechaRecaudacion NOT BETWEEN '" + format.format(fromFeriado) + "' AND '" + format.format(toFeriado) + "' ORDER BY fechaRecaudacion ASC";
         try {
             list = session.createQuery(sql).list();
 

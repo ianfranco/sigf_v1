@@ -36,6 +36,7 @@ public class Empresa implements java.io.Serializable {
     private BigDecimal porcentajeMutual;
     private Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas = new HashSet<CuentaBancariaEmpresa>(0);
     private Set<LiquidacionEmpresa> liquidacionEmpresas = new HashSet<LiquidacionEmpresa>(0);
+    private Set<LiquidacionSueldo> liquidacionSueldos = new HashSet<LiquidacionSueldo>(0);
     private Set<RelacionLaboral> relacionLaborals = new HashSet<RelacionLaboral>(0);
     private Set<Bus> buses = new HashSet<Bus>(0);
     private Set<RepresentanteEmpresa> representanteEmpresas = new HashSet<RepresentanteEmpresa>(0);
@@ -52,7 +53,7 @@ public class Empresa implements java.io.Serializable {
         this.porcentajeMutual = porcentajeMutual;
     }
 
-    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro, String direccionEmpresa, String telefonoEmpresa, String celularEmpresa, String emailEmpresa, BigDecimal porcentajeMutual, Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas, Set<LiquidacionEmpresa> liquidacionEmpresas, Set<RelacionLaboral> relacionLaborals, Set<Bus> buses, Set<RepresentanteEmpresa> representanteEmpresas) {
+    public Empresa(CajaCompensacion cajaCompensacion, Mutual mutual, String rutEmpresa, String nombreEmpresa, String giro, String direccionEmpresa, String telefonoEmpresa, String celularEmpresa, String emailEmpresa, BigDecimal porcentajeMutual, Set<CuentaBancariaEmpresa> cuentaBancariaEmpresas, Set<LiquidacionSueldo> liquidacionSueldos, Set<LiquidacionEmpresa> liquidacionEmpresas, Set<RelacionLaboral> relacionLaborals, Set<Bus> buses, Set<RepresentanteEmpresa> representanteEmpresas) {
         this.cajaCompensacion = cajaCompensacion;
         this.mutual = mutual;
         this.rutEmpresa = rutEmpresa;
@@ -64,6 +65,7 @@ public class Empresa implements java.io.Serializable {
         this.emailEmpresa = emailEmpresa;
         this.porcentajeMutual = porcentajeMutual;
         this.cuentaBancariaEmpresas = cuentaBancariaEmpresas;
+        this.liquidacionSueldos = liquidacionSueldos;
         this.liquidacionEmpresas = liquidacionEmpresas;
         this.relacionLaborals = relacionLaborals;
         this.buses = buses;
@@ -190,6 +192,15 @@ public class Empresa implements java.io.Serializable {
 
     public void setLiquidacionEmpresas(Set<LiquidacionEmpresa> liquidacionEmpresas) {
         this.liquidacionEmpresas = liquidacionEmpresas;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")
+    public Set<LiquidacionSueldo> getLiquidacionSueldos() {
+        return this.liquidacionSueldos;
+    }
+
+    public void setLiquidacionSueldos(Set<LiquidacionSueldo> liquidacionSueldos) {
+        this.liquidacionSueldos = liquidacionSueldos;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")

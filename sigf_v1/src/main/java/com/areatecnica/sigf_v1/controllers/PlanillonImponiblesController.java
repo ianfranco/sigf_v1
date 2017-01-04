@@ -5,10 +5,19 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
+import com.areatecnica.sigf_v1.dao.FeriadoLegalDaoImpl;
+import com.areatecnica.sigf_v1.dao.GuiaDao;
+import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
+import com.areatecnica.sigf_v1.dao.LicenciaMedicaDaoImpl;
+import com.areatecnica.sigf_v1.dao.LiquidacionSueldoDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.Empresa;
+import com.areatecnica.sigf_v1.entities.FeriadoLegal;
+import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.LicenciaMedica;
+import com.areatecnica.sigf_v1.entities.LiquidacionSueldo;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import javax.inject.Named;
@@ -32,6 +41,8 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class PlanillonImponiblesController implements Serializable {
 
+    private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
     private TrabajadorDaoImpl trabajadorDaoImpl;
     private List<Trabajador> trabajadorItems;
     private Trabajador selected;
@@ -40,13 +51,30 @@ public class PlanillonImponiblesController implements Serializable {
     private List<RelacionLaboral> relacionLaboralItems;
     private RelacionLaboralDaoImpl relacionLaboralDao;
 
+    private LiquidacionSueldo selectedLiquidacionSueldo;
+    private List<LiquidacionSueldo> liquidacionItems;
+    private LiquidacionSueldoDaoImpl liquidacionSueldoDaoImpl;
+
+    private FeriadoLegal feriadoLegal;
+    private FeriadoLegalDaoImpl feriadoLegalDaoImpl;
+
+    private List<LicenciaMedica> licenciaMedicaItems;
+    private LicenciaMedicaDaoImpl licenciaMedicaDaoImpl;
+    private List<Date> licencias;
+    private List<String> licenciasString;
+
+    private GuiaDaoImpl guiaDao;
+    private List<Guia> guiaItems;
+
     private Empresa empresa;
     private List<Empresa> empresasList;
 
     private Map empresasMap;
     private int mes;
     private int anio;
+    private int maxDate;
     private Date fecha;
+    private Date fechaMax;
     private int idOperador;
 
     /**
@@ -57,8 +85,9 @@ public class PlanillonImponiblesController implements Serializable {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
+        this.maxDate = calendar.getActualMaximum(Calendar.DATE);
         this.idOperador = -1;
-        
+
     }
 
     public HaberTrabajadorLiquidacion prepareCreate() {
@@ -76,11 +105,12 @@ public class PlanillonImponiblesController implements Serializable {
     }
 
     public void setDate() {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String from = "01/" + mes + "/" + anio;
+        String to = maxDate + "/" + mes + "/" + anio;
         try {
             this.fecha = format.parse(from);
+            this.fechaMax = format.parse(to);
         } catch (ParseException p) {
 
         }
@@ -88,14 +118,15 @@ public class PlanillonImponiblesController implements Serializable {
 
     public void init() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
+        String to = maxDate + "/" + mes + "/" + anio;
         String from = "01/" + this.mes + "/" + this.anio;
         try {
             this.fecha = format.parse(from);
+            this.fechaMax = format.parse(to);
         } catch (ParseException p) {
 
         }
-                
+
         System.err.println("IDENTIFICACIÓN OPERADOR:" + this.idOperador + " Fecha:" + this.fecha);
 
         this.relacionLaboralDao = new RelacionLaboralDaoImpl();
@@ -104,12 +135,94 @@ public class PlanillonImponiblesController implements Serializable {
         this.empresasMap = new HashMap();
 
         this.empresasList = new ArrayList<>();
-        this.trabajadorItems = new ArrayList<>();
-        
+        this.liquidacionItems = new ArrayList<>();
+        //this.trabajadorItems = new ArrayList<>();
+
+        this.feriadoLegalDaoImpl = new FeriadoLegalDaoImpl();
+        this.licenciaMedicaDaoImpl = new LicenciaMedicaDaoImpl();
+        this.guiaDao = new GuiaDaoImpl();
+
         for (RelacionLaboral r : this.relacionLaboralItems) {
             this.empresasMap.put(r.getEmpresa().getIdEmpresa(), r.getEmpresa());
             System.err.println("EMPRESA:" + r.getEmpresa().getNombreEmpresa());
-            this.trabajadorItems.add(r.getTrabajador());
+            LiquidacionSueldo l = new LiquidacionSueldo();
+
+            l.setTrabajador(r.getTrabajador());
+            l.setEmpresa(r.getEmpresa());
+            l.setTipoContrato(r.getTipoContrato());
+            l.setIdTerminal(r.getTerminal().getIdTerminal());
+            l.setNombreTerminal(r.getTerminal().getNombreTerminal());
+
+            if (r.getFechaInicio().before(this.fecha)) {
+                l.setFechaContrato(this.fecha);
+            } else {
+                l.setFechaContrato(r.getFechaInicio());
+            }
+
+            //d.compareTo(min) >= 0 && d.compareTo(max) <= 0;
+            if (!r.getFechaFin().equals(r.getFechaInicio())) {
+                l.setFechaFiniquito(r.getFechaFin());
+            } else {
+                l.setFechaFiniquito(this.fechaMax);
+            }
+
+            System.err.println("FECHAS DEL CONTRATO:" + l.getFechaContrato() + " " + l.getFechaFiniquito() + " Fecha Máxima:" + this.fechaMax);
+
+            this.feriadoLegal = this.feriadoLegalDaoImpl.findByTrabajador(r.getTrabajador(), fecha);
+
+            if (this.feriadoLegal != null) {
+                l.setFechaDesdeFeriado(this.feriadoLegal.getFechaDesdeFeriado());
+                l.setFechaHastaFeriado(this.feriadoLegal.getFechaHastaFeriado());
+            }
+
+            this.licenciaMedicaItems = this.licenciaMedicaDaoImpl.findByTrabajador(r.getTrabajador(), fecha);
+            this.licencias = new ArrayList<>();
+            this.licenciasString = new ArrayList<>();
+
+            if (!this.licenciaMedicaItems.isEmpty()) {
+                for (LicenciaMedica lm : this.licenciaMedicaItems) {
+                    this.licencias.addAll(getDaysBetweenDates(lm.getFechaDesdeReposo(), lm.getFechaHastaReposo()));
+                }
+
+                for (Date d : this.licencias) {
+                    this.licenciasString.add("'" + format.format(d) + "'");
+                }
+            }
+
+            int montoBruto = 0;
+
+            if (this.feriadoLegal == null && this.licenciaMedicaItems.isEmpty()) {
+
+                this.guiaItems = this.guiaDao.findBrutoByConductor(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito());
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                }
+
+            } else if (this.feriadoLegal == null && !this.licenciaMedicaItems.isEmpty()) {
+
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicencias(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.licenciasString);
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                }
+
+            } else if (this.feriadoLegal != null && this.licenciaMedicaItems.isEmpty()) {
+
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithFeriado(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado());
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                }
+
+            } else {
+
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicenciasAndFeriado(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado(), this.licenciasString);
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                }
+
+            }
+            l.setMontoBruto(montoBruto);
+            
+            this.liquidacionItems.add(l);
         }
 
         this.empresasList = new ArrayList<Empresa>(empresasMap.values());
@@ -201,5 +314,34 @@ public class PlanillonImponiblesController implements Serializable {
 
     public void setIdOperador(int idOperador) {
         this.idOperador = idOperador;
+    }
+
+    public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
+        List<Date> dates = new ArrayList<Date>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startdate);
+
+        while (calendar.getTime().before(enddate)) {
+            Date result = calendar.getTime();
+            dates.add(result);
+            calendar.add(Calendar.DATE, 1);
+        }
+        return dates;
+    }
+
+    public List<LiquidacionSueldo> getLiquidacionItems() {
+        return liquidacionItems;
+    }
+
+    public void setLiquidacionItems(List<LiquidacionSueldo> liquidacionItems) {
+        this.liquidacionItems = liquidacionItems;
+    }
+
+    public LiquidacionSueldo getSelectedLiquidacionSueldo() {
+        return selectedLiquidacionSueldo;
+    }
+
+    public void setSelectedLiquidacionSueldo(LiquidacionSueldo selectedLiquidacionSueldo) {
+        this.selectedLiquidacionSueldo = selectedLiquidacionSueldo;
     }
 }

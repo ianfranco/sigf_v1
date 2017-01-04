@@ -23,6 +23,7 @@ public class TipoContrato implements java.io.Serializable {
     private Integer idTipoContrato;
     private String nombreTipoContrato;
     private Set<RelacionLaboral> relacionLaborals = new HashSet<RelacionLaboral>(0);
+    private Set<LiquidacionSueldo> liquidacionSueldos = new HashSet<LiquidacionSueldo>(0);
 
     public TipoContrato() {
     }
@@ -31,9 +32,10 @@ public class TipoContrato implements java.io.Serializable {
         this.nombreTipoContrato = nombreTipoContrato;
     }
 
-    public TipoContrato(String nombreTipoContrato, Set<RelacionLaboral> relacionLaborals) {
-        this.nombreTipoContrato = nombreTipoContrato;
-        this.relacionLaborals = relacionLaborals;
+    public TipoContrato(String nombreTipoContrato, Set<RelacionLaboral> relacionLaborals, Set<LiquidacionSueldo> liquidacionSueldos) {
+       this.nombreTipoContrato = nombreTipoContrato;
+       this.relacionLaborals = relacionLaborals;
+       this.liquidacionSueldos = liquidacionSueldos;
     }
 
     @Id
@@ -64,6 +66,15 @@ public class TipoContrato implements java.io.Serializable {
 
     public void setRelacionLaborals(Set<RelacionLaboral> relacionLaborals) {
         this.relacionLaborals = relacionLaborals;
+    }
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="tipoContrato")
+    public Set<LiquidacionSueldo> getLiquidacionSueldos() {
+        return this.liquidacionSueldos;
+    }
+    
+    public void setLiquidacionSueldos(Set<LiquidacionSueldo> liquidacionSueldos) {
+        this.liquidacionSueldos = liquidacionSueldos;
     }
 
     @Override

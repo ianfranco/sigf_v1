@@ -50,6 +50,12 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.LiquidacionEmpresa" />
         </set>
+        <set name="liquidacionSueldos" table="liquidacion_sueldo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" />
+        </set>
         <set name="relacionLaborals" table="relacion_laboral" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_empresa" not-null="true" />

@@ -6,6 +6,7 @@
 package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.LicenciaMedica;
+import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +19,10 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class LicenciaMedicaDaoImpl implements GenericDao<LicenciaMedica>{
-
+public class LicenciaMedicaDaoImpl implements GenericDao<LicenciaMedica> {
+    
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    
     @Override
     public LicenciaMedica findById(int id) {
         LicenciaMedica licenciaMedica = null;
@@ -54,7 +57,7 @@ public class LicenciaMedicaDaoImpl implements GenericDao<LicenciaMedica>{
         }
         return list;
     }
-    
+
     public List<LicenciaMedica> findWithLimit() {
         List<LicenciaMedica> list = null;
 
@@ -71,13 +74,13 @@ public class LicenciaMedicaDaoImpl implements GenericDao<LicenciaMedica>{
         }
         return list;
     }
-    
+
     public List<LicenciaMedica> findBetweenDate(Date fecha) {
         List<LicenciaMedica> list = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM LicenciaMedica WHERE fechaDesdeReposo BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') ORDER BY fechaDesdeReposo ASC";
+        String sql = "FROM LicenciaMedica WHERE fechaDesdeReposo BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') ORDER BY fechaDesdeReposo ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -88,5 +91,22 @@ public class LicenciaMedicaDaoImpl implements GenericDao<LicenciaMedica>{
         }
         return list;
     }
-    
+
+    public List<LicenciaMedica> findByTrabajador(Trabajador trabajador, Date fecha) {
+        List<LicenciaMedica> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM LicenciaMedica WHERE trabajador = "+trabajador.getIdTrabajador()+" AND fechaDesdeReposo BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"') ORDER BY fechaDesdeReposo ASC" ;
+        try {
+
+            list = session.createQuery(sql).list();
+            
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

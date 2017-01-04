@@ -69,8 +69,8 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
         this.trabajadorDaoImpl = new TrabajadorDaoImpl();
         this.trabajadorItems = this.trabajadorDaoImpl.findAllClean();
 
-        /*this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
-        this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findWithLimit();*/
+        this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
+        //this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findWithLimit();
         this.selected = prepareCreate();
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
@@ -112,7 +112,7 @@ public class DetalleDescuentoTrabajadorController implements Serializable {
             this.descuentoTrabajadorLiquidacionDaoImpl = new DescuentoTrabajadorLiquidacionDaoImpl();
             this.items = this.descuentoTrabajadorLiquidacionDaoImpl.findByTrabajadorAndDate(trabajador, fecha);
 
-            //this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
+            this.cinco = this.descuentoTrabajadorLiquidacionDaoImpl.findCincoPorciento(trabajador, fecha);
             
             //this.relacionLaboralDao = new RelacionLaboralDaoImpl();
 

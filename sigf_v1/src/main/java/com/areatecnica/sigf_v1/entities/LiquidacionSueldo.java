@@ -1,5 +1,5 @@
 package com.areatecnica.sigf_v1.entities;
-// Generated 31-08-2016 4:14:02 by Hibernate Tools 4.3.1
+// Generated 03-01-2017 22:46:48 by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -26,54 +26,152 @@ import javax.persistence.TemporalType;
 public class LiquidacionSueldo implements java.io.Serializable {
 
     private Integer idLiquidacionSueldo;
+    private Empresa empresa;
+    private TipoContrato tipoContrato;
+    private Trabajador trabajador;
+    private int idTerminal;
+    private String nombreTerminal;
     private int mes;
     private int anio;
-    private Date fechaEmision;
-    private Date fechaPago;
-    private Trabajador trabajador;
-    private Empresa empresa;
-    private int totalHaberesImponibles;
-    private int totalHaberesNoImponibles;
-    private int totalCincoPorciento;
-    private int totalAhorro;
-    private String nombreAfp;
-    private float porcentajeAfp;
-    private String nombreSalud;
-    private int montoSalud;
-    private int totalDescuentos;
+    private int montoBruto;
+    private int montoImponible;
+    private int montoSueldoBase;
+    private int montoCincoPorcientoTotal;
+    private int montoCincoPorcientoFiltrado;
+    private Integer montoAhorro;
+    private int montoAbono;
+    private Integer montoFeriado;
+    private int montoNoImponible;
+    private Integer numeroCarga;
+    private Integer montoCarga;
+    private Integer montoRetroactivo;
+    private Date fechaContrato;
+    private Date fechaFiniquito;
+    private Date fechaDesdeFeriado;
+    private Date fechaHastaFeriado;
+    private Integer diasFeriado;
+    private Integer diasLicencias;
+    private Integer diasDescanso;
+    private Integer diasGuias;
+    private Integer diasTrabajados;
+    private String nombrePrevision;
+    private String porcentajePrevision;
+    private int montoPrevision;
+    private int montoApv;
+    private int montoCesantiaTrabajador;
+    private int montoCesantiaEmpresa;
+    private int montoCesantiaTotal;
+    private int montoSis;
+    private int montoInp;
+    private int montoCajaCompensacion;
+    private String nombreIsapre;
+    private int montoIsapre;
+    private int montoSindicato;
+    private int montoSaldoAnterior;
+    private int montoRetencionJudicial;
+    private int montoCreditoSalud;
+    private int montoSeguro;
+    private int montoTotalDescuentos;
+    private int montoAlcanceLiquido;
     private int montoAnticipo;
-    private int saldoMonto;
-    private int alcanceLiquido;
+    private int montoSaldo;
+    private Date fechaRegistro;
+    private Date fechaActualizacion;
     private Set<HaberLiquidacion> haberLiquidacions = new HashSet<HaberLiquidacion>(0);
     private Set<DescuentoLiquidacion> descuentoLiquidacions = new HashSet<DescuentoLiquidacion>(0);
 
     public LiquidacionSueldo() {
     }
 
-    public LiquidacionSueldo(int mes, int anio, Date fechaEmision, Date fechaPago, int totalHaberesImponibles, int totalHaberesNoImponibles, int totalDescuentos, int montoAnticipo, int saldoMonto, int alcanceLiquido) {
+    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, int montoAbono, int montoNoImponible, Date fechaContrato, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro) {
+        this.empresa = empresa;
+        this.tipoContrato = tipoContrato;
+        this.trabajador = trabajador;
+        this.idTerminal = idTerminal;
+        this.nombreTerminal = nombreTerminal;
         this.mes = mes;
         this.anio = anio;
-        this.fechaEmision = fechaEmision;
-        this.fechaPago = fechaPago;
-        this.totalHaberesImponibles = totalHaberesImponibles;
-        this.totalHaberesNoImponibles = totalHaberesNoImponibles;
-        this.totalDescuentos = totalDescuentos;
+        this.montoBruto = montoBruto;
+        this.montoImponible = montoImponible;
+        this.montoSueldoBase = montoSueldoBase;
+        this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
+        this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
+        this.montoAbono = montoAbono;
+        this.montoNoImponible = montoNoImponible;
+        this.fechaContrato = fechaContrato;
+        this.montoPrevision = montoPrevision;
+        this.montoApv = montoApv;
+        this.montoCesantiaTrabajador = montoCesantiaTrabajador;
+        this.montoCesantiaEmpresa = montoCesantiaEmpresa;
+        this.montoCesantiaTotal = montoCesantiaTotal;
+        this.montoSis = montoSis;
+        this.montoInp = montoInp;
+        this.montoCajaCompensacion = montoCajaCompensacion;
+        this.montoIsapre = montoIsapre;
+        this.montoSindicato = montoSindicato;
+        this.montoSaldoAnterior = montoSaldoAnterior;
+        this.montoRetencionJudicial = montoRetencionJudicial;
+        this.montoCreditoSalud = montoCreditoSalud;
+        this.montoSeguro = montoSeguro;
+        this.montoTotalDescuentos = montoTotalDescuentos;
+        this.montoAlcanceLiquido = montoAlcanceLiquido;
         this.montoAnticipo = montoAnticipo;
-        this.saldoMonto = saldoMonto;
-        this.alcanceLiquido = alcanceLiquido;
+        this.montoSaldo = montoSaldo;
+        this.fechaRegistro = fechaRegistro;
     }
 
-    public LiquidacionSueldo(int mes, int anio, Date fechaEmision, Date fechaPago, int totalHaberesImponibles, int totalHaberesNoImponibles, int totalDescuentos, int montoAnticipo, int saldoMonto, int alcanceLiquido, Set<HaberLiquidacion> haberLiquidacions, Set<DescuentoLiquidacion> descuentoLiquidacions) {
+    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, Integer montoAhorro, int montoAbono, Integer montoFeriado, int montoNoImponible, Integer numeroCarga, Integer montoCarga, Integer montoRetroactivo, Date fechaContrato, Date fechaFiniquito, Date fechaDesdeFeriado, Date fechaHastaFeriado, Integer diasFeriado, Integer diasLicencias, Integer diasDescanso, Integer diasGuias, Integer diasTrabajados, String nombrePrevision, String porcentajePrevision, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, String nombreIsapre, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro, Date fechaActualizacion, Set<HaberLiquidacion> haberLiquidacions, Set<DescuentoLiquidacion> descuentoLiquidacions) {
+        this.empresa = empresa;
+        this.tipoContrato = tipoContrato;
+        this.trabajador = trabajador;
+        this.idTerminal = idTerminal;
+        this.nombreTerminal = nombreTerminal;
         this.mes = mes;
         this.anio = anio;
-        this.fechaEmision = fechaEmision;
-        this.fechaPago = fechaPago;
-        this.totalHaberesImponibles = totalHaberesImponibles;
-        this.totalHaberesNoImponibles = totalHaberesNoImponibles;
-        this.totalDescuentos = totalDescuentos;
+        this.montoBruto = montoBruto;
+        this.montoImponible = montoImponible;
+        this.montoSueldoBase = montoSueldoBase;
+        this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
+        this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
+        this.montoAhorro = montoAhorro;
+        this.montoAbono = montoAbono;
+        this.montoFeriado = montoFeriado;
+        this.montoNoImponible = montoNoImponible;
+        this.numeroCarga = numeroCarga;
+        this.montoCarga = montoCarga;
+        this.montoRetroactivo = montoRetroactivo;
+        this.fechaContrato = fechaContrato;
+        this.fechaFiniquito = fechaFiniquito;
+        this.fechaDesdeFeriado = fechaDesdeFeriado;
+        this.fechaHastaFeriado = fechaHastaFeriado;
+        this.diasFeriado = diasFeriado;
+        this.diasLicencias = diasLicencias;
+        this.diasDescanso = diasDescanso;
+        this.diasGuias = diasGuias;
+        this.diasTrabajados = diasTrabajados;
+        this.nombrePrevision = nombrePrevision;
+        this.porcentajePrevision = porcentajePrevision;
+        this.montoPrevision = montoPrevision;
+        this.montoApv = montoApv;
+        this.montoCesantiaTrabajador = montoCesantiaTrabajador;
+        this.montoCesantiaEmpresa = montoCesantiaEmpresa;
+        this.montoCesantiaTotal = montoCesantiaTotal;
+        this.montoSis = montoSis;
+        this.montoInp = montoInp;
+        this.montoCajaCompensacion = montoCajaCompensacion;
+        this.nombreIsapre = nombreIsapre;
+        this.montoIsapre = montoIsapre;
+        this.montoSindicato = montoSindicato;
+        this.montoSaldoAnterior = montoSaldoAnterior;
+        this.montoRetencionJudicial = montoRetencionJudicial;
+        this.montoCreditoSalud = montoCreditoSalud;
+        this.montoSeguro = montoSeguro;
+        this.montoTotalDescuentos = montoTotalDescuentos;
+        this.montoAlcanceLiquido = montoAlcanceLiquido;
         this.montoAnticipo = montoAnticipo;
-        this.saldoMonto = saldoMonto;
-        this.alcanceLiquido = alcanceLiquido;
+        this.montoSaldo = montoSaldo;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaActualizacion = fechaActualizacion;
         this.haberLiquidacions = haberLiquidacions;
         this.descuentoLiquidacions = descuentoLiquidacions;
     }
@@ -88,6 +186,54 @@ public class LiquidacionSueldo implements java.io.Serializable {
 
     public void setIdLiquidacionSueldo(Integer idLiquidacionSueldo) {
         this.idLiquidacionSueldo = idLiquidacionSueldo;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_empresa", nullable = false)
+    public Empresa getEmpresa() {
+        return this.empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tipo_contrato", nullable = false)
+    public TipoContrato getTipoContrato() {
+        return this.tipoContrato;
+    }
+
+    public void setTipoContrato(TipoContrato tipoContrato) {
+        this.tipoContrato = tipoContrato;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_trabajador", nullable = false)
+    public Trabajador getTrabajador() {
+        return this.trabajador;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
+    }
+
+    @Column(name = "id_terminal", nullable = false)
+    public int getIdTerminal() {
+        return this.idTerminal;
+    }
+
+    public void setIdTerminal(int idTerminal) {
+        this.idTerminal = idTerminal;
+    }
+
+    @Column(name = "nombre_terminal", nullable = false, length = 100)
+    public String getNombreTerminal() {
+        return this.nombreTerminal;
+    }
+
+    public void setNombreTerminal(String nombreTerminal) {
+        this.nombreTerminal = nombreTerminal;
     }
 
     @Column(name = "mes", nullable = false)
@@ -108,51 +254,368 @@ public class LiquidacionSueldo implements java.io.Serializable {
         this.anio = anio;
     }
 
+    @Column(name = "monto_bruto", nullable = false)
+    public int getMontoBruto() {
+        return this.montoBruto;
+    }
+
+    public void setMontoBruto(int montoBruto) {
+        this.montoBruto = montoBruto;
+    }
+
+    @Column(name = "monto_imponible", nullable = false)
+    public int getMontoImponible() {
+        return this.montoImponible;
+    }
+
+    public void setMontoImponible(int montoImponible) {
+        this.montoImponible = montoImponible;
+    }
+
+    @Column(name = "monto_sueldo_base", nullable = false)
+    public int getMontoSueldoBase() {
+        return this.montoSueldoBase;
+    }
+
+    public void setMontoSueldoBase(int montoSueldoBase) {
+        this.montoSueldoBase = montoSueldoBase;
+    }
+
+    @Column(name = "monto_cinco_porciento_total", nullable = false)
+    public int getMontoCincoPorcientoTotal() {
+        return this.montoCincoPorcientoTotal;
+    }
+
+    public void setMontoCincoPorcientoTotal(int montoCincoPorcientoTotal) {
+        this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
+    }
+
+    @Column(name = "monto_cinco_porciento_filtrado", nullable = false)
+    public int getMontoCincoPorcientoFiltrado() {
+        return this.montoCincoPorcientoFiltrado;
+    }
+
+    public void setMontoCincoPorcientoFiltrado(int montoCincoPorcientoFiltrado) {
+        this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
+    }
+
+    @Column(name = "monto_ahorro")
+    public Integer getMontoAhorro() {
+        return this.montoAhorro;
+    }
+
+    public void setMontoAhorro(Integer montoAhorro) {
+        this.montoAhorro = montoAhorro;
+    }
+
+    @Column(name = "monto_abono", nullable = false)
+    public int getMontoAbono() {
+        return this.montoAbono;
+    }
+
+    public void setMontoAbono(int montoAbono) {
+        this.montoAbono = montoAbono;
+    }
+
+    @Column(name = "monto_feriado")
+    public Integer getMontoFeriado() {
+        return this.montoFeriado;
+    }
+
+    public void setMontoFeriado(Integer montoFeriado) {
+        this.montoFeriado = montoFeriado;
+    }
+
+    @Column(name = "monto_no_imponible", nullable = false)
+    public int getMontoNoImponible() {
+        return this.montoNoImponible;
+    }
+
+    public void setMontoNoImponible(int montoNoImponible) {
+        this.montoNoImponible = montoNoImponible;
+    }
+
+    @Column(name = "numero_carga")
+    public Integer getNumeroCarga() {
+        return this.numeroCarga;
+    }
+
+    public void setNumeroCarga(Integer numeroCarga) {
+        this.numeroCarga = numeroCarga;
+    }
+
+    @Column(name = "monto_carga")
+    public Integer getMontoCarga() {
+        return this.montoCarga;
+    }
+
+    public void setMontoCarga(Integer montoCarga) {
+        this.montoCarga = montoCarga;
+    }
+
+    @Column(name = "monto_retroactivo")
+    public Integer getMontoRetroactivo() {
+        return this.montoRetroactivo;
+    }
+
+    public void setMontoRetroactivo(Integer montoRetroactivo) {
+        this.montoRetroactivo = montoRetroactivo;
+    }
+
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_emision", nullable = false, length = 10)
-    public Date getFechaEmision() {
-        return this.fechaEmision;
+    @Column(name = "fecha_contrato", nullable = false, length = 10)
+    public Date getFechaContrato() {
+        return this.fechaContrato;
     }
 
-    public void setFechaEmision(Date fechaEmision) {
-        this.fechaEmision = fechaEmision;
+    public void setFechaContrato(Date fechaContrato) {
+        this.fechaContrato = fechaContrato;
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_pago", nullable = false, length = 10)
-    public Date getFechaPago() {
-        return this.fechaPago;
+    @Column(name = "fecha_finiquito", length = 10)
+    public Date getFechaFiniquito() {
+        return this.fechaFiniquito;
     }
 
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
+    public void setFechaFiniquito(Date fechaFiniquito) {
+        this.fechaFiniquito = fechaFiniquito;
     }
 
-    @Column(name = "total_haberes_imponibles", nullable = false)
-    public int getTotalHaberesImponibles() {
-        return this.totalHaberesImponibles;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_desde_feriado", length = 10)
+    public Date getFechaDesdeFeriado() {
+        return this.fechaDesdeFeriado;
     }
 
-    public void setTotalHaberesImponibles(int totalHaberesImponibles) {
-        this.totalHaberesImponibles = totalHaberesImponibles;
+    public void setFechaDesdeFeriado(Date fechaDesdeFeriado) {
+        this.fechaDesdeFeriado = fechaDesdeFeriado;
     }
 
-    @Column(name = "total_haberes_no_imponibles", nullable = false)
-    public int getTotalHaberesNoImponibles() {
-        return this.totalHaberesNoImponibles;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_hasta_feriado", length = 10)
+    public Date getFechaHastaFeriado() {
+        return this.fechaHastaFeriado;
     }
 
-    public void setTotalHaberesNoImponibles(int totalHaberesNoImponibles) {
-        this.totalHaberesNoImponibles = totalHaberesNoImponibles;
+    public void setFechaHastaFeriado(Date fechaHastaFeriado) {
+        this.fechaHastaFeriado = fechaHastaFeriado;
     }
 
-    @Column(name = "total_descuentos", nullable = false)
-    public int getTotalDescuentos() {
-        return this.totalDescuentos;
+    @Column(name = "dias_feriado")
+    public Integer getDiasFeriado() {
+        return this.diasFeriado;
     }
 
-    public void setTotalDescuentos(int totalDescuentos) {
-        this.totalDescuentos = totalDescuentos;
+    public void setDiasFeriado(Integer diasFeriado) {
+        this.diasFeriado = diasFeriado;
+    }
+
+    @Column(name = "dias_licencias")
+    public Integer getDiasLicencias() {
+        return this.diasLicencias;
+    }
+
+    public void setDiasLicencias(Integer diasLicencias) {
+        this.diasLicencias = diasLicencias;
+    }
+
+    @Column(name = "dias_descanso")
+    public Integer getDiasDescanso() {
+        return this.diasDescanso;
+    }
+
+    public void setDiasDescanso(Integer diasDescanso) {
+        this.diasDescanso = diasDescanso;
+    }
+
+    @Column(name = "dias_guias")
+    public Integer getDiasGuias() {
+        return this.diasGuias;
+    }
+
+    public void setDiasGuias(Integer diasGuias) {
+        this.diasGuias = diasGuias;
+    }
+
+    @Column(name = "dias_trabajados")
+    public Integer getDiasTrabajados() {
+        return this.diasTrabajados;
+    }
+
+    public void setDiasTrabajados(Integer diasTrabajados) {
+        this.diasTrabajados = diasTrabajados;
+    }
+
+    @Column(name = "nombre_prevision", length = 100)
+    public String getNombrePrevision() {
+        return this.nombrePrevision;
+    }
+
+    public void setNombrePrevision(String nombrePrevision) {
+        this.nombrePrevision = nombrePrevision;
+    }
+
+    @Column(name = "porcentaje_prevision", length = 45)
+    public String getPorcentajePrevision() {
+        return this.porcentajePrevision;
+    }
+
+    public void setPorcentajePrevision(String porcentajePrevision) {
+        this.porcentajePrevision = porcentajePrevision;
+    }
+
+    @Column(name = "monto_prevision", nullable = false)
+    public int getMontoPrevision() {
+        return this.montoPrevision;
+    }
+
+    public void setMontoPrevision(int montoPrevision) {
+        this.montoPrevision = montoPrevision;
+    }
+
+    @Column(name = "monto_apv", nullable = false)
+    public int getMontoApv() {
+        return this.montoApv;
+    }
+
+    public void setMontoApv(int montoApv) {
+        this.montoApv = montoApv;
+    }
+
+    @Column(name = "monto_cesantia_trabajador", nullable = false)
+    public int getMontoCesantiaTrabajador() {
+        return this.montoCesantiaTrabajador;
+    }
+
+    public void setMontoCesantiaTrabajador(int montoCesantiaTrabajador) {
+        this.montoCesantiaTrabajador = montoCesantiaTrabajador;
+    }
+
+    @Column(name = "monto_cesantia_empresa", nullable = false)
+    public int getMontoCesantiaEmpresa() {
+        return this.montoCesantiaEmpresa;
+    }
+
+    public void setMontoCesantiaEmpresa(int montoCesantiaEmpresa) {
+        this.montoCesantiaEmpresa = montoCesantiaEmpresa;
+    }
+
+    @Column(name = "monto_cesantia_total", nullable = false)
+    public int getMontoCesantiaTotal() {
+        return this.montoCesantiaTotal;
+    }
+
+    public void setMontoCesantiaTotal(int montoCesantiaTotal) {
+        this.montoCesantiaTotal = montoCesantiaTotal;
+    }
+
+    @Column(name = "monto_sis", nullable = false)
+    public int getMontoSis() {
+        return this.montoSis;
+    }
+
+    public void setMontoSis(int montoSis) {
+        this.montoSis = montoSis;
+    }
+
+    @Column(name = "monto_inp", nullable = false)
+    public int getMontoInp() {
+        return this.montoInp;
+    }
+
+    public void setMontoInp(int montoInp) {
+        this.montoInp = montoInp;
+    }
+
+    @Column(name = "monto_caja_compensacion", nullable = false)
+    public int getMontoCajaCompensacion() {
+        return this.montoCajaCompensacion;
+    }
+
+    public void setMontoCajaCompensacion(int montoCajaCompensacion) {
+        this.montoCajaCompensacion = montoCajaCompensacion;
+    }
+
+    @Column(name = "nombre_isapre", length = 45)
+    public String getNombreIsapre() {
+        return this.nombreIsapre;
+    }
+
+    public void setNombreIsapre(String nombreIsapre) {
+        this.nombreIsapre = nombreIsapre;
+    }
+
+    @Column(name = "monto_isapre", nullable = false)
+    public int getMontoIsapre() {
+        return this.montoIsapre;
+    }
+
+    public void setMontoIsapre(int montoIsapre) {
+        this.montoIsapre = montoIsapre;
+    }
+
+    @Column(name = "monto_sindicato", nullable = false)
+    public int getMontoSindicato() {
+        return this.montoSindicato;
+    }
+
+    public void setMontoSindicato(int montoSindicato) {
+        this.montoSindicato = montoSindicato;
+    }
+
+    @Column(name = "monto_saldo_anterior", nullable = false)
+    public int getMontoSaldoAnterior() {
+        return this.montoSaldoAnterior;
+    }
+
+    public void setMontoSaldoAnterior(int montoSaldoAnterior) {
+        this.montoSaldoAnterior = montoSaldoAnterior;
+    }
+
+    @Column(name = "monto_retencion_judicial", nullable = false)
+    public int getMontoRetencionJudicial() {
+        return this.montoRetencionJudicial;
+    }
+
+    public void setMontoRetencionJudicial(int montoRetencionJudicial) {
+        this.montoRetencionJudicial = montoRetencionJudicial;
+    }
+
+    @Column(name = "monto_credito_salud", nullable = false)
+    public int getMontoCreditoSalud() {
+        return this.montoCreditoSalud;
+    }
+
+    public void setMontoCreditoSalud(int montoCreditoSalud) {
+        this.montoCreditoSalud = montoCreditoSalud;
+    }
+
+    @Column(name = "monto_seguro", nullable = false)
+    public int getMontoSeguro() {
+        return this.montoSeguro;
+    }
+
+    public void setMontoSeguro(int montoSeguro) {
+        this.montoSeguro = montoSeguro;
+    }
+
+    @Column(name = "monto_total_descuentos", nullable = false)
+    public int getMontoTotalDescuentos() {
+        return this.montoTotalDescuentos;
+    }
+
+    public void setMontoTotalDescuentos(int montoTotalDescuentos) {
+        this.montoTotalDescuentos = montoTotalDescuentos;
+    }
+
+    @Column(name = "monto_alcance_liquido", nullable = false)
+    public int getMontoAlcanceLiquido() {
+        return this.montoAlcanceLiquido;
+    }
+
+    public void setMontoAlcanceLiquido(int montoAlcanceLiquido) {
+        this.montoAlcanceLiquido = montoAlcanceLiquido;
     }
 
     @Column(name = "monto_anticipo", nullable = false)
@@ -164,22 +627,33 @@ public class LiquidacionSueldo implements java.io.Serializable {
         this.montoAnticipo = montoAnticipo;
     }
 
-    @Column(name = "saldo_monto", nullable = false)
-    public int getSaldoMonto() {
-        return this.saldoMonto;
+    @Column(name = "monto_saldo", nullable = false)
+    public int getMontoSaldo() {
+        return this.montoSaldo;
     }
 
-    public void setSaldoMonto(int saldoMonto) {
-        this.saldoMonto = saldoMonto;
+    public void setMontoSaldo(int montoSaldo) {
+        this.montoSaldo = montoSaldo;
     }
 
-    @Column(name = "alcance_liquido", nullable = false)
-    public int getAlcanceLiquido() {
-        return this.alcanceLiquido;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_registro", nullable = false, length = 10)
+    public Date getFechaRegistro() {
+        return this.fechaRegistro;
     }
 
-    public void setAlcanceLiquido(int alcanceLiquido) {
-        this.alcanceLiquido = alcanceLiquido;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_actualizacion", length = 10)
+    public Date getFechaActualizacion() {
+        return this.fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(Date fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "liquidacionSueldo")

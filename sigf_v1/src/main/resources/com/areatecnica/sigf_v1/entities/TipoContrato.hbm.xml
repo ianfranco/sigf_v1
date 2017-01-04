@@ -17,5 +17,11 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.RelacionLaboral" />
         </set>
+        <set name="liquidacionSueldos" table="liquidacion_sueldo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tipo_contrato" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" />
+        </set>
     </class>
 </hibernate-mapping>

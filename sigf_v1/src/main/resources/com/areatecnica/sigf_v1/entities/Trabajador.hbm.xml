@@ -86,6 +86,9 @@
         <property name="subsidioJoven" type="java.lang.Boolean">
             <column name="subsidio_joven" />
         </property>
+        <property name="cesantia" type="java.lang.Boolean">
+            <column name="cesantia" />
+        </property>
         <property name="contratado" type="java.lang.Boolean">
             <column name="contratado" />
         </property>
@@ -169,6 +172,12 @@
                 <column name="id_trabajador" not-null="true" />
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.FormaPagoTrabajador" />
+        </set>
+        <set name="liquidacionSueldos" table="liquidacion_sueldo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.LiquidacionSueldo" />
         </set>
         <set name="cuentaBancariaTrabajadors" table="cuenta_bancaria_trabajador" inverse="true" lazy="true" fetch="select">
             <key>
