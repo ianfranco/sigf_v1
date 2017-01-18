@@ -72,8 +72,7 @@
                              value="#{totalCargoBusController.items}"
                              lazy="false"
                              rowKey="#{item.idCargoBus}"
-                             var="item"
-                             rows="100"
+                             var="item"                             
                              rowIndexVar="rowIndex" 
                              selectionMode="single"
                              selection="#{totalCargoBusController.rowSelected}" 
@@ -94,7 +93,7 @@
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
 
-                    <p:column filterBy="#{item.bus.numeroBus}" style="text-align: center;">
+                    <p:column filterBy="#{item.bus.numeroBus}" sortBy="#{item.bus.numeroBus}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListCargoBusTitle_bus}"/>
                         </f:facet>
@@ -136,6 +135,13 @@
                             <h:outputText value="N° Cuotas"/>
                         </f:facet>
                         <h:outputText value="#{item.numeroCuotasCargoBus}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{item.idCargo}" filterBy="#{item.idCargo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="D.T."/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCargo}"/>
                     </p:column>
 
                     <p:column sortBy="#{item.montoCargoBus}" filterBy="#{item.montoCargoBus}" style="text-align: center;">

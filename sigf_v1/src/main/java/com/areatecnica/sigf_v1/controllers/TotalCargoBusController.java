@@ -7,8 +7,10 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.CargoBusDaoImpl;
+import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoCargoDaoImpl;
 import com.areatecnica.sigf_v1.entities.CargoBus;
+import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.TipoCargo;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -39,6 +41,7 @@ public class TotalCargoBusController implements Serializable {
     private TipoCargoDaoImpl tipoCargoDaoImpl;
     private List<CargoBus> items;
     private List<TipoCargo> tiposCargos;
+    private GuiaDaoImpl guiaDaoImpl;
     private CargoBus selected;
     private CargoBus rowSelected;
     private int elcargo;
@@ -47,6 +50,7 @@ public class TotalCargoBusController implements Serializable {
     private int anio;
     private Date fecha;
     private TipoCargo cargo;
+    private List<Guia> guiasItems;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -62,7 +66,7 @@ public class TotalCargoBusController implements Serializable {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
-        
+
     }
 
     public List<CargoBus> getItems() {
@@ -95,12 +99,19 @@ public class TotalCargoBusController implements Serializable {
             this.fecha = format.parse(from);
         } catch (ParseException p) {
         }
-
+        this.guiaDaoImpl = new GuiaDaoImpl();
         suma = 0;
         this.items = this.cargoBusDao.findByCargoAndDate(cargo, fecha);
-        System.err.println("tamaño cargos:"+this.items.size());
+        System.err.println("tamaño cargos:" + this.items.size());
         for (CargoBus c : this.items) {
             suma += c.getMontoCargoBus();
+
+            int dias = 0;
+            this.guiasItems = this.guiaDaoImpl.findByBusBetweenDatesDiciembre(c.getBus(), fecha);
+
+            dias = this.guiasItems.size();
+            c.setIdCargo(dias);
+
         }
     }
 
@@ -153,7 +164,7 @@ public class TotalCargoBusController implements Serializable {
             try {
                 session.delete(this.rowSelected);
                 tx.commit();
-                JsfUtil.addSuccessMessage("Se ha eliminado el cargo:"+this.rowSelected+" del Bus N°:"+this.rowSelected.getBus());
+                JsfUtil.addSuccessMessage("Se ha eliminado el cargo:" + this.rowSelected + " del Bus N°:" + this.rowSelected.getBus());
                 this.items.remove(this.rowSelected);
             } catch (HibernateException e) {
                 tx.rollback();

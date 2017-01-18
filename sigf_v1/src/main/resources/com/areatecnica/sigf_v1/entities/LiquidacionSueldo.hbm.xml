@@ -35,6 +35,9 @@
         <property name="montoImponible" type="int">
             <column name="monto_imponible" not-null="true" />
         </property>
+        <property name="montoImponibleAjustado" type="int">
+            <column name="monto_imponible_ajustado" not-null="true" />
+        </property>
         <property name="montoSueldoBase" type="int">
             <column name="monto_sueldo_base" not-null="true" />
         </property>

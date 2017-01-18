@@ -60,7 +60,9 @@ public class RegistroCargoFlotaController implements Serializable {
     private List<Flota> flotaItems;
     private List<UnidadNegocio> unidadNegocioItems;
     private List<CargoBus> registroCargoItems;
+    private List<Guia> guiasItems;
 
+    
     private Bus bus;
     private UnidadNegocio unidadNegocio;
     private Flota flota;
@@ -89,6 +91,7 @@ public class RegistroCargoFlotaController implements Serializable {
         this.items = this.cargoBusDaoImpl.findAll();
 
         this.guiaDaoImpl = new GuiaDaoImpl();
+        this.guiasItems = new ArrayList<Guia>();
 
         this.selected = prepareCreate();
         this.selected.setFechaInicioCargoBus(new Date());
@@ -160,13 +163,21 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 Date date = this.selected.getFechaInicioCargoBus();
                 String descripcion = this.selected.getDescripcion();
+                int monto = this.selected.getMontoCargoBus();
+
+                //this.selected = new CargoBus();
+                this.selected.setFechaInicioCargoBus(date);
+                this.selected.setDescripcion(descripcion);
+                this.selected.setMontoCargoBus(monto);
+                                
+
                 /*this.selected = null;
                 this.selected = new CargoBus();
                 this.selected.setMontoCargoBus(0);
                 this.selected.setNumeroCuotasCargoBus(0);
                 this.selected.setFechaInicioCargoBus(date);
                 this.selected.setDescripcion(descripcion);*/
-                this.flota = null;
+                //this.flota = null;
                 this.unidadNegocio = null;
                 this.registroCargoItems = new ArrayList<>();
 
@@ -327,7 +338,22 @@ public class RegistroCargoFlotaController implements Serializable {
         this.registroCargoItems = registroCargoItems;
     }
 
+    public void setDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        
+        
+        
+        String from = "01/" + mes + "/" + anio;
+        try {
+            this.fecha = format.parse(from);
+        } catch (ParseException p) {
+
+        }
+    }
+
     public void handleFlota() {
+        
         if (this.selected.getTipoCargo() != null) {
             boolean flag = false;
             if (this.flota != null) {
@@ -339,16 +365,20 @@ public class RegistroCargoFlotaController implements Serializable {
 
                 int i = 0;
                 for (Bus b : this.busItems) {
+                    int dias = 0;
+                    this.guiasItems = this.guiaDaoImpl.findByBusBetweenDatesDiciembre(b, fecha);
+
+                    dias = this.guiasItems.size();
 
                     if (this.selected.getTipoCargo().getIdTipoCargo() == 2 && b.getEmpresa().getIdEmpresa() == 29) {
                         continue;
                     }
-                    
-                    
+
                     this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
 
                     if (!this.items.isEmpty()) {
                         for (CargoBus c : this.items) {
+                            c.setIdCargo(dias);
                             registroCargoItems.add(c);
                         }
 
@@ -362,6 +392,7 @@ public class RegistroCargoFlotaController implements Serializable {
                         cargo.setDescripcion(this.selected.getDescripcion());
                         cargo.setBus(b);
                         cargo.setTipoCargo(this.selected.getTipoCargo());
+                        cargo.setIdCargo(dias);
                         registroCargoItems.add(cargo);
                     }
 
@@ -379,6 +410,16 @@ public class RegistroCargoFlotaController implements Serializable {
     }
 
     public void loadUnidad() {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        String from = "01/" + mes + "/" + anio;
+        try {
+            this.fecha = format.parse(from);
+        } catch (ParseException p) {
+
+        }
+
         if (this.selected.getTipoCargo() != null) {
             boolean flag = false;
             if (this.unidadNegocio != null) {

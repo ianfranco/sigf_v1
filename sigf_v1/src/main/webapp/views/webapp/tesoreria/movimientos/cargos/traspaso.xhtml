@@ -47,14 +47,14 @@
                                                itemValue="#{tipoCargoItem}"
                                                itemLabel="#{tipoCargoItem}"
                                                />
-                                <p:ajax event="valueChange" listener="#{traspasoCargoBusController.loadCargos}" update="CargoBusListForm:datalist" />
+                                <p:ajax event="valueChange" listener="#{traspasoCargoBusController.loadCargos}" update="CargoBusListForm:datalist" global="false"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
 
                         <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{traspasoCargoBusController.fechaCargo}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)">
-                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadFecha}" update="CargoBusListForm:datalist" />
+                                <p:ajax event="blur" listener="#{traspasoCargoBusController.loadFecha}" update="CargoBusListForm:datalist" global="false"/>
                             </p:calendar> 
                         </h:panelGroup>
 

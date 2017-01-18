@@ -82,7 +82,7 @@ public class RegistroContratosController implements Serializable {
         }
 
         this.selected.setTipoTrabajador(this.tipoTrabajador);
-
+        
     }
 
     public RelacionLaboral prepareCreate() {
@@ -90,6 +90,7 @@ public class RegistroContratosController implements Serializable {
         newRelacionLaboral = new RelacionLaboral();
         this.selected = newRelacionLaboral;
         this.selected.setSueldoBase(257500);
+        this.selected.setIdOperador(0);
         return newRelacionLaboral;
     }
 

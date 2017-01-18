@@ -35,6 +35,7 @@ public class LiquidacionSueldo implements java.io.Serializable {
     private int anio;
     private int montoBruto;
     private int montoImponible;
+    private int montoImponibleAjustado;
     private int montoSueldoBase;
     private int montoCincoPorcientoTotal;
     private int montoCincoPorcientoFiltrado;
@@ -83,7 +84,7 @@ public class LiquidacionSueldo implements java.io.Serializable {
     public LiquidacionSueldo() {
     }
 
-    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, int montoAbono, int montoNoImponible, Date fechaContrato, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro) {
+    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoImponibleAjustado, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, int montoAbono, int montoNoImponible, Date fechaContrato, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro) {
         this.empresa = empresa;
         this.tipoContrato = tipoContrato;
         this.trabajador = trabajador;
@@ -93,6 +94,7 @@ public class LiquidacionSueldo implements java.io.Serializable {
         this.anio = anio;
         this.montoBruto = montoBruto;
         this.montoImponible = montoImponible;
+        this.montoImponibleAjustado = montoImponibleAjustado;
         this.montoSueldoBase = montoSueldoBase;
         this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
         this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
@@ -120,7 +122,7 @@ public class LiquidacionSueldo implements java.io.Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, Integer montoAhorro, int montoAbono, Integer montoFeriado, int montoNoImponible, Integer numeroCarga, Integer montoCarga, Integer montoRetroactivo, Date fechaContrato, Date fechaFiniquito, Date fechaDesdeFeriado, Date fechaHastaFeriado, Integer diasFeriado, Integer diasLicencias, Integer diasDescanso, Integer diasGuias, Integer diasTrabajados, String nombrePrevision, String porcentajePrevision, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, String nombreIsapre, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro, Date fechaActualizacion, Set<HaberLiquidacion> haberLiquidacions, Set<DescuentoLiquidacion> descuentoLiquidacions) {
+    public LiquidacionSueldo(Empresa empresa, TipoContrato tipoContrato, Trabajador trabajador, int idTerminal, String nombreTerminal, int mes, int anio, int montoBruto, int montoImponible, int montoImponibleAjustado, int montoSueldoBase, int montoCincoPorcientoTotal, int montoCincoPorcientoFiltrado, Integer montoAhorro, int montoAbono, Integer montoFeriado, int montoNoImponible, Integer numeroCarga, Integer montoCarga, Integer montoRetroactivo, Date fechaContrato, Date fechaFiniquito, Date fechaDesdeFeriado, Date fechaHastaFeriado, Integer diasFeriado, Integer diasLicencias, Integer diasDescanso, Integer diasGuias, Integer diasTrabajados, String nombrePrevision, String porcentajePrevision, int montoPrevision, int montoApv, int montoCesantiaTrabajador, int montoCesantiaEmpresa, int montoCesantiaTotal, int montoSis, int montoInp, int montoCajaCompensacion, String nombreIsapre, int montoIsapre, int montoSindicato, int montoSaldoAnterior, int montoRetencionJudicial, int montoCreditoSalud, int montoSeguro, int montoTotalDescuentos, int montoAlcanceLiquido, int montoAnticipo, int montoSaldo, Date fechaRegistro, Date fechaActualizacion, Set<HaberLiquidacion> haberLiquidacions, Set<DescuentoLiquidacion> descuentoLiquidacions) {
         this.empresa = empresa;
         this.tipoContrato = tipoContrato;
         this.trabajador = trabajador;
@@ -130,6 +132,7 @@ public class LiquidacionSueldo implements java.io.Serializable {
         this.anio = anio;
         this.montoBruto = montoBruto;
         this.montoImponible = montoImponible;
+        this.montoImponibleAjustado = montoImponibleAjustado;
         this.montoSueldoBase = montoSueldoBase;
         this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
         this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
@@ -270,6 +273,15 @@ public class LiquidacionSueldo implements java.io.Serializable {
 
     public void setMontoImponible(int montoImponible) {
         this.montoImponible = montoImponible;
+    }
+    
+    @Column(name = "monto_imponible_ajustado", nullable = false)
+    public int getMontoImponibleAjustado() {
+        return this.montoImponibleAjustado;
+    }
+
+    public void setMontoImponibleAjustado(int montoImponibleAjustado) {
+        this.montoImponibleAjustado = montoImponibleAjustado;
     }
 
     @Column(name = "monto_sueldo_base", nullable = false)

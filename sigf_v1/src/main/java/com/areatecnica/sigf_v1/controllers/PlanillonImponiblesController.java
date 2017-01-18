@@ -42,6 +42,7 @@ import javax.faces.view.ViewScoped;
 public class PlanillonImponiblesController implements Serializable {
 
     private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat formatMysql = new SimpleDateFormat("yyyy/MM/dd");
 
     private TrabajadorDaoImpl trabajadorDaoImpl;
     private List<Trabajador> trabajadorItems;
@@ -75,7 +76,14 @@ public class PlanillonImponiblesController implements Serializable {
     private int maxDate;
     private Date fecha;
     private Date fechaMax;
+    private Date rangoDesde;
+    private Date rangoHasta;
+    private int diasMes;
     private int idOperador;
+    private static final int SUELDOBASE = 257500;
+    private static final int SUELDOBASEPARTIME = 171667;
+    private static final int VALORDIA = (int) SUELDOBASE / 30;
+    private int sueldoAjustadoAux;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -147,37 +155,54 @@ public class PlanillonImponiblesController implements Serializable {
             System.err.println("EMPRESA:" + r.getEmpresa().getNombreEmpresa());
             LiquidacionSueldo l = new LiquidacionSueldo();
 
-            l.setTrabajador(r.getTrabajador());
-            l.setEmpresa(r.getEmpresa());
-            l.setTipoContrato(r.getTipoContrato());
-            l.setIdTerminal(r.getTerminal().getIdTerminal());
-            l.setNombreTerminal(r.getTerminal().getNombreTerminal());
+            l.setTrabajador(r.getTrabajador()); //ok
+            l.setEmpresa(r.getEmpresa());//ok
+            l.setTipoContrato(r.getTipoContrato());//ok
+            l.setIdTerminal(r.getTerminal().getIdTerminal()); //ok
+            l.setNombreTerminal(r.getTerminal().getNombreTerminal());//ok
 
+            l.setFechaContrato(r.getFechaInicio()); //ok
             if (r.getFechaInicio().before(this.fecha)) {
-                l.setFechaContrato(this.fecha);
+                this.rangoDesde = this.fecha;
             } else {
-                l.setFechaContrato(r.getFechaInicio());
+                this.rangoDesde = r.getFechaInicio();
             }
 
-            //d.compareTo(min) >= 0 && d.compareTo(max) <= 0;
+            l.setFechaFiniquito(r.getFechaFin());//ok
+
             if (!r.getFechaFin().equals(r.getFechaInicio())) {
-                l.setFechaFiniquito(r.getFechaFin());
+                this.rangoHasta = r.getFechaFin();
             } else {
-                l.setFechaFiniquito(this.fechaMax);
+                this.rangoHasta = this.fechaMax;
             }
+
+            this.diasMes = getDifferenceDays(this.rangoDesde, this.rangoHasta);
 
             System.err.println("FECHAS DEL CONTRATO:" + l.getFechaContrato() + " " + l.getFechaFiniquito() + " Fecha Máxima:" + this.fechaMax);
 
             this.feriadoLegal = this.feriadoLegalDaoImpl.findByTrabajador(r.getTrabajador(), fecha);
 
+            int diasVacaciones = 0;
+            int montoFeriado = 0;
+
             if (this.feriadoLegal != null) {
                 l.setFechaDesdeFeriado(this.feriadoLegal.getFechaDesdeFeriado());
                 l.setFechaHastaFeriado(this.feriadoLegal.getFechaHastaFeriado());
+                montoFeriado = this.feriadoLegal.getValorFeriado();
+                diasVacaciones = getDifferenceDays(this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado());
             }
+
+            l.setMontoFeriado(montoFeriado);
+            l.setDiasFeriado(diasVacaciones);
 
             this.licenciaMedicaItems = this.licenciaMedicaDaoImpl.findByTrabajador(r.getTrabajador(), fecha);
             this.licencias = new ArrayList<>();
             this.licenciasString = new ArrayList<>();
+            
+            String lic = "";
+            String licencias2 = "";
+
+            int diasLicencias = 0;
 
             if (!this.licenciaMedicaItems.isEmpty()) {
                 for (LicenciaMedica lm : this.licenciaMedicaItems) {
@@ -185,43 +210,137 @@ public class PlanillonImponiblesController implements Serializable {
                 }
 
                 for (Date d : this.licencias) {
-                    this.licenciasString.add("'" + format.format(d) + "'");
+                    this.licenciasString.add("'" + formatMysql.format(d) + "'");
+                    
+                    diasLicencias++;
                 }
             }
 
+            l.setDiasLicencias(diasLicencias);
             int montoBruto = 0;
+            int diasTrabajados = 0;
 
             if (this.feriadoLegal == null && this.licenciaMedicaItems.isEmpty()) {
 
-                this.guiaItems = this.guiaDao.findBrutoByConductor(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito());
+                this.guiaItems = this.guiaDao.findBrutoByConductor(r.getTrabajador(), this.rangoDesde, this.rangoHasta);
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
                 }
 
             } else if (this.feriadoLegal == null && !this.licenciaMedicaItems.isEmpty()) {
-
-                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicencias(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.licenciasString);
+                
+                lic = this.licenciasString.toString();
+                
+                lic = lic.substring(1);
+                lic = lic.substring(0, lic.length()-1);
+                
+                System.err.println("LICENCIAS:"+lic);
+                
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicencias(r.getTrabajador(), this.rangoDesde, this.rangoHasta, lic);
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
                 }
 
             } else if (this.feriadoLegal != null && this.licenciaMedicaItems.isEmpty()) {
 
-                this.guiaItems = this.guiaDao.findBrutoByConductorWithFeriado(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado());
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithFeriado(r.getTrabajador(), this.rangoDesde, this.rangoHasta, this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado());
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
                 }
 
             } else {
 
-                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicenciasAndFeriado(r.getTrabajador(), l.getFechaContrato(), l.getFechaFiniquito(), this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado(), this.licenciasString);
+                this.guiaItems = this.guiaDao.findBrutoByConductorWithLicenciasAndFeriado(r.getTrabajador(), this.rangoDesde, this.rangoHasta, this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado(), this.licenciasString);
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
                 }
 
             }
+
+            l.setDiasGuias(diasTrabajados);
             l.setMontoBruto(montoBruto);
-            
+            l.setMontoImponible((int) (montoBruto * 0.19));
+
+            int diasTotal = diasTrabajados + diasLicencias;
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(this.fecha);
+
+            int diasDescanso = 0;
+            if (l.getTipoContrato().getIdTipoContrato() == 3) {
+                diasDescanso = 0;
+            } else {
+                diasDescanso = (calendar.getMaximum(Calendar.DATE) - diasTotal);
+            }
+
+            /*CALCULO IMPONIBLE SUELDOS FIJOS*/
+            if (l.getTipoContrato().getIdTipoContrato() == 5) {
+
+                int sueldo = r.getSueldoBase();
+                int dias = this.maxDate - diasLicencias;
+                if (diasLicencias > 0) {
+                    sueldo = (int) ((r.getSueldoBase()) / 30) * dias;
+                }
+
+                if (dias < this.maxDate) {
+                    sueldo = (int) ((r.getSueldoBase()) / 30) * dias;
+                }
+
+                if (montoFeriado != 0) {
+                    sueldo = montoFeriado + sueldo;
+                }
+                
+                l.setMontoImponibleAjustado(sueldo);
+                l.setMontoSueldoBase(sueldo);
+            } else if (diasTrabajados > 10) {
+                sueldoAjustadoAux = (int) (montoFeriado + SUELDOBASE + (montoBruto * 0.04));
+
+                if (sueldoAjustadoAux > l.getMontoImponible()) {
+                    l.setMontoImponibleAjustado(sueldoAjustadoAux);
+                } else {
+                    l.setMontoImponibleAjustado(l.getMontoImponible());
+                }
+                l.setMontoSueldoBase(SUELDOBASE);
+            } else if ((diasTrabajados + diasLicencias + diasVacaciones) == 0 && getDifferenceDays(l.getFechaFiniquito(), this.fechaMax) <0  ) {
+                
+                if(diasMes>30){
+                    diasMes = 30;
+                }
+                
+                sueldoAjustadoAux = VALORDIA * diasMes;
+                l.setMontoImponibleAjustado(sueldoAjustadoAux);
+                l.setMontoSueldoBase(sueldoAjustadoAux);
+            } else if ((diasTrabajados + diasLicencias + diasVacaciones) == 0) {
+                sueldoAjustadoAux = SUELDOBASE;
+                l.setMontoImponibleAjustado(sueldoAjustadoAux);
+            } else if (diasTrabajados == 0 && (diasLicencias + diasVacaciones) > 0) {
+
+                if (diasLicencias != 0) {
+                    sueldoAjustadoAux = (montoFeriado + (diasMes * VALORDIA));
+                    l.setMontoImponibleAjustado(montoBruto);
+                } else {
+                    l.setMontoImponibleAjustado(montoFeriado);
+                }
+
+            } else if (diasTrabajados > 0 && (diasLicencias + diasVacaciones) > 0) {
+
+                sueldoAjustadoAux = montoFeriado + l.getMontoImponible();
+                l.setMontoImponibleAjustado(sueldoAjustadoAux);
+            } else {
+                l.setMontoImponibleAjustado(l.getMontoImponible() + montoFeriado);
+            }
+
+            if (diasLicencias == this.maxDate) {
+                l.setMontoImponibleAjustado(0);
+            }
+
+            l.setDiasTrabajados(diasTrabajados);
+            l.setDiasDescanso(diasDescanso);
+
             this.liquidacionItems.add(l);
         }
 
@@ -329,6 +448,14 @@ public class PlanillonImponiblesController implements Serializable {
         return dates;
     }
 
+    public int getDifferenceDays(Date d1, Date d2) {
+        int daysdiff = 0;
+        long diff = d2.getTime() - d1.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
+        daysdiff = (int) diffDays;
+        return daysdiff;
+    }
+
     public List<LiquidacionSueldo> getLiquidacionItems() {
         return liquidacionItems;
     }
@@ -343,5 +470,21 @@ public class PlanillonImponiblesController implements Serializable {
 
     public void setSelectedLiquidacionSueldo(LiquidacionSueldo selectedLiquidacionSueldo) {
         this.selectedLiquidacionSueldo = selectedLiquidacionSueldo;
+    }
+
+    public Date getRangoDesde() {
+        return rangoDesde;
+    }
+
+    public void setRangoDesde(Date rangoDesde) {
+        this.rangoDesde = rangoDesde;
+    }
+
+    public Date getRangoHasta() {
+        return rangoHasta;
+    }
+
+    public void setRangoHasta(Date rangoHasta) {
+        this.rangoHasta = rangoHasta;
     }
 }

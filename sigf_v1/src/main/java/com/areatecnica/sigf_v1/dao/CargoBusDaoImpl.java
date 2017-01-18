@@ -116,7 +116,7 @@ public class CargoBusDaoImpl implements GenericDao<CargoBus>{
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM CargoBus WHERE tipoCargo = "+tipoCargo.getIdTipoCargo()+" AND fechaInicioCargoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY bus.numeroBus ASC";
+        String sql = "FROM CargoBus WHERE tipoCargo = "+tipoCargo.getIdTipoCargo()+" AND fechaInicioCargoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY idCargoBus ASC";
         try {
             System.err.println(sql);
             list = session.createQuery(sql).list();

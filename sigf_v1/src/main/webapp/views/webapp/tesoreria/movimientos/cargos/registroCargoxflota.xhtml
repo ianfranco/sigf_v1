@@ -17,6 +17,10 @@
                     <p:focus context="tipoCargo"/>
                     <h:panelGrid columns="2" columnClasses="column">
 
+                        <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.fecha}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
+                        </h:panelGroup>
 
 
                         <p:outputLabel value="#{bundle.CreateCargoBusLabel_tipoCargo}" for="tipoCargo" />
@@ -58,10 +62,7 @@
                             </p:selectOneMenu>                           
                         </h:panelGrid>
 
-                        <p:outputLabel value="F. Cargo" for="fechaInicioCargoBus" />
-                        <h:panelGroup>
-                            <p:calendar id="fechaInicioCargoBus" pattern="dd/MM/yyyy" value="#{registroCargoFlotaController.fecha}" title="#{bundle.CreateCargoBusTitle_fechaInicioCargoBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_fechaInicioCargoBus}" onfocus="this.setSelectionRange(0, 2)"/>
-                        </h:panelGroup>
+
 
                         <p:outputLabel value="Descripcion:" for="descripcion" />
                         <h:panelGroup>
@@ -180,6 +181,13 @@
                         <p:inputText value="#{item.descripcion}">
                             <p:ajax event="blur" listener="#{registroCargoFlotaController.showMessage(item.descripcion)}" global="false"/>
                         </p:inputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="D.T."/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCargo}"/>
                     </p:column>
 
                     <p:column style="text-align: center;">

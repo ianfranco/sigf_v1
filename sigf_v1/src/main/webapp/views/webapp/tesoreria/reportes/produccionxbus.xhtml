@@ -22,7 +22,7 @@
                                        itemValue="#{unidadItem}"
                                        itemLabel="#{unidadItem}"
                                        />
-                        <p:ajax update="numeroBus" listener="#{informeProduccionBusController.handleUnidadChange}"/>
+                        <p:ajax update="numeroBus" listener="#{informeProduccionBusController.handleUnidadChange}" global="false"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="N° Bus:" for="numeroBus"/>

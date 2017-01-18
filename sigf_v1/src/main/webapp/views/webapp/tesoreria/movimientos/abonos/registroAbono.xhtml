@@ -51,6 +51,11 @@
                             <p:outputLabel value="Empresa:" for="empresa" />
                             <p:outputLabel id="empresa" value="#{registroAbonoBusController.bus.empresa.nombreEmpresa}"/>
                         </h:panelGrid>
+                        
+                        <p:outputLabel value="Monto" for="montoAbonoBus" />
+                        <h:panelGroup>
+                            <p:inputText id="montoAbonoBus" value="#{registroAbonoBusController.selected.montoAbonoBus}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_montoAbonoBus}" onfocus="this.setSelectionRange(0, this.value.length)" />                            
+                        </h:panelGroup>
 
                         <p:outputLabel value="Descripcion:" for="descripcion" />
                         <h:panelGroup>
@@ -62,10 +67,7 @@
                             <p:calendar id="fechaInicioAbonoBus" pattern="dd/MM/yyyy" value="#{registroAbonoBusController.selected.fechaInicioAbonoBus}" title="#{bundle.CreateAbonoBusTitle_fechaInicioAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_fechaInicioAbonoBus}" />                            
                         </h:panelGroup>
 
-                        <p:outputLabel value="Monto" for="montoAbonoBus" />
-                        <h:panelGroup>
-                            <p:inputText id="montoAbonoBus" value="#{registroAbonoBusController.selected.montoAbonoBus}" title="#{bundle.CreateAbonoBusTitle_montoAbonoBus}" required="true" requiredMessage="#{bundle.CreateAbonoBusRequiredMessage_montoAbonoBus}" onfocus="this.setSelectionRange(0, this.value.length)" />                            
-                        </h:panelGroup>
+                        
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroAbonoBusController.saveNew}" value="#{bundle.Save}" update="display,:AbonoBusListForm:datalist,:growl" >

@@ -68,9 +68,9 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral> {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "SELECT * FROM relacion_laboral "
+        String sql = "SELECT * FROM relacion_laboral LEFT JOIN empresa ON relacion_laboral.id_empresa = empresa.id_empresa "
                 + "WHERE fecha_inicio <= LAST_DAY('" + format.format(fechaMes) + "') AND fecha_fin BETWEEN IF(fecha_inicio = fecha_fin, fecha_fin, '" + format.format(fechaMes) + "')"
-                + " AND IF(fecha_fin>LAST_DAY('" + format.format(fechaMes) + "'), fecha_fin, LAST_DAY('" + format.format(fechaMes) + "')) AND id_operador = " + idOperador;
+                + " AND IF(fecha_fin>LAST_DAY('" + format.format(fechaMes) + "'), fecha_fin, LAST_DAY('" + format.format(fechaMes) + "')) AND id_operador = " + idOperador+ " AND relacion_laboral.id_empresa IN (410, 296, 99, 141, 243, 131, 86, 162) ORDER BY empresa.nombre_empresa";
 
         try {
 
