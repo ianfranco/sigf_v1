@@ -8,7 +8,7 @@
                 template="./../templateGuias.xhtml">
 
 
-    
+
     <ui:define name="content" class="ui-corner-all" >
 
         <h:form id="selectProcesoForm">
@@ -123,7 +123,7 @@
             <f:facet name="header">
                 <h:outputText id="dialogHeader" value="#{planillonGuiaController.stringHeader}"/>
             </f:facet>
-            <h:form id="GuiaCreateForm" >
+            <h:form id="GuiaCreateForm" onkeypress="return event.keyCode != 13">
 
                 <h:panelGroup id="displayCreateForm" rendered="#{planillonGuiaController.selected != null}">
                     <h:panelGrid columns="3" columnClasses="alignTop,alignTop, alignTop" >
@@ -261,13 +261,15 @@
                             <h:panelGrid columns="2" columnClasses="column, column">
                                 <p:outputLabel value="Egresos:" for="totalEgresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8"/>
+                                    <p:inputNumber decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8">
+                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
+                                    </p:inputNumber>
+
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Saldo:" for="saldo" />
                                 <h:panelGroup>
                                     <p:inputNumber decimalPlaces="0" id="saldo" value="#{planillonGuiaController.selected.saldo}" title="#{bundle.CreateGuiaTitle_saldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_saldo}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8" >
-                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
                                     </p:inputNumber>
                                 </h:panelGroup>
 

@@ -16,6 +16,7 @@ import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.FeriadoLegal;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.HaberTrabajador_;
 import com.areatecnica.sigf_v1.entities.LicenciaMedica;
 import com.areatecnica.sigf_v1.entities.LiquidacionSueldo;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
@@ -198,7 +199,7 @@ public class PlanillonImponiblesController implements Serializable {
             this.licenciaMedicaItems = this.licenciaMedicaDaoImpl.findByTrabajador(r.getTrabajador(), fecha);
             this.licencias = new ArrayList<>();
             this.licenciasString = new ArrayList<>();
-            
+
             String lic = "";
             String licencias2 = "";
 
@@ -211,7 +212,7 @@ public class PlanillonImponiblesController implements Serializable {
 
                 for (Date d : this.licencias) {
                     this.licenciasString.add("'" + formatMysql.format(d) + "'");
-                    
+
                     diasLicencias++;
                 }
             }
@@ -229,14 +230,14 @@ public class PlanillonImponiblesController implements Serializable {
                 }
 
             } else if (this.feriadoLegal == null && !this.licenciaMedicaItems.isEmpty()) {
-                
+
                 lic = this.licenciasString.toString();
-                
+
                 lic = lic.substring(1);
-                lic = lic.substring(0, lic.length()-1);
-                
-                System.err.println("LICENCIAS:"+lic);
-                
+                lic = lic.substring(0, lic.length() - 1);
+
+                System.err.println("LICENCIAS:" + lic);
+
                 this.guiaItems = this.guiaDao.findBrutoByConductorWithLicencias(r.getTrabajador(), this.rangoDesde, this.rangoHasta, lic);
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
@@ -293,7 +294,7 @@ public class PlanillonImponiblesController implements Serializable {
                 if (montoFeriado != 0) {
                     sueldo = montoFeriado + sueldo;
                 }
-                
+
                 l.setMontoImponibleAjustado(sueldo);
                 l.setMontoSueldoBase(sueldo);
             } else if (diasTrabajados > 10) {
@@ -305,12 +306,13 @@ public class PlanillonImponiblesController implements Serializable {
                     l.setMontoImponibleAjustado(l.getMontoImponible());
                 }
                 l.setMontoSueldoBase(SUELDOBASE);
-            } else if ((diasTrabajados + diasLicencias + diasVacaciones) == 0 && getDifferenceDays(l.getFechaFiniquito(), this.fechaMax) <0  ) {
-                
-                if(diasMes>30){
+
+            } else if ((diasTrabajados + diasLicencias + diasVacaciones) == 0 && getDifferenceDays(l.getFechaFiniquito(), this.fechaMax) < 0) {
+
+                if (diasMes > 30) {
                     diasMes = 30;
                 }
-                
+
                 sueldoAjustadoAux = VALORDIA * diasMes;
                 l.setMontoImponibleAjustado(sueldoAjustadoAux);
                 l.setMontoSueldoBase(sueldoAjustadoAux);
@@ -341,6 +343,113 @@ public class PlanillonImponiblesController implements Serializable {
             l.setDiasTrabajados(diasTrabajados);
             l.setDiasDescanso(diasDescanso);
 
+            /*CALCULOS PREVISIONALES*/
+            //Ahorro Previsional 
+            l.setMontoApv(r.getTrabajador().getMontoApv());
+
+            //AFP
+            l.setMontoPrevision((int) (l.getMontoImponible() * r.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue()/100));
+
+            if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() != 7) {
+                if (l.getTrabajador().getMonedaPactadaInstitucionSalud().getIdMonedaSalud() == 1) {
+                    l.setMontoIsapre((int) (l.getMontoImponibleAjustado() * (l.getTrabajador().getMontoSalud().longValue() / 100)));
+                } else {
+                    if (diasMes > 30) {
+                        diasMes = 30;
+                    }
+
+                    int diasIsapre = diasMes - diasLicencias;
+
+                    int montoIsapre = (int) (26318.21 * l.getTrabajador().getMontoSalud().longValue());
+                    montoIsapre = (montoIsapre / 30) * diasIsapre;
+                    l.setMontoIsapre(montoIsapre);
+                }
+            }
+
+            //CÁLCULO CODIGOS EMPRESA 
+            int montoCaja = 0;
+            int montoINP = 0;
+            int codigoEmpresa = 0;
+
+            int idMutual = r.getEmpresa().getMutual().getIdMutual();
+            int idCaja = r.getEmpresa().getCajaCompensacion().getIdCajaCompensacion();
+
+            if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                if (idMutual == 4) {
+                    if (idCaja == 1) {
+                        if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                            codigoEmpresa = 10;
+
+                            if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
+                                montoCaja = 0;
+                                montoINP = (int) (l.getMontoImponible() * (7 / 100));
+                            } else {
+                                montoCaja = 0;
+                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                            }
+                        }
+
+                    } else if (idCaja == 6) {
+                        if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                            codigoEmpresa = 15;
+
+                            if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
+                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponible() * (6.4 / 100));
+                            } else {
+                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                            }
+                        }
+                    }
+                } else if (idMutual == 3) {
+
+                    if (idCaja == 1) {
+                        if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                            codigoEmpresa = 20;
+
+                            if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
+                                montoCaja = 0;
+                                montoINP = (int) (l.getMontoImponible() * (7 / 100));
+                            } else { // REVISAR ACÁ 
+                                montoCaja = 0;
+                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                            }
+                        }
+
+                    } else if (idCaja == 6) {
+                        if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() == 7) {
+                            codigoEmpresa = 25;
+
+                            if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
+                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponible() * (6.4 / 100));
+                            } else {
+                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                            }
+                        }
+                    }
+
+                }
+            } else {
+                montoCaja = 0;
+                montoINP = 0;
+            }
+
+            l.setMontoCajaCompensacion(montoCaja);
+            l.setMontoInp(montoINP);
+
+            int cesantiaTrabajador = 0;
+            int cesantiaEmpleador = 0;
+            int cesantiaTotal = 0;
+            
+            //Cálculo de Cesantía
+            if(diasLicencias>=30){
+                
+            }
+            
+            
             this.liquidacionItems.add(l);
         }
 

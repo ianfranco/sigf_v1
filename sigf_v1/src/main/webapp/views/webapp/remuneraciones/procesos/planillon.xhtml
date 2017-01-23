@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="selector">
-            <p:panel id="selector" header="Planillón de Imposiciones" style="margin-bottom: 10px;width: 2400px">
+            <p:panel id="selector" header="Planillón de Imposiciones" style="margin-bottom: 10px;width: 100%">
                 <h:panelGrid columns="8">
                     <p:outputLabel value="Operador" for="idOperador"/>
                     <h:panelGroup>
@@ -48,17 +48,19 @@
             <p:contextMenu id="TrabajadorDataTableContextMenu" for="datalist">              
                 <p:separator/>
             </p:contextMenu>
+
             <p:dataTable id="datalist"
                          value="#{planillonImponiblesController.liquidacionItems}"                     
                          var="item"
                          paginator="true"
                          rows="500"
                          rowsPerPageTemplate="100,200,500,1000"
-                         
+                         scrollable="true"
+                         scrollWidth="3000"
                          rowIndexVar="rowIndex"
                          emptyMessage="No se han encontrado registros"
-                         
-                         tableStyle="table-layout: auto" >
+
+                         >
                 <!--
                          To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -83,7 +85,7 @@
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
-                <p:column style="text-align: center;" >
+                <p:column style="text-align: center;width: 250px;" >
                     <f:facet name="header">
                         <h:outputText value="Empresa"/>
                     </f:facet>
@@ -97,7 +99,7 @@
                     <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                 </p:column>
 
-                <p:column style="text-align: center;" >
+                <p:column style="text-align: center;width: 250px" >
                     <f:facet name="header">
                         <h:outputText value="Trabajador"/>
                     </f:facet>
@@ -111,91 +113,15 @@
                     <h:outputText value="#{item.trabajador.rutTrabajador}"/>
                 </p:column>            
 
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="Bruto"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoBruto}">
-                        <f:convertNumber currencySymbol="$"/>
-                    </h:outputText>
-                </p:column>
-                
-                
                 <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="D.G."/>
-                    </f:facet>
-                    <h:outputText value="#{item.diasGuias}"/>
-                </p:column>
-                
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="D.V."/>
-                    </f:facet>
-                    <h:outputText value="#{item.diasFeriado==0?' ':item.diasFeriado}"/>
-                </p:column>
-                
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="D.L."/>
-                    </f:facet>
-                    <h:outputText value="#{item.diasLicencias==0?' ':item.diasLicencias}"/>
-                </p:column>
-                
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="D.D."/>
-                    </f:facet>
-                    <h:outputText value="#{item.diasDescanso==0?' ':item.diasDescanso}"/>
-                </p:column>
-                
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="D.T."/>
-                    </f:facet>
-                    <h:outputText value="#{item.diasTrabajados==0?' ':item.diasTrabajados}"/>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="19%"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoImponible}"/>
-                </p:column>
-                               
-                
-                <p:column style="text-align: right;width: 30px;">
-                    <f:facet name="header">
-                        <h:outputText value="Feriado"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoFeriado == 0?'':item.montoFeriado}">
-                        <f:convertNumber currencySymbol="$"/>
-                    </h:outputText>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="Imponible"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoImponibleAjustado}"/>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="Diferencia"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoImponible-item.montoImponibleAjustado}"/>
-                </p:column>
-                
-                <p:column >
                     <f:facet name="header">
                         <h:outputText value="Contrato"/>
                     </f:facet>
                     <h:outputText value="#{item.tipoContrato}"/>
                 </p:column>
 
-                <p:column >
-                    <f:facet name="header">
+                <p:column style="text-align: center;">
+                    <f:facet name="header" >
                         <h:outputText value="F.Contrato"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaContrato}">
@@ -210,10 +136,145 @@
                     <h:outputText value="#{item.fechaFiniquito eq item.fechaContrato?' ':item.fechaFiniquito}">
                         <f:convertDateTime pattern="dd"/>                            
                     </h:outputText>
-                    
+                </p:column>
+                
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Bruto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoBruto}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="D.G."/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasGuias}"/>
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="D.V."/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasFeriado==0?' ':item.diasFeriado}"/>
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="D.L."/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasLicencias==0?' ':item.diasLicencias}"/>
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="D.D."/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasDescanso==0?' ':item.diasDescanso}"/>
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="D.T."/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasTrabajados==0?' ':item.diasTrabajados}"/>
                 </p:column>
 
                 <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="19%" style="text-align: right;"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoImponible}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column style="text-align: right;width: 30px;">
+                    <f:facet name="header">
+                        <h:outputText value="Feriado" style="text-align: center;"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoFeriado == 0?'':item.montoFeriado}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Imponible" />
+                    </f:facet>
+                    <h:outputText value="#{item.montoImponibleAjustado}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Diferencia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoImponible-item.montoImponibleAjustado}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Afp"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajador.institucionPrevision}"/>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Monto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoPrevision}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Apv"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoApv}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="CC" />
+                    </f:facet>
+                    <h:outputText value="#{item.montoCajaCompensacion}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Inp" />
+                    </f:facet>
+                    <h:outputText value="#{item.montoInp}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Isapre" />
+                    </f:facet>
+                    <h:outputText value="#{item.montoIsapre}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;width: 120px;">
                     <f:facet name="header">
                         <h:outputText value="Terminal"/>
                     </f:facet>
@@ -325,6 +386,7 @@
                 -->
 
             </p:dataTable>
+
         </h:form>
     </ui:define>
 
