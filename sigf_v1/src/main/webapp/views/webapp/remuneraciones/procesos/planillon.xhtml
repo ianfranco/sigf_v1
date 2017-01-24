@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="selector">
-            <p:panel id="selector" header="Planillón de Imposiciones" style="margin-bottom: 10px;width: 100%">
+            <p:panel id="selector" header="Planillón de Imposiciones" style="margin-bottom: 10px;width: 3500px">
                 <h:panelGrid columns="8">
                     <p:outputLabel value="Operador" for="idOperador"/>
                     <h:panelGroup>
@@ -56,7 +56,7 @@
                          rows="500"
                          rowsPerPageTemplate="100,200,500,1000"
                          scrollable="true"
-                         scrollWidth="3000"
+                         scrollWidth="3500"
                          rowIndexVar="rowIndex"
                          emptyMessage="No se han encontrado registros"
 
@@ -312,7 +312,7 @@
 
                 <p:column style="text-align: right;">
                     <f:facet name="header">
-                        <h:outputText value="Dctos. Leg. "/>
+                        <h:outputText value="D.Leg."/>
                     </f:facet>
                     <h:outputText value="#{item.montoPrevision+item.montoApv+item.montoCesantiaTrabajador+item.montoCajaCompensacion+item.montoInp+item.montoIsapre}">
                         <f:convertNumber currencySymbol="$"/>
@@ -324,6 +324,20 @@
                         <h:outputText value="N° Cargas"/>
                     </f:facet>
                     <h:outputText value="#{item.numeroCarga}"/>
+                </p:column>
+                
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="T.Cargas"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCarga}"/>
+                </p:column>
+                
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Retro."/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoRetroactivo}"/>
                 </p:column>
                 
                 <p:column style="text-align: right;">
