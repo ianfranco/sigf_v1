@@ -12,6 +12,7 @@ import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Hibernate;
@@ -276,7 +277,7 @@ public class GuiaDaoImpl implements GuiaDao {
     }
     
     public List<Guia> findBrutoByConductorWithLicencias(Trabajador conductor, Date from, Date to, String dates) {
-        List<Guia> list = null;
+        List<Guia> list = new ArrayList<>();
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();

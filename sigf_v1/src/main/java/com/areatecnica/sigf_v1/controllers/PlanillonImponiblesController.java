@@ -5,18 +5,18 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
+import com.areatecnica.sigf_v1.dao.EgresoGuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.FeriadoLegalDaoImpl;
-import com.areatecnica.sigf_v1.dao.GuiaDao;
 import com.areatecnica.sigf_v1.dao.GuiaDaoImpl;
 import com.areatecnica.sigf_v1.dao.LicenciaMedicaDaoImpl;
 import com.areatecnica.sigf_v1.dao.LiquidacionSueldoDaoImpl;
 import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
+import com.areatecnica.sigf_v1.entities.EgresoGuia;
 import com.areatecnica.sigf_v1.entities.Empresa;
 import com.areatecnica.sigf_v1.entities.FeriadoLegal;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
-import com.areatecnica.sigf_v1.entities.HaberTrabajador_;
 import com.areatecnica.sigf_v1.entities.LicenciaMedica;
 import com.areatecnica.sigf_v1.entities.LiquidacionSueldo;
 import com.areatecnica.sigf_v1.entities.RelacionLaboral;
@@ -32,6 +32,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -68,6 +70,9 @@ public class PlanillonImponiblesController implements Serializable {
     private GuiaDaoImpl guiaDao;
     private List<Guia> guiaItems;
 
+    private EgresoGuiaDaoImpl egresoGuiaDaoImpl;
+    private EgresoGuia egresoGuia;
+
     private Empresa empresa;
     private List<Empresa> empresasList;
 
@@ -84,6 +89,8 @@ public class PlanillonImponiblesController implements Serializable {
     private static final int SUELDOBASE = 257500;
     private static final int SUELDOBASEPARTIME = 171667;
     private static final int VALORDIA = (int) SUELDOBASE / 30;
+    private static final long VALORSIS = (long) 0.0141;
+    private Date FECHACESANTIA;
     private int sueldoAjustadoAux;
 
     /**
@@ -96,7 +103,11 @@ public class PlanillonImponiblesController implements Serializable {
         this.anio = calendar.get(Calendar.YEAR);
         this.maxDate = calendar.getActualMaximum(Calendar.DATE);
         this.idOperador = -1;
-
+        try {
+            this.FECHACESANTIA = format.parse("02/10/2002");
+        } catch (ParseException ex) {
+            Logger.getLogger(PlanillonImponiblesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public HaberTrabajadorLiquidacion prepareCreate() {
@@ -140,6 +151,8 @@ public class PlanillonImponiblesController implements Serializable {
 
         this.relacionLaboralDao = new RelacionLaboralDaoImpl();
         this.relacionLaboralItems = this.relacionLaboralDao.findActivas(this.fecha, this.idOperador);
+
+        this.egresoGuiaDaoImpl = new EgresoGuiaDaoImpl();
 
         this.empresasMap = new HashMap();
 
@@ -220,6 +233,8 @@ public class PlanillonImponiblesController implements Serializable {
             l.setDiasLicencias(diasLicencias);
             int montoBruto = 0;
             int diasTrabajados = 0;
+            int cincoPorciento = 0;
+            int cincoPorcientoAux = 0;
 
             if (this.feriadoLegal == null && this.licenciaMedicaItems.isEmpty()) {
 
@@ -227,7 +242,12 @@ public class PlanillonImponiblesController implements Serializable {
                 for (Guia g : this.guiaItems) {
                     montoBruto += g.getTotalIngresos();
                     diasTrabajados++;
+
+                    egresoGuia = this.egresoGuiaDaoImpl.findByGuiaAndEgresoClean(g.getIdGuia(), 12);
+                    cincoPorciento = cincoPorciento + egresoGuia.getMonto();
                 }
+
+                l.setMontoCincoPorcientoTotal(cincoPorciento);
 
             } else if (this.feriadoLegal == null && !this.licenciaMedicaItems.isEmpty()) {
 
@@ -239,9 +259,15 @@ public class PlanillonImponiblesController implements Serializable {
                 System.err.println("LICENCIAS:" + lic);
 
                 this.guiaItems = this.guiaDao.findBrutoByConductorWithLicencias(r.getTrabajador(), this.rangoDesde, this.rangoHasta, lic);
-                for (Guia g : this.guiaItems) {
-                    montoBruto += g.getTotalIngresos();
-                    diasTrabajados++;
+
+                if (this.guiaItems.isEmpty()) {
+                    montoBruto = 0;
+                    diasTrabajados = 0;
+                } else {
+                    for (Guia g : this.guiaItems) {
+                        montoBruto += g.getTotalIngresos();
+                        diasTrabajados++;
+                    }
                 }
 
             } else if (this.feriadoLegal != null && this.licenciaMedicaItems.isEmpty()) {
@@ -348,7 +374,7 @@ public class PlanillonImponiblesController implements Serializable {
             l.setMontoApv(r.getTrabajador().getMontoApv());
 
             //AFP
-            l.setMontoPrevision((int) (l.getMontoImponible() * r.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue()/100));
+            l.setMontoPrevision((int) (l.getMontoImponible() * r.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue() / 100));
 
             if (l.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() != 7) {
                 if (l.getTrabajador().getMonedaPactadaInstitucionSalud().getIdMonedaSalud() == 1) {
@@ -394,11 +420,11 @@ public class PlanillonImponiblesController implements Serializable {
                             codigoEmpresa = 15;
 
                             if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
-                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
-                                montoINP = (int) (l.getMontoImponible() * (6.4 / 100));
+                                montoCaja = (int) (l.getMontoImponibleAjustado() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (6.4 / 100));
                             } else {
-                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
-                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                                montoCaja = (int) (l.getMontoImponibleAjustado() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (28.24 / 100));
                             }
                         }
                     }
@@ -410,10 +436,10 @@ public class PlanillonImponiblesController implements Serializable {
 
                             if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
                                 montoCaja = 0;
-                                montoINP = (int) (l.getMontoImponible() * (7 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (7 / 100));
                             } else { // REVISAR ACÁ 
                                 montoCaja = 0;
-                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (28.24 / 100));
                             }
                         }
 
@@ -422,11 +448,11 @@ public class PlanillonImponiblesController implements Serializable {
                             codigoEmpresa = 25;
 
                             if (r.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
-                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
-                                montoINP = (int) (l.getMontoImponible() * (6.4 / 100));
+                                montoCaja = (int) (l.getMontoImponibleAjustado() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (6.4 / 100));
                             } else {
-                                montoCaja = (int) (l.getMontoImponible() * (0.6 / 100));
-                                montoINP = (int) (l.getMontoImponible() * (28.24 / 100));
+                                montoCaja = (int) (l.getMontoImponibleAjustado() * (0.6 / 100));
+                                montoINP = (int) (l.getMontoImponibleAjustado() * (28.24 / 100));
                             }
                         }
                     }
@@ -443,13 +469,40 @@ public class PlanillonImponiblesController implements Serializable {
             int cesantiaTrabajador = 0;
             int cesantiaEmpleador = 0;
             int cesantiaTotal = 0;
-            
-            //Cálculo de Cesantía
-            if(diasLicencias>=30){
-                
+
+            int dias2 = getDifferenceDays(l.getFechaContrato(), this.rangoHasta);
+            //
+            if ((l.getTrabajador().getCesantia() && l.getFechaContrato().before(FECHACESANTIA)) || dias2 > 364) //Cálculo de Cesantía
+            {
+                if (diasLicencias >= 30 || l.getTrabajador().getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador() == 3) {
+                    cesantiaEmpleador = (int) (l.getMontoImponibleAjustado() * (2.4 / 100));
+                    cesantiaTrabajador = 0;
+                } else {
+                    cesantiaEmpleador = (int) (l.getMontoImponibleAjustado() * (2.4 / 100));
+                    cesantiaTrabajador = (int) (l.getMontoImponibleAjustado() * (0.6 / 100));
+                }
+
+            } else {
+                cesantiaTotal = (int) (l.getMontoImponibleAjustado() * (3.0 / 100));
+
             }
-            
-            
+
+            l.setMontoCesantiaTrabajador(cesantiaTrabajador);
+            l.setMontoCesantiaEmpresa(cesantiaEmpleador);
+            l.setMontoCesantiaTotal(cesantiaTotal);
+
+            //Calcula SIS 
+            if (l.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() < 99) {
+                l.setMontoSis((int) (l.getMontoImponibleAjustado() * VALORSIS));
+            }
+
+            //Cargas Familiares 
+            l.setNumeroCarga(l.getTrabajador().getNumeroCargas());
+
+            l.setMontoCarga(l.getNumeroCarga() * l.getTrabajador().getAsignacionFamiliar().getMonto());
+
+            l.setMontoRetroactivo(0);
+
             this.liquidacionItems.add(l);
         }
 

@@ -85,7 +85,7 @@
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
-                <p:column style="text-align: center;width: 250px;" >
+                <p:column style="text-align: center;width: 220px;" >
                     <f:facet name="header">
                         <h:outputText value="Empresa"/>
                     </f:facet>
@@ -99,7 +99,7 @@
                     <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                 </p:column>
 
-                <p:column style="text-align: center;width: 250px" >
+                <p:column style="text-align: center;width: 220px" >
                     <f:facet name="header">
                         <h:outputText value="Trabajador"/>
                     </f:facet>
@@ -117,7 +117,7 @@
                     <f:facet name="header">
                         <h:outputText value="Contrato"/>
                     </f:facet>
-                    <h:outputText value="#{item.tipoContrato}"/>
+                    <h:outputText value="#{item.tipoContrato.idTipoContrato}"/>
                 </p:column>
 
                 <p:column style="text-align: center;">
@@ -137,7 +137,7 @@
                         <f:convertDateTime pattern="dd"/>                            
                     </h:outputText>
                 </p:column>
-                
+
                 <p:column style="text-align: right;">
                     <f:facet name="header">
                         <h:outputText value="Bruto"/>
@@ -220,7 +220,7 @@
                     </h:outputText>
                 </p:column>
 
-                
+
 
                 <p:column style="text-align: center;">
                     <f:facet name="header">
@@ -242,14 +242,50 @@
                     <f:facet name="header">
                         <h:outputText value="Apv"/>
                     </f:facet>
-                    <h:outputText value="#{item.montoApv}">
+                    <h:outputText value="#{item.montoApv == 0?'':item.montoApv}">
                         <f:convertNumber currencySymbol="$"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column style="text-align: right;">
                     <f:facet name="header">
-                        <h:outputText value="CC" />
+                        <h:outputText value="0.6% Cesantía"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCesantiaTrabajador == 0?'':item.montoCesantiaTrabajador}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="2.4% Cesantía"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCesantiaEmpresa== 0?'':item.montoCesantiaEmpresa}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="3.0% Cesantía"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCesantiaTotal== 0?'':item.montoCesantiaTotal}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="S.I.S."/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoSis== 0?'':item.montoSis}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="C.C." />
                     </f:facet>
                     <h:outputText value="#{item.montoCajaCompensacion}">
                         <f:convertNumber currencySymbol="$"/>
@@ -269,9 +305,32 @@
                     <f:facet name="header">
                         <h:outputText value="Isapre" />
                     </f:facet>
-                    <h:outputText value="#{item.montoIsapre}">
+                    <h:outputText value="#{item.montoIsapre== 0?'':item.montoIsapre}">
                         <f:convertNumber currencySymbol="$"/>
                     </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Dctos. Leg. "/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoPrevision+item.montoApv+item.montoCesantiaTrabajador+item.montoCajaCompensacion+item.montoInp+item.montoIsapre}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="N° Cargas"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroCarga}"/>
+                </p:column>
+                
+                <p:column style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="5 %"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCincoPorcientoTotal}"/>
                 </p:column>
 
                 <p:column style="text-align: right;width: 120px;">
