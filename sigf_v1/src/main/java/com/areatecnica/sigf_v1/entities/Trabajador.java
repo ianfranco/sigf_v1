@@ -63,6 +63,7 @@ public class Trabajador implements java.io.Serializable {
     private Set<CentroCostoTrabajador> centroCostoTrabajadors = new HashSet<CentroCostoTrabajador>(0);
     private Set<RelacionLaboral> relacionLaborals = new HashSet<RelacionLaboral>(0);
     private Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions = new HashSet<HaberTrabajadorLiquidacion>(0);
+    private Set<ReconocimientoDeuda> reconocimientoDeudas = new HashSet<ReconocimientoDeuda>(0);
     private Set<ControlAsistencia> controlAsistencias = new HashSet<ControlAsistencia>(0);
     private Set<HoraExtraTrabajador> horaExtraTrabajadors = new HashSet<HoraExtraTrabajador>(0);
     private Set<CargaTrabajador> cargaTrabajadors = new HashSet<CargaTrabajador>(0);
@@ -140,6 +141,7 @@ public class Trabajador implements java.io.Serializable {
         this.centroCostoTrabajadors = centroCostoTrabajadors;
         this.relacionLaborals = relacionLaborals;
         this.haberTrabajadorLiquidacions = haberTrabajadorLiquidacions;
+        this.reconocimientoDeudas = reconocimientoDeudas;
         this.controlAsistencias = controlAsistencias;
         this.horaExtraTrabajadors = horaExtraTrabajadors;
         this.cargaTrabajadors = cargaTrabajadors;
@@ -411,15 +413,15 @@ public class Trabajador implements java.io.Serializable {
         this.subsidioJoven = subsidioJoven;
     }
 
-    @Column(name="cesantia")
+    @Column(name = "cesantia")
     public Boolean getCesantia() {
         return this.cesantia;
     }
-    
+
     public void setCesantia(Boolean cesantia) {
         this.cesantia = cesantia;
     }
-    
+
     @Column(name = "contratado")
     public Boolean getContratado() {
         return this.contratado;
@@ -491,6 +493,15 @@ public class Trabajador implements java.io.Serializable {
 
     public void setHaberTrabajadorLiquidacions(Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions) {
         this.haberTrabajadorLiquidacions = haberTrabajadorLiquidacions;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trabajador")
+    public Set<ReconocimientoDeuda> getReconocimientoDeudas() {
+        return this.reconocimientoDeudas;
+    }
+
+    public void setReconocimientoDeudas(Set<ReconocimientoDeuda> reconocimientoDeudas) {
+        this.reconocimientoDeudas = reconocimientoDeudas;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "trabajador")

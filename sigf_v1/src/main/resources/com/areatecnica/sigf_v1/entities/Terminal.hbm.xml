@@ -65,5 +65,11 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.TrabajadorTerminal" />
         </set>
+        <set name="relacionLaborals" table="relacion_laboral" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_terminal" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.RelacionLaboral" />
+        </set>
     </class>
 </hibernate-mapping>

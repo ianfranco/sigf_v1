@@ -36,6 +36,7 @@ public class Terminal implements java.io.Serializable {
     private Set<Servicio> servicios = new HashSet<Servicio>(0);
     private Set<Bus> buses = new HashSet<Bus>(0);
     private Set<TrabajadorTerminal> trabajadorTerminals = new HashSet<TrabajadorTerminal>(0);
+    private Set<RelacionLaboral> relacionLaborals = new HashSet<RelacionLaboral>(0);
 
     public Terminal() {
     }
@@ -47,7 +48,7 @@ public class Terminal implements java.io.Serializable {
         this.ubicacionLatitud = ubicacionLatitud;
     }
 
-    public Terminal(String nombreTerminal, String direccionTerminal, Integer superficie, String telefonoTerminal, String emailTerminal, double ubicacionLongitud, double ubicacionLatitud, Set<InventarioTerminal> inventarioTerminals, Set<Usuario> usuarios, Set<VentaBoleto> ventaBoletos, Set<Servicio> servicios, Set<Bus> buses, Set<TrabajadorTerminal> trabajadorTerminals) {
+    public Terminal(String nombreTerminal, String direccionTerminal, Integer superficie, String telefonoTerminal, String emailTerminal, double ubicacionLongitud, double ubicacionLatitud, Set<InventarioTerminal> inventarioTerminals, Set<Usuario> usuarios, Set<VentaBoleto> ventaBoletos, Set<Servicio> servicios, Set<Bus> buses, Set<TrabajadorTerminal> trabajadorTerminals, Set<RelacionLaboral> relacionLaborals) {
         this.nombreTerminal = nombreTerminal;
         this.direccionTerminal = direccionTerminal;
         this.superficie = superficie;
@@ -61,6 +62,7 @@ public class Terminal implements java.io.Serializable {
         this.servicios = servicios;
         this.buses = buses;
         this.trabajadorTerminals = trabajadorTerminals;
+        this.relacionLaborals = relacionLaborals;
     }
 
     @Id
@@ -174,7 +176,7 @@ public class Terminal implements java.io.Serializable {
         this.servicios = servicios;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "terminal", cascade={CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "terminal", cascade = {CascadeType.ALL})
     @OrderBy("numeroBus")
     public Set<Bus> getBuses() {
         return this.buses;
@@ -191,6 +193,15 @@ public class Terminal implements java.io.Serializable {
 
     public void setTrabajadorTerminals(Set<TrabajadorTerminal> trabajadorTerminals) {
         this.trabajadorTerminals = trabajadorTerminals;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "terminal")
+    public Set<RelacionLaboral> getRelacionLaborals() {
+        return this.relacionLaborals;
+    }
+
+    public void setRelacionLaborals(Set<RelacionLaboral> relacionLaborals) {
+        this.relacionLaborals = relacionLaborals;
     }
 
     @Override

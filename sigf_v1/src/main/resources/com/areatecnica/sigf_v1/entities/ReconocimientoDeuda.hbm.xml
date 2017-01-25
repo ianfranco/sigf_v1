@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-01-2017 1:49:42 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.ReconocimientoDeuda" table="reconocimiento_deuda" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idReconocimientoDeuda" type="java.lang.Integer">
+            <column name="id_reconocimiento_deuda" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empresa" class="com.areatecnica.sigf_v1.entities.Empresa" fetch="select">
+            <column name="id_empresa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
+            <column name="id_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="montoReconocimiento" type="int">
+            <column name="monto_reconocimiento" not-null="true" />
+        </property>
+        <property name="descripcionReconocimiento" type="string">
+            <column name="descripcion_reconocimiento" />
+        </property>
+        <property name="fechaIngresoReconocimiento" type="date">
+            <column name="fecha_ingreso_reconocimiento" length="10" not-null="true" />
+        </property>
+        <property name="fechaActualizacionReconocimiento" type="date">
+            <column name="fecha_actualizacion_reconocimiento" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

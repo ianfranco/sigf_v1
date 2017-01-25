@@ -131,6 +131,12 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion" />
         </set>
+        <set name="reconocimientoDeudas" table="reconocimiento_deuda" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.ReconocimientoDeuda" />
+        </set>
         <set name="controlAsistencias" table="control_asistencia" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_trabajador" not-null="true" />
