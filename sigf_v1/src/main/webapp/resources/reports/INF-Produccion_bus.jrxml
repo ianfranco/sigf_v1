@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-10-20T11:04:02 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b3ac821-9de9-49aa-baf5-c9cb0df94f57">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="54"/>
+	<property name="ireport.y" value="298"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="298"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="695"/>
+	<parameter name="fecha" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="patente" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[" "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idBus" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[-1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="empresario" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="mes" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="anio" class="java.lang.String"/>
+	<parameter name="numeroBus" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="unidadNegocio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	guia.folio AS Folio, 
+	guia.fecha_guia AS Fecha, 
+    guia.fecha_recaudacion AS FechaRecaudacion,
+	guia.turno, 
+    proceso_recaudacion.nombre_proceso, 
+	guia.total_ingresos,
+	CONCAT(trabajador.apellido_paterno_trabajador, " ", trabajador.apellido_materno_trabajador, " ", LEFT(trabajador.nombre_trabajador, 1)) AS nombreTrabajador, 
+		IFNULL((SELECT egreso_guia.monto 
+		FROM egreso_guia LEFT JOIN egreso_recaudacion 
+		ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion 
+		WHERE egreso_guia.id_guia = guia.id_guia 
+		AND egreso_recaudacion.id_egreso = 1),0) AS Administracion, 
+		IFNULL((SELECT egreso_guia.monto 
+		FROM egreso_guia LEFT JOIN egreso_recaudacion 
+		ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion 
+		WHERE egreso_guia.id_guia = guia.id_guia 
+		AND egreso_recaudacion.id_egreso = 2),0) AS Combustible, 
+        IFNULL((SELECT egreso_guia.monto 
+		FROM egreso_guia LEFT JOIN egreso_recaudacion 
+		ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion 
+		WHERE egreso_guia.id_guia = guia.id_guia 
+		AND egreso_recaudacion.id_egreso = 7),0) AS Licitacion, 
+        IFNULL((SELECT egreso_guia.monto 
+		FROM egreso_guia LEFT JOIN egreso_recaudacion 
+		ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion 
+		WHERE egreso_guia.id_guia = guia.id_guia 
+		AND egreso_recaudacion.id_egreso = 4),0) AS Taller
+		 
+    
+FROM sigf_v1.guia 
+    LEFT JOIN trabajador ON guia.id_trabajador = trabajador.id_trabajador 
+    LEFT JOIN proceso_recaudacion ON guia.id_proceso_recuadacion = proceso_recaudacion.id_proceso_recaudacion 
+
+WHERE guia.id_bus =  $P{idBus}  AND guia.fecha_recaudacion BETWEEN   $P{fecha}   AND  LAST_DAY( $P{fecha} )]]>
+	</queryString>
+	<field name="Folio" class="java.lang.Integer"/>
+	<field name="Fecha" class="java.sql.Date"/>
+	<field name="FechaRecaudacion" class="java.sql.Date"/>
+	<field name="turno" class="java.lang.Integer"/>
+	<field name="nombre_proceso" class="java.lang.String"/>
+	<field name="total_ingresos" class="java.lang.Integer"/>
+	<field name="nombreTrabajador" class="java.lang.String"/>
+	<field name="Administracion" class="java.lang.Long"/>
+	<field name="Combustible" class="java.lang.Long"/>
+	<field name="Licitacion" class="java.lang.Long"/>
+	<field name="Taller" class="java.lang.Long"/>
+	<variable name="Combustible_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Combustible}]]></variableExpression>
+	</variable>
+	<variable name="Taller_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Taller}]]></variableExpression>
+	</variable>
+	<variable name="Licitacion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Licitacion}]]></variableExpression>
+	</variable>
+	<variable name="Administracion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Administracion}]]></variableExpression>
+	</variable>
+	<variable name="total_ingresos_1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_ingresos}]]></variableExpression>
+	</variable>
+	<variable name="Combustible_2" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Combustible}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="102" height="15" uuid="d9139b23-a156-428a-bdaa-82badb9bcc22"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="71" height="15" uuid="5227dc9a-91ae-4f57-961a-ff179ad7ed7b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[PRODUCCIÓN BUS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="68" width="562" height="1" uuid="86db0dd0-6329-4413-ad03-e6d66f035eb3"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="54" width="30" height="15" uuid="23e99fe6-e35f-4315-a8fd-4733cd94659b"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[MES:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="30" y="54" width="58" height="15" uuid="648a1f75-1d17-49eb-b8d1-4bde03221a4f"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="88" y="54" width="22" height="15" uuid="6ff6fd4c-5548-44d5-b9ca-c97f2937397d"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[AÑO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="FixRelativeToBottom" x="15" y="30" width="25" height="15" uuid="c082d6a9-e8d6-4adc-88bb-2fed49e39d7e"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroBus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="15" height="15" uuid="8e15cae2-b3c6-4207-9fec-9de5a67714a2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[N°:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="54" width="32" height="15" uuid="32978688-7272-48e3-b3b4-1bf0e0cba701"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="FixRelativeToBottom" x="75" y="30" width="32" height="15" uuid="a8bfa9b6-f061-493d-a8bd-2101470a4d63"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{unidadNegocio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="30" width="35" height="15" uuid="40aa4b6a-eec3-4d10-be12-ae4ec101ee51">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[UNIDAD:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="FixRelativeToBottom" x="147" y="30" width="60" height="15" uuid="da04fddb-36f0-4410-ab9e-a35162c5d8a6"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="107" y="30" width="40" height="15" uuid="81c1e4b2-e8b6-422d-b3ed-f82f4264f673">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[PATENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="30" width="58" height="15" uuid="58537da1-6a1b-4451-8562-206a0af39d6a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<text><![CDATA[PROPIETARIO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="FixRelativeToBottom" x="265" y="30" width="136" height="15" uuid="cb137755-56a5-4912-8372-e87af38e47e1"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="43" height="15" uuid="224d9121-08c1-41c6-be93-3eb09ec65f36"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Folio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="0" width="39" height="15" uuid="bf74d914-8313-42e0-9d7b-8e8bc42771dd"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="0" width="54" height="15" uuid="075c261d-9b87-4750-8519-e70862e57853"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Admin.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="0" width="54" height="15" uuid="510cb783-48cf-4fa9-8f4d-b63bdf21f903"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Licit.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="508" y="0" width="54" height="15" uuid="160982ce-4f3f-4da7-9d83-34614ede480c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Taller]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="16" width="562" height="1" uuid="287d3f3b-dc0d-4b46-8c36-ab6c28e588a4"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="82" y="0" width="47" height="15" uuid="841dd88c-f219-4b96-bc94-ba54b352848e"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Recaudación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="0" width="59" height="15" uuid="3e7e7673-71bb-4ffb-8cd0-31ce3c1c3775"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Combustible]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="0" width="11" height="15" uuid="0357ac9d-1d3a-42c8-9650-b3f8d9777354"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[T.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="0" width="47" height="15" uuid="85287ccf-86c0-4d33-b117-c2a4f19c4f6b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Bruto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="70" height="15" uuid="ca27706c-6469-4524-b0cd-d601b87d7b7f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Terminal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="82" height="15" uuid="0b9bf833-8a3b-488d-a5e0-182b30a5d080"/>
+				<textElement textAlignment="Center">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Conductor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="43" height="15" uuid="c33395c5-c7ad-4554-bbf4-dea4848426a5"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Folio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="43" y="0" width="39" height="15" uuid="8d2df17d-b6da-4f5b-9ff2-f8c5aadcbcc3"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="82" y="0" width="47" height="15" uuid="c127abb7-0d36-43e8-801f-837689d08458"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FechaRecaudacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="398" y="0" width="54" height="15" uuid="37927ef5-69b7-4966-b865-5caa295e06de"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Administracion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="454" y="0" width="54" height="15" uuid="bc9d2ffe-d40d-4fbb-8409-8dcc07e95048"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Licitacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="508" y="0" width="54" height="15" uuid="7718640f-1a27-4a72-bf62-3c658924f289"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Taller}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="341" y="0" width="57" height="15" uuid="3779a1f4-613c-4828-bf0a-1522e9031f55"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Combustible}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="129" y="0" width="11" height="15" uuid="6a628eee-8894-4d13-8ec5-e54588275c62"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="292" y="0" width="47" height="15" uuid="beecfbe4-4f06-476d-937b-7b1408077530"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_ingresos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="70" height="15" uuid="9ac6386a-acae-494d-a8e0-c73eb9e3a36b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_proceso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="0" width="82" height="15" uuid="ca36b078-136a-49c9-92af-35521aead27d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTrabajador}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="544" y="0" width="12" height="15" uuid="5bbd15b8-49a6-4761-8ac0-e8d26903719f"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="0" width="80" height="15" uuid="e9a1a523-3c69-4e50-9b92-1521a8ae97fc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="100" height="13" uuid="67b11366-87b4-4644-aae6-1b13abd2f1e1"/>
+				<textElement>
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="17" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="$ #,##0">
+				<reportElement x="508" y="2" width="54" height="15" uuid="0fe6de06-355f-496a-bbaf-9c3456738468"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Taller_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="454" y="2" width="54" height="15" uuid="ace3e788-d9ad-40f0-89f6-caeffe2dfb63"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Licitacion_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="398" y="2" width="54" height="15" uuid="44c4aceb-7547-45a6-bdae-4dc8f726d0c0"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Administracion_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-1" width="562" height="1" uuid="d22ab126-bbfe-43f8-8980-38749eb6ba80"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="206" y="2" width="77" height="15" uuid="273d49ef-d4bf-4288-bc9c-2ee4a17d9a3c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[TOTALES]]></text>
+			</staticText>
+			<textField pattern="$ #,##0">
+				<reportElement x="283" y="2" width="56" height="15" uuid="18755426-9f97-41f9-bf99-c6245538482d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_ingresos_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="341" y="2" width="57" height="15" uuid="3f6dfa67-9276-411a-81a1-f2b8195399bc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Combustible_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

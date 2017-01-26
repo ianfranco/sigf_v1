@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-18T11:49:40 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Aporte_Patronal" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7739477f-6e7f-434b-ad75-352c6973e2a2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="150"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="844"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<queryString language="SQL">
+		<![CDATA[CALL planillonsolymar_aporte_patronal();]]>
+	</queryString>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="Codigo" class="java.lang.Integer"/>
+	<field name="Conductor" class="java.lang.String"/>
+	<field name="Imponible" class="java.lang.Integer"/>
+	<field name="AportePatronal" class="java.math.BigDecimal"/>
+	<variable name="Imponible1" class="java.lang.Integer" resetType="Group" resetGroup="NombreEmpresario" calculation="Sum">
+		<variableExpression><![CDATA[$F{Imponible}]]></variableExpression>
+	</variable>
+	<variable name="AportePatronal1" class="java.math.BigDecimal" resetType="Group" resetGroup="NombreEmpresario" calculation="Sum">
+		<variableExpression><![CDATA[$F{AportePatronal}]]></variableExpression>
+	</variable>
+	<variable name="Imponible2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Imponible}]]></variableExpression>
+	</variable>
+	<variable name="AportePatronal2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AportePatronal}]]></variableExpression>
+	</variable>
+	<group name="NombreEmpresario" keepTogether="true">
+		<groupExpression><![CDATA[$F{NombreEmpresario}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement x="40" y="0" width="290" height="20" uuid="27c0ca65-bf0e-4bd6-84ae-98f79a9d9fd4"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="40" height="20" uuid="27ecf9bb-0a98-48b4-8e86-ea4d343c5ed2"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["("+$F{id_empresa}+")"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="16">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField pattern="#,###.###">
+					<reportElement x="390" y="0" width="90" height="15" uuid="05a63d8e-2095-40e1-9f57-0dd9e389a949">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Imponible1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,###.###">
+					<reportElement x="480" y="0" width="90" height="15" uuid="3e4769b4-add7-443d-aca3-3d935883307c"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AportePatronal1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="130" y="0" width="260" height="15" uuid="e001082d-41c7-4660-b85c-351b39a194f1"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SUBTOTAL]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="82" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="19" uuid="43b2c719-d7ea-4888-91be-7d3e5b140b25"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="46" width="260" height="20" uuid="f5c266ef-461a-4701-9a62-4854846018a3"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[INFORME APORTE PATRONAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="40" width="159" height="30" uuid="6514d4fb-ddf5-440b-a0c3-4757c11f280a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="40" width="40" height="30" uuid="75382248-2028-4b3c-a920-09b6f45143e9"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="0" width="200" height="20" uuid="cabc9d47-19f6-4daf-b665-6b2965f51226"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OCTUBRE 2016]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="15" uuid="3be40d16-c616-4b9e-b8c4-d9218c59beec"/>
+				<text><![CDATA[COD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="220" height="15" uuid="8a617f37-7655-4153-a338-7006141e77ca">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[CONDUCTOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="60" height="15" uuid="fd9a7616-a633-4219-83be-b2d97a93632d"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[IMPONIBLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="80" height="15" uuid="8e881865-2f95-4a58-93a5-0f452160265a"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[APORTE PARC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="90" height="15" uuid="e0f37f8a-4122-4f22-acd9-650f8a834415"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[TOTAL. IMP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="0" width="90" height="15" uuid="aba38ccb-5708-46fe-9534-ad42918788a7"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[TOTAL. APORTE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="30" height="15" uuid="5f83068a-fd41-44d2-803c-ad83fe37e44c"/>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="220" height="15" uuid="15d3d25e-2c6c-40b0-b530-63d4ed691af6"/>
+				<textFieldExpression><![CDATA[$F{Conductor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="250" y="0" width="60" height="15" uuid="96ef5f8f-4d03-4eff-a4b1-4599655f802d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Imponible}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="310" y="0" width="80" height="15" uuid="16c4331c-885a-4b4b-8b36-7a89449263c3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{AportePatronal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="66" splitType="Stretch">
+			<textField pattern="#,###.###">
+				<reportElement x="390" y="8" width="90" height="15" uuid="c8509bbb-b4fe-495d-9e18-472c3b44c108">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Imponible2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="480" y="8" width="90" height="15" uuid="e9041e13-e8d4-4fc9-9ded-2b66a82dd227"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AportePatronal2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="130" y="8" width="260" height="15" uuid="9d4e97ee-ac53-4ba6-915e-d3fec125acd4"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL INFORME:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -152,5 +152,6 @@
     <mapping resource="com/areatecnica/sigf_v1/entities/CargaTrabajador.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/ControlHorarioServicio.hbm.xml"/>
     <mapping resource="com/areatecnica/sigf_v1/entities/LiquidacionEmpresa.hbm.xml"/>
+    <mapping resource="com/areatecnica/sigf_v1/entities/ReconocimientoDeuda.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

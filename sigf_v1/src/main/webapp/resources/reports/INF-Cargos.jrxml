@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-09T15:28:01 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="94a26353-dd6d-4867-8953-b7262c46c18b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="152"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="839"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idTipoCargo" class="java.lang.Integer"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="nombreCargo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="nombreMes" class="java.lang.String"/>
+	<parameter name="anio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+    cargo_bus.fecha_inicio_cargo_bus,
+    bus.numero_bus,
+    unidad_negocio.numero_unidad_negocio, 
+    (cargo_bus.monto_cargo_bus),
+    empresa.nombre_empresa ,
+    cargo_bus.descripcion , IF(cargo_bus.numero_cuotas_cargo_bus>1, CONCAT('Cuota N°', cargo_bus.numero_cuotas_cargo_bus), '') AS cuota
+FROM
+    cargo_bus 
+    LEFT JOIN bus ON cargo_bus.id_bus = bus.id_bus 
+    LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio 
+    LEFT JOIN empresa ON bus.id_empresa = empresa.id_empresa 
+WHERE
+    cargo_bus.fecha_inicio_cargo_bus BETWEEN  $P{fecha}  AND LAST_DAY( $P{fecha} ) AND  id_tipo_cargo =  $P{idTipoCargo} 
+    
+ORDER BY empresa.nombre_empresa]]>
+	</queryString>
+	<field name="fecha_inicio_cargo_bus" class="java.sql.Date"/>
+	<field name="numero_bus" class="java.lang.Long"/>
+	<field name="numero_unidad_negocio" class="java.lang.Long"/>
+	<field name="monto_cargo_bus" class="java.lang.Long"/>
+	<field name="nombre_empresa" class="java.lang.String"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="cuota" class="java.lang.String"/>
+	<variable name="monto_cargo_bus_1" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_cargo_bus}]]></variableExpression>
+	</variable>
+	<variable name="monto_cargo_bus_2" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_cargo_bus}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="100" height="20" uuid="71f9a7d5-6f8a-4785-acca-20025ad2c3d8"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="165" height="20" uuid="e3c43acf-0e3c-41dd-bb83-4408ac248d8d"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DETALLE REGISTRO DE CARGOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="61" width="50" height="20" uuid="8c10d43c-7414-4843-94db-de01f8389bf0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[CARGOS:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="472" y="0" width="100" height="20" uuid="5da19834-d258-4fac-bc93-425d43cf4c48"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="61" width="140" height="20" uuid="0da961b7-c42a-4ad4-bb3a-3f81cf284a5d"/>
+				<textFieldExpression><![CDATA[$P{nombreCargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="41" width="79" height="18" uuid="1c42a09a-6191-4bee-a365-035ab47c345b"/>
+				<textFieldExpression><![CDATA[$P{nombreMes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="41" width="100" height="18" uuid="f6403849-ce3c-4f80-99f5-6e29c7b9a8cd"/>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="35" width="100" height="30" uuid="aefb9e2c-0a4b-4471-adf3-271dad768a28"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["PAG. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="470" y="35" width="100" height="30" uuid="8e10b644-473f-4c27-ac38-bc9bade710a4"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="51" height="20" uuid="cb4e8bf6-bedd-4d6b-872e-0162f1255e6e"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="29" height="20" uuid="3a6a5f17-7d25-4bf4-9d53-3437231b5672"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[N° ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="0" width="21" height="20" uuid="97624323-a5a8-46e9-a96a-a104a987c21e"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[UN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="0" width="76" height="20" uuid="4e722e44-a522-4ec1-bad1-25fc7905179e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="197" height="20" uuid="0c27bd3f-a5c6-480e-9341-9414b0aafec6"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Empresario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="0" width="177" height="20" uuid="0fede049-b72e-4a9e-95bd-7c051f9a80d0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="0" y="0" width="51" height="15" uuid="d5e0ee16-db78-486d-ad4e-25ceb6aaac9a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inicio_cargo_bus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="29" height="15" uuid="7b093bbb-a89b-40ad-b575-83e831b46db1"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_bus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="0" width="21" height="15" uuid="ed663bdf-9350-4dcc-9965-09f4ae34a343"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_unidad_negocio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="474" y="0" width="76" height="15" uuid="c009f644-094e-4a6a-8dbb-fc27542370e7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_cargo_bus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="197" height="15" uuid="98a53661-400c-4580-b0ba-5bbc41057657"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="0" width="177" height="15" uuid="cf0518e0-a702-40dc-8e15-dfda1a6af40b"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}+" "+$F{cuota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="$ #,##0">
+				<reportElement x="474" y="0" width="76" height="20" uuid="f1aeb36d-b876-4c86-864b-b9cee903709d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{monto_cargo_bus_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c40a57a1-8bb5-4489-8120-41108b63018c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="flota" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="unidad" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+flota.nombre_flota, 
+bus.numero_bus, 
+bus.patente, 
+unidad_negocio.numero_unidad_negocio,    
+FLOOR(COUNT(guia.folio)) AS numeroGuia, 
+empresa.nombre_empresa, 
+FLOOR(sum_egreso(bus.id_bus, '2016-09-01', 1)) AS Administracion, 
+FLOOR(sum_egreso(bus.id_bus,'2016-09-01', 7)) AS Licitacion, 
+0 AS Taller, 
+FLOOR(cargos(bus.id_bus)) AS Cargo, 
+FLOOR(
+(FLOOR(sum_egreso(bus.id_bus,'2016-09-01', 7))+FLOOR(sum_egreso(bus.id_bus, '2016-09-01', 1)))-cargos(bus.id_bus)) AS Total 
+FROM guia 
+LEFT JOIN bus ON guia.id_bus = bus.id_bus 
+LEFT JOIN flota on bus.id_flota = flota.id_flota
+LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio 
+LEFT JOIN empresa ON bus.id_empresa = empresa.id_empresa 
+WHERE guia.fecha_recaudacion BETWEEN '2016-09-01' AND LAST_DAY('2016-09-01') AND bus.numero_bus = 374
+GROUP BY guia.id_bus 
+ORDER BY unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC]]>
+	</queryString>
+	<field name="nombre_flota" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_bus" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="patente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_unidad_negocio" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroGuia" class="java.math.BigDecimal"/>
+	<field name="nombre_empresa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Administracion" class="java.lang.Long"/>
+	<field name="Licitacion" class="java.lang.Long"/>
+	<field name="Taller" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cargo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Total" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Administracion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Administracion}]]></variableExpression>
+	</variable>
+	<variable name="Licitacion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Licitacion}]]></variableExpression>
+	</variable>
+	<variable name="Taller_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Taller}]]></variableExpression>
+	</variable>
+	<variable name="Cargo_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Cargo}]]></variableExpression>
+	</variable>
+	<variable name="Total_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="0" width="100" height="20" uuid="c09e4def-3a9a-4fdf-9a30-f14ce67a24ad"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="14"/>
+				</textElement>
+				<text><![CDATA[Saldos Anticipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="50" height="17" uuid="8da97e5d-a1f1-44c3-be1b-fed4e7e688b3"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="14"/>
+				</textElement>
+				<text><![CDATA[Empresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="37" width="36" height="21" uuid="f42cdadc-c3d2-4ae4-a025-96dbe1d51621"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="12"/>
+				</textElement>
+				<text><![CDATA[Mes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="37" width="100" height="20" uuid="0b822869-4b2a-4aeb-aada-f241e57e120e"/>
+				<textElement markup="none">
+					<font fontName="Square721 Cn BT" size="12"/>
+				</textElement>
+				<text><![CDATA[SEPTIEMBRE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="20" width="100" height="17" uuid="ea6cff9e-3b69-45de-a643-ba3697d1478f"/>
+				<textFieldExpression><![CDATA[$F{nombre_empresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement x="14" y="16" width="512" height="1" uuid="67d024a9-df75-437d-bad0-34dbc477569c"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="0" width="36" height="15" uuid="9c4592e7-1b38-4ab2-9171-0d1dbe3f02ce"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[N° Bus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="37" height="15" uuid="89dd01d3-90ae-4254-b497-b381ff839034"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Unidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="0" width="80" height="15" uuid="58cffe33-6c3a-4a60-94ef-c1f45c6b8490"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Administracion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="194" y="0" width="89" height="15" uuid="f2113393-d81e-4376-bacf-7581cffbfd53"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Licitacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="0" width="81" height="15" uuid="52db1e4f-0c56-4e25-9ccc-c8edc392de2d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Taller]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="0" width="86" height="15" uuid="b633354f-ff65-4d3f-b405-db460ec2fd2c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="76" height="15" uuid="0db7f333-c234-4a9c-862b-d72477c31aab"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="14" y="17" width="512" height="1" uuid="762b4ea6-f562-4012-bbfc-191798abb81b"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="14" y="0" width="36" height="15" uuid="b474bfaa-5106-4a91-be7d-800a4765a35f"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_bus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="37" height="15" uuid="5e155668-b977-4fba-955c-f832d6025c2f"/>
+				<textElement>
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_unidad_negocio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="114" y="0" width="80" height="15" uuid="e93d701d-dd9e-48e0-9865-5e7ac08b9733"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Administracion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="194" y="0" width="89" height="15" uuid="cabf2095-7ae9-45f6-97be-109ceaecbbe5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Licitacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="283" y="0" width="81" height="15" uuid="678e32a2-af8b-46ee-945b-d915e9236560"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Taller}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="364" y="0" width="86" height="15" uuid="cdb940b7-7f19-4b9d-8d33-983fbf490c15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cargo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="450" y="0" width="76" height="15" uuid="7a630868-6cca-4c4e-a2d7-710a996c017d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="29" splitType="Stretch">
+			<textField pattern="$ #,##0">
+				<reportElement x="194" y="8" width="89" height="15" uuid="8002e011-b147-4dfe-a362-5d0e987f0204"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Licitacion_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="283" y="8" width="81" height="15" uuid="095df357-f477-42c1-bd59-b2dbbf863e10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Taller_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="364" y="8" width="86" height="15" uuid="b072109a-316b-4f6d-8a44-0eb6f6da6327"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Cargo_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="450" y="8" width="76" height="15" uuid="6814b287-9769-45d9-84a3-9bcfd8e3ef82"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="14" y="2" width="512" height="1" uuid="305e94ca-1376-41df-8f53-6e442770f46f"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField evaluationTime="Band" pattern="$ #,##0">
+				<reportElement x="114" y="8" width="80" height="15" uuid="1d77e2d0-ccb4-453f-a7f7-78075e348d89"/>
+				<textElement textAlignment="Right">
+					<font fontName="Square721 Cn BT"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Administracion_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

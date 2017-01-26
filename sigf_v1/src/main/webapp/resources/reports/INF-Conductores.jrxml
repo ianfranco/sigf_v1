@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f25b2f89-c079-4885-9fc7-ccf69d4c879d">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT 
+	@rownumber:=@rownumber+1 AS contador,
+    trabajador.codigo_trabajador,
+    trabajador.apellido_paterno_trabajador,
+    trabajador.apellido_materno_trabajador,
+    trabajador.nombre_trabajador,
+    IF(LENGTH(trabajador.rut_trabajador) = 8,
+        CONCAT(LEFT(trabajador.rut_trabajador, 1),
+                '.',
+                SUBSTRING(trabajador.rut_trabajador,
+                    2,
+                    3),
+                '.',
+                SUBSTRING(trabajador.rut_trabajador,
+                    5,
+                    3),
+                '-',
+                RIGHT(trabajador.rut_trabajador, 1)),
+        CONCAT(LEFT(trabajador.rut_trabajador, 2),
+                '.',
+                SUBSTRING(trabajador.rut_trabajador,
+                    3,
+                    3),
+                '.',
+                SUBSTRING(trabajador.rut_trabajador,
+                    6,
+                    3),
+                '-',
+                RIGHT(trabajador.rut_trabajador, 1))) AS rut
+FROM
+	(SELECT @rownumber:=0) a,
+    trabajador
+ORDER BY trabajador.apellido_paterno_trabajador ASC]]>
+	</queryString>
+	<field name="contador" class="java.lang.Long"/>
+	<field name="codigo_trabajador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido_paterno_trabajador" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido_materno_trabajador" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_trabajador" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rut" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="81" height="20" uuid="bbb4ac2f-5f1e-4731-bb68-ce25300cdedd"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="259" height="20" uuid="acaa81f2-602b-4af9-8e9e-9168d03140da"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTADO GENERAL DE CONDUCTORES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="28" y="0" width="28" height="20" uuid="59719c34-efa1-4d86-be14-de0d55f31a53"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="0" width="140" height="20" uuid="54f32e40-316f-4863-9ed5-52f2f3ebb8fc"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO PATERNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="264" y="0" width="140" height="20" uuid="dc35a11e-dfb0-4ee8-a1db-f2f56b618129"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO MATERNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="0" width="140" height="20" uuid="dae07c4b-2c52-4ce8-b79c-7e69aa424714"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="56" y="0" width="68" height="20" uuid="0975791d-0623-4b54-8253-15740517c278"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="28" height="15" uuid="0d0d304e-d3ba-4908-bccf-7f4495084751"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="0" width="28" height="15" uuid="8d3627b4-2290-4b6d-be68-de638b89d76d"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_trabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="0" width="140" height="15" uuid="e05f95b2-0875-4beb-b330-d60d75cce5f2"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido_paterno_trabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="0" width="140" height="15" uuid="8ebf9aa1-a0d5-42f7-b52b-5a1b8482306e"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido_materno_trabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="0" width="140" height="15" uuid="9d3f81ed-dcb3-4685-9e85-4d31d38a0c72"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_trabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="0" width="68" height="15" uuid="1dc05e47-9f9f-4a0a-b25b-5d7abd545276"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rut}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="438" y="6" width="80" height="20" uuid="8c5e1c23-87fb-4d86-9271-54e1fd4c9a7e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="518" y="6" width="40" height="20" uuid="38980c97-9e56-484f-9fb8-ded8642622c3"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="81" y="6" width="100" height="20" uuid="c858de0c-50c1-46a7-b94f-128ecccea373"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="81" height="20" uuid="f5a8864e-ccdd-4bce-ac2d-68d80bb719e6"/>
+				<text><![CDATA[Fecha impresión:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

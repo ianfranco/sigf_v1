@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Distribucion_terminal" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5f8adc8-6989-4f50-9a9a-c0fb9e11fb4a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="221"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="767"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/> 
+	<queryString>
+		<![CDATA[CALL planillonvinabus_distribucion();]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="conductor" class="java.lang.String"/>
+	<field name="REALFINAL" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_terminal" class="java.lang.String"/>
+	<variable name="REALFINAL1" class="java.math.BigDecimal" resetType="Group" resetGroup="nombre_terminal" calculation="Sum">
+		<variableExpression><![CDATA[$F{REALFINAL}]]></variableExpression>
+	</variable>
+	<group name="nombre_terminal" isStartNewPage="true" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{nombre_terminal}]]></groupExpression>
+		<groupHeader>
+			<band height="75">
+				<staticText>
+					<reportElement x="0" y="50" width="40" height="20" uuid="8e2e2ec1-1f59-46df-a19b-65cd4eb0b616"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cod.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="40" y="50" width="240" height="20" uuid="51b5c48f-2f60-4608-8d49-8dccf20924d3"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Conductor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="50" width="100" height="20" uuid="50242b7d-f39a-43d6-9616-de4df0fd0732"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="440" y="50" width="80" height="20" uuid="0614e874-3be0-49ad-a999-998b4de2d502"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Firma]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="118" height="30" uuid="2e45a905-56af-4302-8bad-f4a0b7dfa130"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Distribución Terminal:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="118" y="0" width="194" height="30" uuid="69f1210f-dbd3-4305-b48c-c02dcae2c490"/>
+					<textFieldExpression><![CDATA[$F{nombre_terminal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="70">
+				<textField pattern="#,##0.###">
+					<reportElement x="300" y="0" width="100" height="30" uuid="862903f5-a5c2-41bc-a6c3-e33162d035fe"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{REALFINAL1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="200" y="0" width="100" height="20" uuid="a7d7e84c-1dee-4265-8e48-299183a73b6a"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="0" y="0" width="40" height="25" uuid="92fb899a-2eaf-436e-833a-bf0b84166b87">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.###">
+				<reportElement x="40" y="0" width="240" height="25" uuid="07b25619-850f-4410-a316-0fbb4eb4b74a"/>
+				<textFieldExpression><![CDATA[$F{conductor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.###">
+				<reportElement x="300" y="0" width="100" height="25" uuid="ac103377-448b-49ca-a913-e3715abbddc6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{REALFINAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="0" width="100" height="24" uuid="f914d9a5-96f5-4028-b52b-883c173c68e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[_______________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

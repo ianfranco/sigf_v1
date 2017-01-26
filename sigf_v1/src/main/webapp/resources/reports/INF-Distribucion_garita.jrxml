@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INF-Distribucion_garita" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49fabf11-e2b8-470b-b1f0-e8ca0c88f03f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="193"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="800"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select * from LIQUIDACION_SOLYMAR where saldo_final_descuentos<0 order by cONDUCTOR]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.Integer"/>
+	<field name="Conductor" class="java.lang.String"/>
+	<field name="nombre_terminal" class="java.lang.String"/>
+	<field name="saldo_final_descuentos" class="java.lang.Double"/>
+	<field name="saldo_real" class="java.lang.Double"/>
+	<variable name="saldo_final_descuentos_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_final_descuentos}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="190" height="20" uuid="dac142f6-c7d2-4483-ae93-0e05be1dc136"/>
+				<text><![CDATA[Distribución Liquidaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="100" height="20" uuid="75040a9f-564c-469a-b9c1-77933e36986f"/>
+				<text><![CDATA[Terminal: Millenium]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="15" uuid="2bacb0f6-949a-4a2c-a7b1-b79606aa9ce0"/>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="250" height="15" uuid="a3021b8d-ead9-4179-8691-baac39873c28"/>
+				<text><![CDATA[Conductor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="100" height="15" uuid="fb6dbb9f-a42a-4018-b20b-8f78fae49aeb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="15" uuid="c97384f0-526c-437d-a224-26e9b1a9aa5c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="250" height="15" uuid="94e8b653-de87-489e-82c1-b0f1095531dc"/>
+				<textFieldExpression><![CDATA[$F{Conductor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="290" y="0" width="100" height="15" uuid="99771f89-b2d3-445d-8cca-aa2e216015d9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{saldo_final_descuentos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="0" width="100" height="15" uuid="34476e3a-8907-4028-8280-f369b35059a0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[___________________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="#,##0">
+				<reportElement x="290" y="0" width="100" height="20" uuid="be5ecd04-e5e3-4216-ba7d-aabef9c85f0c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{saldo_final_descuentos_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

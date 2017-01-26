@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INF-Descuentos_sindicato" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="0de7d117-b53c-4662-80c5-593dd5f08734">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="739"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/> 
+	<queryString>
+		<![CDATA[CALL planillonvinabus_sindicatos();]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="rutTrabajador" class="java.lang.String"/>
+	<field name="codigoTrabajador" class="java.lang.Integer"/>
+	<field name="nombreTrabajador" class="java.lang.String"/>
+	<field name="rutEmpleador" class="java.lang.String"/>
+	<field name="codigoEmpleador" class="java.lang.Integer"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="nombreTerminal" class="java.lang.String"/>
+	<field name="nombreSindicato" class="java.lang.String"/>
+	<field name="tipoContrato" class="java.lang.Integer"/>
+	<field name="bruto" class="java.lang.Integer"/>
+	<field name="imponible" class="java.lang.Integer"/>
+	<field name="cincoPorcientoTotal" class="java.lang.Integer"/>
+	<field name="cincoPorciento" class="java.lang.Integer"/>
+	<field name="ahorroGuia" class="java.lang.Integer"/>
+	<field name="abonos" class="java.lang.Integer"/>
+	<field name="totalHaberes" class="java.lang.Integer"/>
+	<field name="base" class="java.lang.Integer"/>
+	<field name="cuatroPorciento" class="java.lang.Integer"/>
+	<field name="unoComaDosPorciento" class="java.lang.Integer"/>
+	<field name="ceroComaOchoPorciento" class="java.lang.Integer"/>
+	<field name="dosPorciento" class="java.lang.Integer"/>
+	<field name="totalPorcentajes" class="java.lang.Integer"/>
+	<field name="ajusteComisionAuxiliar" class="java.lang.Integer"/>
+	<field name="ajusteComision" class="java.lang.Integer"/>
+	<field name="numeroCargas" class="java.lang.Integer"/>
+	<field name="montoCargas" class="java.lang.Integer"/>
+	<field name="montoFeriado" class="java.lang.Integer"/>
+	<field name="nombreAfp" class="java.lang.String"/>
+	<field name="porcentajeAfp" class="java.lang.String"/>
+	<field name="montoAfp" class="java.lang.Integer"/>
+	<field name="cesantiaTrabajador" class="java.lang.Integer"/>
+	<field name="cesantiaEmpleador" class="java.lang.Integer"/>
+	<field name="cesantiaTotal" class="java.lang.Integer"/>
+	<field name="ahorroVoluntario" class="java.lang.Integer"/>
+	<field name="montoSIS" class="java.lang.Integer"/>
+	<field name="nombreIsapre" class="java.lang.String"/>
+	<field name="montoIsapre" class="java.lang.Integer"/>
+	<field name="porcentajeCaja" class="java.lang.String"/>
+	<field name="montoCaja" class="java.lang.Integer"/>
+	<field name="porcentajeInp" class="java.lang.String"/>
+	<field name="montoInp" class="java.lang.Integer"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="diasTrabajados" class="java.lang.Integer"/>
+	<field name="diasVacaciones" class="java.lang.Integer"/>
+	<field name="diasLicencias" class="java.lang.Integer"/>
+	<field name="diasDescanso" class="java.lang.Integer"/>
+	<field name="diasGuias" class="java.lang.Integer"/>
+	<field name="diasLimpios" class="java.lang.Integer"/>
+	<field name="totalDias" class="java.lang.Integer"/>
+	<field name="fechaDesdeContrato" class="java.sql.Date"/>
+	<field name="fechaHastaContrato" class="java.sql.Date"/>
+	<field name="fechaDesdeFeriado" class="java.sql.Date"/>
+	<field name="fechaHastaFeriado" class="java.sql.Date"/>
+	<field name="fechaDesdeLicencias" class="java.sql.Date"/>
+	<field name="fechaHastaLicencias" class="java.sql.Date"/>
+	<field name="codigoEMP" class="java.lang.Integer"/>
+	<field name="totalFila" class="java.lang.Integer"/>
+	<field name="montoSaldoAnterior" class="java.lang.Integer"/>
+	<field name="montoRetencionJudicial" class="java.lang.Integer"/>
+	<field name="montoCreditoCaja" class="java.lang.Integer"/>
+	<field name="montoReconocimientoDeuda" class="java.lang.Integer"/>
+	<field name="montoCreditoSalud" class="java.lang.Integer"/>
+	<field name="montoSeguro" class="java.lang.Integer"/>
+	<field name="montoDentista" class="java.lang.Integer"/>
+	<field name="montoOtrosDcto" class="java.lang.Integer"/>
+	<field name="montoSindicato" class="java.lang.Integer"/>
+	<field name="totalDescuentosLegales" class="java.lang.Integer"/>
+	<field name="totalDescuentos" class="java.lang.Integer"/>
+	<field name="totalFinalDescuentos" class="java.lang.Integer"/>
+	<field name="saldoFinal" class="java.lang.Integer"/>
+	<field name="saldoReal" class="java.lang.Integer"/>
+	<variable name="Sindicato1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoSindicato}]]></variableExpression>
+	</variable>
+	<variable name="Sindicato2" class="java.lang.Integer" resetType="Group" resetGroup="NombreSindicato" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoSindicato}]]></variableExpression>
+	</variable>
+	<variable name="Sindicato3" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoSindicato}]]></variableExpression>
+	</variable>
+	<group name="NombreSindicato" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{nombreSindicato}]]></groupExpression>
+		<groupHeader>
+			<band height="109">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="19" uuid="c9d44ebe-245b-42d1-9428-1ccbe7b58724"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VIÑA BUS S.A.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="49" width="160" height="20" uuid="526b0b4e-6f20-4a9c-af4e-14075b258e59"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESCUENTOS SINDICATO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="371" y="35" width="159" height="30" uuid="27c870b2-becd-40cf-b3d5-c0b485d0d383"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="371" y="0" width="200" height="20" uuid="440464f4-d2b2-4def-b011-8ba55f3e887d"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[OCTUBRE 2016]]></text>
+				</staticText>
+				<textField evaluationTime="Report">
+					<reportElement x="530" y="35" width="40" height="30" uuid="cea76117-632a-439a-9991-8be14ce7aeb3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="49" width="259" height="20" uuid="a5d8ef36-4ae9-41fd-8d55-5ba038e59632"/>
+					<textFieldExpression><![CDATA[$F{nombreSindicato}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="40" y="86" width="311" height="20" uuid="417f1a98-1f43-4ee3-8653-8ddd8423d15c">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<text><![CDATA[CONDUCTOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="86" width="28" height="20" uuid="a8b741b7-f6ec-4e0f-aee2-92e7047c0106"/>
+					<text><![CDATA[COD.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="351" y="86" width="139" height="20" uuid="35c5d30a-6a8f-4dbd-9081-b2f89637e0ee"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[MONTO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<textField pattern="#,###.###">
+					<reportElement x="351" y="0" width="139" height="30" uuid="373c5506-2e73-4cdf-bd18-a62ad6eb1735"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{Sindicato2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="250" y="0" width="100" height="30" uuid="fb5e67d9-6277-4b0a-851b-986f351acb0e"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Subtotal:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="28" height="20" uuid="b2725105-05c9-4ef4-863d-1bd6cae8c43f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{codigoTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="311" height="20" uuid="250f78da-1d02-4ce2-9552-08c142797421">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombreTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="351" y="0" width="139" height="20" uuid="d9db5a2f-674d-4e0e-9d93-feca5a4679dc"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{montoSindicato}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="127" splitType="Stretch">
+			<textField pattern="#,###.###">
+				<reportElement x="350" y="100" width="140" height="20" uuid="18608b1c-e520-470c-8add-6e39d4aa2168"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Sindicato3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="250" y="100" width="100" height="20" uuid="e2498b35-a180-4712-b86c-bdce32e3b9ba"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total Sindicatos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="19" uuid="f17712da-60f7-40c2-b32e-6507f54aa0f8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="49" width="160" height="20" uuid="7c686d6c-7fd2-49ac-8ab6-758213071501"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[DESCUENTOS SINDICATO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="35" width="159" height="30" uuid="1117fc12-6c0b-4c26-a8cd-98b9933e8e47"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="0" width="200" height="20" uuid="d013c79d-0f5d-4927-9f45-ac4dcd5fa305"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[OCTUBRE 2016]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="35" width="40" height="30" uuid="1a8aedec-3cfb-4fdf-8bbb-61a6749d770f"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

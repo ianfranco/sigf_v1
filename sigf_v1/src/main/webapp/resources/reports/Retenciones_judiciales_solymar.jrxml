@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-10T14:39:58 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Retenciones_judiciales" pageWidth="612" pageHeight="792" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="23ba0211-3786-4670-b8b4-bf48616641e6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="226"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="761"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<queryString language="SQL">
+		<![CDATA[CALL planillonsolymar_retencionjudicial();]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="rutTrabajador" class="java.lang.String"/>
+	<field name="codigoTrabajador" class="java.lang.Integer"/>
+	<field name="nombreTrabajador" class="java.lang.String"/>
+	<field name="rutEmpleador" class="java.lang.String"/>
+	<field name="codigoEmpleador" class="java.lang.Integer"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="bruto" class="java.lang.Integer"/>
+	<field name="imponible" class="java.lang.Integer"/>
+	<field name="cincoPorcientoTotal" class="java.lang.Integer"/>
+	<field name="cincoPorciento" class="java.lang.Integer"/>
+	<field name="ahorroGuia" class="java.lang.Integer"/>
+	<field name="abonos" class="java.lang.Integer"/>
+	<field name="totalHaberes" class="java.lang.Integer"/>
+	<field name="numeroCargas" class="java.lang.Integer"/>
+	<field name="montoCargas" class="java.lang.Integer"/>
+	<field name="montoFeriado" class="java.lang.Integer"/>
+	<field name="nombreAfp" class="java.lang.String"/>
+	<field name="porcentajeAfp" class="java.lang.String"/>
+	<field name="montoAfp" class="java.lang.Integer"/>
+	<field name="cesantiaTrabajador" class="java.lang.Integer"/>
+	<field name="cesantiaEmpleador" class="java.lang.Integer"/>
+	<field name="cesantiaTotal" class="java.lang.Integer"/>
+	<field name="ahorroVoluntario" class="java.lang.Integer"/>
+	<field name="montoSIS" class="java.lang.Integer"/>
+	<field name="nombreIsapre" class="java.lang.String"/>
+	<field name="montoIsapre" class="java.lang.Integer"/>
+	<field name="porcentajeCaja" class="java.lang.String"/>
+	<field name="montoCaja" class="java.lang.Integer"/>
+	<field name="porcentajeInp" class="java.lang.String"/>
+	<field name="montoInp" class="java.lang.Integer"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="diasTrabajados" class="java.lang.Integer"/>
+	<field name="diasVacaciones" class="java.lang.Integer"/>
+	<field name="diasLicencias" class="java.lang.Integer"/>
+	<field name="diasDescanso" class="java.lang.Integer"/>
+	<field name="diasGuias" class="java.lang.Integer"/>
+	<field name="totalDias" class="java.lang.Integer"/>
+	<field name="fechaDesdeContrato" class="java.sql.Date"/>
+	<field name="fechaHastaContrato" class="java.sql.Date"/>
+	<field name="fechaDesdeFeriado" class="java.sql.Date"/>
+	<field name="fechaHastaFeriado" class="java.sql.Date"/>
+	<field name="fechaDesdeLicencias" class="java.sql.Date"/>
+	<field name="fechaHastaLicencias" class="java.sql.Date"/>
+	<field name="codigoEMP" class="java.lang.Integer"/>
+	<field name="totalFila" class="java.lang.Integer"/>
+	<field name="montoSaldoAnterior" class="java.lang.Integer"/>
+	<field name="montoRetencionJudicial" class="java.lang.Integer"/>
+	<field name="montoCreditoCaja" class="java.lang.Integer"/>
+	<field name="montoReconocimientoDeuda" class="java.lang.Integer"/>
+	<field name="montoCreditoSalud" class="java.lang.Integer"/>
+	<field name="montoSeguro" class="java.lang.Integer"/>
+	<field name="montoDentista" class="java.lang.Integer"/>
+	<field name="montoOtrosDcto" class="java.lang.Integer"/>
+	<field name="montoSindicato" class="java.lang.Integer"/>
+	<field name="totalDescuentosLegales" class="java.lang.Integer"/>
+	<field name="totalDescuentos" class="java.lang.Integer"/>
+	<field name="totalFinalDescuentos" class="java.lang.Integer"/>
+	<field name="saldoFinal" class="java.lang.Integer"/>
+	<field name="saldoReal" class="java.lang.Integer"/>
+	<variable name="RetencionJudicial1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoRetencionJudicial}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="51" width="371" height="20" uuid="58541b06-b731-4164-98c1-7b9051e778ef"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[DESCUENTOS RETENCION JUDICIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="0" width="200" height="20" uuid="45e7ff6c-6429-4746-aa86-c0388308226a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[OCTUBRE 2016]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="19" uuid="da698595-1fd0-4fe3-8744-2342c181ad1f"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="40" width="159" height="30" uuid="43a37c8e-6de1-42a9-ade7-bdf8aa736c26"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="40" width="40" height="30" uuid="6d14725c-ee5c-406b-a092-ceb4b1fb086c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="32" width="100" height="19" uuid="eb1ceedf-a483-4882-a0a4-c78ba1cc2931"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[MILLENIUM]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="41" width="40" height="20" uuid="5d004c8a-62d9-4eed-bd76-ed0d454b6d11"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Cód.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="41" width="220" height="20" uuid="4337d2a4-793a-41c4-9c77-0a9ee824eeb0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Conductor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="41" width="60" height="20" uuid="07ddb253-aa79-400d-bed9-6cd8b7bb2759"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Rut]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="41" width="160" height="20" uuid="ffa03bfa-f9f4-4460-bd89-4d1a3dda26ff"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Empleador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="41" width="60" height="20" uuid="a577dcc8-8849-4754-b75d-5d0b18102499"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="30" uuid="635b7676-365d-40e7-8821-c9d94eb34e78"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="220" height="30" uuid="9bfb6aa3-6574-4105-aafa-1003900ef2de"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="60" height="30" uuid="f0ef95bb-e03a-405a-8cb5-eefad933a651"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rutTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="160" height="30" uuid="cb5d82c1-d6d4-4742-962f-5bd9d2bbd3d0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="490" y="0" width="60" height="30" uuid="af22e95b-12d6-4fc1-a89b-1476200a12d6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoRetencionJudicial}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="36" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="#,###.###">
+				<reportElement x="490" y="0" width="62" height="30" uuid="2523d422-f851-4092-8aa1-76445d083e7c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{RetencionJudicial1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

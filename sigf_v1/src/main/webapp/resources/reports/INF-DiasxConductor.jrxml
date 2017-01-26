@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e7fcd1a6-f718-4bb4-a8fb-28e30960581f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[SELECT DAY(fecha.fecha) AS Dia, (SELECT 
+			IFNULL(SUM(egreso_guia.monto), 0) 
+						FROM egreso_guia 
+						LEFT JOIN guia ON egreso_guia.id_guia = guia.id_guia 
+						LEFT JOIN egreso_recaudacion ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion			
+						WHERE guia.id_bus = 7 AND  guia.fecha_guia = fecha.fecha AND egreso_recaudacion.id_egreso = 1) AS Administracion, 
+                         (SELECT 
+			IFNULL(SUM(egreso_guia.monto), 0) 
+						FROM egreso_guia 
+						LEFT JOIN guia ON egreso_guia.id_guia = guia.id_guia 
+						LEFT JOIN egreso_recaudacion ON egreso_guia.id_egreso_servicio = egreso_recaudacion.id_egreso_recaudacion			
+						WHERE guia.id_bus = 7 AND  guia.fecha_guia = fecha.fecha AND egreso_recaudacion.id_egreso = 7) AS Licitacion 
+                        
+                        
+                        FROM fecha ]]>
+	</queryString>
+	<field name="Dia" class="java.lang.Long"/>
+	<field name="Administracion" class="java.math.BigDecimal"/>
+	<field name="Licitacion" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="572" height="125" uuid="99a363c6-bab8-4a55-981c-61e115bec6a0"/>
+				<rowGroup name="Administracion" width="70">
+					<bucket class="java.math.BigDecimal">
+						<bucketExpression><![CDATA[$F{Administracion}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="eebb2d66-047b-443c-8f90-44955fb56c83"/>
+								<textFieldExpression><![CDATA[$V{Administracion}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Licitacion" width="70">
+					<bucket class="java.math.BigDecimal">
+						<bucketExpression><![CDATA[$F{Licitacion}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="02227d6d-c5d8-4646-8678-f3493923b3dc"/>
+								<textFieldExpression><![CDATA[$V{Licitacion}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Dia" height="30">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{Dia}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="42949f0b-a3c8-479d-9f53-18b0a4ef8b4e"/>
+								<textFieldExpression><![CDATA[$V{Dia}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="DiaMeasure" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{Dia}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="dcdfce3e-2f14-4973-bc78-b0ed74b9d283"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="Administracion">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="bff25733-645b-4ce1-89b7-84024f436c9d"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="Dia">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="3bfce5ab-b224-4fe0-8f15-65774da9863d"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Administracion" columnTotalGroup="Dia">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="da3331de-7b9f-43cd-99ab-28994e5720a9"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="Licitacion">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="fd2f1707-67ad-472d-ba04-8c689cf480eb"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Licitacion" columnTotalGroup="Dia">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="f2fa82a5-b473-4383-b438-9e49b7dd543d"/>
+							<textFieldExpression><![CDATA[$V{DiaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

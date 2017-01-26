@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INF-SIS-Empresarios" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ecdc1e0-6951-49ae-8038-717d96e5e8ab">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="127"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="867"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="38"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[CALL planillonsolymar_cesantia30();]]>
+	</queryString>
+	<field name="RutEmpresario" class="java.lang.String"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="Cantidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Imponible" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="1.6% - Individual" class="java.math.BigDecimal"/>
+	<field name="0.8% - FondoSolidario" class="java.math.BigDecimal"/>
+	<field name="2.4% - Total Empresario" class="java.math.BigDecimal"/>
+	<variable name="Imponible1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{Imponible}]]></variableExpression>
+	</variable>
+	<variable name="Imponible2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Imponible}]]></variableExpression>
+	</variable>
+	<variable name="0.8% - FondoSolidario1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{0.8% - FondoSolidario}]]></variableExpression>
+	</variable>
+	<variable name="1.6% - Individual1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{1.6% - Individual}]]></variableExpression>
+	</variable>
+	<variable name="2.4% - Total Empresario1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{2.4% - Total Empresario}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="19" uuid="aa93cfb5-3fd8-4980-a80a-a5eb70b37eaf"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MILLENIUM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="46" width="260" height="20" uuid="686cd3e0-ddde-4fd8-8e24-31c54072018a"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME SEGURO CESANTIA 3%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="40" width="159" height="30" uuid="e763ef15-74a0-4173-b4b8-6ae04dc975c7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="40" width="40" height="30" uuid="2143858b-ecdd-4142-9703-29f3e4c4b3a3"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="0" width="200" height="20" uuid="48668a75-0731-4c9f-9652-1ee389ec5d92"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[SEPTIEMBRE 2016]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Prevent">
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="20" uuid="bdb4f282-9d54-45ca-a17a-b25503cc5ba0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[RUT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="180" height="20" uuid="623ea1cf-40be-4b84-901d-7b5f57c66dc0"/>
+				<box leftPadding="4"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[EMPRESARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="48" height="20" uuid="4cb06c16-4f11-4e84-bfd0-71eb39f7a483"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[N° COND.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="0" width="60" height="20" uuid="4c10e902-8f12-4634-b03b-3d9dd2775f27"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[IMPONIBLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="0" width="50" height="20" uuid="01bde8f5-eca1-414e-8ca4-c5f13b45fc8b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[F.C.S.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="0" width="50" height="20" uuid="b7a15c11-4a04-4e00-b0dc-ef1385c0c0e7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[F.CES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="0" width="50" height="20" uuid="67618931-31ef-4852-b3cc-2fe8eb44e4fd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="83e47a74-815c-4505-9761-88337b21407e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RutEmpresario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="180" height="20" uuid="aacc691b-4a7e-4d6d-bc8c-b1ed07707faf"/>
+				<box leftPadding="4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="0" width="48" height="20" uuid="a54495c1-a040-4286-9c40-306e7e096031"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cantidad}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="278" y="-1" width="60" height="20" uuid="5b002191-b0e6-4928-a1d6-e89722c0ae38"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Imponible}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="338" y="-1" width="50" height="20" uuid="0e84c757-445c-4779-affc-3bd1a9a7cb47"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{0.8% - FondoSolidario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="388" y="-1" width="50" height="20" uuid="370c1255-7a50-404b-a17f-d73196b730a9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{1.6% - Individual}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="438" y="-1" width="50" height="20" uuid="f57228bd-5d65-4fe0-ba7d-7239b823cf4f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{2.4% - Total Empresario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="487" y="-1" width="83" height="20" uuid="c8736474-7f8b-4635-af0a-029264d4b68d"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[____________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="33" splitType="Stretch">
+			<textField pattern="#,##0.###">
+				<reportElement x="278" y="0" width="60" height="30" uuid="668be680-5c47-43a8-b65a-2d83017a8342"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Imponible2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="338" y="0" width="50" height="30" uuid="00e05e1e-4292-429b-849b-d1c9f15a2821"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{0.8% - FondoSolidario1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="388" y="0" width="50" height="30" uuid="bd4fd4c8-349b-43ae-8bdc-b761428c0761"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{1.6% - Individual1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.###">
+				<reportElement x="438" y="0" width="50" height="30" uuid="0e061ceb-86e2-486d-a2f3-6d59a43d50fa"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{2.4% - Total Empresario1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

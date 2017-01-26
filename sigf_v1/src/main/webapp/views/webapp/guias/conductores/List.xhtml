@@ -203,6 +203,10 @@
             </p:dataTable>
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>
+        <h:form>
+            <p:commandLink ajax="false" value="Descargar Informe" actionListener="#{reportBean.printPDF()}"/>
+        </h:form>
+        
         <p:dialog id="TrabajadorViewDlg" widgetVar="TrabajadorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Conductor:" closeOnEscape="true">
             <h:form id="TrabajadorViewForm">
                 

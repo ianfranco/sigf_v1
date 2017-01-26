@@ -52,7 +52,7 @@
                              lazy="true"
                              rowKey="HASH{item.idGuia}"  <<< Remove this line
                     -->
-                    <p:ajax event="rowSelect" update="growl" listener="#{informeProcesoRecaudacionController.loadGuia}"/>
+                    <p:ajax event="rowSelect" update="growl" listener="#{informeProcesoRecaudacionController.loadGuia}" global="false"/>
                     
                     <f:facet name="header">
                         Guías:#{informeProcesoRecaudacionController.stringHeader} 

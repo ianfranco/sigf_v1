@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cargas_familiares" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a315f1c-e5d8-4621-af2e-752677c98a2b">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="218"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="772"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idOperador" class="java.lang.Integer"/>
+	<parameter name="operador" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[CALL `final_voucher_cargas`($P{idOperador}, $P{fecha})]]>
+	</queryString>
+	<field name="contador" class="java.lang.Long"/>
+	<field name="codigoTrabajador" class="java.lang.Integer"/>
+	<field name="rutTrabajador" class="java.lang.String"/>
+	<field name="nombreTrabajador" class="java.lang.String"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="numeroCargas" class="java.lang.Integer"/>
+	<field name="retroactivos" class="java.lang.Integer"/>
+	<field name="montoCargas" class="java.lang.Integer"/>
+	<field name="totalCargas" class="java.lang.Long"/>
+	<field name="nombreTerminal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="375" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="42" width="319" height="30" uuid="f346521d-f702-41fa-8531-38eb42542ecd"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asignación Familiar 
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="0" width="210" height="30" uuid="91b9036e-49e8-4ad3-8128-6ab36d4f6a7b"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="20" width="139" height="30" uuid="676be753-fc87-41ba-a78d-c0a9befb59c1"/>
+				<textElement textAlignment="Right">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DICIEMBRE 2016
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="37" y="110" width="40" height="15" uuid="0de58521-dc50-40cc-9033-1fe26c98a461"/>
+				<textFieldExpression><![CDATA[$F{codigoTrabajador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="110" width="30" height="15" uuid="76cb981d-0304-41da-afaa-0f3e7edaa544">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Cód.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="110" width="280" height="15" uuid="c32c2107-3280-4d51-9194-8fed9bafcc10"/>
+				<textFieldExpression><![CDATA[$F{nombreTrabajador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="110" width="50" height="15" uuid="0312dac7-99c5-4161-8591-d61b73dc1379"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Conductor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="470" y="110" width="100" height="15" uuid="ce3d4a74-6e88-4ffd-ad61-1753f56aab7b"/>
+				<textFieldExpression><![CDATA[$F{rutTrabajador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="110" width="60" height="15" uuid="6b5edf4d-a346-4199-9204-6973b5a6d61a"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Rut:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="67" y="134" width="200" height="15" uuid="fdaefa60-3d79-4fd6-9568-01d3b5aca67a"/>
+				<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="134" width="60" height="15" uuid="45e51e8c-50d1-4a18-b269-d1def2e3daf0"/>
+				<text><![CDATA[Empleador:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="174" width="40" height="15" uuid="87f3f3a5-4c87-4995-853d-2234752475da">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{numeroCargas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="74" y="174" width="60" height="15" uuid="2d5a67cb-a134-4c6b-9569-e9b4c99780be">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[N° Cargas:]]></text>
+			</staticText>
+			<textField pattern="$ #,###.###">
+				<reportElement x="274" y="174" width="56" height="15" uuid="f5f8393c-1d6a-44ec-8d87-b868450ed0cf"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{retroactivos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="174" y="174" width="100" height="15" uuid="0bd65469-3fab-4e0b-abd3-63cc2bc220ca"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Monto Retroactivo:]]></text>
+			</staticText>
+			<textField pattern="$ #,###.###" isBlankWhenNull="true">
+				<reportElement x="440" y="174" width="80" height="15" uuid="3e119ef9-6fd2-4b14-bdd2-ff08e0a393e4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{totalCargas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="174" width="100" height="15" uuid="193bcd6d-c06b-4170-af4e-b67c3d57d4cd"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="250" width="190" height="30" uuid="141a3125-0311-4966-8841-a63df5386009"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Firma:  _________________]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="160" height="12" uuid="ead8e48b-a422-4490-8926-407827586f35"/>
+				<textFieldExpression><![CDATA[$F{nombreTerminal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="250" width="38" height="15" uuid="2af12a1a-24b5-4a58-b775-0f2c34262363"/>
+				<text><![CDATA[Garita:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="250" width="172" height="15" uuid="cc4f1fc8-7f49-4def-9cf4-291a7ee90384"/>
+				<textElement markup="none"/>
+				<text><![CDATA[MILLENIUM]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Resumen_liquidacion_empresa" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bfc5c403-97fa-470c-b1b0-78af2a778f31">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="222"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="772"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VPS"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="12"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idFlota" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="anio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+    bus.id_bus,
+    bus.numero_bus,
+    bus.patente, 
+    terminal.nombre_terminal, 
+    unidad_negocio.numero_unidad_negocio,
+    flota.nombre_flota, 
+    @administracion:=sum_egreso(bus.id_bus, $P{fecha}  , 1) AS administracion, 
+    @licitacion:=sum_egreso(bus.id_bus, $P{fecha}  , 7) AS licitacion, 
+    @total:=sum_saldos(bus.id_bus,  $P{fecha} ) AS ingresos, 
+    @cargos:=cargos_bus(bus.id_bus, $P{fecha}  ) AS cargos, 
+    @abonos:=abonos_bus(bus.id_bus, $P{fecha}) AS abonos, 
+    @saldo:=(@total+@abonos)-@cargos AS saldo, 
+    @taller:=sum_egreso(bus.id_bus, $P{fecha}  , 4) AS taller, 
+    @aseo:=sum_egreso(bus.id_bus, $P{fecha}  , 8) AS aseo, 
+    (SELECT COUNT(guia.folio) FROM guia WHERE guia.id_bus = bus.id_bus AND guia.fecha_recaudacion BETWEEN $P{fecha} AND LAST_DAY($P{fecha})) AS DT
+FROM
+    bus
+        LEFT JOIN
+    unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio
+        LEFT JOIN
+    flota ON bus.id_flota = flota.id_flota
+		LEFT JOIN cargo_bus ON bus.id_bus = cargo_bus.id_bus 
+        LEFT JOIN abono_bus ON bus.id_bus = abono_bus.id_bus
+        LEFT JOIN terminal ON bus.id_terminal = terminal.id_terminal 
+        WHERE flota.id_flota = $P{idFlota} AND unidad_negocio.id_unidad_negocio=3
+	GROUP BY bus.id_bus
+    ORDER BY  numero_unidad_negocio, numero_bus]]>
+	</queryString>
+	<field name="id_bus" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_bus" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="patente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_terminal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_unidad_negocio" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_flota" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="administracion" class="java.lang.Long"/>
+	<field name="licitacion" class="java.lang.Long"/>
+	<field name="ingresos" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cargos" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="abonos" class="java.lang.Long"/>
+	<field name="saldo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="taller" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aseo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DT" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="administracion1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{administracion}]]></variableExpression>
+	</variable>
+	<variable name="licitacion1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{licitacion}]]></variableExpression>
+	</variable>
+	<variable name="cargos1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{cargos}]]></variableExpression>
+	</variable>
+	<variable name="saldo1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+	</variable>
+	<variable name="administracion2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{administracion}]]></variableExpression>
+	</variable>
+	<variable name="licitacion2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{licitacion}]]></variableExpression>
+	</variable>
+	<variable name="cargos2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{cargos}]]></variableExpression>
+	</variable>
+	<variable name="saldo2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+	</variable>
+	<variable name="taller1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{taller}]]></variableExpression>
+	</variable>
+	<variable name="aseo1" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{aseo}]]></variableExpression>
+	</variable>
+	<variable name="taller2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{taller}]]></variableExpression>
+	</variable>
+	<variable name="aseo2" class="java.lang.Long" resetType="Group" resetGroup="numero_unidad_negocio" calculation="Sum">
+		<variableExpression><![CDATA[$F{aseo}]]></variableExpression>
+	</variable>
+	<variable name="administracion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{administracion}]]></variableExpression>
+	</variable>
+	<variable name="licitacion_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{licitacion}]]></variableExpression>
+	</variable>
+	<variable name="cargos_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{cargos}]]></variableExpression>
+	</variable>
+	<variable name="saldo_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+	</variable>
+	<variable name="taller_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{taller}]]></variableExpression>
+	</variable>
+	<variable name="aseo_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{aseo}]]></variableExpression>
+	</variable>
+	<group name="numero_unidad_negocio" isStartNewPage="true" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{numero_unidad_negocio}]]></groupExpression>
+		<groupHeader>
+			<band height="46">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField>
+					<reportElement x="470" y="0" width="100" height="25" uuid="ec59eed8-283b-4bc6-b690-1f372aa2385c"/>
+					<textElement>
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{numero_unidad_negocio}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="360" y="0" width="110" height="25" uuid="3cbb2621-033d-47c8-acd9-5ce5e385eb75">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Unidad:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="385" y="25" width="50" height="20" uuid="52d6565a-9ef9-46a7-ad68-05541ecc7864"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Aseo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="335" y="25" width="50" height="20" uuid="d710147e-4f80-459f-8f2a-f54f1f183335"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Taller]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="286" y="15" width="48" height="30" uuid="683a8c4b-d333-4158-8827-42682ac0d322"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldo Tesorería
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="235" y="15" width="50" height="30" uuid="4e49830d-355d-46d9-b810-9abd06c26270"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cargo Tesoreria]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="181" y="25" width="50" height="20" uuid="38dfa778-869d-405f-88f9-358de456e01c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Licitación]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="131" y="25" width="50" height="20" uuid="b62c7b91-7be3-4853-881f-cab5e6f1ca73">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Admin.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="50" y="25" width="50" height="20" uuid="e6fee145-14f6-4787-b47a-ab7568f8acf7"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Patente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="30" y="25" width="20" height="20" uuid="e68bf409-7a96-4446-bd53-22f192dce90b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="25" width="30" height="20" uuid="512de0c3-d0b3-4da2-9339-5108375adf13"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Bus]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="435" y="25" width="135" height="20" uuid="5b63efaf-a515-49fa-bfad-75c36804ace5"/>
+					<box leftPadding="4" rightPadding="0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Terminal]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="43" width="569" height="1" uuid="df3f4157-08bb-4ef4-9edb-7171018f6f8b"/>
+				</line>
+				<staticText>
+					<reportElement x="100" y="25" width="30" height="18" uuid="4d76e697-78a2-4287-a3a4-c247c9e9ef3f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="61" height="20" uuid="0f5c75c1-bd0c-4654-82c5-294747ff6180">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[FLOTA:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="61" y="0" width="299" height="20" uuid="5fe39c4f-ae59-4bbe-93c6-f28c50fa7d1d"/>
+					<textElement>
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre_flota}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField pattern="#,##0.###">
+					<reportElement x="131" y="0" width="50" height="15" uuid="265283aa-366c-420d-beae-3dcd7a65d6ee"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{administracion1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.###">
+					<reportElement x="181" y="0" width="50" height="15" uuid="2c1e72f4-7ea5-4fea-b785-e7d30f66cc55"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{licitacion1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.###">
+					<reportElement x="235" y="0" width="50" height="15" uuid="6b097ff1-01a9-40ff-a44c-de6d9f40b5dd"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cargos1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.###">
+					<reportElement x="286" y="0" width="50" height="15" uuid="b67b097a-bbf8-4cfe-a0fb-9cd8bb0a199e">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldo1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="41" y="0" width="90" height="15" uuid="7b29302b-94b1-4f0c-8dda-d681d6965314">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box rightPadding="10"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Unidad:]]></text>
+				</staticText>
+				<textField pattern="#,###.###">
+					<reportElement x="335" y="0" width="50" height="15" uuid="f1939ccd-c2ca-41e5-9e03-8b9de249e6a0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{taller1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.###">
+					<reportElement x="385" y="0" width="50" height="15" uuid="6c0e1c5d-da1b-47d9-9f07-62eb7972b267"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{aseo1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="f84f5497-482b-4e67-9f36-7c4b6d62b27f"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="86" height="20" uuid="da936218-ee28-4330-a6c4-208da5017947"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="86" y="20" width="60" height="20" uuid="01b67830-3d7d-44d1-b806-75b690cbce6d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="510" y="0" width="60" height="30" uuid="f14d5bbe-752d-43b3-8f21-2a177a34bab7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="0" width="110" height="20" uuid="b5cfc7f9-1a8e-48ea-996e-90a6902be599"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha impresión:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="30" height="15" uuid="3f3e6605-f6b3-48af-871a-0208369a9bc5"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_bus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="50" height="15" uuid="1c84534d-0d5c-4b71-aa72-b04ae7c5e78d"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="20" height="15" uuid="c56c2bf2-ab6d-4d76-96ec-e5e4fd973c50"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_unidad_negocio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="131" y="0" width="50" height="15" uuid="b80514f0-558e-49ac-932e-97a19bb9c924"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{administracion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="181" y="0" width="50" height="15" uuid="d3f71a0a-55e8-4cbc-9044-d7725ba928d7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{licitacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="235" y="0" width="50" height="15" uuid="b474b6d0-fd28-444b-be47-cd37155e7f72"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="286" y="0" width="50" height="15" uuid="daaad72b-9dcf-40c4-8466-b9b8a958d884">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="335" y="0" width="50" height="15" uuid="27e742f7-400e-4a4b-a358-a57ddf860d2e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{taller}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="385" y="0" width="50" height="15" uuid="3b1bee40-2033-441b-afc1-2675e0acfe95">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aseo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="0" width="135" height="15" uuid="cc648a1f-db77-45b3-a64d-1649e068218b"/>
+				<box leftPadding="8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_terminal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="100" y="0" width="30" height="15" uuid="572ed3a6-5489-4b5c-8b1c-69993aa86834"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band>
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

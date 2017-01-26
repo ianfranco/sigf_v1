@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14639e08-aacc-4cc7-8d7c-1510fe8239a7">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="711"/>
+	<property name="ireport.y" value="242"/>
+	<parameter name="nombreOperador" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[CALL final_planillon_aguinaldo(0, '2016-11-01');]]>
+	</queryString>
+	<field name="codigoTerminal" class="java.lang.Integer"/>
+	<field name="nombreTerminal" class="java.lang.String"/>
+	<field name="codigoTrabajador" class="java.lang.Integer"/>
+	<field name="nombreTrabajador" class="java.lang.String"/>
+	<field name="rutTrabajador" class="java.lang.String"/>
+	<field name="codigoEmpleador" class="java.lang.Integer"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="montoAguinaldo" class="java.lang.Integer"/>
+	<group name="codigoEmpleador" keepTogether="true">
+		<groupExpression><![CDATA[$F{codigoEmpleador}]]></groupExpression>
+		<groupHeader>
+			<band height="29">
+				<textField>
+					<reportElement x="0" y="5" width="65" height="20" uuid="43126ac0-4986-45a8-bfb5-a82e9c118cd0"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codigoEmpleador}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="65" y="5" width="269" height="20" uuid="7218b77d-54b4-4151-b00d-0665fb28e988"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="130" height="19" uuid="6a6b15e3-7e9b-4d24-986c-a01a0039e43b"/>
+				<textElement markup="none">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIÑA BUS S.A.]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="40" width="40" height="30" uuid="330cca5e-478e-4683-a033-930c38af7b52"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="46" width="260" height="20" uuid="0fdde01e-9a3d-4015-98c4-d6a8165db002"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGUINALDO DICIEMBRE 2016]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="40" width="159" height="30" uuid="e29ff9c9-9c23-4ffd-9dac-89573ad86800"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="25" height="20" uuid="cf1e4573-1e76-4361-8d40-ae260dd0bcae"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[COD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="0" width="250" height="20" uuid="1a0e4f8f-e89f-46cb-942d-bb9d22b6d60f"/>
+				<box leftPadding="5"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[NOMBRE CONDUCTOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="0" width="69" height="20" uuid="6610e762-75cd-413c-bd68-59710e7e237e"/>
+				<box leftPadding="6" rightPadding="18"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[RUT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="0" width="78" height="20" uuid="2f366c82-6d5d-48c4-bf1e-0c4fbd6fbb4d"/>
+				<box leftPadding="10"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[F.CONTRATO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="55" height="20" uuid="c52bb737-b92b-4962-9b44-26483e05186c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="25" height="15" uuid="be81e65b-9d9a-4b41-b58d-44932fcfe33c"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="0" width="250" height="15" uuid="9307ea88-bee5-4992-bd58-5f7d6ad65196"/>
+				<box leftPadding="5"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="0" width="69" height="15" uuid="3155227f-46be-4a1d-8527-4e9a116b31c3"/>
+				<box leftPadding="6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rutTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="344" y="0" width="78" height="15" uuid="de8a444c-be0e-458c-bb89-1848a46a59f8"/>
+				<box leftPadding="10" rightPadding="6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="426" y="0" width="55" height="15" uuid="3a26d235-cf53-4eba-a901-a4c93dd00670"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoAguinaldo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="0" width="81" height="15" uuid="ab1c8212-2594-4612-b42d-4e869517f2ad"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[______________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="72" y="22" width="100" height="20" uuid="e955b476-2259-4e9d-a69a-9b956e2c80d7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="22" width="72" height="20" uuid="a42b6461-495d-4db8-ac4e-6d855e3284dd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[F.Impresión:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

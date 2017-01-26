@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="20" uuid="93cae53b-0435-442d-9e4d-3e361fc44333">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parametroCodigoConductor" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[CALL planillonvinabus_distribucion_reconocimientoDeuda_individual($P{parametroCodigoConductor});]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="conductor" class="java.lang.String"/>
+	<field name="montoCincoPorciento" class="java.lang.Integer"/>
+	<field name="ahorroGuia" class="java.lang.Integer"/>
+	<field name="abonos" class="java.lang.Integer"/>
+	<field name="totalHaberes" class="java.lang.Integer"/>
+	<field name="montoReconocimiento" class="java.lang.Integer"/>
+	<field name="montoOtrosDcto" class="java.lang.Integer"/>
+	<field name="totalDescuentosLegales" class="java.lang.Integer"/>
+	<field name="descuentos" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldoReal" class="java.lang.Long"/>
+	<field name="nombre_terminal" class="java.lang.String"/>
+	<field name="NombreEmpresario" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{saldo_1}-$F{montoReconocimiento}]]></variableExpression>
+	</variable>
+	<variable name="saldoReal_1" class="java.lang.Integer" resetType="Group" resetGroup="conductor" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoReal}]]></variableExpression>
+	</variable>
+	<variable name="saldo_1" class="java.lang.Long" resetType="Group" resetGroup="conductor" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoReal}]]></variableExpression>
+	</variable>
+	<group name="conductor" isStartNewPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{conductor}]]></groupExpression>
+		<groupHeader>
+			<band height="125">
+				<textField>
+					<reportElement x="70" y="72" width="275" height="20" uuid="9c3301ec-ffa0-4976-b36d-764706cf3c07"/>
+					<textElement>
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{conductor}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="40" width="241" height="20" uuid="8588d280-73db-4dbc-8797-5b3e85851b16"/>
+					<textElement>
+						<font fontName="Monospaced" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DETALLE DESCUENTOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="72" width="69" height="20" uuid="0f2967bd-a086-4e4d-8cbb-1d999f7151e5"/>
+					<textElement>
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Conductor:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="0" width="166" height="25" uuid="035fee89-df34-4aec-b0ae-e0c497ca0298"/>
+					<textElement>
+						<font fontName="Monospaced" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VIÑA BUS S.A. ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="454" y="72" width="100" height="20" uuid="7f073b8f-9935-423a-bac1-43ac98e39239"/>
+					<textElement>
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="401" y="72" width="53" height="20" uuid="781b4ea2-92c6-4806-a7c4-2c8a61357ac1"/>
+					<textElement>
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Código:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="388" y="20" width="166" height="20" uuid="fa6fb38b-2c2b-4d2d-9423-3c1dee3e7f62"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[OCTUBRE 2016]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="366" y="40" width="188" height="20" uuid="177be43d-0c8a-4be2-80cc-b422462399d7"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre_terminal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="105" width="138" height="20" uuid="634fc6e1-1aca-43df-a5ba-4d257c6dcc48"/>
+					<textElement>
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Empleador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="139" y="105" width="60" height="20" uuid="364fd364-55f6-421a-871a-328bbde4c6ae"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[5%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="199" y="105" width="65" height="20" uuid="46d17449-d060-47e0-9717-19c79d30578f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Ahorro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="264" y="105" width="65" height="20" uuid="1c17fcde-65fb-4fba-81fe-22aae791629c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Abono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="329" y="105" width="77" height="20" uuid="6de42ac7-94f3-482d-8e7a-e16eaa0a2b7f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Total Haberes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="406" y="105" width="69" height="20" uuid="f67fc4d5-1c5e-4a57-8415-12dec3868c05"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Descuentos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="475" y="105" width="69" height="20" uuid="f0b6a682-b034-4ffd-a2ca-8f3eb73de409"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Saldo]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="131">
+				<textField pattern="#,##0">
+					<reportElement x="475" y="30" width="69" height="20" uuid="5bd9a965-9266-4e7e-a83f-7e292febbd37"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{montoReconocimiento}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="301" y="30" width="174" height="20" uuid="a78ddefe-6627-4bdf-ad42-ebd9b482fe1f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Reconocimiento Deuda:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="352" y="92" width="123" height="20" uuid="79aedde8-2b2e-4412-acb2-5e4120459cfb"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Total a Pagar:]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="475" y="92" width="69" height="20" uuid="5f35a0fa-bc3d-415a-807f-65d67742ed82"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldo_1}-($F{montoReconocimiento}+$F{montoOtrosDcto})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="352" y="0" width="123" height="20" uuid="da569d3a-4771-4539-9f0f-6b410ed0e2db"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="475" y="0" width="68" height="20" uuid="aa56c014-b8bf-411d-9b21-34babe730575"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldo_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="301" y="50" width="174" height="20" uuid="d55f1c47-7ff5-45a9-9396-bae73f4f9e9b"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<text><![CDATA[Otros Dctos:]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="475" y="50" width="69" height="20" uuid="cd0ebc03-3200-4e47-940b-f3174164cde0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Monospaced" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{montoOtrosDcto}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="138" height="34" uuid="bada0cb3-8069-4893-b0e3-cfe6f8c96397"/>
+				<textElement>
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NombreEmpresario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="139" y="0" width="60" height="20" uuid="27483ee1-949f-4a84-85bf-f1334afbd51e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoCincoPorciento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="199" y="0" width="65" height="20" uuid="8799b5db-1612-47a2-af07-1475ac43b4cb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ahorroGuia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="264" y="0" width="65" height="20" uuid="bef75363-8186-4476-99dc-542690cb9fb8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abonos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="329" y="0" width="77" height="20" uuid="1b3c7500-e4bb-474c-9e01-7a4b6280b731"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalHaberes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="406" y="0" width="69" height="20" uuid="05c20479-3e9a-4633-a6bc-1502219ee094"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descuentos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="475" y="0" width="69" height="20" uuid="a1752332-6b07-40af-9915-52c1ac27abbb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoReal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
