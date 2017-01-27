@@ -16,32 +16,30 @@
                 background: #D20005;
             }
         </style>
-
         <title>SIGF - Inicio</title>
-
-        <h:outputScript target="head">
-            jQuery(document).ready(function() {
-            jQuery(document).ready(function() {
-            fixPFMDialogs();
-            $('input').keydown( function(e) {
-            var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-            if(key == 13) {
-            e.preventDefault();
-            var inputs = $(this).closest('form').find(':input:visible');
-            inputs.eq( inputs.index(this)+ 1 ).focus();
-            }
-            });
-            });
-            });
-
-
-        </h:outputScript>
     </h:head>
 
     <h:body>
+
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
         <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
             <p:graphicImage library="images" name="ajax-loader.gif" />
+        </p:dialog>
+        <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show();" />
+
+        <p:ajaxExceptionHandler type="java.lang.NullPointerException"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show();" />
+        <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+                  height="500px">
+            Message: #{pfExceptionHandler.message} <br/>
+            StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
+
+            <p:button onclick="document.location.href = document.location.href;"
+                      value="Reload!"
+                      rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
         </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
@@ -51,7 +49,7 @@
                         <p:menubar>
                             <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/index.xhtml" icon="ui-icon-home" />
                             <f:facet name="options">                        
-                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
+                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink" global="false"/>
                             </f:facet>
                         </p:menubar>
                     </h:form>

@@ -73,10 +73,10 @@ public class LoginBean implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
         boolean loggedIn = false;
-
-        this.usuario = this.usuarioDao.login(this.usuario);
+        
         String path = "";
-        if (this.usuario != null) {
+        try {
+            this.usuario = this.usuarioDao.login(this.usuario);
 
             if (!this.usuario.getActivo()) {
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "CUENTA DESACTIVADA", "Favor comunicarse con la administración");
@@ -85,44 +85,10 @@ public class LoginBean implements Serializable {
                 this.rol = this.usuario.getRol();
                 loggedIn = true;
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-
-                
-                
                 this.itemsRP = new ArrayList<>(this.rol.getRolPrivilegios());
-                System.err.println("CANTIDAD DE PRIVILEGIOS: "+this.itemsRP.size());
+                System.err.println("CANTIDAD DE PRIVILEGIOS: " + this.itemsRP.size());
                 for (RolPrivilegio p : this.itemsRP) {
-                    System.err.println("ID DEL PRIVILEGIO:"+p.getPrivilegio().getIdPrivilegio());
+                    System.err.println("ID DEL PRIVILEGIO:" + p.getPrivilegio().getIdPrivilegio());
                     switch (p.getPrivilegio().getIdPrivilegio()) {
                         case 1:
                             System.err.println("P:SERVICIOS");
@@ -161,6 +127,17 @@ public class LoginBean implements Serializable {
                 path = MyUtil.basePathLogin() + "views/webapp/index.xhtml";
             }
 
+        } catch (NullPointerException ex) {
+            loggedIn = false;
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Usuario y/o Password incorrectos");
+            if (this.usuario == null) {
+                this.usuario = new Usuario();
+            }
+        }
+
+        
+        
+
             //message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n", this.usuario.getNombres());
             /*switch (this.rol.getIdRol()) {
                 case 1:
@@ -192,13 +169,13 @@ public class LoginBean implements Serializable {
                     message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "USUARIO SIN ACCESO");
                     break;
             }*/
-        } else {
+        /*} else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Usuario y/o Password incorrectos");
             if (this.usuario == null) {
                 this.usuario = new Usuario();
             }
-        }
+        }*/
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("registroGuias", registroGuias);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tesoreria", tesoreria);
@@ -207,7 +184,7 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("boletos", boletos);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("empresario", empresario);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informes", informes);
-        
+
         FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
         context.addCallbackParam("path", path);
@@ -226,7 +203,7 @@ public class LoginBean implements Serializable {
 
     public void logout() {
         System.err.println("Si llega al logout");
-        String path = MyUtil.basePathLogin() + "login.xhtml";
+        String path = MyUtil.basePathLogin() + "views/webapp/login.xhtml";
         RequestContext context = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
 

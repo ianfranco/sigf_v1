@@ -3,12 +3,34 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <navigation-rule>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>loginPage</from-outcome>
+            <to-view-id>faces/views/webapp/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+ 
+    <lifecycle>
+        <phase-listener>com.areatecnica.sigf_v1.util.AuthorizationListener</phase-listener>
+    </lifecycle>
+    
     <application>
         <resource-bundle>
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
-        <navigation-handler>org.primefaces.mobile.application.MobileNavigationHandler</navigation-handler>
-        
+        <navigation-handler>org.primefaces.mobile.application.MobileNavigationHandler</navigation-handler>        
     </application>
+    <application>
+        <el-resolver>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
+        </el-resolver>
+    </application>
+    <factory>
+        <exception-handler-factory>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
 </faces-config>

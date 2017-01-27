@@ -5,10 +5,14 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
+import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
+import com.areatecnica.sigf_v1.util.MyUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -30,14 +34,33 @@ public class IndexController implements Serializable {
      * Creates a new instance of IndexController
      */
     public IndexController() {
-        this.registroGuias = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registroGuias");        
-        this.servicios = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("servicios");
-        this.tesoreria = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tesoreria");
-        this.remuneraciones = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("remuneraciones");
-        this.boletos = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("boletos");
-        this.empresario = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("empresario");
-        this.informes = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informes");
         
+        try {
+            this.registroGuias = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registroGuias");            
+            this.servicios = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("servicios");
+            this.tesoreria = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tesoreria");
+            this.remuneraciones = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("remuneraciones");
+            this.boletos = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("boletos");
+            this.empresario = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("empresario");
+            this.informes = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informes");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Su sessión ha terminado");
+            logout();
+        }
+        
+    }
+    
+    public void logout() {
+        System.err.println("Si llega al logout");
+        String path = MyUtil.basePathLogin() + "views/webapp/login.xhtml";
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        session.invalidate();
+
+        context.addCallbackParam("loggetOut", true);
+        context.addCallbackParam("path", path);
     }
 
     public boolean isRegistroGuias() {
