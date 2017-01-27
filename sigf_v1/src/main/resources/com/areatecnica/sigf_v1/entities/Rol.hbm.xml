@@ -20,11 +20,11 @@
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.Usuario" />
         </set>
-        <set name="privilegios" table="privilegio" inverse="true" lazy="true" fetch="select">
+        <set name="rolPrivilegios" table="rol_privilegio" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_rol" not-null="true" />
             </key>
-            <one-to-many class="com.areatecnica.sigf_v1.entities.Privilegio" />
+            <one-to-many class="com.areatecnica.sigf_v1.entities.RolPrivilegio" />
         </set>
     </class>
 </hibernate-mapping>

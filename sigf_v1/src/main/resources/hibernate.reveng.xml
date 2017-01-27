@@ -130,4 +130,6 @@
   <table-filter match-name="user"/>
   <table-filter match-name="monto_sindicato_trabajador"/>
   <table-filter match-name="estado_guia"/>
+  <table-filter match-name="rol_privilegio"/>
+  <table-filter match-name="log"/>
 </hibernate-reverse-engineering>

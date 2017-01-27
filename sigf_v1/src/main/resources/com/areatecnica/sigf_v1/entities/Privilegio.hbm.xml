@@ -7,15 +7,24 @@
         <id name="idPrivilegio" type="java.lang.Integer">
             <column name="id_privilegio" />
             <generator class="identity" />
-        </id>
-        <many-to-one name="rol" class="com.areatecnica.sigf_v1.entities.Rol" fetch="select">
-            <column name="id_rol" not-null="true" />
-        </many-to-one>
+        </id>        
         <property name="nombrePrivilegio" type="string">
             <column name="nombre_privilegio" not-null="true" />
         </property>
         <property name="descripcion" type="string">
             <column name="descripcion" not-null="true" />
         </property>
+        <set name="logs" table="log" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_privilegio" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.Log" />
+        </set>
+        <set name="rolPrivilegios" table="rol_privilegio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_privilegio" not-null="true" />
+            </key>
+            <one-to-many class="com.areatecnica.sigf_v1.entities.RolPrivilegio" />
+        </set>
     </class>
 </hibernate-mapping>

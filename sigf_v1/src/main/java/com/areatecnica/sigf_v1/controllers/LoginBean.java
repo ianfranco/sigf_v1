@@ -5,15 +5,18 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
-
 import com.areatecnica.sigf_v1.dao.UsuarioDao;
 import com.areatecnica.sigf_v1.dao.UsuarioDaoImpl;
+import com.areatecnica.sigf_v1.entities.Privilegio;
 import com.areatecnica.sigf_v1.entities.Rol;
+import com.areatecnica.sigf_v1.entities.RolPrivilegio;
 import com.areatecnica.sigf_v1.entities.Usuario;
 import com.areatecnica.sigf_v1.util.MyUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -29,10 +32,19 @@ import org.primefaces.context.RequestContext;
 public class LoginBean implements Serializable {
 
     private Usuario usuario;
-    
+
     private UsuarioDao usuarioDao;
     private Rol rol;
+    private List<RolPrivilegio> itemsRP;
     private String nombreTerminal;
+
+    private boolean registroGuias = false;
+    private boolean servicios = false;
+    private boolean tesoreria = false;
+    private boolean remuneraciones = false;
+    private boolean boletos = false;
+    private boolean empresario = false;
+    private boolean informes = false;
 
     /**
      * Creates a new instance of loginBean
@@ -66,9 +78,91 @@ public class LoginBean implements Serializable {
         String path = "";
         if (this.usuario != null) {
 
-            this.rol = this.usuario.getRol();
-            
-            switch (this.rol.getIdRol()) {
+            if (!this.usuario.getActivo()) {
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "CUENTA DESACTIVADA", "Favor comunicarse con la administración");
+            } else {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n", this.usuario.getNombres());
+                this.rol = this.usuario.getRol();
+                loggedIn = true;
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                
+                this.itemsRP = new ArrayList<>(this.rol.getRolPrivilegios());
+                System.err.println("CANTIDAD DE PRIVILEGIOS: "+this.itemsRP.size());
+                for (RolPrivilegio p : this.itemsRP) {
+                    System.err.println("ID DEL PRIVILEGIO:"+p.getPrivilegio().getIdPrivilegio());
+                    switch (p.getPrivilegio().getIdPrivilegio()) {
+                        case 1:
+                            System.err.println("P:SERVICIOS");
+                            this.servicios = true;
+                            break;
+                        case 2:
+                            System.err.println("P:REGISTRO GUÍAS");
+                            this.registroGuias = true;
+                            break;
+                        case 3:
+                            System.err.println("P:TESORERÍA");
+                            this.tesoreria = true;
+                            break;
+                        case 4:
+                            System.err.println("P:INFORMES");
+                            this.informes = true;
+                            break;
+                        case 5:
+                            System.err.println("P:EMPRESARIOS");
+                            this.empresario = true;
+                            break;
+                        case 6:
+                            System.err.println("P:BOLETOS");
+                            this.boletos = true;
+                            break;
+                        case 7:
+                            System.err.println("P:REMUNERACIONES");
+                            this.remuneraciones = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", " " + this.usuario.getNombres() + " " + this.usuario.getApellidoPaterno());
+                path = MyUtil.basePathLogin() + "views/webapp/index.xhtml";
+            }
+
+            //message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n", this.usuario.getNombres());
+            /*switch (this.rol.getIdRol()) {
                 case 1:
                     loggedIn = true;
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", " " + this.usuario.getNombres() + " " + this.usuario.getApellidoPaterno());
@@ -77,7 +171,7 @@ public class LoginBean implements Serializable {
                     break;
                 case 2:
                     this.nombreTerminal = this.usuario.getTerminal().getNombreTerminal();
-                    
+
                     loggedIn = true;
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", " " + this.usuario.getNombres() + " " + this.usuario.getApellidoPaterno());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("NombreTerminal", " " + this.usuario.getTerminal().getNombreTerminal());
@@ -90,15 +184,14 @@ public class LoginBean implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", " " + this.usuario.getNombres() + " " + this.usuario.getApellidoPaterno());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("NombreTerminal", " " + this.usuario.getTerminal().getNombreTerminal());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idTerminal", this.usuario.getTerminal().getIdTerminal());
-                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n" , this.usuario.getNombres());
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido\n", this.usuario.getNombres());
                     path = MyUtil.basePathLogin() + "views/indexServicio.xhtml";
                     break;
                 default:
                     loggedIn = false;
                     message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "USUARIO SIN ACCESO");
                     break;
-            }
-
+            }*/
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Usuario y/o Password incorrectos");
@@ -107,10 +200,24 @@ public class LoginBean implements Serializable {
             }
         }
 
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("registroGuias", registroGuias);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tesoreria", tesoreria);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("servicios", servicios);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("remuneraciones", remuneraciones);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("boletos", boletos);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("empresario", empresario);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informes", informes);
+        
         FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
         context.addCallbackParam("path", path);
-        
+        context.addCallbackParam("registroGuias", registroGuias);
+        context.addCallbackParam("servicios", servicios);
+        context.addCallbackParam("tesoreria", tesoreria);
+        context.addCallbackParam("boletos", boletos);
+        context.addCallbackParam("remuneraciones", remuneraciones);
+        context.addCallbackParam("empresario", empresario);
+        context.addCallbackParam("informes", informes);
     }
 
     public String getNombreTerminal() {
@@ -134,5 +241,37 @@ public class LoginBean implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         String nombre = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         return nombre;
+    }
+
+    public List<RolPrivilegio> getItemsRP() {
+        return itemsRP;
+    }
+
+    public void setItemsRP(List<RolPrivilegio> itemsRP) {
+        this.itemsRP = itemsRP;
+    }
+
+    public boolean isBoletos() {
+        return boletos;
+    }
+
+    public void setBoletos(boolean boletos) {
+        this.boletos = boletos;
+    }
+
+    public boolean isEmpresario() {
+        return empresario;
+    }
+
+    public void setEmpresario(boolean empresario) {
+        this.empresario = empresario;
+    }
+
+    public boolean isInformes() {
+        return informes;
+    }
+
+    public void setInformes(boolean informes) {
+        this.informes = informes;
     }
 }

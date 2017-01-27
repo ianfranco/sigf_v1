@@ -37,6 +37,7 @@ public class Usuario implements java.io.Serializable {
     private Date fechaIngresoUsuario;
     private Boolean activo;
     private Set<Despacho> despachos = new HashSet<Despacho>(0);
+    private Set<Log> logs = new HashSet<Log>(0);
     private Set<ProcesoRecaudacion> procesoRecaudacions = new HashSet<ProcesoRecaudacion>(0);
 
     public Usuario() {
@@ -50,7 +51,7 @@ public class Usuario implements java.io.Serializable {
         this.fechaIngresoUsuario = fechaIngresoUsuario;
     }
 
-    public Usuario(Rol rol, Terminal terminal, String rut, String pass, String nombres, String apellidoPaterno, String apellidoMaterno, String email, Date fechaIngresoUsuario, Boolean activo, Set<Despacho> despachos, Set<ProcesoRecaudacion> procesoRecaudacions) {
+    public Usuario(Rol rol, Terminal terminal, String rut, String pass, String nombres, String apellidoPaterno, String apellidoMaterno, String email, Date fechaIngresoUsuario, Boolean activo, Set<Despacho> despachos, Set<Log> logs, Set<ProcesoRecaudacion> procesoRecaudacions) {
         this.rol = rol;
         this.terminal = terminal;
         this.rut = rut;
@@ -62,6 +63,7 @@ public class Usuario implements java.io.Serializable {
         this.fechaIngresoUsuario = fechaIngresoUsuario;
         this.activo = activo;
         this.despachos = despachos;
+        this.logs = logs;
         this.procesoRecaudacions = procesoRecaudacions;
     }
 
@@ -177,6 +179,15 @@ public class Usuario implements java.io.Serializable {
 
     public void setDespachos(Set<Despacho> despachos) {
         this.despachos = despachos;
+    }
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+    public Set<Log> getLogs() {
+        return this.logs;
+    }
+    
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")

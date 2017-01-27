@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26-01-2017 15:49:11 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.areatecnica.sigf_v1.entities.Log" table="log" catalog="sigf_v1" optimistic-lock="version">
+        <id name="idLog" type="java.lang.Integer">
+            <column name="id_log" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="privilegio" class="com.areatecnica.sigf_v1.entities.Privilegio" fetch="select">
+            <column name="id_privilegio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="com.areatecnica.sigf_v1.entities.Usuario" fetch="select">
+            <column name="id_usuario" not-null="true" />
+        </many-to-one>
+        <property name="tipoAccion" type="string">
+            <column name="tipo_accion" length="45" not-null="true" />
+        </property>
+        <property name="descripcionLog" type="string">
+            <column name="descripcion_log" not-null="true" />
+        </property>
+        <property name="fechaRegistroLog" type="timestamp">
+            <column name="fecha_registro_log" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
