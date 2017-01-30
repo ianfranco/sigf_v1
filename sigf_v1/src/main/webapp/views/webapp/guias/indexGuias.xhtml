@@ -12,11 +12,58 @@
 
 
             <ui:define name="content" class="ui-corner-all" >
+                    <p:dataTable 
+                        id="registroGuias"                                 
+                        value="#{indexGuiaController.logItems}"
+                        lazy="false"
+                        var="item"
+                        rowKey="#{item}"  
+                        rowIndexVar="rowIndex"
+                        emptyMessage="No se han encontrado registros"
+                        tableStyle="table-layout: auto" 
+                        >
 
-                <table id="center_content_index">
-                    
-                </table>
+                        <f:facet name="header">
+                            Últimos movimientos en Guías
+                        </f:facet>
 
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Acción"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoAccion}"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaRegistroLog}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Usuario"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuario}"/>
+                        </p:column>
+
+                        <p:column style="width: 1000px;">
+                            <f:facet name="header">
+                                <h:outputText value="Detalle"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcionLog}"/>
+                        </p:column>
+                    </p:dataTable>
             </ui:define>
         </ui:composition>
 

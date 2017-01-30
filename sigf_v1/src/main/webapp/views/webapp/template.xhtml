@@ -17,6 +17,48 @@
             }
         </style>
         <title>SIGF - Inicio</title>
+        <script type="text/javascript">
+            var countDownTime; //in miliseconds
+            var sessionTime = 61000; //in miliseconds
+            var whenToShowAdditionalTimeDialog = 60000; //in miliseconds 
+            var isAdditionalTimeDialogShowed = false;
+            var countDownStarted = false;
+            var minute;
+            var second;
+            function countDownInit() {
+                countDownTime = (new Date()).getTime();
+                minute = 1;
+                second = 00;
+                countDownStarted = false;
+            }
+            function checkCountDown() {
+                if (document.getElementById('loggedIn') == null) {
+                    return;
+                }
+                var now = (new Date()).getTime();
+                if (now - countDownTime > (sessionTime - whenToShowAdditionalTimeDialog)) {
+                    additionalTimeDialog.show();
+                    countDownStarted = true;
+                }
+                if (countDownStarted) {
+                    second = second - 1;
+                    if (0 > second) {
+                        second = 59;
+                        minute = minute - 1;
+                    }
+                    if (0 > minute) {
+                        exit();
+                        return;
+                    }
+                    document.getElementById('additionalTimeDialog:minuteOutput').innerHTML = minute;
+                    document.getElementById('additionalTimeDialog:secondOutput').innerHTML = second;
+                }
+            }
+            function exit() {
+                document.location.href = '#{appBean.basePath}webapp/index.xhtml';
+            }
+            window.setInterval(checkCountDown, 1000);
+        </script>
     </h:head>
 
     <h:body>
@@ -41,11 +83,22 @@
                       value="Reload!"
                       rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
         </p:dialog>
+        <p:dialog modal="true" widgetVar="additionalTimeDialog" header="Alert" 
+                  draggable="false" closable="false">
+            <h:form id="additionalTimeDialog"> Your session time will be expired in 
+                <h:outputText id="minuteOutput" /> : <h:outputText id="secondOutput" /> . 
+                Do you want extra time ?
+                <p:commandButton value="Yes" process="@this" update="@none" 
+                                 oncomplete="additionalTimeDialog.hide();" />
+                <p:commandButton value="No" type="button" onclick="exit();" />
+            </h:form>
+        </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Registro de Guías"  collapsible="true">
+
                 <div id="menu">
-                    <h:form> 
+                    <h:form>
                         <p:menubar>
                             <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/index.xhtml" icon="ui-icon-home" />
                             <f:facet name="options">                        
@@ -83,8 +136,6 @@
             </p:layoutUnit>
 
         </p:layout>
-
-
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
                 if (args.loggedOut) {

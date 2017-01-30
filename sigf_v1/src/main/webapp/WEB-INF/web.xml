@@ -63,7 +63,7 @@
     </error-page>
     <error-page>
         <error-code>401</error-code>
-        <location>/errors/401.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page> 
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>

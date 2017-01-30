@@ -7,7 +7,6 @@ package com.areatecnica.sigf_v1.controllers;
 
 import com.areatecnica.sigf_v1.dao.UsuarioDao;
 import com.areatecnica.sigf_v1.dao.UsuarioDaoImpl;
-import com.areatecnica.sigf_v1.entities.Privilegio;
 import com.areatecnica.sigf_v1.entities.Rol;
 import com.areatecnica.sigf_v1.entities.RolPrivilegio;
 import com.areatecnica.sigf_v1.entities.Usuario;
@@ -184,6 +183,8 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("boletos", boletos);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("empresario", empresario);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informes", informes);
+        
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("user", usuario);
 
         FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
@@ -195,6 +196,8 @@ public class LoginBean implements Serializable {
         context.addCallbackParam("remuneraciones", remuneraciones);
         context.addCallbackParam("empresario", empresario);
         context.addCallbackParam("informes", informes);
+        //context.addCallbackParam("user", usuario);
+        
     }
 
     public String getNombreTerminal() {
@@ -203,7 +206,8 @@ public class LoginBean implements Serializable {
 
     public void logout() {
         System.err.println("Si llega al logout");
-        String path = MyUtil.basePathLogin() + "views/webapp/login.xhtml";
+        String path = MyUtil.basePathLogin() + "views/webapp/login.xhtml?faces-redirect=true";
+        
         RequestContext context = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
 
@@ -250,5 +254,37 @@ public class LoginBean implements Serializable {
 
     public void setInformes(boolean informes) {
         this.informes = informes;
+    }
+
+    public boolean isRegistroGuias() {
+        return registroGuias;
+    }
+
+    public void setRegistroGuias(boolean registroGuias) {
+        this.registroGuias = registroGuias;
+    }
+
+    public boolean isServicios() {
+        return servicios;
+    }
+
+    public void setServicios(boolean servicios) {
+        this.servicios = servicios;
+    }
+
+    public boolean isTesoreria() {
+        return tesoreria;
+    }
+
+    public void setTesoreria(boolean tesoreria) {
+        this.tesoreria = tesoreria;
+    }
+
+    public boolean isRemuneraciones() {
+        return remuneraciones;
+    }
+
+    public void setRemuneraciones(boolean remuneraciones) {
+        this.remuneraciones = remuneraciones;
     }
 }

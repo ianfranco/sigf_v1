@@ -106,11 +106,11 @@
                                     <p:menuitem value="Producción" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxbus"  />                                    
                                 </p:submenu>
                                 <p:submenu label="Flota">
-                                    <p:menuitem value="Producción General" outcome="#{appBean.basePath}webapp/tesoreria/reportes/produccionxflota" />
-                                    <p:menuitem value="Saldos x Flota" outcome="#{appBean.basePath}webapp/tesoreria/reportes/saldosxflota"/>
+                                    <p:menuitem value="Producción General" url="#"/>
+                                    <p:menuitem value="Saldos x Flota" url="#"/>
                                     <p:menuitem value="Cantidad Buses x Flota" outcome="#{appBean.basePath}webapp/tesoreria/reportes/busesxflota" />
-                                    <p:menuitem value="Días Trabajados" outcome="#{appBean.basePath}webapp/tesoreria/reportes/diastrabajados" />
-                                    <p:menuitem value="Liquidación x Bus" outcome="#{appBean.basePath}webapp/tesoreria/reportes/liquidacionxbus" />
+                                    <p:menuitem value="Días Trabajados" url="#"/>
+                                    <p:menuitem value="Liquidación x Bus" url="#" />
                                 </p:submenu>
                                 <p:submenu label="Recaudación">                                    
                                     <p:menuitem value="Fecha Recaudación" outcome="#{appBean.basePath}webapp/tesoreria/reportes/recaudaciondiaria"  />
@@ -119,7 +119,7 @@
                             </p:submenu>
 
                             <f:facet name="options">                        
-                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
+                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink" global="false"/>
                             </f:facet>
                         </p:menubar>
                     </h:form>

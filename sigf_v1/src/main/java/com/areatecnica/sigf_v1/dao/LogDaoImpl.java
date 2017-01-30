@@ -5,13 +5,12 @@
  */
 package com.areatecnica.sigf_v1.dao;
 
-import com.areatecnica.sigf_v1.entities.AbonoBus;
-import com.areatecnica.sigf_v1.entities.Bus;
-import com.areatecnica.sigf_v1.entities.TipoAbono;
+import com.areatecnica.sigf_v1.entities.Log;
+import com.areatecnica.sigf_v1.entities.Privilegio;
+import com.areatecnica.sigf_v1.entities.Usuario;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,54 +19,42 @@ import org.hibernate.Transaction;
  *
  * @author ianfr
  */
-public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
+public class LogDaoImpl implements GenericDao<Log>{
 
     @Override
-    public AbonoBus findById(int id) {
-        AbonoBus abonoBus = null;
+    public Log findById(int id) {
+        Log log = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus WHERE idAbonoBus=" + id;
+        String sql = "FROM Log WHERE idLog=" + id;
         try {
-            abonoBus = (AbonoBus) session.createQuery(sql).uniqueResult();
+            log = (Log) session.createQuery(sql).uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();
         }
-        return abonoBus;
+        return log;
     }
 
     @Override
-    public List<AbonoBus> findAll() {
-        List<AbonoBus> list = null;
+    public List<Log> findAll() {
+        List<Log> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus ORDER BY idAbonoBus DESC";
+        String sql = "FROM Log";
         try {
 
             list = session.createQuery(sql).list();
             tx.commit();
-        } catch (HibernateException e) {
-            tx.rollback();
-            e.printStackTrace();
-        }
-        return list;
-    }
-        
-    public List<AbonoBus> findByBus(Bus bus) {
-        List<AbonoBus> list = null;
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus WHERE bus = "+bus.getIdBus()+" ORDER BY idAbonoBus DESC";
-        try {
-            System.err.println(sql);
-            list = session.createQuery(sql).list();
-            System.err.println("tamaño"+list.size());
-            tx.commit();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();
@@ -75,12 +62,13 @@ public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
         return list;
     }
     
-    public List<AbonoBus> findGROUP() {
-        List<AbonoBus> list = null;
+    
+    public List<Log> findByPrivilegio(Privilegio privilegio) {
+        List<Log> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus GROUP BY idAbon ORDER BY descripcion ASC";
+        String sql = "FROM Log WHERE privilegio = "+privilegio.getIdPrivilegio();
         try {
 
             list = session.createQuery(sql).list();
@@ -92,33 +80,15 @@ public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
         return list;
     }
     
-    public List<AbonoBus> findByCargo(int abono) {
-        List<AbonoBus> list = null;
+    public List<Log> findByIdPrivilegio(int privilegio) {
+        List<Log> list = null;
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus WHERE idAbon ="+abono+"";
+        String sql = "FROM Log WHERE privilegio = "+privilegio;
         try {
 
             list = session.createQuery(sql).list();
-            tx.commit();
-        } catch (HibernateException e) {
-            tx.rollback();
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public List<AbonoBus> findByBusAndDate(Bus bus, Date date) {
-        List<AbonoBus> list = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus WHERE bus = "+bus.getIdBus()+" AND fechaInicioAbonoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY idAbonoBus DESC";
-        try {
-            System.err.println(sql);
-            list = session.createQuery(sql).list();
-            System.err.println("tamaño"+list.size());
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -127,16 +97,84 @@ public class AbonoBusDaoImpl implements GenericDao<AbonoBus>{
         return list;
     }
     
-    public List<AbonoBus> findByAbonoAndDate(TipoAbono tipoAbono, Date date) {
-        List<AbonoBus> list = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    public List<Log> findByIdPrivilegioLong(int privilegio) {
+        List<Log> list = null;
+
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM AbonoBus WHERE tipoAbono = "+tipoAbono.getIdTipoAbono()+" AND fechaInicioAbonoBus BETWEEN '"+format.format(date)+"' AND LAST_DAY('"+format.format(date)+"') ORDER BY bus.numeroBus ASC";
+        String sql = "FROM Log WHERE privilegio = "+privilegio;
         try {
-            System.err.println(sql);
+
+            list = session.createQuery(sql).setMaxResults(100).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    public List<Log> findByIdPrivilegioShort(int privilegio) {
+        List<Log> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Log WHERE privilegio = "+privilegio;
+        try {
+
+            list = session.createQuery(sql).setMaxResults(20).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Log> findByUsuario(Usuario usuario) {
+        List<Log> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Log WHERE usuario = "+usuario.getIdUsuario();
+        try {
+
             list = session.createQuery(sql).list();
-            System.err.println("tamaño"+list.size());
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Log> findByUsuarioLong(Usuario usuario) {
+        List<Log> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Log WHERE usuario = "+usuario.getIdUsuario();
+        try {
+
+            list = session.createQuery(sql).setMaxResults(100).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Log> findByUsuarioShort(Usuario usuario) {
+        List<Log> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Log WHERE usuario = "+usuario.getIdUsuario();
+        try {
+
+            list = session.createQuery(sql).setMaxResults(20).list();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

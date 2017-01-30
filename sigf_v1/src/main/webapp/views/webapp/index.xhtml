@@ -11,47 +11,313 @@
             <ui:define name="content" class="ui-corner-all" >
                 <p:accordionPanel multiple="true" >
                     <p:tab title="Registro de Guías" rendered="#{indexController.registroGuias==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
-                            <h:outputText
-                                value="The story begins as Don Vito Corleone..." />
-                        </h:panelGrid>
+                        <p:dataTable 
+                            id="registroGuias"                                 
+                            value="#{indexController.registroGuiasItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos movimientos en Guías
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaRegistroLog}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </h:outputText>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Usuario"/>
+                                </f:facet>
+                                <h:outputText value="#{item.usuario}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Registro de Guías" outcome="#{appBean.basePath}webapp/guias/indexGuias.xhtml" />
                     </p:tab>
                     <p:tab title="Tesorería" rendered="#{indexController.tesoreria==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="tesoreria"                                 
+                            value="#{indexController.tesoreriaItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos movimientos en Tesorería
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:separator/>
+                        <p:link value="Ingresar a Tesorería" outcome="#{appBean.basePath}webapp/tesoreria/indexTesoreria.xhtml" />
                     </p:tab>
                     <p:tab title="Boletos" rendered="#{indexController.boletos==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="boletos"                                 
+                            value="#{indexController.boletosItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos movimientos en Boletos
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Inventario de Boletos" />
                     </p:tab>
                     <p:tab title="Remuneraciones" rendered="#{indexController.remuneraciones==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-                            <h:outputText value="Francis Ford Coppola's legendary..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="remuneraciones"                                 
+                            value="#{indexController.remuneracionesItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos movimientos en Remuneraciones
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Remuneraciones" outcome="#{appBean.basePath}webapp/remuneraciones/indexRemuneraciones.xhtml" />
+
                     </p:tab>
                     <p:tab title="Servicios" rendered="#{indexController.servicios==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="servicio"                                 
+                            value="#{indexController.servicioItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos movimientos en Servicio
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Servicios" outcome="#{appBean.basePath}webapp/servicio/indexServicio.xhtml" />
                     </p:tab>
                     <p:tab title="Informes" rendered="#{indexController.informes==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="informes"                                 
+                            value="#{indexController.informesItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos accesos a Informes
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Informes" outcome="#{appBean.basePath}webapp/informes/indexInformes.xhtml" />
                     </p:tab>
                     <p:tab title="Empresario" rendered="#{indexController.empresario==true}">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+
+                        <p:dataTable 
+                            id="empresario"                                 
+                            value="#{indexController.empresariosItems}"
+                            lazy="false"
+                            var="item"
+                            rowKey="#{item}"  
+                            rowIndexVar="rowIndex"
+                            emptyMessage="No se han encontrado registros"
+                            tableStyle="table-layout: auto" 
+                            >
+
+                            <f:facet name="header">
+                                Últimos accesos a empresario
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N°"/>
+                                </f:facet>
+                                <h:outputText value="#{rowIndex+1}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Acción"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoAccion}"/>
+                            </p:column>
+
+                            <p:column style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcionLog}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:separator/>
+                        <p:link value="Ingresar a Empresario" outcome="#{appBean.basePath}webapp/portalEmpresario/indexPortal.xhtml" />
                     </p:tab>
                 </p:accordionPanel>
 

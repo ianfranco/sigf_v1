@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>    
         <h:outputScript library="primefaces" name="jquery/jquery.js" />
@@ -47,7 +47,12 @@
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Registro de Guías"  collapsible="true">
                 <div id="menu">
-                    <h:form> 
+                    <h:form>
+
+                        <p:idleMonitor timeout="50000">
+                            <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="growl" global="fasle"/>
+                            <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="growl" global="false"/>
+                        </p:idleMonitor>
                         <p:menubar>
                             <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/guias/indexGuias.xhtml" icon="ui-icon-home" />
 
@@ -88,8 +93,8 @@
                                 <p:menuitem value="Búsqueda Códigos Uno" outcome="#{appBean.basePath}webapp/guias/varios/busquedacodigosuno"/>
                             </p:submenu>
 
-                            <f:facet name="options">                        
-                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
+                            <f:facet name="options">                                
+                                <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink" global="false"/>
                             </f:facet>
                         </p:menubar>
                     </h:form>
