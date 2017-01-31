@@ -46,8 +46,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -58,7 +58,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "planillonGuiaController")
-@SessionScoped
+@ViewScoped
 public class PlanillonGuiaController implements Serializable {
 
     @Inject
