@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="selector">
+            <p:panel id="selector" header="Planillón de Imposiciones" style="margin-bottom: 10px;width: 3500px">
+                <h:panelGrid columns="8">
+                    <p:outputLabel value="Operador" for="idOperador"/>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="idOperador" value="#{planillonImposicionesController.idOperador}" >                        
+                            <f:selectItem itemLabel="Viña Bus S.A." itemValue="0"/>
+                            <f:selectItem itemLabel="Sol y Mar S.A." itemValue="1"/>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+
+                    <p:outputLabel for="mes" value="Mes:" />
+                    <p:selectOneMenu id="mes" value="#{planillonImposicionesController.mes}" style="width:125px">
+                        <f:selectItem itemLabel="Enero" itemValue="1" />
+                        <f:selectItem itemLabel="Febrero" itemValue="2" />
+                        <f:selectItem itemLabel="Marzo" itemValue="3" />
+                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                        <f:selectItem itemLabel="Mayo" itemValue="5" />
+                        <f:selectItem itemLabel="Junio" itemValue="6" />
+                        <f:selectItem itemLabel="Julio" itemValue="7" />
+                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="anio" value="Año:" />
+                    <p:inputText id="anio" value="#{planillonImposicionesController.anio}" size="5" >
+                    </p:inputText>
+
+                    <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Buscar trabajadores" update="TrabajadorListForm:datalist, growl" style="width:180px" actionListener="#{planillonImposicionesController.init}">
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="TrabajadorListForm">
+            <p:contextMenu id="TrabajadorDataTableContextMenu" for="datalist">              
+                <p:separator/>
+            </p:contextMenu>
+
+            <p:dataTable id="datalist"
+                         value="#{planillonImposicionesController.items}"                     
+                         var="item"
+                         paginator="true"
+                         rows="500"
+                         rowKey="#{item.empresa}"
+                         rowsPerPageTemplate="100,200,500,1000"
+                         scrollable="true"
+                         scrollWidth="3500"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"
+
+                         >
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{trabajadorController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idTrabajador}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:TrabajadorDataTableContextMenu" listener="#{planillonImposicionesController.resetParents}" global="false"/>
+                <p:ajax event="rowUnselect" update="@form:TrabajadorDataTableContextMenu" listener="#{planillonImposicionesController.resetParents}" global="false"/>                        
+
+                <f:facet name="header">
+                    Contratos Activos x Empresa
+                </f:facet>
+
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column rowspan="2" headerText="Empresa" />
+                        <p:column colspan="4" headerText="Detalle" />
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="N°" />
+                        <p:column headerText="Cod." />
+                        <p:column headerText="Nombre" style="width:420px;"/>
+                        <p:column headerText="Rut" />
+                        <p:column headerText="Contrato" />
+                        <p:column headerText="Inicio" />
+                        <p:column headerText="Termino" />
+                        <p:column headerText="Bruto" />
+                        <p:column headerText="D.G." />
+                        <p:column headerText="D.V." />
+                        <p:column headerText="D.L." />
+                        <p:column headerText="D.D." />
+                        <p:column headerText="D.T." />
+                        <p:column headerText="19%" />
+                        <p:column headerText="Feriado" />
+                        <p:column headerText="Imponible" />
+                        <p:column headerText="Diferencia" />
+                        <p:column headerText="Afp" />
+                        <p:column headerText="Monto" />
+                        <p:column headerText="Apv" />
+                        <p:column headerText="0.6% SC" />
+                        <p:column headerText="2.4% SC" />
+                        <p:column headerText="3.0% SC" />
+                        <p:column headerText="Sis." />
+                        <p:column headerText="CC" />
+                        <p:column headerText="Inp" />
+                        <p:column headerText="Isapre" />
+                        <p:column headerText="D.Leg." />
+                    </p:row>
+                </p:columnGroup>
+
+                <p:subTable var="liquidaciones" value="#{item.liquidaciones}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{item.empresa}" />
+                    </f:facet>
+                    <p:column>
+                        <h:outputText value="" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" >                        
+                        <h:outputText value="#{liquidaciones.trabajador.codigoTrabajador}"/>
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" >                        
+                        <h:outputText value="#{liquidaciones.trabajador.codigoTrabajador}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;width: 220px" >
+                        <h:outputText value="#{liquidaciones.trabajador}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.trabajador.rutTrabajador}"/>
+                    </p:column>            
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.tipoContrato.idTipoContrato}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.fechaContrato}">
+                            <f:convertDateTime pattern="dd/MM/yy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.fechaFiniquito eq liquidaciones.fechaContrato?' ': liquidaciones.fechaFiniquito}">
+                            <f:convertDateTime pattern="dd"/>                            
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;width: 50px;">
+                        <h:outputText value="#{liquidaciones.montoBruto}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.diasGuias}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.diasFeriado==0?' ': liquidaciones.diasFeriado}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.diasLicencias==0?' ': liquidaciones.diasLicencias}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.diasDescanso==0?' ': liquidaciones.diasDescanso}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.diasTrabajados==0?' ': liquidaciones.diasTrabajados}"/>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoImponible}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column style="text-align: right;width: 30px;">
+                        <h:outputText value="#{liquidaciones.montoFeriado == 0?'': liquidaciones.montoFeriado}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoImponibleAjustado}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoImponible-liquidaciones.montoImponibleAjustado}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{liquidaciones.trabajador.institucionPrevision}"/>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoPrevision}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoApv == 0?'': liquidaciones.montoApv}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoCesantiaTrabajador == 0?'': liquidaciones.montoCesantiaTrabajador}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoCesantiaEmpresa== 0?'': liquidaciones.montoCesantiaEmpresa}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoCesantiaTotal== 0?'': liquidaciones.montoCesantiaTotal}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoSis== 0?'': liquidaciones.montoSis}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoCajaCompensacion}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoInp}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoIsapre== 0?'': liquidaciones.montoIsapre}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: right;">
+                        <h:outputText value="#{liquidaciones.montoPrevision+liquidaciones.montoApv+liquidaciones.montoCesantiaTrabajador+liquidaciones.montoCajaCompensacion+liquidaciones.montoInp+liquidaciones.montoIsapre}">
+                            <f:convertNumber currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column footerText="Cantidad: " style="text-align:right"/>
+                            <p:column footerText="#{item.liquidaciones.size()}" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                        </p:row>
+                    </p:columnGroup>
+                </p:subTable>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_fechaNacimientoTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaNacimientoTrabajador}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.nacionalidad}" filterBy="#{item.nacionalidad}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_nacionalidad}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="nacionalidad" value="#{item.nacionalidad}" title="#{bundle.EditTrabajadorTitle_nacionalidad}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_sexo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="sexo" value="#{item.sexo}" title="#{bundle.EditTrabajadorTitle_sexo}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.estadoCivil}" filterBy="#{item.estadoCivil}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_estadoCivil}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.estadoCivil}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.calleTrabajador}" filterBy="#{item.calleTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_calleTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.calleTrabajador}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.telefonoFijoTrabajador}" filterBy="#{item.telefonoFijoTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_telefonoFijoTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.telefonoFijoTrabajador}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    
+                -->
+                <!--
+                                    <p:column sortBy="#{item.emailTrabajador}" filterBy="#{item.emailTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_emailTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.emailTrabajador}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.numeroCargas}" filterBy="#{item.numeroCargas}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_numeroCargas}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numeroCargas}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.montoSalud}" filterBy="#{item.montoSalud}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_montoSalud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.montoSalud}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.formaPagoApv}" filterBy="#{item.formaPagoApv}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_formaPagoApv}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="formaPagoApv" value="#{item.formaPagoApv}" title="#{bundle.EditTrabajadorTitle_formaPagoApv}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.subsidioJoven}" filterBy="#{item.subsidioJoven}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_subsidioJoven}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="subsidioJoven" value="#{item.subsidioJoven}" title="#{bundle.EditTrabajadorTitle_subsidioJoven}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fechaIngresoTrabajador}" filterBy="#{item.fechaIngresoTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_fechaIngresoTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaIngresoTrabajador}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
