@@ -14,6 +14,10 @@
             #growl {
                 background: #D20005;
             }
+            
+            .nombre{
+                width: 500px;
+            }
         </style>
 
         <title>SIGF - Remuneraciones</title>
@@ -125,10 +129,8 @@
 
                             </p:submenu>
                             <p:submenu label="Procesos">
-                                <p:menuitem value="Planillón" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillon" />
-                                
-                                <p:menuitem value="Planillón Imposiciones" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonImposiciones" />
-                                
+                                <p:menuitem value="Planillón" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonImposiciones_1" />
+                                                                
                                 <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:menuitem value="Liquidaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
                             </p:submenu>

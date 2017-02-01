@@ -59,18 +59,9 @@
                          scrollWidth="3500"
                          rowIndexVar="rowIndex"
                          emptyMessage="No se han encontrado registros"
-
+                         
                          >
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{trabajadorController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.idTrabajador}"
-                -->
-
-
+               
                 <p:ajax event="rowSelect"   update="@form:TrabajadorDataTableContextMenu" listener="#{planillonImponiblesController.resetParents}" global="false"/>
                 <p:ajax event="rowUnselect" update="@form:TrabajadorDataTableContextMenu" listener="#{planillonImponiblesController.resetParents}" global="false"/>                        
 
@@ -78,28 +69,30 @@
                     Lista de Trabajadores
                 </f:facet>
 
-                <p:column style="text-align: center;">
+                
+                
+                <p:column style="text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="N°"/>
                     </f:facet>
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
 
-                <p:column style="text-align: center;width: 220px;" >
+                <p:column style="text-align: center;width: 180px;" filterBy="#{item.empresa.nombreEmpresa}">
                     <f:facet name="header">
                         <h:outputText value="Empresa"/>
                     </f:facet>
                     <h:outputText value="#{item.empresa.nombreEmpresa}"/>
                 </p:column>
 
-                <p:column style="text-align: center;" >
+                <p:column style="text-align: center;" filterBy="#{item.trabajador.codigoTrabajador}">
                     <f:facet name="header">
                         <h:outputText value="Cód."/>
                     </f:facet>
                     <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
                 </p:column>
 
-                <p:column style="text-align: center;width: 220px" >
+                <p:column style="text-align: center;width: 180px" filterBy="#{item.trabajador}">
                     <f:facet name="header">
                         <h:outputText value="Trabajador"/>
                     </f:facet>
@@ -220,8 +213,6 @@
                     </h:outputText>
                 </p:column>
 
-
-
                 <p:column style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Afp"/>
@@ -317,42 +308,7 @@
                     <h:outputText value="#{item.montoPrevision+item.montoApv+item.montoCesantiaTrabajador+item.montoCajaCompensacion+item.montoInp+item.montoIsapre}">
                         <f:convertNumber currencySymbol="$"/>
                     </h:outputText>
-                </p:column>
-
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="N° Cargas"/>
-                    </f:facet>
-                    <h:outputText value="#{item.numeroCarga}"/>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="T.Cargas"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoCarga}"/>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="Retro."/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoRetroactivo}"/>
-                </p:column>
-                
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="5 %"/>
-                    </f:facet>
-                    <h:outputText value="#{item.montoCincoPorcientoTotal}"/>
-                </p:column>
-
-                <p:column style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="Terminal"/>
-                    </f:facet>
-                    <h:outputText value="#{item.nombreTerminal}"/>
-                </p:column>
+                </p:column>            
 
                 <!--
                                     <p:column sortBy="#{item.fechaNacimientoTrabajador}" filterBy="#{item.fechaNacimientoTrabajador}">

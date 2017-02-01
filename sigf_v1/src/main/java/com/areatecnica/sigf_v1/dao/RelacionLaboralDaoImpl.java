@@ -87,6 +87,33 @@ public class RelacionLaboralDaoImpl implements GenericDao<RelacionLaboral> {
         }
         return list;
     }
+    
+    public List<RelacionLaboral> findEmpresasActivas(Date fechaMes, int idOperador) {
+        List<RelacionLaboral> list = null;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "SELECT * FROM relacion_laboral LEFT JOIN empresa ON relacion_laboral.id_empresa = empresa.id_empresa LEFT JOIN trabajador ON relacion_laboral.id_trabajador = trabajador.id_trabajador "
+                + "WHERE fecha_inicio <= LAST_DAY('" + format.format(fechaMes) + "') AND fecha_fin BETWEEN IF(fecha_inicio = fecha_fin, fecha_fin, '" + format.format(fechaMes) + "')"
+                + " AND IF(fecha_fin>LAST_DAY('" + format.format(fechaMes) + "'), fecha_fin, LAST_DAY('" + format.format(fechaMes) + "')) AND id_operador = " + idOperador+ " GROUP BY empresa.id_empresa ORDER BY empresa.nombre_empresa ASC";
+
+        try {
+
+            list = (List<RelacionLaboral>) session.createSQLQuery(sql).addEntity(RelacionLaboral.class).list();
+
+            /*for (RelacionLaboral r : list) {
+                Hibernate.initialize(r.getTrabajador());
+            }*/
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public List<RelacionLaboral> findAllVinaBus() {
         List<RelacionLaboral> list = null;

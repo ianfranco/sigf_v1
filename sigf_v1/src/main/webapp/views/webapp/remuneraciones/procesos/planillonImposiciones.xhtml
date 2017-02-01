@@ -87,7 +87,7 @@
                     <p:row>
                         <p:column headerText="N°" />
                         <p:column headerText="Cod." />
-                        <p:column headerText="Nombre" style="width:420px;"/>
+                        <p:column headerText="Nombre" styleClass="nombre"/>
                         <p:column headerText="Rut" />
                         <p:column headerText="Contrato" />
                         <p:column headerText="Inicio" />
@@ -116,7 +116,7 @@
                     </p:row>
                 </p:columnGroup>
 
-                <p:subTable var="liquidaciones" value="#{item.liquidaciones}" >
+                <p:subTable var="liquidaciones" value="#{item.liquidaciones}" class="">
                     <f:facet name="header">
                         <h:outputText value="#{item.empresa}" />
                     </f:facet>
@@ -132,7 +132,7 @@
                         <h:outputText value="#{liquidaciones.trabajador.codigoTrabajador}"/>
                     </p:column>
 
-                    <p:column style="text-align: center;width: 220px" >
+                    <p:column width="500" styleClass="nombre" >
                         <h:outputText value="#{liquidaciones.trabajador}"/>
                     </p:column>
 
