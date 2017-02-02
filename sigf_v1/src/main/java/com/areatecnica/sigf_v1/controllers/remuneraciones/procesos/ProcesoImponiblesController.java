@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -82,7 +83,7 @@ public class ProcesoImponiblesController implements Serializable {
     private Empresa empresa;
     private List<Empresa> empresasList;
 
-    private Map<Empresa, ArrayList<LiquidacionSueldo>> empresasMap;
+    private LinkedHashMap<Empresa, ArrayList<LiquidacionSueldo>> empresasMap;
     private int mes;
     private int anio;
     private int maxDate;
@@ -92,8 +93,8 @@ public class ProcesoImponiblesController implements Serializable {
     private Date rangoHasta;
     private int diasMes;
     private int idOperador;
-    private static final int SUELDOBASE = 257500;
-    private static final int SUELDOBASEPARTIME = 171667;
+    private static final int SUELDOBASE = 264000;
+    private static final int SUELDOBASEPARTIME = 176000;
     private static final int VALORDIA = (int) SUELDOBASE / 30;
     private static final long VALORSIS = (long) 0.0141;
     private Date FECHACESANTIA;
@@ -161,7 +162,7 @@ public class ProcesoImponiblesController implements Serializable {
 
         this.egresoGuiaDaoImpl = new EgresoGuiaDaoImpl();
 
-        this.empresasMap = new HashMap();
+        this.empresasMap = new LinkedHashMap();
 
         this.empresasList = new ArrayList<>();
         this.liquidacionItems = new ArrayList<>();
@@ -416,6 +417,7 @@ public class ProcesoImponiblesController implements Serializable {
                     montoIsapre = (montoIsapre / 30) * diasIsapre;
                     l.setMontoIsapre(montoIsapre);
                 }
+                l.setNombreIsapre(r.getTrabajador().getInstitucionSalud().getNombreInstitucionSalud());
             }
 
             //CÁLCULO CODIGOS EMPRESA 
