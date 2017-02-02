@@ -15,25 +15,24 @@ import org.primefaces.context.RequestContext;
 public class MyUtil {
 
     public static String baseURL() {
-        return "http://localhost:8080/sigf_v1-2/";
+        return "http://localhost:8080/sigf_v1-3/";
     }
-    
-    public static String basePathLogin(){
-        return "/sigf_v1-2/faces/";
+
+    public static String basePathLogin() {
+        return "/sigf_v1-3/faces/";
     }
-    
-    public static String basePath(){
+
+    public static String basePath() {
         return "/faces/views/";
     }
-    
-    public static String basePathWEBINF(){
+
+    public static String basePathWEBINF() {
         return "/WEB-INF/";
     }
-    
-    
-    public static String getUserName(){
+
+    public static String getUserName() {
         RequestContext context = RequestContext.getCurrentInstance();
-        String nombre = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        String nombre = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         return nombre;
     }
 

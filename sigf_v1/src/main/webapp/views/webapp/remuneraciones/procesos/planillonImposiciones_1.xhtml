@@ -47,167 +47,169 @@
         <h:form id="TrabajadorListForm">
             <p:accordionPanel value="#{procesoImponiblesController.items}" var="empresa" id="data" multiple="true">                
                 <p:tab title="#{empresa.empresa.nombreEmpresa}" >
-                    <p:dataTable id="datalist"
-                                 value="#{empresa.liquidaciones}"                     
-                                 var="item"                                
-                                 rowKey="#{item.idLiquidacionSueldo}"                                 
-                                 scrollable="true"
-                                 scrollWidth="2500"
-                                 rowIndexVar="rowIndex"
-                                 emptyMessage="No se han encontrado registros"
-                                 
-                                 >
-                        <f:facet name="Conductores">
+                    <h:panelGrid columns="1">
+                        <p:dataTable id="datalist"
+                                     value="#{empresa.liquidaciones}"                     
+                                     var="item"                                
+                                     rowKey="#{item.idLiquidacionSueldo}"                                 
+                                     scrollable="true"
+                                     scrollWidth="2000"
+                                     rowIndexVar="rowIndex"
+                                     emptyMessage="No se han encontrado registros"
 
-                        </f:facet>
+                                     >
+                            <f:facet name="Conductores">
+                                Contratos x Mes
+                            </f:facet>
 
-                        <p:column headerText="Cod." style="text-align: center;" >                        
-                            <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
-                        </p:column>
+                            <p:column headerText="Cod." style="text-align: center;" >                        
+                                <h:outputText value="#{item.trabajador.codigoTrabajador}"/>
+                            </p:column>
 
-                        <p:column headerText="Nombre" width="180" >
-                            <h:outputText value="#{item.trabajador}"/>
-                        </p:column>
+                            <p:column headerText="Nombre" width="180" >
+                                <h:outputText value="#{item.trabajador}"/>
+                            </p:column>
 
-                        <p:column headerText="Rut" style="text-align: center;">
-                            <h:outputText value="#{item.trabajador.rutTrabajador}"/>
-                        </p:column>            
+                            <p:column headerText="Rut" style="text-align: center;">
+                                <h:outputText value="#{item.trabajador.rutTrabajador}"/>
+                            </p:column>            
 
-                        <p:column headerText="Contrato" style="text-align: center;">
-                            <h:outputText value="#{item.tipoContrato.idTipoContrato}"/>
-                        </p:column>
+                            <p:column headerText="Contrato" style="text-align: center;">
+                                <h:outputText value="#{item.tipoContrato.idTipoContrato}"/>
+                            </p:column>
 
-                        <p:column headerText="Inicio" style="text-align: center;">
-                            <h:outputText value="#{item.fechaContrato}">
-                                <f:convertDateTime pattern="dd/MM/yy"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Inicio" style="text-align: center;">
+                                <h:outputText value="#{item.fechaContrato}">
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Término" style="text-align: center;">
-                            <h:outputText value="#{item.fechaFiniquito eq item.fechaContrato?' ': item.fechaFiniquito}">
-                                <f:convertDateTime pattern="dd"/>                            
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Término" style="text-align: center;">
+                                <h:outputText value="#{item.fechaFiniquito eq item.fechaContrato?' ': item.fechaFiniquito}">
+                                    <f:convertDateTime pattern="dd"/>                            
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Bruto" style="text-align: right;width: 50px;">
-                            <h:outputText value="#{item.montoBruto}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Bruto" style="text-align: right;width: 50px;">
+                                <h:outputText value="#{item.montoBruto}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="DG" style="text-align: center;">
-                            <h:outputText value="#{item.diasGuias}"/>
-                        </p:column>
+                            <p:column headerText="DG" style="text-align: center;">
+                                <h:outputText value="#{item.diasGuias}"/>
+                            </p:column>
 
-                        <p:column headerText="DV" style="text-align: center;">
-                            <h:outputText value="#{item.diasFeriado==0?' ': item.diasFeriado}"/>
-                        </p:column>
+                            <p:column headerText="DV" style="text-align: center;">
+                                <h:outputText value="#{item.diasFeriado==0?' ': item.diasFeriado}"/>
+                            </p:column>
 
-                        <p:column headerText="DL" style="text-align: center;">
-                            <h:outputText value="#{item.diasLicencias==0?' ': item.diasLicencias}"/>
-                        </p:column>
+                            <p:column headerText="DL" style="text-align: center;">
+                                <h:outputText value="#{item.diasLicencias==0?' ': item.diasLicencias}"/>
+                            </p:column>
 
-                        <p:column headerText="DD" style="text-align: center;">
-                            <h:outputText value="#{item.diasDescanso==0?' ': item.diasDescanso}"/>
-                        </p:column>
+                            <p:column headerText="DD" style="text-align: center;">
+                                <h:outputText value="#{item.diasDescanso==0?' ': item.diasDescanso}"/>
+                            </p:column>
 
-                        <p:column headerText="DT" style="text-align: center;">
-                            <h:outputText value="#{item.diasTrabajados==0?' ': item.diasTrabajados}"/>
-                        </p:column>
+                            <p:column headerText="DT" style="text-align: center;">
+                                <h:outputText value="#{item.diasTrabajados==0?' ': item.diasTrabajados}"/>
+                            </p:column>
 
-                        <p:column headerText="19%" style="text-align: right;">
-                            <h:outputText value="#{item.montoImponible}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="19%" style="text-align: right;">
+                                <h:outputText value="#{item.montoImponible}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Feriado" style="text-align: right;width: 30px;">
-                            <h:outputText value="#{item.montoFeriado == 0?'': item.montoFeriado}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Feriado" style="text-align: right;width: 30px;">
+                                <h:outputText value="#{item.montoFeriado == 0?'': item.montoFeriado}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Imponible" style="text-align: right;">
-                            <h:outputText value="#{item.montoImponibleAjustado}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Imponible" style="text-align: right;">
+                                <h:outputText value="#{item.montoImponibleAjustado}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Dif." style="text-align: right;">
-                            <h:outputText value="#{item.montoImponible-item.montoImponibleAjustado}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Dif." style="text-align: right;">
+                                <h:outputText value="#{item.montoImponible-item.montoImponibleAjustado}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Afp" style="text-align: center;">
-                            <h:outputText value="#{item.trabajador.institucionPrevision}"/>
-                        </p:column>
+                            <p:column headerText="Afp" style="text-align: center;">
+                                <h:outputText value="#{item.trabajador.institucionPrevision}"/>
+                            </p:column>
 
-                        <p:column headerText="Monto" style="text-align: right;">
-                            <h:outputText value="#{item.montoPrevision}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Monto" style="text-align: right;">
+                                <h:outputText value="#{item.montoPrevision}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Apv" style="text-align: right;">
-                            <h:outputText value="#{item.montoApv == 0?'': item.montoApv}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Apv" style="text-align: right;">
+                                <h:outputText value="#{item.montoApv == 0?'': item.montoApv}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="0.6% SC" style="text-align: right;">
-                            <h:outputText value="#{item.montoCesantiaTrabajador == 0?'': item.montoCesantiaTrabajador}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="0.6% SC" style="text-align: right;">
+                                <h:outputText value="#{item.montoCesantiaTrabajador == 0?'': item.montoCesantiaTrabajador}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="2.4% SC" style="text-align: right;">
-                            <h:outputText value="#{item.montoCesantiaEmpresa== 0?'': item.montoCesantiaEmpresa}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="2.4% SC" style="text-align: right;">
+                                <h:outputText value="#{item.montoCesantiaEmpresa== 0?'': item.montoCesantiaEmpresa}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="3.0% SC" style="text-align: right;">
-                            <h:outputText value="#{item.montoCesantiaTotal== 0?'': item.montoCesantiaTotal}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="3.0% SC" style="text-align: right;">
+                                <h:outputText value="#{item.montoCesantiaTotal== 0?'': item.montoCesantiaTotal}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="SIS" style="text-align: right;">
-                            <h:outputText value="#{item.montoSis== 0?'': item.montoSis}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="SIS" style="text-align: right;">
+                                <h:outputText value="#{item.montoSis== 0?'': item.montoSis}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="CC" style="text-align: right;">
-                            <h:outputText value="#{item.montoCajaCompensacion}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="CC" style="text-align: right;">
+                                <h:outputText value="#{item.montoCajaCompensacion}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Inp" style="text-align: right;">
-                            <h:outputText value="#{item.montoInp}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
-                        
-                        <p:column headerText="Isapre" style="text-align: right;">
-                            <h:outputText value="#{item.nombreIsapre}"/>
-                        </p:column>
+                            <p:column headerText="Inp" style="text-align: right;">
+                                <h:outputText value="#{item.montoInp}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column headerText="Monto" style="text-align: right;">
-                            <h:outputText value="#{item.montoIsapre== 0?'': item.montoIsapre}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Isapre" style="text-align: right;">
+                                <h:outputText value="#{item.nombreIsapre}"/>
+                            </p:column>
 
-                        <p:column headerText="D.Leg." style="text-align: right;">
-                            <h:outputText value="#{item.montoPrevision+item.montoApv+item.montoCesantiaTrabajador+item.montoCajaCompensacion+item.montoInp+item.montoIsapre}">
-                                <f:convertNumber currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Monto" style="text-align: right;">
+                                <h:outputText value="#{item.montoIsapre== 0?'': item.montoIsapre}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
 
-                    </p:dataTable>
+                            <p:column headerText="D.Leg." style="text-align: right;">
+                                <h:outputText value="#{item.montoPrevision+item.montoApv+item.montoCesantiaTrabajador+item.montoCajaCompensacion+item.montoInp+item.montoIsapre}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGrid>
                 </p:tab>
             </p:accordionPanel>
 

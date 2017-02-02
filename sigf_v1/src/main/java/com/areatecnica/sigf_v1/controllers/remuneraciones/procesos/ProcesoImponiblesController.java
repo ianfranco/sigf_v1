@@ -45,11 +45,11 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "procesoImponiblesController")
 @ViewScoped
-public class ProcesoImponiblesController implements Serializable{
+public class ProcesoImponiblesController implements Serializable {
 
     private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     private final SimpleDateFormat formatMysql = new SimpleDateFormat("yyyy/MM/dd");
-    
+
     private EmpresaLiquidacion selectedEmpresaLiquidacion;
     private List<EmpresaLiquidacion> items;
 
@@ -98,16 +98,15 @@ public class ProcesoImponiblesController implements Serializable{
     private static final long VALORSIS = (long) 0.0141;
     private Date FECHACESANTIA;
     private int sueldoAjustadoAux;
-    
-    
+
     /**
      * Creates a new instance of ProcesoImponiblesController
      */
     public ProcesoImponiblesController() {
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);
@@ -119,7 +118,7 @@ public class ProcesoImponiblesController implements Serializable{
             Logger.getLogger(PlanillonImponiblesController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /*public void find(){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String to = maxDate + "/" + mes + "/" + anio;
@@ -141,18 +140,18 @@ public class ProcesoImponiblesController implements Serializable{
         }
         
     }*/
-    
     public void find() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String to = maxDate + "/" + mes + "/" + anio;
         String from = "01/" + this.mes + "/" + this.anio;
+
         try {
             this.fecha = format.parse(from);
             this.fechaMax = format.parse(to);
         } catch (ParseException p) {
 
         }
-        
+
         this.items = new ArrayList<>();
 
         System.err.println("IDENTIFICACIÓN OPERADOR:" + this.idOperador + " Fecha:" + this.fecha);
@@ -172,24 +171,20 @@ public class ProcesoImponiblesController implements Serializable{
         this.licenciaMedicaDaoImpl = new LicenciaMedicaDaoImpl();
         this.guiaDao = new GuiaDaoImpl();
 
-        
         this.liquidacionItems = new ArrayList<>();
-        
-        System.err.println("TAMAÑO DEL ARCHIVO DE RELACIONES:"+this.relacionLaboralItems.size());
-        
+
+        System.err.println("TAMAÑO DEL ARCHIVO DE RELACIONES:" + this.relacionLaboralItems.size());
+
         for (RelacionLaboral r : this.relacionLaboralItems) {
-            
-            
-            
-            if(!empresasMap.containsValue(r.getEmpresa())){
-                
+
+            if (!empresasMap.containsKey(r.getEmpresa())) {
+
                 empresasMap.put(r.getEmpresa(), new ArrayList<LiquidacionSueldo>());
             }
-            
+
             //this.empresasMap.put(r.getEmpresa().getIdEmpresa(), r.getEmpresa());
-            
             System.err.println("EMPRESA:" + r.getEmpresa().getNombreEmpresa());
-            
+
             LiquidacionSueldo l = new LiquidacionSueldo();
 
             l.setTrabajador(r.getTrabajador()); //ok
@@ -262,12 +257,20 @@ public class ProcesoImponiblesController implements Serializable{
             if (this.feriadoLegal == null && this.licenciaMedicaItems.isEmpty()) {
 
                 this.guiaItems = this.guiaDao.findBrutoByConductor(r.getTrabajador(), this.rangoDesde, this.rangoHasta);
-                for (Guia g : this.guiaItems) {
-                    montoBruto += g.getTotalIngresos();
-                    diasTrabajados++;
 
-                    egresoGuia = this.egresoGuiaDaoImpl.findByGuiaAndEgresoClean(g.getIdGuia(), 12);
-                    cincoPorciento = cincoPorciento + egresoGuia.getMonto();
+                if (!this.guiaItems.isEmpty()) {
+                    for (Guia g : this.guiaItems) {
+                        System.err.println("GUIA n° :"+g.getFolio());
+                        montoBruto += g.getTotalIngresos();
+                        diasTrabajados++;
+
+                        egresoGuia = this.egresoGuiaDaoImpl.findByGuiaAndEgresoClean(g.getIdGuia(), 12);
+                        cincoPorciento = cincoPorciento + egresoGuia.getMonto();
+                    }
+                }else{
+                    montoBruto = 0;
+                    diasTrabajados = 0;
+                    cincoPorciento = 0;
                 }
 
                 l.setMontoCincoPorcientoTotal(cincoPorciento);
@@ -527,17 +530,15 @@ public class ProcesoImponiblesController implements Serializable{
             l.setMontoRetroactivo(0);
 
             //this.liquidacionItems.add(l);
-            
             empresasMap.get(r.getEmpresa()).add(l);
-            
-            System.err.println("TAMAÑO DEL ARCHIVO DE LIQUIDACIONES POR EMPRESA:"+this.empresasMap.get(r.getEmpresa()).size());
+
+            System.err.println("TAMAÑO DEL ARCHIVO DE LIQUIDACIONES POR EMPRESA:" + this.empresasMap.get(r.getEmpresa()).size());
         }
-        
-        for(Map.Entry<Empresa, ArrayList<LiquidacionSueldo>> a: empresasMap.entrySet()){
+
+        for (Map.Entry<Empresa, ArrayList<LiquidacionSueldo>> a : empresasMap.entrySet()) {
             EmpresaLiquidacion el = new EmpresaLiquidacion(a.getKey(), a.getValue());
             this.items.add(el);
         }
-        
 
         //this.empresasList = new ArrayList<Empresa>(empresasMap.values());
     }
@@ -574,14 +575,14 @@ public class ProcesoImponiblesController implements Serializable{
 
         }
     }
-    
-    public void findRelacionByEmpresa(Empresa empresa){
-        JsfUtil.addSuccessMessage("Empresa: "+empresa.getNombreEmpresa());
+
+    public void findRelacionByEmpresa(Empresa empresa) {
+        JsfUtil.addSuccessMessage("Empresa: " + empresa.getNombreEmpresa());
     }
-    
-    public ArrayList<LiquidacionSueldo> findRelaciones(Empresa empresa){
-        JsfUtil.addSuccessMessage("Empresa: "+empresa.getNombreEmpresa());
-        
+
+    public ArrayList<LiquidacionSueldo> findRelaciones(Empresa empresa) {
+        JsfUtil.addSuccessMessage("Empresa: " + empresa.getNombreEmpresa());
+
         return new ArrayList<>();
     }
 
@@ -664,5 +665,5 @@ public class ProcesoImponiblesController implements Serializable{
     public void setItems(List<EmpresaLiquidacion> items) {
         this.items = items;
     }
-    
+
 }
