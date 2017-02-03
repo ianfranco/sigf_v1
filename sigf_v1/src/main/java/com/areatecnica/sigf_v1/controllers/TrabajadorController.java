@@ -347,6 +347,8 @@ public class TrabajadorController implements Serializable {
                 } else {
                     this.selected.setNacionalidad(false);
                 }
+                
+                this.selected.setCesantia(false);
 
                 session.save(this.selected);
 

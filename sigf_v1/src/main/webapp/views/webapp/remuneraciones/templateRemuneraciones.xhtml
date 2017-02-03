@@ -96,11 +96,12 @@
                                     <p:menuitem value="Listado" outcome="#{appBean.basePath}webapp/remuneraciones/personal/sindicatos/list"/>
                                     <p:menuitem value="Asignación x Trabajador" outcome="#{appBean.basePath}webapp/remuneraciones/personal/sindicatos/sindicatoxpersonal" />
                                 </p:submenu>
-
-                            </p:submenu>                            
+                            </p:submenu>    
+                            
                             <p:submenu label="Empresas">
                                 <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
                             </p:submenu>
+                            
                             <p:submenu label="Movimientos">
                                 <p:submenu label="Descuentos">
                                     <p:menuitem value="Registro General" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/descuentos/registroDescuentos"/>
@@ -124,16 +125,16 @@
                                         <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/definicion"/>                                        
                                     </p:submenu>                                
                                 </p:submenu>
-
                                 <p:menuitem value="Anticipos"/>
-
                             </p:submenu>
+                            
                             <p:submenu label="Procesos">
                                 <p:menuitem value="Planillón Imposiciones" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonImposiciones_1" />
                                 <p:menuitem value="Planillón Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonDescuentos" />
                                 <p:menuitem value="Cierre de Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:menuitem value="Liquidaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />                                
                             </p:submenu>
+                            
                             <p:submenu label="RR.HH">
                                 <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/remuneraciones/reportes/produccionxconductor" />
                                 <p:menuitem value="Control de Asistencia" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
@@ -142,7 +143,8 @@
                                 </p:submenu>                                
                                 <p:menuitem value="Observaciones" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
                                 <p:menuitem value="Tipos de Trabajadores" outcome="#{appBean.basePath}webapp/remuneraciones/personal/List" />
-                            </p:submenu>    
+                            </p:submenu>   
+                            
                             <p:submenu label="Instituciones">
                                 <p:menuitem value="AFP" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/afp" />
                                 <p:menuitem value="Ahorro Previsional" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/apv" />

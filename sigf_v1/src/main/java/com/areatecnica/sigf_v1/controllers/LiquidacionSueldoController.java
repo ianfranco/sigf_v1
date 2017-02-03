@@ -77,9 +77,8 @@ public class LiquidacionSueldoController implements Serializable {
         init();
     }
 
-    
     public void init() {
-        
+
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(this.fecha);
         this.mes = calendar.get(Calendar.MONTH) + 1;
@@ -89,22 +88,21 @@ public class LiquidacionSueldoController implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String to = ultimoDiaMes + "/" + mes + "/" + anio;
         String from = "01/" + this.mes + "/" + this.anio;
-        
-        System.err.println("FECHA MÁXIMA:;::"+this.fechaMax);
-        
+
+        System.err.println("FECHA MÁXIMA:;::" + this.fechaMax);
+
         try {
             this.fecha = format.parse(from);
             this.fechaMax = format.parse(to);
         } catch (ParseException p) {
             p.printStackTrace();
         }
-        
-        
+
         this.egresoGuiaDaoImpl = new EgresoGuiaDaoImpl();
         this.feriadoLegalDaoImpl = new FeriadoLegalDaoImpl();
         this.guiaDao = new GuiaDaoImpl();
         this.licenciaMedicaDaoImpl = new LicenciaMedicaDaoImpl();
-                
+
         try {
             this.FECHACESANTIA = format.parse("02/10/2002");
         } catch (ParseException ex) {
@@ -114,11 +112,8 @@ public class LiquidacionSueldoController implements Serializable {
 
     public LiquidacionSueldo getLiquidacion() {
         this.liquidacionSueldo = new LiquidacionSueldo();
-        
-        
-        
         this.liquidacionSueldo.setTrabajador(this.relacionLaboral.getTrabajador());
-        System.err.println("TRABAJADOR:"+this.liquidacionSueldo.getTrabajador()+" FECHA:"+this.fecha+" RELACIONFECHA:"+this.relacionLaboral.getFechaInicio());
+        System.err.println("TRABAJADOR:" + this.liquidacionSueldo.getTrabajador() + " FECHA:" + this.fecha + " RELACIONFECHA:" + this.relacionLaboral.getFechaInicio());
         this.liquidacionSueldo.setEmpresa(this.relacionLaboral.getEmpresa());
         this.liquidacionSueldo.setTipoContrato(this.relacionLaboral.getTipoContrato());
         this.liquidacionSueldo.setIdTerminal(this.relacionLaboral.getTerminal().getIdTerminal());
@@ -131,8 +126,8 @@ public class LiquidacionSueldoController implements Serializable {
         } else {
             this.rangoDesde = this.relacionLaboral.getFechaInicio();
         }
-        
-        System.err.println("FECHA INICIO CONTRATO: "+this.relacionLaboral.getFechaInicio()+" FECHA FIN CONTRATO: "+this.relacionLaboral.getFechaFin()+" FECHA MAXIMA:"+this.fechaMax);
+
+        System.err.println("FECHA INICIO CONTRATO: " + this.relacionLaboral.getFechaInicio() + " FECHA FIN CONTRATO: " + this.relacionLaboral.getFechaFin() + " FECHA MAXIMA:" + this.fechaMax);
 
         this.liquidacionSueldo.setFechaFiniquito(this.relacionLaboral.getFechaFin());
 
@@ -142,8 +137,8 @@ public class LiquidacionSueldoController implements Serializable {
             this.rangoHasta = this.fechaMax;
         }
 
-        System.err.println("FECHA DESDE:"+this.rangoDesde+" fecha HASTA:"+this.rangoHasta+" FECHA FINIQUITO:"+this.relacionLaboral.getFechaFin());
-        
+        System.err.println("FECHA DESDE:" + this.rangoDesde + " fecha HASTA:" + this.rangoHasta + " FECHA FINIQUITO:" + this.relacionLaboral.getFechaFin());
+
         this.diasMes = getDifferenceDays(this.rangoDesde, this.rangoHasta);
 
         System.err.println("FECHAS DEL CONTRATO:" + this.liquidacionSueldo.getFechaContrato() + " " + this.liquidacionSueldo.getFechaFiniquito() + " Fecha Máxima:" + this.fechaMax);
@@ -184,7 +179,7 @@ public class LiquidacionSueldoController implements Serializable {
         }
 
         liquidacionSueldo.setDiasLicencias(diasLicencias);
-        
+
         int montoBruto = 0;
         int diasTrabajados = 0;
         int cincoPorciento = 0;
@@ -235,17 +230,28 @@ public class LiquidacionSueldoController implements Serializable {
         } else if (this.feriadoLegal != null && this.licenciaMedicaItems.isEmpty()) {
 
             this.guiaItems = this.guiaDao.findBrutoByConductorWithFeriado(relacionLaboral.getTrabajador(), this.rangoDesde, this.rangoHasta, this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado());
-            for (Guia g : this.guiaItems) {
-                montoBruto += g.getTotalIngresos();
-                diasTrabajados++;
+            if (!this.guiaItems.isEmpty()) {
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
+                }
+            }else{
+                montoBruto = 0;
+                diasTrabajados = 0;
             }
 
         } else {
 
             this.guiaItems = this.guiaDao.findBrutoByConductorWithLicenciasAndFeriado(relacionLaboral.getTrabajador(), this.rangoDesde, this.rangoHasta, this.feriadoLegal.getFechaDesdeFeriado(), this.feriadoLegal.getFechaHastaFeriado(), this.licenciasString);
-            for (Guia g : this.guiaItems) {
-                montoBruto += g.getTotalIngresos();
-                diasTrabajados++;
+            
+            if (this.guiaItems!=null) {
+                for (Guia g : this.guiaItems) {
+                    montoBruto += g.getTotalIngresos();
+                    diasTrabajados++;
+                }
+            }else{
+                montoBruto = 0;
+                diasTrabajados = 0;
             }
 
         }
@@ -338,11 +344,11 @@ public class LiquidacionSueldoController implements Serializable {
         liquidacionSueldo.setMontoApv(relacionLaboral.getTrabajador().getMontoApv());
 
         //AFP
-        liquidacionSueldo.setMontoPrevision((int) (liquidacionSueldo.getMontoImponible() * relacionLaboral.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue() / 100));
+        liquidacionSueldo.setMontoPrevision((int) (liquidacionSueldo.getMontoImponibleAjustado() * relacionLaboral.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue() / 100));
 
         if (liquidacionSueldo.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() != 7) {
             if (liquidacionSueldo.getTrabajador().getMonedaPactadaInstitucionSalud().getIdMonedaSalud() == 1) {
-                liquidacionSueldo.setMontoIsapre((int) (liquidacionSueldo.getMontoImponibleAjustado() * (liquidacionSueldo.getTrabajador().getMontoSalud().longValue() / 100)));
+                liquidacionSueldo.setMontoIsapre((int) (liquidacionSueldo.getMontoImponibleAjustado() * relacionLaboral.getTrabajador().getMontoSalud().longValue() / 100));
             } else {
                 if (diasMes > 30) {
                     diasMes = 30;
@@ -350,8 +356,9 @@ public class LiquidacionSueldoController implements Serializable {
 
                 int diasIsapre = diasMes - diasLicencias;
 
-                int montoIsapre = (int) (26318.21 * liquidacionSueldo.getTrabajador().getMontoSalud().longValue());
+                int montoIsapre = (int) (26318.21 * relacionLaboral.getTrabajador().getMontoSalud().longValue());
                 montoIsapre = (montoIsapre / 30) * diasIsapre;
+                System.err.println("MONTO ISAPRE 2:" + montoIsapre);
                 liquidacionSueldo.setMontoIsapre(montoIsapre);
             }
             liquidacionSueldo.setNombreIsapre(relacionLaboral.getTrabajador().getInstitucionSalud().getNombreInstitucionSalud());
@@ -437,7 +444,7 @@ public class LiquidacionSueldoController implements Serializable {
 
         int dias2 = getDifferenceDays(liquidacionSueldo.getFechaContrato(), this.rangoHasta);
         //
-        if ((liquidacionSueldo.getTrabajador().getCesantia() && liquidacionSueldo.getFechaContrato().before(FECHACESANTIA)) || dias2 > 364) //Cálculo de Cesantía
+        if ((relacionLaboral.getTrabajador().getCesantia() && liquidacionSueldo.getFechaContrato().before(FECHACESANTIA)) || dias2 > 364) //Cálculo de Cesantía
         {
             if (diasLicencias >= 30 || liquidacionSueldo.getTrabajador().getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador() == 3) {
                 cesantiaEmpleador = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (2.4 / 100));
@@ -467,7 +474,7 @@ public class LiquidacionSueldoController implements Serializable {
         liquidacionSueldo.setMontoCarga(liquidacionSueldo.getNumeroCarga() * liquidacionSueldo.getTrabajador().getAsignacionFamiliar().getMonto());
 
         liquidacionSueldo.setMontoRetroactivo(0);
-        
+
         return this.liquidacionSueldo;
     }
 
