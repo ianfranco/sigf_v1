@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateRemuneraciones.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel id="DescuentoTrabajadorLiquidacionCreateDlg" widgetVar="DescuentoTrabajadorLiquidacionCreateDialog" header="Liquidación x Trabajador" >
+
+            <h:form id="DescuentoTrabajadorLiquidacionCreateForm">
+
+                <h:panelGroup id="display" >
+                    <p:focus context="trabajador"/>
+                    <h:panelGrid columns="8" columnClasses="column">
+
+                        <p:outputLabel for="mes" value="Seleccionar:" />
+                        <p:selectOneMenu id="mes" value="#{detalleLiquidacionTrabajadorController.mes}" style="width:125px">
+                            <f:selectItem itemLabel="Enero" itemValue="1" />
+                            <f:selectItem itemLabel="Febrero" itemValue="2" />
+                            <f:selectItem itemLabel="Marzo" itemValue="3" />
+                            <f:selectItem itemLabel="Abril" itemValue="4" />
+                            <f:selectItem itemLabel="Mayo" itemValue="5" />
+                            <f:selectItem itemLabel="Junio" itemValue="6" />
+                            <f:selectItem itemLabel="Julio" itemValue="7" />
+                            <f:selectItem itemLabel="Agosto" itemValue="8" />
+                            <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                            <f:selectItem itemLabel="Octubre" itemValue="10" />
+                            <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                            <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="anio" value="Año:" />
+                        <p:inputText id="anio" value="#{detalleLiquidacionTrabajadorController.anio}" size="5" />
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
+                        <h:panelGroup>
+                            <h:panelGrid columns="4">
+                                <p:selectOneMenu id="trabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{detalleLiquidacionTrabajadorController.trabajadorItems}"
+                                                   var="trabajadorItem"
+                                                   itemValue="#{trabajadorItem}"
+                                                   itemLabel="#{trabajadorItem.codigoTrabajador}"
+                                                   />
+
+                                </p:selectOneMenu>                                
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DetalleForm:nombreTrabajador, :DetalleForm:cinco" resetValues="true">
+
+                        </p:commandButton>
+
+                    </h:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:panel>
+
+        <h:form id="DetalleForm" >
+            <p:panel header="Información:" style="margin-top: 15px;">
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="Nombre:"/>
+                    <p:outputLabel id="nombreTrabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}"/>
+
+                    <p:outputLabel value="5% (Total)" for="cinco"/>
+                    <h:outputLabel id="cinco"  value="#{detalleLiquidacionTrabajadorController.cinco}"/>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+
+        <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
+            <h:panelGrid columns="3" columnClasses="alignTop,alignTop">
+                <p:panel style="margin-top: 10px;">
+                    <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          
+                        <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                        <p:separator/>
+                    </p:contextMenu>
+                    <p:dataTable id="datalist"
+                                 value="#{detalleLiquidacionTrabajadorController.items}"
+                                 lazy="false"
+                                 rowKey="#{item.idDescuentoTrabajadorLiquidacion}"
+                                 rowIndexVar="rowIndex"
+                                 var="item"                             
+                                 selectionMode="single"
+                                 selection="#{detalleLiquidacionTrabajadorController.selected}"
+                                 emptyMessage="No se han encontrado registros">
+                        <!--
+                                 To enable Lazy Loading, please copy/replace the following lines above,
+                                 and be sure to replace the word HASH with the # symbol:
+                        
+                                 value="HASH{descuentoTrabajadorLiquidacionController.lazyItems}"
+                                 lazy="true"
+                                 rowKey="HASH{item.idDescuentoTrabajadorLiquidacion}"  <<< Remove this line
+                        -->
+
+
+                        <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
+                        <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
+                        <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
+
+                        <f:facet name="header">
+                            Descuentos x Trabajador
+                        </f:facet>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descuento"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descuentoTrabajador}"/>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
+                            </f:facet>
+                            <p:inputNumber value="#{item.monto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="F.Descuento"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaInicioDescuento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="F.Registro"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaIngresoDescuento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.save}" value="Guardar" update=":DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">                    
+                    </p:commandButton>
+
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{detalleLiquidacionTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty detalleLiquidacionTrabajadorController.selected}">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                </p:panel>
+
+                <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px; margin-top: 10px;" >
+
+                    <p:dataTable id="datalistGuias" 
+                                 value="#{detalleLiquidacionTrabajadorController.guiaHelper}"
+                                 lazy="false"
+                                 var="item"
+                                 rowKey="#{item}"
+                                 rowIndexVar="rowIndex"
+                                 selectionMode="single"
+                                 selection="#{detalleLiquidacionTrabajadorController.selectedGuiaHelper}"
+                                 emptyMessage="No se han encontrado registros"
+                                 tableStyle="table-layout: auto" >
+                        <!--
+                                 To enable Lazy Loading, please copy/replace the following lines above,
+                                 and be sure to replace the word HASH with the # symbol:
+                        
+                                 value="HASH{guiaController.lazyItems}"
+                                 lazy="true"
+                                 rowKey="HASH{item.idGuia}"  <<< Remove this line
+                        -->
+                        <p:ajax event="rowSelect" update="growl" listener="#{detalleLiquidacionTrabajadorController.resetParents()}" global="false"/>
+
+                        <f:facet name="header">
+                            Guías 
+                        </f:facet>
+
+                        <p:column style="width: 20px; text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}" />
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Folio"/>
+                            </f:facet>
+                            <h:outputText value="#{item.folio}" style="text-align: right;"/>
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaRecaudacion}" style="text-align: right;">
+                                <f:convertDateTime pattern="dd/mm/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="5%"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cinco}" style="text-align: right;">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Ahorro"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ahorro}" style="text-align: right;">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column style="width: 20px;text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Saldo" style="text-align: right;"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:summaryRow>
+                            <p:column colspan="5" style="text-align:right">
+                                <h:outputText value="Total Haberes:" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{detalleLiquidacionTrabajadorController.ingresos}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+                        </p:summaryRow>
+
+                    </p:dataTable>
+
+                </p:panel>
+
+                <p:panel style="margin-top: 15px;">
+
+                </p:panel>
+            </h:panelGrid>
+        </h:form>
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+
+    </ui:define>
+</ui:composition>
+

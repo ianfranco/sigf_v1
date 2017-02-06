@@ -33,16 +33,16 @@ public class LiquidacionSueldo implements java.io.Serializable {
     private String nombreTerminal;
     private int mes;
     private int anio;
-    private int montoBruto;
-    private int montoImponible;
-    private int montoImponibleAjustado;
-    private int montoSueldoBase;
-    private int montoCincoPorcientoTotal;
-    private int montoCincoPorcientoFiltrado;
+    private float montoBruto;
+    private float montoImponible;
+    private float montoImponibleAjustado;
+    private float montoSueldoBase;
+    private float montoCincoPorcientoTotal;
+    private float montoCincoPorcientoFiltrado;
     private Integer montoAhorro;
     private int montoAbono;
     private Integer montoFeriado;
-    private int montoNoImponible;
+    private float montoNoImponible;
     private Integer numeroCarga;
     private Integer montoCarga;
     private Integer montoRetroactivo;
@@ -57,16 +57,16 @@ public class LiquidacionSueldo implements java.io.Serializable {
     private Integer diasTrabajados;
     private String nombrePrevision;
     private String porcentajePrevision;
-    private int montoPrevision;
-    private int montoApv;
-    private int montoCesantiaTrabajador;
-    private int montoCesantiaEmpresa;
-    private int montoCesantiaTotal;
-    private int montoSis;
-    private int montoInp;
-    private int montoCajaCompensacion;
+    private float montoPrevision;
+    private float montoApv;
+    private float montoCesantiaTrabajador;
+    private float montoCesantiaEmpresa;
+    private float montoCesantiaTotal;
+    private float montoSis;
+    private float montoInp;
+    private float montoCajaCompensacion;
     private String nombreIsapre;
-    private int montoIsapre;
+    private float montoIsapre;
     private int montoSindicato;
     private int montoSaldoAnterior;
     private int montoRetencionJudicial;
@@ -258,56 +258,56 @@ public class LiquidacionSueldo implements java.io.Serializable {
     }
 
     @Column(name = "monto_bruto", nullable = false)
-    public int getMontoBruto() {
+    public float getMontoBruto() {
         return this.montoBruto;
     }
 
-    public void setMontoBruto(int montoBruto) {
+    public void setMontoBruto(float montoBruto) {
         this.montoBruto = montoBruto;
     }
 
     @Column(name = "monto_imponible", nullable = false)
-    public int getMontoImponible() {
+    public float getMontoImponible() {
         return this.montoImponible;
     }
 
-    public void setMontoImponible(int montoImponible) {
+    public void setMontoImponible(float montoImponible) {
         this.montoImponible = montoImponible;
     }
     
     @Column(name = "monto_imponible_ajustado", nullable = false)
-    public int getMontoImponibleAjustado() {
+    public float getMontoImponibleAjustado() {
         return this.montoImponibleAjustado;
     }
 
-    public void setMontoImponibleAjustado(int montoImponibleAjustado) {
+    public void setMontoImponibleAjustado(float montoImponibleAjustado) {
         this.montoImponibleAjustado = montoImponibleAjustado;
     }
 
     @Column(name = "monto_sueldo_base", nullable = false)
-    public int getMontoSueldoBase() {
+    public float getMontoSueldoBase() {
         return this.montoSueldoBase;
     }
 
-    public void setMontoSueldoBase(int montoSueldoBase) {
+    public void setMontoSueldoBase(float montoSueldoBase) {
         this.montoSueldoBase = montoSueldoBase;
     }
 
     @Column(name = "monto_cinco_porciento_total", nullable = false)
-    public int getMontoCincoPorcientoTotal() {
+    public float getMontoCincoPorcientoTotal() {
         return this.montoCincoPorcientoTotal;
     }
 
-    public void setMontoCincoPorcientoTotal(int montoCincoPorcientoTotal) {
+    public void setMontoCincoPorcientoTotal(float montoCincoPorcientoTotal) {
         this.montoCincoPorcientoTotal = montoCincoPorcientoTotal;
     }
 
     @Column(name = "monto_cinco_porciento_filtrado", nullable = false)
-    public int getMontoCincoPorcientoFiltrado() {
+    public float getMontoCincoPorcientoFiltrado() {
         return this.montoCincoPorcientoFiltrado;
     }
 
-    public void setMontoCincoPorcientoFiltrado(int montoCincoPorcientoFiltrado) {
+    public void setMontoCincoPorcientoFiltrado(float montoCincoPorcientoFiltrado) {
         this.montoCincoPorcientoFiltrado = montoCincoPorcientoFiltrado;
     }
 
@@ -339,11 +339,11 @@ public class LiquidacionSueldo implements java.io.Serializable {
     }
 
     @Column(name = "monto_no_imponible", nullable = false)
-    public int getMontoNoImponible() {
+    public float getMontoNoImponible() {
         return this.montoNoImponible;
     }
 
-    public void setMontoNoImponible(int montoNoImponible) {
+    public void setMontoNoImponible(float montoNoImponible) {
         this.montoNoImponible = montoNoImponible;
     }
 
@@ -478,74 +478,74 @@ public class LiquidacionSueldo implements java.io.Serializable {
     }
 
     @Column(name = "monto_prevision", nullable = false)
-    public int getMontoPrevision() {
+    public float getMontoPrevision() {
         return this.montoPrevision;
     }
 
-    public void setMontoPrevision(int montoPrevision) {
+    public void setMontoPrevision(float montoPrevision) {
         this.montoPrevision = montoPrevision;
     }
 
     @Column(name = "monto_apv", nullable = false)
-    public int getMontoApv() {
+    public float getMontoApv() {
         return this.montoApv;
     }
 
-    public void setMontoApv(int montoApv) {
+    public void setMontoApv(float montoApv) {
         this.montoApv = montoApv;
     }
 
     @Column(name = "monto_cesantia_trabajador", nullable = false)
-    public int getMontoCesantiaTrabajador() {
+    public float getMontoCesantiaTrabajador() {
         return this.montoCesantiaTrabajador;
     }
 
-    public void setMontoCesantiaTrabajador(int montoCesantiaTrabajador) {
+    public void setMontoCesantiaTrabajador(float montoCesantiaTrabajador) {
         this.montoCesantiaTrabajador = montoCesantiaTrabajador;
     }
 
     @Column(name = "monto_cesantia_empresa", nullable = false)
-    public int getMontoCesantiaEmpresa() {
+    public float getMontoCesantiaEmpresa() {
         return this.montoCesantiaEmpresa;
     }
 
-    public void setMontoCesantiaEmpresa(int montoCesantiaEmpresa) {
+    public void setMontoCesantiaEmpresa(float montoCesantiaEmpresa) {
         this.montoCesantiaEmpresa = montoCesantiaEmpresa;
     }
 
     @Column(name = "monto_cesantia_total", nullable = false)
-    public int getMontoCesantiaTotal() {
+    public float getMontoCesantiaTotal() {
         return this.montoCesantiaTotal;
     }
 
-    public void setMontoCesantiaTotal(int montoCesantiaTotal) {
+    public void setMontoCesantiaTotal(float montoCesantiaTotal) {
         this.montoCesantiaTotal = montoCesantiaTotal;
     }
 
     @Column(name = "monto_sis", nullable = false)
-    public int getMontoSis() {
+    public float getMontoSis() {
         return this.montoSis;
     }
 
-    public void setMontoSis(int montoSis) {
+    public void setMontoSis(float montoSis) {
         this.montoSis = montoSis;
     }
 
     @Column(name = "monto_inp", nullable = false)
-    public int getMontoInp() {
+    public float getMontoInp() {
         return this.montoInp;
     }
 
-    public void setMontoInp(int montoInp) {
+    public void setMontoInp(float montoInp) {
         this.montoInp = montoInp;
     }
 
     @Column(name = "monto_caja_compensacion", nullable = false)
-    public int getMontoCajaCompensacion() {
+    public float getMontoCajaCompensacion() {
         return this.montoCajaCompensacion;
     }
 
-    public void setMontoCajaCompensacion(int montoCajaCompensacion) {
+    public void setMontoCajaCompensacion(float montoCajaCompensacion) {
         this.montoCajaCompensacion = montoCajaCompensacion;
     }
 
@@ -559,11 +559,11 @@ public class LiquidacionSueldo implements java.io.Serializable {
     }
 
     @Column(name = "monto_isapre", nullable = false)
-    public int getMontoIsapre() {
+    public float getMontoIsapre() {
         return this.montoIsapre;
     }
 
-    public void setMontoIsapre(int montoIsapre) {
+    public void setMontoIsapre(float montoIsapre) {
         this.montoIsapre = montoIsapre;
     }
 

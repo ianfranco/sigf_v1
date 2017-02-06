@@ -102,10 +102,10 @@ public class LogDaoImpl implements GenericDao<Log>{
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Log WHERE privilegio = "+privilegio;
+        String sql = "FROM Log WHERE privilegio = "+privilegio+" ORDER BY  idLog DESC";
         try {
 
-            list = session.createQuery(sql).setMaxResults(100).list();
+            list = session.createQuery(sql).setMaxResults(500).list();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

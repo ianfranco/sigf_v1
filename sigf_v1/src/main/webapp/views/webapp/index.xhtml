@@ -10,7 +10,9 @@
         <ui:composition template="./template.xhtml">
             <ui:define name="content" class="ui-corner-all" >
                 <p:accordionPanel multiple="true" >
-                    <p:tab title="Registro de Guías" rendered="#{indexController.registroGuias==true}">
+                    <p:tab title="Registro de Guías" rendered="#{indexController.registroGuias==true}">                        
+                        <p:link value="Ingresar a Registro de Guías" outcome="#{appBean.basePath}webapp/guias/indexGuias.xhtml" />
+                        <p:separator/>
                         <p:dataTable 
                             id="registroGuias"                                 
                             value="#{indexController.registroGuiasItems}"
@@ -48,7 +50,7 @@
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
-                            
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Usuario"/>
@@ -64,8 +66,7 @@
                             </p:column>
 
                         </p:dataTable>
-                        <p:separator/>
-                        <p:link value="Ingresar a Registro de Guías" outcome="#{appBean.basePath}webapp/guias/indexGuias.xhtml" />
+
                     </p:tab>
                     <p:tab title="Tesorería" rendered="#{indexController.tesoreria==true}">
 

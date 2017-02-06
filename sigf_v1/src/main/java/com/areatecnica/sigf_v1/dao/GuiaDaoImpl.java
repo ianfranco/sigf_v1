@@ -209,8 +209,7 @@ public class GuiaDaoImpl implements GuiaDao {
 
     public List<Guia> findByConductorBetweenDates(Trabajador conductor, Date from) {
         List<Guia> list = null;
-        Session session = null;
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Guia WHERE trabajador=" + conductor.getIdTrabajador() + " AND fechaRecaudacion BETWEEN '" + format.format(from) + "' AND LAST_DAY('" + format.format(from) + "')";
         try {
@@ -226,7 +225,7 @@ public class GuiaDaoImpl implements GuiaDao {
         } catch (HibernateException e) {
             tx.rollback();
             e.printStackTrace();
-        }
+        } 
         return list;
     }
     

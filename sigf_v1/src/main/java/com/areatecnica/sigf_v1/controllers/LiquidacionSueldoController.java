@@ -64,7 +64,7 @@ public class LiquidacionSueldoController implements Serializable {
     private static final int SUELDOBASE = 264000;
     private static final int SUELDOBASEPARTIME = 176000;
     private static final int VALORDIA = (int) SUELDOBASE / 30;
-    private static final long VALORSIS = (long) 0.0141;
+    private static final float VALORSIS = (float) 0.0141;
     private static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat formatMysql = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -131,7 +131,7 @@ public class LiquidacionSueldoController implements Serializable {
 
         this.liquidacionSueldo.setFechaFiniquito(this.relacionLaboral.getFechaFin());
 
-        if (!relacionLaboral.getFechaFin().equals(this.relacionLaboral.getFechaInicio())) {
+        if (!relacionLaboral.getEstado()) {
             this.rangoHasta = this.relacionLaboral.getFechaFin();
         } else {
             this.rangoHasta = this.fechaMax;
@@ -180,7 +180,7 @@ public class LiquidacionSueldoController implements Serializable {
 
         liquidacionSueldo.setDiasLicencias(diasLicencias);
 
-        int montoBruto = 0;
+        float montoBruto = 0;
         int diasTrabajados = 0;
         int cincoPorciento = 0;
         int cincoPorcientoAux = 0;
@@ -258,7 +258,7 @@ public class LiquidacionSueldoController implements Serializable {
 
         liquidacionSueldo.setDiasGuias(diasTrabajados);
         liquidacionSueldo.setMontoBruto(montoBruto);
-        liquidacionSueldo.setMontoImponible((int) (montoBruto * 0.19));
+        liquidacionSueldo.setMontoImponible(Math.round(montoBruto * 0.19));
 
         int diasTotal = diasTrabajados + diasLicencias;
 
@@ -275,25 +275,25 @@ public class LiquidacionSueldoController implements Serializable {
         /*CALCULO IMPONIBLE SUELDOS FIJOS*/
         if (relacionLaboral.getTipoContrato().getIdTipoContrato() == 5) {
 
-            int sueldo = relacionLaboral.getSueldoBase();
+            float sueldo = relacionLaboral.getSueldoBase();
             int dias = this.ultimoDiaMes - diasLicencias;
             if (diasLicencias > 0) {
-                sueldo = (int) ((relacionLaboral.getSueldoBase()) / 30) * dias;
+                sueldo = Math.round((relacionLaboral.getSueldoBase()) / 30) * dias;
             }
 
             if (dias < this.ultimoDiaMes) {
-                sueldo = (int) ((relacionLaboral.getSueldoBase()) / 30) * dias;
+                sueldo = Math.round((relacionLaboral.getSueldoBase()) / 30) * dias;
             }
 
             if (montoFeriado != 0) {
                 sueldo = montoFeriado + sueldo;
             }
 
-            liquidacionSueldo.setMontoImponibleAjustado(sueldo);
-            liquidacionSueldo.setMontoSueldoBase(sueldo);
+            liquidacionSueldo.setMontoImponibleAjustado(Math.round(sueldo));
+            liquidacionSueldo.setMontoSueldoBase(Math.round(sueldo));
 
         } else if (diasTrabajados > 10) {
-            sueldoAjustadoAux = (int) (montoFeriado + SUELDOBASE + (montoBruto * 0.04));
+            sueldoAjustadoAux = (int) (montoFeriado + SUELDOBASE + Math.round(montoBruto * 0.04));
 
             if (sueldoAjustadoAux > liquidacionSueldo.getMontoImponible()) {
                 liquidacionSueldo.setMontoImponibleAjustado(sueldoAjustadoAux);
@@ -318,7 +318,7 @@ public class LiquidacionSueldoController implements Serializable {
         } else if (diasTrabajados == 0 && (diasLicencias + diasVacaciones) > 0) {
 
             if (diasLicencias != 0) {
-                sueldoAjustadoAux = (montoFeriado + (diasMes * VALORDIA));
+                sueldoAjustadoAux = (montoFeriado + Math.round(diasMes * VALORDIA));
                 liquidacionSueldo.setMontoImponibleAjustado(montoBruto);
             } else {
                 liquidacionSueldo.setMontoImponibleAjustado(montoFeriado);
@@ -326,7 +326,7 @@ public class LiquidacionSueldoController implements Serializable {
 
         } else if (diasTrabajados > 0 && (diasLicencias + diasVacaciones) > 0) {
 
-            sueldoAjustadoAux = montoFeriado + liquidacionSueldo.getMontoImponible();
+            sueldoAjustadoAux = (int) (montoFeriado + liquidacionSueldo.getMontoImponible());
             liquidacionSueldo.setMontoImponibleAjustado(sueldoAjustadoAux);
         } else {
             liquidacionSueldo.setMontoImponibleAjustado(liquidacionSueldo.getMontoImponible() + montoFeriado);
@@ -344,11 +344,14 @@ public class LiquidacionSueldoController implements Serializable {
         liquidacionSueldo.setMontoApv(relacionLaboral.getTrabajador().getMontoApv());
 
         //AFP
-        liquidacionSueldo.setMontoPrevision((int) (liquidacionSueldo.getMontoImponibleAjustado() * relacionLaboral.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().longValue() / 100));
+        
+        float porcentaje = relacionLaboral.getTrabajador().getInstitucionPrevision().getPorcentajeDescuento().floatValue();
+        System.err.println("PORCENTAJE:"+porcentaje);
+        liquidacionSueldo.setMontoPrevision(Math.round((liquidacionSueldo.getMontoImponibleAjustado() * ( porcentaje/ 100))));
 
         if (liquidacionSueldo.getTrabajador().getInstitucionSalud().getIdInstitucionSalud() != 7) {
             if (liquidacionSueldo.getTrabajador().getMonedaPactadaInstitucionSalud().getIdMonedaSalud() == 1) {
-                liquidacionSueldo.setMontoIsapre((int) (liquidacionSueldo.getMontoImponibleAjustado() * relacionLaboral.getTrabajador().getMontoSalud().longValue() / 100));
+                liquidacionSueldo.setMontoIsapre(Math.round(liquidacionSueldo.getMontoImponibleAjustado() * relacionLaboral.getTrabajador().getMontoSalud().longValue() / 100));
             } else {
                 if (diasMes > 30) {
                     diasMes = 30;
@@ -356,7 +359,7 @@ public class LiquidacionSueldoController implements Serializable {
 
                 int diasIsapre = diasMes - diasLicencias;
 
-                int montoIsapre = (int) (26318.21 * relacionLaboral.getTrabajador().getMontoSalud().longValue());
+                float montoIsapre = (float) (26318.21 * relacionLaboral.getTrabajador().getMontoSalud().longValue());
                 montoIsapre = (montoIsapre / 30) * diasIsapre;
                 System.err.println("MONTO ISAPRE 2:" + montoIsapre);
                 liquidacionSueldo.setMontoIsapre(montoIsapre);
@@ -365,8 +368,8 @@ public class LiquidacionSueldoController implements Serializable {
         }
 
         //CÁLCULO CODIGOS EMPRESA 
-        int montoCaja = 0;
-        int montoINP = 0;
+        float montoCaja = 0;
+        float montoINP = 0;
         int codigoEmpresa = 0;
 
         int idMutual = relacionLaboral.getEmpresa().getMutual().getIdMutual();
@@ -380,10 +383,10 @@ public class LiquidacionSueldoController implements Serializable {
 
                         if (relacionLaboral.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
                             montoCaja = 0;
-                            montoINP = (int) (liquidacionSueldo.getMontoImponible() * (7 / 100));
+                            montoINP = Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (7 / 100)));
                         } else {
                             montoCaja = 0;
-                            montoINP = (int) (liquidacionSueldo.getMontoImponible() * (28.24 / 100));
+                            montoINP = Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100)));
                         }
                     }
 
@@ -392,11 +395,11 @@ public class LiquidacionSueldoController implements Serializable {
                         codigoEmpresa = 15;
 
                         if (relacionLaboral.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
-                            montoCaja = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (6.4 / 100));
+                            montoCaja =  Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100)));
+                            montoINP =  Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (6.4 / 100)));
                         } else {
-                            montoCaja = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100));
+                            montoCaja = Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100)));
+                            montoINP = Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100)));
                         }
                     }
                 }
@@ -408,10 +411,10 @@ public class LiquidacionSueldoController implements Serializable {
 
                         if (relacionLaboral.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
                             montoCaja = 0;
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (7 / 100));
+                            montoINP = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (7 / 100));
                         } else { // REVISAR ACÁ 
                             montoCaja = 0;
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100));
+                            montoINP = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100));
                         }
                     }
 
@@ -420,11 +423,11 @@ public class LiquidacionSueldoController implements Serializable {
                         codigoEmpresa = 25;
 
                         if (relacionLaboral.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() != 99) {
-                            montoCaja = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (6.4 / 100));
+                            montoCaja = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
+                            montoINP = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (6.4 / 100));
                         } else {
-                            montoCaja = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
-                            montoINP = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100));
+                            montoCaja = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
+                            montoINP = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (28.24 / 100));
                         }
                     }
                 }
@@ -438,34 +441,35 @@ public class LiquidacionSueldoController implements Serializable {
         liquidacionSueldo.setMontoCajaCompensacion(montoCaja);
         liquidacionSueldo.setMontoInp(montoINP);
 
-        int cesantiaTrabajador = 0;
-        int cesantiaEmpleador = 0;
-        int cesantiaTotal = 0;
+        float cesantiaTrabajador = 0;
+        float cesantiaEmpleador = 0;
+        float cesantiaTotal = 0;
 
         int dias2 = getDifferenceDays(liquidacionSueldo.getFechaContrato(), this.rangoHasta);
         //
         if ((relacionLaboral.getTrabajador().getCesantia() && liquidacionSueldo.getFechaContrato().before(FECHACESANTIA)) || dias2 > 364) //Cálculo de Cesantía
         {
-            if (diasLicencias >= 30 || liquidacionSueldo.getTrabajador().getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador() == 3) {
-                cesantiaEmpleador = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (2.4 / 100));
+            if (diasLicencias >= 30 || relacionLaboral.getTrabajador().getTipoCotizacionTrabajador().getIdTipoCotizacionTrabajador() == 3) {
+                cesantiaEmpleador = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (2.4 / 100));
                 cesantiaTrabajador = 0;
             } else {
-                cesantiaEmpleador = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (2.4 / 100));
-                cesantiaTrabajador = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
+                cesantiaEmpleador = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (2.4 / 100));
+                cesantiaTrabajador = Math.round(liquidacionSueldo.getMontoImponibleAjustado() * (0.6 / 100));
             }
 
         } else {
-            cesantiaTotal = (int) (liquidacionSueldo.getMontoImponibleAjustado() * (3.0 / 100));
+            cesantiaTotal =  Math.round((liquidacionSueldo.getMontoImponibleAjustado() * (3.0 / 100)));
 
         }
 
         liquidacionSueldo.setMontoCesantiaTrabajador(cesantiaTrabajador);
         liquidacionSueldo.setMontoCesantiaEmpresa(cesantiaEmpleador);
         liquidacionSueldo.setMontoCesantiaTotal(cesantiaTotal);
-
+        System.err.println("VALOR CESANTIA TOTAL:"+cesantiaTotal);
         //Calcula SIS 
-        if (liquidacionSueldo.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() < 99) {
-            liquidacionSueldo.setMontoSis((int) (liquidacionSueldo.getMontoImponibleAjustado() * VALORSIS));
+        if (relacionLaboral.getTrabajador().getInstitucionPrevision().getIdInstitucionPrevision() < 99) {
+            System.err.println("Si paga sis");
+            liquidacionSueldo.setMontoSis(Math.round(liquidacionSueldo.getMontoImponibleAjustado() * VALORSIS));
         }
 
         //Cargas Familiares 

@@ -91,7 +91,7 @@ public class PlanillonImponiblesController implements Serializable {
     private static final int VALORDIA = (int) SUELDOBASE / 30;
     private static final long VALORSIS = (long) 0.0141;
     private Date FECHACESANTIA;
-    private int sueldoAjustadoAux;
+    private float sueldoAjustadoAux;
 
     /**
      * Creates a new instance of InstitucionPrevisionController

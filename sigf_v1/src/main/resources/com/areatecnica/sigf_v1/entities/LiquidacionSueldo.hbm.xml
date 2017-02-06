@@ -29,22 +29,22 @@
         <property name="anio" type="int">
             <column name="anio" not-null="true" />
         </property>
-        <property name="montoBruto" type="int">
+        <property name="montoBruto" type="float">
             <column name="monto_bruto" not-null="true" />
         </property>
-        <property name="montoImponible" type="int">
+        <property name="montoImponible" type="float">
             <column name="monto_imponible" not-null="true" />
         </property>
-        <property name="montoImponibleAjustado" type="int">
+        <property name="montoImponibleAjustado" type="float">
             <column name="monto_imponible_ajustado" not-null="true" />
         </property>
-        <property name="montoSueldoBase" type="int">
+        <property name="montoSueldoBase" type="float">
             <column name="monto_sueldo_base" not-null="true" />
         </property>
-        <property name="montoCincoPorcientoTotal" type="int">
+        <property name="montoCincoPorcientoTotal" type="float">
             <column name="monto_cinco_porciento_total" not-null="true" />
         </property>
-        <property name="montoCincoPorcientoFiltrado" type="int">
+        <property name="montoCincoPorcientoFiltrado" type="float">
             <column name="monto_cinco_porciento_filtrado" not-null="true" />
         </property>
         <property name="montoAhorro" type="java.lang.Integer">
@@ -56,7 +56,7 @@
         <property name="montoFeriado" type="java.lang.Integer">
             <column name="monto_feriado" />
         </property>
-        <property name="montoNoImponible" type="int">
+        <property name="montoNoImponible" type="float">
             <column name="monto_no_imponible" not-null="true" />
         </property>
         <property name="numeroCarga" type="java.lang.Integer">
@@ -101,34 +101,34 @@
         <property name="porcentajePrevision" type="string">
             <column name="porcentaje_prevision" length="45" />
         </property>
-        <property name="montoPrevision" type="int">
+        <property name="montoPrevision" type="float">
             <column name="monto_prevision" not-null="true" />
         </property>
-        <property name="montoApv" type="int">
+        <property name="montoApv" type="float">
             <column name="monto_apv" not-null="true" />
         </property>
-        <property name="montoCesantiaTrabajador" type="int">
+        <property name="montoCesantiaTrabajador" type="float">
             <column name="monto_cesantia_trabajador" not-null="true" />
         </property>
-        <property name="montoCesantiaEmpresa" type="int">
+        <property name="montoCesantiaEmpresa" type="float">
             <column name="monto_cesantia_empresa" not-null="true" />
         </property>
-        <property name="montoCesantiaTotal" type="int">
+        <property name="montoCesantiaTotal" type="float">
             <column name="monto_cesantia_total" not-null="true" />
         </property>
-        <property name="montoSis" type="int">
+        <property name="montoSis" type="float">
             <column name="monto_sis" not-null="true" />
         </property>
-        <property name="montoInp" type="int">
+        <property name="montoInp" type="float">
             <column name="monto_inp" not-null="true" />
         </property>
-        <property name="montoCajaCompensacion" type="int">
+        <property name="montoCajaCompensacion" type="float">
             <column name="monto_caja_compensacion" not-null="true" />
         </property>
         <property name="nombreIsapre" type="string">
             <column name="nombre_isapre" length="45" />
         </property>
-        <property name="montoIsapre" type="int">
+        <property name="montoIsapre" type="float">
             <column name="monto_isapre" not-null="true" />
         </property>
         <property name="montoSindicato" type="int">
