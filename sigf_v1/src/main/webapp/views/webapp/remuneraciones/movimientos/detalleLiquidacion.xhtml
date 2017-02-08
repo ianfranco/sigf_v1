@@ -50,7 +50,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
 
-                        <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DetalleForm:nombreTrabajador, :DetalleForm:cinco" resetValues="true">
+                        <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
 
                         </p:commandButton>
 
@@ -62,22 +62,22 @@
 
         </p:panel>
 
-        <h:form id="DetalleForm" >
-            <p:panel header="Información:" style="margin-top: 15px;">
-                <p:panelGrid columns="4">
-                    <p:outputLabel value="Nombre:"/>
-                    <p:outputLabel id="nombreTrabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}"/>
-
-                    <p:outputLabel value="5% (Total)" for="cinco"/>
-                    <h:outputLabel id="cinco"  value="#{detalleLiquidacionTrabajadorController.cinco}"/>
-                </p:panelGrid>
-            </p:panel>
-        </h:form>
+        
 
 
         <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
-            <h:panelGrid columns="3" columnClasses="alignTop,alignTop">
-                <p:panel style="margin-top: 10px;">
+            <h:panelGrid columns="3" columnClasses="alignTop, alignTop,alignTop">
+                <p:panel header="Información:" style="margin-top: 10px;">
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Nombre:"/>
+                        <p:outputLabel id="nombreTrabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}"/>
+
+                        <p:outputLabel value="5% (Total)" for="cinco"/>
+                        <h:outputLabel id="cinco"  value="#{detalleLiquidacionTrabajadorController.cinco}"/>
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:panel style="margin-top: 10px;width: 400px;">
                     <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          
                         <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
                         <p:separator/>
@@ -128,24 +128,6 @@
                                 <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
                             </f:facet>
                             <p:inputNumber value="#{item.monto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/>
-                        </p:column>
-
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="F.Descuento"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaInicioDescuento}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column>
-
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="F.Registro"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaIngresoDescuento}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                            </h:outputText>
                         </p:column>
 
                     </p:dataTable>
@@ -249,10 +231,7 @@
                     </p:dataTable>
 
                 </p:panel>
-
-                <p:panel style="margin-top: 15px;">
-
-                </p:panel>
+                
             </h:panelGrid>
         </h:form>
 

@@ -9,7 +9,7 @@
 
     <ui:define name="content" class="ui-corner-all" >
 
-        <p:panel id="DiasTrabajadosForm" widgetVar="DiasTrabajadosPanel" header="Registro de Cargos x Flota">
+        <p:panel id="DiasTrabajadosForm" widgetVar="DiasTrabajadosPanel" header="N° de Días Trabajados x Bus">
 
             <h:form id="selector">
                 <p:panel style="margin-bottom: 10px;">
@@ -80,7 +80,7 @@
                         <h:outputText value="#{item.bus.numeroBus}"/>
                     </p:column>
 
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;width: 50px;" >
                         <f:facet name="header">
                             <h:outputText value="Unidad"/>
                         </f:facet>
@@ -94,25 +94,25 @@
                         <h:outputText value="#{item.bus.patente}"/>
                     </p:column>
 
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;width: 220px">
                         <f:facet name="header">
                             <h:outputText value="Empresa"/>
                         </f:facet>
-                        <h:outputText value="#{item.bus.empresa}"/>
+                        <h:outputText value="#{item.bus.empresa.nombreEmpresa}"/>
                     </p:column>
                     
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Flota"/>
                         </f:facet>
-                        <h:outputText value="#{item.bus.flota}"/>
+                        <h:outputText value="#{item.bus.flota.nombreFlota}"/>
                     </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Terminal"/>
                         </f:facet>
-                        <h:outputText value="#{item.bus.terminal}"/>
+                        <h:outputText value="#{item.bus.terminal.nombreTerminal}"/>
                     </p:column>                    
 
                     <p:column style="text-align: center;">
