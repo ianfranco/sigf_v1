@@ -7,6 +7,9 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.GastoAdministracionMensual;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -75,6 +78,30 @@ public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdmini
             e.printStackTrace();
         }
         return list;
+    }
+
+    public int findTotalByMonthAndYear(Date fecha) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+
+        BigInteger dt = BigInteger.ZERO;
+        String query = "SELECT \n"
+                + " CAST((IFNULL(SUM(gasto_administracion_mensual.valor ), 0)) AS SIGNED) \n"
+                + " FROM gasto_administracion_mensual \n"
+                + " WHERE gasto_administracion_mensual.fecha_gasto_administracion BETWEEN '2017-01-01' AND LAST_DAY('2017-01-01')";
+
+        try {
+
+            dt = (BigInteger) session.createSQLQuery(query).uniqueResult();
+
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return dt.intValue();
     }
 
 }
