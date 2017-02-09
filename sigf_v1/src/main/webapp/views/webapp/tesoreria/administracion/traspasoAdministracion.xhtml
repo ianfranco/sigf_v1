@@ -75,7 +75,7 @@
                 
                 <p:separator/>
                 
-                <p:commandButton id="value3" ajax="true" icon="fa fa-database" value="Guardar Cambios" update="diasTrabajadosListForm:datalist" style="width:200px" actionListener="#{traspasoAdministracionController.save}">
+                <p:commandButton id="value3" ajax="true" icon="fa fa-database" value="Guardar Cambios" update="diasTrabajadosListForm:datalist, growl" style="width:200px" actionListener="#{traspasoAdministracionController.save}">
                     <p:confirm header="Confirmación" message="¿Realizar el cargo de Administración ?" icon="ui-icon-alert"/>
                 </p:commandButton>
                 

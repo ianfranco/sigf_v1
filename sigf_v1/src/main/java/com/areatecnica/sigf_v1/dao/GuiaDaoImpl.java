@@ -215,7 +215,7 @@ public class GuiaDaoImpl implements GuiaDao {
         
         BigInteger dt = BigInteger.ZERO;
         String query = "SELECT \n"
-                + " CAST((IFNULL(COUNT(DISTINCT guia.fecha_recaudacion ), 0)) AS SIGNED) \n"
+                + " CAST((IFNULL(COUNT(guia.fecha_recaudacion ), 0)) AS SIGNED) \n"
                 + " FROM guia \n"
                 + " WHERE guia.id_bus = " + bus.getIdBus() + " AND  guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "')";
         try {

@@ -106,30 +106,34 @@ public class TraspasoAdministracionController implements Serializable {
         this.itemsGuias = this.guiaDao.findByFecha(fecha);
         this.items = new ArrayList<>();
 
-        this.numeroBuses = this.itemsGuias.size();
+        this.numeroBuses = 0;
         System.err.println("n° de buses:" + this.numeroBuses);
 
         this.administracionMensualDaoImpl = new GastoAdministracionMensualDaoImpl();
         this.totaltGastos = this.administracionMensualDaoImpl.findTotalByMonthAndYear(fecha);
         System.err.println("TOTAL GASTOS ADMINISTRACIÓN: " + this.totaltGastos);
 
-        this.administracion = this.totaltGastos / this.numeroBuses;
-        System.err.println("TOTAL ADMINISTRACIÓN: " + this.administracion);
+        
 
         for (Guia g : this.itemsGuias) {
-            DiasBusesHelper d = new DiasBusesHelper();
-
-            d.setBus(g.getBus());
-            d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
-
-            if (d.getDt() < 15) {
-                this.totalDias = this.totalDias+d.getDt();
-                this.numeroBusesProporcional = this.numeroBusesProporcional+1;
-            } else {
-                this.numeroBusesCompleto = this.numeroBusesCompleto+1;
+            if (g.getBus().getEmpresa().getIdEmpresa()!=29) {
+                
+                this.numeroBuses = this.numeroBuses+1;
+                
+                DiasBusesHelper d = new DiasBusesHelper();
+                
+                d.setBus(g.getBus());
+                d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
+                
+                if (d.getDt() < 15) {
+                    this.totalDias = this.totalDias + d.getDt();
+                    this.numeroBusesProporcional = this.numeroBusesProporcional + 1;
+                } else {
+                    this.numeroBusesCompleto = this.numeroBusesCompleto + 1;
+                }
+                
+                this.items.add(d);
             }
-
-            this.items.add(d);
         }
 
         Collections.sort(this.items, new Comparator<DiasBusesHelper>() {
@@ -143,6 +147,9 @@ public class TraspasoAdministracionController implements Serializable {
                 return 1;
             }
         });
+        
+        this.administracion = this.totaltGastos / this.numeroBuses;
+        System.err.println("TOTAL ADMINISTRACIÓN: " + this.administracion);
 
         int valorMitadAdministracion = this.numeroBusesCompleto * this.administracion;
         int diferenciaGastos = this.totaltGastos-valorMitadAdministracion;
@@ -191,13 +198,13 @@ public class TraspasoAdministracionController implements Serializable {
                         d.setMontoAdministracion((int) (administracion * 0.50));
                         break;
                     case 11:
-                        d.setMontoAdministracion((int) (administracion * 0.55));
+                        d.setMontoAdministracion((int) (administracion * 0.60));
                         break;
                     case 12:
-                        d.setMontoAdministracion((int) (administracion * 0.70));
+                        d.setMontoAdministracion((int) (administracion * 0.65));
                         break;
                     case 13:
-                        d.setMontoAdministracion((int) (administracion * 0.80));
+                        d.setMontoAdministracion((int) (administracion * 0.75));
                         break;
                     case 14:
                         d.setMontoAdministracion((int) (administracion * 0.85));
