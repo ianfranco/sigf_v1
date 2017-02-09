@@ -41,7 +41,7 @@ public class DescuentoTrabajadorDaoImpl implements GenericDao<DescuentoTrabajado
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM DescuentoTrabajador";
+        String sql = "FROM DescuentoTrabajador ORDER BY idDescuentoTrabajador ASC";
         try {
 
             list = session.createQuery(sql).list();

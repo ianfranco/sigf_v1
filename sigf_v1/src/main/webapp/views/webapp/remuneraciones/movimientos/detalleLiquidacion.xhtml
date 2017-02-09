@@ -17,7 +17,7 @@
                     <h:panelGrid columns="8" columnClasses="column">
 
                         <p:outputLabel for="mes" value="Seleccionar:" />
-                        <p:selectOneMenu id="mes" value="#{detalleLiquidacionTrabajadorController.mes}" style="width:125px">
+                        <p:selectOneMenu id="mes" value="#{detalleLiquidacionController.mes}" style="width:125px">
                             <f:selectItem itemLabel="Enero" itemValue="1" />
                             <f:selectItem itemLabel="Febrero" itemValue="2" />
                             <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -33,14 +33,14 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel for="anio" value="Año:" />
-                        <p:inputText id="anio" value="#{detalleLiquidacionTrabajadorController.anio}" size="5" />
+                        <p:inputText id="anio" value="#{detalleLiquidacionController.anio}" size="5" />
 
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="trabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <p:selectOneMenu id="trabajador" value="#{detalleLiquidacionController.selected}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{detalleLiquidacionTrabajadorController.trabajadorItems}"
+                                    <f:selectItems value="#{detalleLiquidacionController.trabajadorItems}"
                                                    var="trabajadorItem"
                                                    itemValue="#{trabajadorItem}"
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
@@ -50,99 +50,51 @@
                             </h:panelGrid>
                         </h:panelGroup>
 
-                        <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
+                        <p:commandButton actionListener="#{detalleLiquidacionController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
 
                         </p:commandButton>
-
                     </h:panelGrid>
-
                 </h:panelGroup>
-
             </h:form>
-
         </p:panel>
 
-        
-
-
         <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
-            <h:panelGrid columns="3" columnClasses="alignTop, alignTop,alignTop">
-                <p:panel header="Información:" style="margin-top: 10px;">
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Nombre:"/>
-                        <p:outputLabel id="nombreTrabajador" value="#{detalleLiquidacionTrabajadorController.trabajador}"/>
+            <h:panelGrid columns="3" columnClasses="alignTop,alignTop">
+                <h:form id="TrabajadorListForm">
+                    <p:accordionPanel value="#{detalleLiquidacionController.items}" var="empresa" id="data" multiple="true">                
+                        <p:tab title="#{empresa.empresa.nombreEmpresa}" >
+                            <h:panelGrid columns="1">
+                                <p:dataTable id="datalist"
+                                             value="#{empresa.liquidaciones}"                     
+                                             var="item"                                
+                                             rowKey="#{item.idLiquidacionSueldo}"                                                                  
+                                             rowIndexVar="rowIndex"                                     
+                                             emptyMessage="No se han encontrado registros"
+                                             style="width: 2200px;"
+                                             class="ui-corner-all"
+                                             >
+                                    <f:facet name="Conductores">
+                                        Descuentos
+                                    </f:facet>
 
-                        <p:outputLabel value="5% (Total)" for="cinco"/>
-                        <h:outputLabel id="cinco"  value="#{detalleLiquidacionTrabajadorController.cinco}"/>
-                    </p:panelGrid>
-                </p:panel>
+                                    <p:column headerText="Nombre" style="text-align: right;width: 65px;">
+                                        <h:outputText value="#{item.nombreIsapre}"/>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Valor" style="text-align: right;width: 55px;">
+                                        <h:outputText value="#{item}">
+                                            <f:convertNumber currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
 
-                <p:panel style="margin-top: 10px;width: 400px;">
-                    <p:contextMenu id="DescuentoTrabajadorLiquidacionDataTableContextMenu" for="datalist">                                          
-                        <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DescuentoTrabajadorLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
-                        <p:separator/>
-                    </p:contextMenu>
-                    <p:dataTable id="datalist"
-                                 value="#{detalleLiquidacionTrabajadorController.items}"
-                                 lazy="false"
-                                 rowKey="#{item.idDescuentoTrabajadorLiquidacion}"
-                                 rowIndexVar="rowIndex"
-                                 var="item"                             
-                                 selectionMode="single"
-                                 selection="#{detalleLiquidacionTrabajadorController.selected}"
-                                 emptyMessage="No se han encontrado registros">
-                        <!--
-                                 To enable Lazy Loading, please copy/replace the following lines above,
-                                 and be sure to replace the word HASH with the # symbol:
-                        
-                                 value="HASH{descuentoTrabajadorLiquidacionController.lazyItems}"
-                                 lazy="true"
-                                 rowKey="HASH{item.idDescuentoTrabajadorLiquidacion}"  <<< Remove this line
-                        -->
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
 
-
-                        <p:ajax event="rowSelect"   update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
-                        <p:ajax event="rowUnselect" update="@form:deleteButton,@form:DescuentoTrabajadorLiquidacionDataTableContextMenu" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
-                        <p:ajax event="contextMenu" update="@form:deleteButton" listener="#{detalleLiquidacionTrabajadorController.resetParents}" global="false"/>
-
-                        <f:facet name="header">
-                            Descuentos x Trabajador
-                        </f:facet>
-
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="N°"/>
-                            </f:facet>
-                            <h:outputText value="#{rowIndex+1}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Descuento"/>
-                            </f:facet>
-                            <h:outputText value="#{item.descuentoTrabajador}"/>
-                        </p:column>
-
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDescuentoTrabajadorLiquidacionTitle_monto}"/>
-                            </f:facet>
-                            <p:inputNumber value="#{item.monto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/>
-                        </p:column>
-
-                    </p:dataTable>
-
-                    <p:commandButton actionListener="#{detalleLiquidacionTrabajadorController.save}" value="Guardar" update=":DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">                    
-                    </p:commandButton>
-
-                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{detalleLiquidacionTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty detalleLiquidacionTrabajadorController.selected}">
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-                    </p:commandButton>
-
-                </p:panel>
+                </h:form>
 
                 <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px; margin-top: 10px;" >
-
                     <p:dataTable id="datalistGuias" 
                                  value="#{detalleLiquidacionTrabajadorController.guiaHelper}"
                                  lazy="false"
@@ -164,7 +116,7 @@
                         <p:ajax event="rowSelect" update="growl" listener="#{detalleLiquidacionTrabajadorController.resetParents()}" global="false"/>
 
                         <f:facet name="header">
-                            Guías 
+                            Guías x Mes
                         </f:facet>
 
                         <p:column style="width: 20px; text-align: center;">
@@ -231,7 +183,7 @@
                     </p:dataTable>
 
                 </p:panel>
-                
+
             </h:panelGrid>
         </h:form>
 
