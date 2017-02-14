@@ -206,6 +206,14 @@ public class TrabajadorDaoImpl implements TrabajadorDao {
         try {
             trabajador = (Trabajador) session.createQuery(sql).uniqueResult();
 
+            Hibernate.initialize(trabajador.getAsignacionFamiliar());
+            Hibernate.initialize(trabajador.getInstitucionPrevision());
+            Hibernate.initialize(trabajador.getInstitucionApv());
+            Hibernate.initialize(trabajador.getInstitucionSalud());
+            Hibernate.initialize(trabajador.getTipoCotizacionTrabajador());
+            Hibernate.initialize(trabajador.getComuna());
+            Hibernate.initialize(trabajador.getMonedaPactadaInstitucionSalud());
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

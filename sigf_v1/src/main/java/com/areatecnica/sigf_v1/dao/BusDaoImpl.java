@@ -231,13 +231,13 @@ public class BusDaoImpl implements BusDao {
 
             bus = (Bus) session.createQuery(sql).uniqueResult();
 
-            /*System.err.println("BUS ENCONTRADO:" + bus.getPatente() + " NUMERO:" + bus.getNumeroMotor());
+            
             Hibernate.initialize(bus.getEmpresa());
             Hibernate.initialize(bus.getTerminal());
             Hibernate.initialize(bus.getUnidadNegocio());
             Hibernate.initialize(bus.getFlota());
             Hibernate.initialize(bus.getModeloMarcaBus());
-            Hibernate.initialize(bus.getModeloMarcaBus().getMarcaBus());*/
+            Hibernate.initialize(bus.getModeloMarcaBus().getMarcaBus());
 
             tx.commit();
         } catch (HibernateException e) {

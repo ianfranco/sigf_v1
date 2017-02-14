@@ -47,17 +47,11 @@ public class IndexController implements Serializable {
     private List<Log> empresariosItems;
     private List<Log> informesItems;
     private LogDaoImpl logDaoImpl;
-    
-    
+
     /**
      * Creates a new instance of IndexController
      */
     public IndexController() {
-
-    }
-
-    @PostConstruct
-    private void init() {
         try {
             this.registroGuias = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registroGuias");
             this.servicios = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("servicios");
@@ -67,9 +61,9 @@ public class IndexController implements Serializable {
             this.empresario = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("empresario");
             this.informes = (boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informes");
             this.usuario = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-            
+
             this.logDaoImpl = new LogDaoImpl();
-            
+
             this.registroGuiasItems = this.logDaoImpl.findByIdPrivilegioShort(2);
             this.servicioItems = this.logDaoImpl.findByIdPrivilegioShort(1);
             this.tesoreriaItems = this.logDaoImpl.findByIdPrivilegioShort(3);
@@ -77,12 +71,13 @@ public class IndexController implements Serializable {
             this.boletosItems = this.logDaoImpl.findByIdPrivilegioShort(6);
             this.empresariosItems = this.logDaoImpl.findByIdPrivilegioShort(5);
             this.informesItems = this.logDaoImpl.findByIdPrivilegioShort(4);
-            
+
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Su sessión ha terminado");
             logout();
         }
     }
+    
 
     public void logout() {
         System.err.println("Si llega al logout");
@@ -95,7 +90,7 @@ public class IndexController implements Serializable {
         context.addCallbackParam("loggedIn", false);
         context.addCallbackParam("loggetOut", true);
         context.addCallbackParam("path", path);
-        
+
         try {
             facesContext.getExternalContext().redirect(path);
             //externalContext.redirect("http://stackoverflow.com");

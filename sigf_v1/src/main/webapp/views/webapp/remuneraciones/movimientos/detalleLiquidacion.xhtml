@@ -50,51 +50,52 @@
                             </h:panelGrid>
                         </h:panelGroup>
 
-                        <p:commandButton actionListener="#{detalleLiquidacionController.init}" value="Buscar Liquidación" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl,:DescuentoTrabajadorLiquidacionListForm:nombreTrabajador, :DescuentoTrabajadorLiquidacionListForm:cinco" resetValues="true">
-
+                        <p:commandButton actionListener="#{detalleLiquidacionController.init}" value="Buscar Liquidación" update="display,:DescuentosForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl" resetValues="true">
                         </p:commandButton>
                     </h:panelGrid>
                 </h:panelGroup>
             </h:form>
         </p:panel>
 
-        <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
-            <h:panelGrid columns="3" columnClasses="alignTop,alignTop">
-                <h:form id="TrabajadorListForm">
-                    <p:accordionPanel value="#{detalleLiquidacionController.items}" var="empresa" id="data" multiple="true">                
-                        <p:tab title="#{empresa.empresa.nombreEmpresa}" >
-                            <h:panelGrid columns="1">
-                                <p:dataTable id="datalist"
-                                             value="#{empresa.liquidaciones}"                     
-                                             var="item"                                
-                                             rowKey="#{item.idLiquidacionSueldo}"                                                                  
-                                             rowIndexVar="rowIndex"                                     
-                                             emptyMessage="No se han encontrado registros"
-                                             style="width: 2200px;"
-                                             class="ui-corner-all"
-                                             >
-                                    <f:facet name="Conductores">
-                                        Descuentos
-                                    </f:facet>
 
-                                    <p:column headerText="Nombre" style="text-align: right;width: 65px;">
-                                        <h:outputText value="#{item.nombreIsapre}"/>
-                                    </p:column>
-                                    
-                                    <p:column headerText="Valor" style="text-align: right;width: 55px;">
-                                        <h:outputText value="#{item}">
-                                            <f:convertNumber currencySymbol="$"/>
-                                        </h:outputText>
-                                    </p:column>
+        <h:panelGrid columns="3" columnClasses="alignTop,alignTop">
+            <h:form id="DescuentosForm" onkeypress="return event.keyCode != 13">
+                <p:accordionPanel value="#{detalleLiquidacionController.descuentosHelperItems}" var="descuentos" id="data" multiple="true">                
+                    <p:tab title="#{descuentos.empresa.nombreEmpresa}" >
+                        <h:panelGrid columns="1">
 
-                                </p:dataTable>
-                            </h:panelGrid>
-                        </p:tab>
-                    </p:accordionPanel>
+                            <p:dataTable id="datalist"
+                                         value="#{descuentos.items}"                     
+                                         var="item2"                                
+                                         rowKey="#{item2.idDescuentoTrabajadorLiquidacion}"                                                                  
+                                         rowIndexVar="rowIndex"                                     
+                                         emptyMessage="No se han encontrado registros"
+                                         style="width: 2200px;"
+                                         class="ui-corner-all"
+                                         >
+                                <f:facet name="Conductores">
+                                    Descuentos
+                                </f:facet>
 
-                </h:form>
+                                <p:column headerText="Nombre" style="text-align: right;width: 65px;">
+                                    <h:outputText value="#{item2.descuentoTrabajador.nombreDescuento}"/>
+                                </p:column>
 
-                <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px; margin-top: 10px;" >
+                                <p:column headerText="Valor" style="text-align: right;width: 55px;">
+                                    <h:outputText value="#{item2.monto}">
+                                        <f:convertNumber currencySymbol="$"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:panelGrid>
+                    </p:tab>
+                </p:accordionPanel>
+            </h:form>
+            <p:panel id="tabla" style="margin-left: 4px;margin-right: 4px; margin-top: 10px;" >
+
+                <h:form id="DescuentoTrabajadorLiquidacionListForm" onkeypress="return event.keyCode != 13">
                     <p:dataTable id="datalistGuias" 
                                  value="#{detalleLiquidacionTrabajadorController.guiaHelper}"
                                  lazy="false"
@@ -181,11 +182,11 @@
                         </p:summaryRow>
 
                     </p:dataTable>
+                </h:form>
+            </p:panel>
 
-                </p:panel>
+        </h:panelGrid>
 
-            </h:panelGrid>
-        </h:form>
 
         <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
 

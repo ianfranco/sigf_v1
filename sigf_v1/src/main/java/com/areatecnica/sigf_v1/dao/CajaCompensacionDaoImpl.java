@@ -41,7 +41,7 @@ public class CajaCompensacionDaoImpl implements GenericDao<CajaCompensacion> {
     public List<CajaCompensacion> findAll() {
         List<CajaCompensacion> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM CajaCompensacion";
         try {

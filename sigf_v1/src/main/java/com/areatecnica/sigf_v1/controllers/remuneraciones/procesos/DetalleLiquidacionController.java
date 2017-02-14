@@ -59,6 +59,7 @@ public class DetalleLiquidacionController implements Serializable {
     private List<DescuentoTrabajador> descuentosTrabajadorItems;
     private List<Guia> guiaItems;
     private ArrayList<Object> guiaHelper;
+    private List<DescuentosHelper> descuentosHelperItems;
 
     private Trabajador selected;
     private RelacionLaboral relacionLaboral;
@@ -169,6 +170,8 @@ public class DetalleLiquidacionController implements Serializable {
 
             this.descuentosLiquidacionItems.add(descuento);
 
+            
+            
         }
     }
 
@@ -264,6 +267,71 @@ public class DetalleLiquidacionController implements Serializable {
 
     public void setSelected(Trabajador selected) {
         this.selected = selected;
+    }
+
+    public List<DescuentoTrabajadorLiquidacion> getDescuentosLiquidacionItems() {
+        return descuentosLiquidacionItems;
+    }
+
+    public void setDescuentosLiquidacionItems(List<DescuentoTrabajadorLiquidacion> descuentosLiquidacionItems) {
+        this.descuentosLiquidacionItems = descuentosLiquidacionItems;
+    }
+
+    public List<Guia> getGuiaItems() {
+        return guiaItems;
+    }
+
+    public void setGuiaItems(List<Guia> guiaItems) {
+        this.guiaItems = guiaItems;
+    }
+
+    public int getIngresos() {
+        return ingresos;
+    }
+
+    public void setIngresos(int ingresos) {
+        this.ingresos = ingresos;
+    }
+
+    public List<DescuentosHelper> getDescuentosHelperItems() {
+        return descuentosHelperItems;
+    }
+
+    public void setDescuentosHelperItems(List<DescuentosHelper> descuentosHelperItems) {
+        this.descuentosHelperItems = descuentosHelperItems;
+    }
+    
+    public class DescuentosHelper{
+        
+        private Empresa empresa;
+        private List<DescuentoTrabajadorLiquidacion> items;
+
+        public DescuentosHelper() {
+        }
+
+        public DescuentosHelper(Empresa empresa, List<DescuentoTrabajadorLiquidacion> items) {
+            this.empresa = empresa;
+            this.items = items;
+        }
+
+        public Empresa getEmpresa() {
+            return empresa;
+        }
+
+        public List<DescuentoTrabajadorLiquidacion> getItems() {
+            return items;
+        }
+
+        public void setEmpresa(Empresa empresa) {
+            this.empresa = empresa;
+        }
+
+        public void setItems(List<DescuentoTrabajadorLiquidacion> items) {
+            this.items = items;
+        }
+        
+        
+        
     }
 
     public class GuiaLiquidacionHelper {

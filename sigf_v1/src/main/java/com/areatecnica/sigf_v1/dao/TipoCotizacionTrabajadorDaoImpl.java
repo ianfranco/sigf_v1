@@ -39,7 +39,7 @@ public class TipoCotizacionTrabajadorDaoImpl implements GenericDao<TipoCotizacio
     public List<TipoCotizacionTrabajador> findAll() {
         List<TipoCotizacionTrabajador> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM TipoCotizacionTrabajador";
         try {

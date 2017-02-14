@@ -14,6 +14,9 @@
         <many-to-one name="trabajador" class="com.areatecnica.sigf_v1.entities.Trabajador" fetch="select">
             <column name="id_trabajador" not-null="true" />
         </many-to-one>
+        <property name="idRelacionLaboral" type="int">
+            <column name="id_relacion_laboral" not-null="true" />
+        </property>
         <property name="fechaInicioHaber" type="date">
             <column name="fecha_inicio_haber" length="10" not-null="true" />
         </property>

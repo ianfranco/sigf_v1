@@ -114,7 +114,7 @@ public class TrabajadorController implements Serializable {
     }
 
     public void loadContratos() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
 
         this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();

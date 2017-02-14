@@ -100,6 +100,7 @@ public class GuiaDaoImpl implements GuiaDao {
             guia = (Guia) session.createQuery(sql).uniqueResult();
 
             if (guia != null) {
+                
                 Hibernate.initialize(guia.getTrabajador());
                 Hibernate.initialize(guia.getBus());
                 Hibernate.initialize(guia.getEstadoGuia());

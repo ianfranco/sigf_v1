@@ -154,7 +154,6 @@ public class PlanillonGuiaController implements Serializable {
             System.err.println("NO TIENE ACCESO A LAS GUÍAS");
             sessionController.logout();
         }
-
     }
 
     public List<Guia> getItems() {
@@ -575,7 +574,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.log.setUsuario(user);
                 this.log.setTipoAccion("Ingreso");
                 this.log.setFechaRegistroLog(new Date());
-                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso()+" F.Guía: "+format.format(this.selected.getFechaGuia())+" F.Recaudación: "+format.format(this.selected.getFechaRecaudacion()));
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
 
                 session.save(this.log);
 
@@ -652,7 +651,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.log.setUsuario(user);
                 this.log.setTipoAccion("Edición");
                 this.log.setFechaRegistroLog(new Date());
-                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso()+" F.Guía: "+format.format(this.selected.getFechaGuia())+" F.Recaudación: "+format.format(this.selected.getFechaRecaudacion()));
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
 
                 session.save(this.log);
 
@@ -694,7 +693,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.log.setUsuario(user);
                 this.log.setTipoAccion("Borrado");
                 this.log.setFechaRegistroLog(new Date());
-                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso()+" F.Guía: "+format.format(this.selected.getFechaGuia())+" F.Recaudación: "+format.format(this.selected.getFechaRecaudacion()));
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
 
                 session.save(this.log);
 

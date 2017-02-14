@@ -17,6 +17,7 @@ import org.hibernate.Transaction;
  *
  * @author Ian Franco
  */
+
 public class UsuarioDaoImpl implements UsuarioDao {
     
     @Override
@@ -54,7 +55,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     public List<Usuario> findAll() {
         List<Usuario> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM Usuario";
         try {

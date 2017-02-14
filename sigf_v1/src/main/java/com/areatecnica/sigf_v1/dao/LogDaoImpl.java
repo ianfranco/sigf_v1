@@ -48,12 +48,13 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).list();
-            tx.commit();
             
             for(Log l:list){
                 Hibernate.initialize(l.getPrivilegio());
                 Hibernate.initialize(l.getUsuario());
             }
+            
+            tx.commit();
             
         } catch (HibernateException e) {
             tx.rollback();
@@ -72,6 +73,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -89,6 +96,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -106,6 +119,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).setMaxResults(500).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -124,6 +143,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).setMaxResults(20).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -141,6 +166,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -158,6 +189,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).setMaxResults(100).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
@@ -175,6 +212,12 @@ public class LogDaoImpl implements GenericDao<Log>{
         try {
 
             list = session.createQuery(sql).setMaxResults(20).list();
+            
+            for(Log l:list){
+                Hibernate.initialize(l.getPrivilegio());
+                Hibernate.initialize(l.getUsuario());
+            }
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
