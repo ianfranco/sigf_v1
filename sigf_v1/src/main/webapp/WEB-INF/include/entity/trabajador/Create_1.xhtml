@@ -14,7 +14,7 @@
 
                 <h:panelGroup id="display" >
 
-                    <p:wizard flowListener="#{trabajadorController.onFlowProcess}" nextLabel="Siguiente" backLabel="Retroceder" >
+                    <p:tabView>
                         <p:tab id="personal2" title="General">
                             <p:panel id="personal" style="margin-top: 20px;width: 750px;">
                                 <h:panelGrid columns="4" columnClasses="label, value">
@@ -133,7 +133,7 @@
                                                            />
                                         </p:selectOneMenu>
                                     </h:panelGroup>
-                                    
+
                                     <p:outputLabel value="N° Cargas:" for="cargasTrabajador" />
                                     <h:panelGroup>
                                         <p:inputText id="cargasTrabajador" value="#{trabajadorController.selected.numeroCargas}" title="#{bundle.CreateTrabajadorTitle_emailTrabajador}" autocomplete="false"/>
@@ -241,10 +241,8 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-
-
-
-                    </p:wizard>
+                    </p:tabView>
+                    <p:separator/>
                     <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:growl, :TrabajadorListForm:datalist" oncomplete="PF('TrabajadorCreateDialog').hide()" process="@this">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>

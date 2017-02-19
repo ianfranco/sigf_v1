@@ -5,6 +5,7 @@
  */
 package com.areatecnica.sigf_v1.util;
 
+import javax.el.PropertyNotFoundException;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
@@ -23,6 +24,10 @@ public class ExceptionHandlerView {
         throw new NullPointerException("A NullPointerException!");
     }
 
+    public void throwPropertyNotFoundException() {
+        throw new PropertyNotFoundException("A NullPointerException!");
+    }
+    
     public void throwWrappedIllegalStateException() {
         Throwable t = new IllegalStateException("A wrapped IllegalStateException!");
         throw new FacesException(t);
@@ -31,6 +36,11 @@ public class ExceptionHandlerView {
     public void throwViewExpiredException() {
         throw new ViewExpiredException("A ViewExpiredException!",
                 FacesContext.getCurrentInstance().getViewRoot().getViewId());
+    }
+
+    public void throwIllegalArgumentException() {
+        Throwable t = new IllegalArgumentException("Illegal Argument Exception!");
+        throw new FacesException(t);
     }
 
 }

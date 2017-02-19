@@ -27,8 +27,10 @@
 
                                 <p:outputLabel value="Rut:" for="rutTrabajador" />
                                 <h:panelGroup>
-                                    <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}"/>
-                                    <p:tooltip for="rutTrabajador" value="#{trabajadorController.getComponentMessages('rutTrabajador', bundle.CreateTrabajadorHelpText_rutTrabajador)}"/>
+                                    <p:inputText id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_rutTrabajador}">
+                                        <p:ajax event="blur" listener="#{trabajadorController.validarRut}" update="rutTrabajador, growl" global="false"/>                                            
+                                    </p:inputText>
+                                    
                                 </h:panelGroup>
 
                                 <p:outputLabel value="Nombres" for="nombreTrabajador" />

@@ -60,7 +60,6 @@ public class TrabajadorController implements Serializable {
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
     private ComunaDaoImpl comunaDaoImpl;
     private TipoCotizacionTrabajadorDaoImpl tipoCotizacionTrabajadorDaoImpl;
-    
 
     private List<Trabajador> items;
     private List<AsignacionFamiliar> asignacionFamiliarItems;
@@ -110,7 +109,7 @@ public class TrabajadorController implements Serializable {
 
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.asignacionFamiliarItems = this.asignacionFamiliarDaoImpl.findAll();
-        
+
     }
 
     public void loadContratos() {
@@ -307,11 +306,8 @@ public class TrabajadorController implements Serializable {
         this.asignacionFamiliar = this.asignacionFamiliarDaoImpl.findById(5);
         this.tipoCotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
         this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(34);
-
-        Trabajador newTrabajador;
-        newTrabajador = new Trabajador(true);
-
-        this.selected = newTrabajador;
+       
+        this.selected = new Trabajador(true);;
         this.selected.setCodigoTrabajador(trabajadorDao.maxId());
         this.selected.setInstitucionSalud(saludFonasa);
         this.selected.setInstitucionApv(institucionApv);
@@ -322,9 +318,9 @@ public class TrabajadorController implements Serializable {
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
-        
+
         setDefaultValues();
-        
+
         return this.selected;
     }
 
@@ -347,15 +343,15 @@ public class TrabajadorController implements Serializable {
                 } else {
                     this.selected.setNacionalidad(false);
                 }
-                
+
                 this.selected.setCesantia(false);
 
                 session.save(this.selected);
 
                 tx.commit();
-                this.items.add(this.items.size()-1, selected);
+                this.items.add(this.items.size() - 1, selected);
 
-                JsfUtil.addSuccessMessage("Se ha registrado el nuevo trabajador: "+this.selected+" con código: "+this.selected.getCodigoTrabajador());
+                JsfUtil.addSuccessMessage("Se ha registrado el nuevo trabajador: " + this.selected + " con código: " + this.selected.getCodigoTrabajador());
                 this.selected = null;
 
             } catch (HibernateException e) {
@@ -463,38 +459,43 @@ public class TrabajadorController implements Serializable {
     public void validarRut() {
         validaRut = false;
 
-        String rut = this.selected.getRutTrabajador();
-
-        try {
-            rut = rut.toUpperCase();
-            rut = rut.replace(".", "");
-            rut = rut.replace("-", "");
-            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-
-            char dv = rut.charAt(rut.length() - 1);
-
-            int m = 0, s = 1;
-            for (; rutAux != 0; rutAux /= 10) {
-                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
-            }
-            if (dv == (char) (s != 0 ? s + 47 : 75)) {
-                validaRut = true;
-
-                if (trabajadorDao.existeTrabajador(rut)) {
-                    this.selected.setRutTrabajador("");
-                    JsfUtil.addErrorMessage("El rut se encuentra registrado");
+        //JsfUtil.addErrorMessage("RUT");
+        
+        /*try {
+            String rut = null;
+            rut = this.selected.getRutTrabajador();
+                        
+            if (rut!=null && rut.length()>0) {
+                rut = rut.toUpperCase();
+                rut = rut.replace(".", "");
+                rut = rut.replace("-", "");
+                int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+                
+                char dv = rut.charAt(rut.length() - 1);
+                
+                int m = 0, s = 1;
+                for (; rutAux != 0; rutAux /= 10) {
+                    s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
                 }
-
-            } else {
-                this.selected.setRutTrabajador("");
-                JsfUtil.addErrorMessage("Rut Mal Formado");
+                if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                    validaRut = true;
+                    
+                    if (trabajadorDao.existeTrabajador(rut)) {
+                        this.selected.setRutTrabajador("");
+                        JsfUtil.addErrorMessage("El rut se encuentra registrado");
+                    }
+                    
+                } else {
+                    this.selected.setRutTrabajador("");
+                    JsfUtil.addErrorMessage("Rut Mal Formado");
+                }
+            }else{
+                JsfUtil.addErrorMessage("Debe ingresar un rut válido");
             }
 
-        } catch (java.lang.NumberFormatException e) {
-
-        } catch (Exception e) {
-
-        }
+        } catch (java.lang.NumberFormatException | javax.el.PropertyNotFoundException | NullPointerException | javax.faces.FacesException e) {
+            JsfUtil.addErrorMessage("Rut Mal Formado");
+        }*/
     }
 
     public void addMessageContrato() {
