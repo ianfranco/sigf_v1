@@ -29,11 +29,11 @@ public class AsignacionFamiliarController implements Serializable {
     private AsignacionFamiliarDaoImpl asignacionFamiliarDao;
     private List<AsignacionFamiliar> items;
     private AsignacionFamiliar selected;
-    
+
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
-    public AsignacionFamiliarController() {        
+    public AsignacionFamiliarController() {
         this.asignacionFamiliarDao = new AsignacionFamiliarDaoImpl();
         this.items = this.asignacionFamiliarDao.findAll();
     }
@@ -53,8 +53,8 @@ public class AsignacionFamiliarController implements Serializable {
     public void setSelected(AsignacionFamiliar selected) {
         this.selected = selected;
     }
-    
-     public AsignacionFamiliar prepareCreate(ActionEvent event) {
+
+    public AsignacionFamiliar prepareCreate(ActionEvent event) {
         AsignacionFamiliar newAsignacionFamiliar;
         newAsignacionFamiliar = new AsignacionFamiliar();
         this.selected = newAsignacionFamiliar;
@@ -97,16 +97,16 @@ public class AsignacionFamiliarController implements Serializable {
 
         }
     }
-    
-    public void resetParents(){
-        
-    }
-    
-    public void delete(){
-        
+
+    public void resetParents() {
+
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage){
+    public void delete() {
+
+    }
+
+    public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
 }

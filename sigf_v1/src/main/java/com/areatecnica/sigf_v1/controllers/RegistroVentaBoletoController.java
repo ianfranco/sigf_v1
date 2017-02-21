@@ -6,12 +6,15 @@
 package com.areatecnica.sigf_v1.controllers;
 
 
+import com.areatecnica.sigf_v1.dao.BoletoDaoImpl;
 import com.areatecnica.sigf_v1.dao.InventarioInternoDao;
 import com.areatecnica.sigf_v1.dao.InventarioInternoDaoImpl;
+import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.entities.Boleto;
 import com.areatecnica.sigf_v1.entities.DetalleVentaBoleto;
 import com.areatecnica.sigf_v1.entities.InventarioInterno;
 import com.areatecnica.sigf_v1.entities.InventarioTerminal;
+import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.VentaBoleto;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -31,13 +34,19 @@ import org.primefaces.context.RequestContext;
  *
  * @author Ian Franco
  */
-@Named(value = "newVentaBoletoController")
+@Named(value = "registroVentaBoletoController")
 @SessionScoped
 public class RegistroVentaBoletoController implements Serializable {
-
-    private VentaBoleto selected;
+    
     private List<DetalleVentaBoleto> items;
     private List<InventarioInterno> inventarioItems;
+    private List<Terminal> terminalItems;
+    private List<Boleto> boletoItems;
+    
+    private BoletoDaoImpl boletoDaoImpl;
+    private TerminalDaoImpl terminalDaoImpl;
+    
+    private VentaBoleto selected;    
     private InventarioInterno inventarioInternoSelected;
     private DetalleVentaBoleto detalleVentaBoleto;
     private Boleto boleto;
@@ -55,6 +64,13 @@ public class RegistroVentaBoletoController implements Serializable {
             this.inventarioInternoSelected = new InventarioInterno();
             this.boleto = new Boleto();
             this.suma = 0;
+            
+            this.terminalDaoImpl = new TerminalDaoImpl();
+            this.boletoDaoImpl = new BoletoDaoImpl();
+            
+            this.terminalItems = this.terminalDaoImpl.findAll();
+            this.boletoItems = this.boletoDaoImpl.findAll();
+            
         }
     }
 
@@ -191,6 +207,22 @@ public class RegistroVentaBoletoController implements Serializable {
             InventarioInternoDao inventarioDao = new InventarioInternoDaoImpl();
             this.inventarioItems = inventarioDao.findByBoleto(this.boleto);
         }
+    }
+
+    public List<Terminal> getTerminalItems() {
+        return terminalItems;
+    }
+
+    public void setTerminalItems(List<Terminal> terminalItems) {
+        this.terminalItems = terminalItems;
+    }
+
+    public List<Boleto> getBoletoItems() {
+        return boletoItems;
+    }
+
+    public void setBoletoItems(List<Boleto> boletoItems) {
+        this.boletoItems = boletoItems;
     }
 
     

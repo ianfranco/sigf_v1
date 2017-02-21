@@ -34,6 +34,7 @@ public class Bus implements java.io.Serializable {
     private UnidadNegocio unidadNegocio;
     private int numeroBus;
     private String patente;
+    private String administrador;
     private int anio;
     private Date fechaRevisionTecnica;
     private String numeroMotor;
@@ -51,7 +52,7 @@ public class Bus implements java.io.Serializable {
     public Bus() {
     }
 
-    public Bus(Empresa empresa, EstadoBus estadoBus, Flota flota, ModeloMarcaBus modeloMarcaBus, Terminal terminal, UnidadNegocio unidadNegocio, int numeroBus, String patente, int anio) {
+    public Bus(Empresa empresa, EstadoBus estadoBus, Flota flota, ModeloMarcaBus modeloMarcaBus, Terminal terminal, UnidadNegocio unidadNegocio, int numeroBus, String patente, String administrador, int anio) {
         this.empresa = empresa;
         this.estadoBus = estadoBus;
         this.flota = flota;
@@ -60,10 +61,11 @@ public class Bus implements java.io.Serializable {
         this.unidadNegocio = unidadNegocio;
         this.numeroBus = numeroBus;
         this.patente = patente;
+        this.administrador = administrador;
         this.anio = anio;
     }
 
-    public Bus(Empresa empresa, EstadoBus estadoBus, Flota flota, ModeloMarcaBus modeloMarcaBus, Terminal terminal, UnidadNegocio unidadNegocio, int numeroBus, String patente, int anio, Date fechaRevisionTecnica, String numeroMotor, String numeroChasis, String carroceria, Boolean activo, Date fechaIngresoBus, Set<BusDevice> busDevices, Set<CargoBus> cargoBuses, Set<BusServicio> busServicios, Set<Guia> guias, Set<AbonoBus> abonoBuses, Set<Despacho> despachos) {
+    public Bus(Empresa empresa, EstadoBus estadoBus, Flota flota, ModeloMarcaBus modeloMarcaBus, Terminal terminal, UnidadNegocio unidadNegocio, int numeroBus, String patente, String administrador, int anio, Date fechaRevisionTecnica, String numeroMotor, String numeroChasis, String carroceria, Boolean activo, Date fechaIngresoBus, Set<BusDevice> busDevices, Set<CargoBus> cargoBuses, Set<BusServicio> busServicios, Set<Guia> guias, Set<AbonoBus> abonoBuses, Set<Despacho> despachos) {
         this.empresa = empresa;
         this.estadoBus = estadoBus;
         this.flota = flota;
@@ -72,6 +74,7 @@ public class Bus implements java.io.Serializable {
         this.unidadNegocio = unidadNegocio;
         this.numeroBus = numeroBus;
         this.patente = patente;
+        this.administrador = administrador;
         this.anio = anio;
         this.fechaRevisionTecnica = fechaRevisionTecnica;
         this.numeroMotor = numeroMotor;
@@ -175,6 +178,15 @@ public class Bus implements java.io.Serializable {
 
     public void setPatente(String patente) {
         this.patente = patente;
+    }
+    
+    @Column(name = "administrador", nullable = false, length = 100)
+    public String getAdministrador() {
+        return this.administrador;
+    }
+
+    public void setAdministrador(String administrador) {
+        this.administrador = administrador;
     }
 
     @Column(name = "anio", nullable = false)
@@ -318,7 +330,7 @@ public class Bus implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(numeroBus)+"-"+this.unidadNegocio.getNumeroUnidadNegocio();
+        return String.valueOf(numeroBus) + "-" + this.unidadNegocio.getNumeroUnidadNegocio();
     }
 
 }

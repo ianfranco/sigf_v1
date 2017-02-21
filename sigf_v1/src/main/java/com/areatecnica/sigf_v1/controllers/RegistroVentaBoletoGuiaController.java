@@ -92,7 +92,7 @@ public class RegistroVentaBoletoGuiaController implements Serializable {
         }        
         
         this.servicioItems = this.servicioDao.findByIdTerminal(idTerminal);
-        this.boletoItems = this.boletoDao.selectedItems();
+        this.boletoItems = this.boletoDao.findAll();
         
         this.inventarioTerminalItems = this.inventarioTerminalDao.findByIdTerminal(idTerminal);
 

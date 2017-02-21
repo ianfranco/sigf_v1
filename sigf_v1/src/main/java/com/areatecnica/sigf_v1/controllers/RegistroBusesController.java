@@ -5,6 +5,7 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
+import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.BusDao;
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EmpresaDao;
@@ -53,6 +54,7 @@ public class RegistroBusesController implements Serializable {
     private List<UnidadNegocio> unidadItems;
     private List<Flota> flotaItems;
     private List<ModeloMarcaBus> modeloMarcaItems;
+    private List<EstadoBus> estadoBusItems;
 
     private Bus selected;
     private EstadoBus estadoBus;
@@ -68,6 +70,7 @@ public class RegistroBusesController implements Serializable {
     /**
      * Creates a new instance of RegistroBusesController
      */
+    
     public RegistroBusesController() {
         this.busDao = new BusDaoImpl();
         this.empresaDao = new EmpresaDaoImpl();
@@ -78,6 +81,7 @@ public class RegistroBusesController implements Serializable {
         this.modeloMarcaBusDao = new ModeloMarcaBusDaoImpl();
 
         this.items = this.busDao.findAll();
+        this.estadoBusItems = this.estadoBusDao.findAll();
         this.forFilterEmpresa = this.empresaDao.findAll();
         this.forFilterUnidad = this.negocioDao.findAll();
         this.forFilterFlota = this.flotaDao.findAll();
@@ -87,6 +91,7 @@ public class RegistroBusesController implements Serializable {
         this.unidadItems = this.negocioDao.findAll();
         this.empresaItems = this.empresaDao.findAllClean();
         this.modeloMarcaItems = this.modeloMarcaBusDao.findAll();
+        
     }
 
     public Bus prepareCreate(ActionEvent event) {
@@ -94,6 +99,7 @@ public class RegistroBusesController implements Serializable {
         newItem = new Bus();
         this.selected = newItem;
         this.estadoBus = this.estadoBusDao.findById(1);
+        
         return newItem;
     }
 
@@ -102,7 +108,7 @@ public class RegistroBusesController implements Serializable {
     }
 
     public void saveNew() {
-
+        
         if (this.selected != null) {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
@@ -111,14 +117,18 @@ public class RegistroBusesController implements Serializable {
                 this.selected.setEstadoBus(estadoBus);
                 this.selected.setFechaIngresoBus(new Date());
                 this.selected.setActivo(Boolean.TRUE);
-
-                session.saveOrUpdate(this.selected);
+                
+                session.save(this.selected);
+                
+                JsfUtil.addSuccessMessage("Se ha ingresado el Bus N°:"+this.selected.getNumeroBus()+" PPU:"+this.selected.getPatente());
+                
                 tx.commit();
-                this.items.add(this.selected);
+                this.items.add(this.items.size()-1, this.selected);
 
                 this.selected = null;
 
             } catch (HibernateException e) {
+                JsfUtil.addErrorMessage(e.getMessage());
                 e.printStackTrace();
                 tx.rollback();
             }
@@ -135,6 +145,23 @@ public class RegistroBusesController implements Serializable {
             try {
 
                 session.saveOrUpdate(this.selected);
+                JsfUtil.addSuccessMessage("Se ha actualizado el Bus N°:"+this.selected.getNumeroBus()+" PPU:"+this.selected.getPatente());
+                tx.commit();
+            } catch (HibernateException e) {
+                e.printStackTrace();
+                tx.rollback();
+            }
+        }
+    }
+    
+    public void saveEstado() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+            try {
+
+                session.saveOrUpdate(this.selected);
+                JsfUtil.addSuccessMessage("Se ha actualizado el estado del Bus N°:"+this.selected.getNumeroBus()+" PPU:"+this.selected.getPatente());
                 tx.commit();
             } catch (HibernateException e) {
                 e.printStackTrace();
@@ -221,6 +248,14 @@ public class RegistroBusesController implements Serializable {
 
     public void setModeloMarcaItems(List<ModeloMarcaBus> modeloMarcaItems) {
         this.modeloMarcaItems = modeloMarcaItems;
+    }
+
+    public List<EstadoBus> getEstadoBusItems() {
+        return estadoBusItems;
+    }
+
+    public void setEstadoBusItems(List<EstadoBus> estadoBusItems) {
+        this.estadoBusItems = estadoBusItems;
     }
 
 }

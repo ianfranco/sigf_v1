@@ -13,6 +13,6 @@ import java.util.List;
  * @author Ian Franco
  */
 public interface BoletoDao {
-    public List<Boleto> selectedItems();
-    public Boleto findById(String value);
+    public List<Boleto> findAll();
+    public Boleto findById(int value);
 }

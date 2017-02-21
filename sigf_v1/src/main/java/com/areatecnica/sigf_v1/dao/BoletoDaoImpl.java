@@ -19,7 +19,7 @@ import org.hibernate.Transaction;
 public class BoletoDaoImpl implements BoletoDao{
 
     @Override
-    public List<Boleto> selectedItems() {
+    public List<Boleto> findAll() {
         List<Boleto> list = null;
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -37,7 +37,7 @@ public class BoletoDaoImpl implements BoletoDao{
     }
     
     @Override
-    public Boleto findById(String id){
+    public Boleto findById(int id){
         Boleto boleto = null;
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

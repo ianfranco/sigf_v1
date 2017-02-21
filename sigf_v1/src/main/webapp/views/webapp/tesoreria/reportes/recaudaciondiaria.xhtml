@@ -13,7 +13,7 @@
             <p:panel header="Datos de Recaudación" style="margin-left: 4px;margin-right: 4px;margin-bottom: 4px;" >
                 <h:panelGrid columns="8">
                     <p:outputLabel value="Fecha Recaudación:" for="fechaRecaudacion" />                        
-                    <p:calendar id="fechaRecaudacion" value="#{informeProcesoRecaudacionController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" disabled=""/>
+                    <p:calendar id="fechaRecaudacion" value="#{informeProcesoRecaudacionController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" disabled="" locale="es"/>
 
                     <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
                     <p:selectOneMenu id="procesoRecaudacion" value="#{informeProcesoRecaudacionController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="">

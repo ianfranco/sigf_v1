@@ -6,8 +6,10 @@
 package com.areatecnica.sigf_v1.controllers;
 
 
+import com.areatecnica.sigf_v1.dao.BoletoDaoImpl;
 import com.areatecnica.sigf_v1.dao.CompraBoletoDao;
 import com.areatecnica.sigf_v1.dao.CompraBoletoDaoImpl;
+import com.areatecnica.sigf_v1.entities.Boleto;
 import com.areatecnica.sigf_v1.entities.CompraBoleto;
 import com.areatecnica.sigf_v1.entities.DetalleCompraBoleto;
 import com.areatecnica.sigf_v1.entities.InventarioInterno;
@@ -31,10 +33,13 @@ import org.primefaces.context.RequestContext;
  *
  * @author Ian Franco
  */
-@Named(value = "newCompraBoletoController")
+@Named(value = "registroCompraBoletoController")
 @SessionScoped
 public class RegistroCompraBoletoController implements Serializable {
-
+    
+    private Boleto boleto;
+    private List<Boleto> boletoItems;
+    private BoletoDaoImpl boletoDaoImpl;
     private CompraBoleto compraBoleto;
     private DetalleCompraBoleto detalleCompraBoleto;
     private Set<DetalleCompraBoleto> list;
@@ -47,6 +52,8 @@ public class RegistroCompraBoletoController implements Serializable {
     public RegistroCompraBoletoController() {
 
         this.dao = new CompraBoletoDaoImpl();
+        this.boletoDaoImpl = new BoletoDaoImpl();
+        this.boletoItems = this.boletoDaoImpl.findAll();
         if (this.compraBoleto == null) {
             this.compraBoleto = new CompraBoleto();
             this.detalleCompraBoleto = new DetalleCompraBoleto();
@@ -133,6 +140,22 @@ public class RegistroCompraBoletoController implements Serializable {
             tx.rollback();
         }
 
+    }
+
+    public Boleto getBoleto() {
+        return boleto;
+    }
+
+    public void setBoleto(Boleto boleto) {
+        this.boleto = boleto;
+    }
+
+    public List<Boleto> getBoletoItems() {
+        return boletoItems;
+    }
+
+    public void setBoletoItems(List<Boleto> boletoItems) {
+        this.boletoItems = boletoItems;
     }
     
     

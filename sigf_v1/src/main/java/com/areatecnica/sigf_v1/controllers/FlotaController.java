@@ -102,7 +102,35 @@ public class FlotaController implements Serializable {
     }
     
     public void delete(){
-        
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.delete(this.selected);
+                
+                /*
+                this.log = new Log();
+                this.log.setPrivilegio(priviliegio);
+                this.log.setUsuario(user);
+                this.log.setTipoAccion("Borrado");
+                this.log.setFechaRegistroLog(new Date());
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));*/
+
+                
+                tx.commit();
+                
+                JsfUtil.addSuccessMessage("Se ha eliminado la flota: " + this.selected.getNombreFlota());
+
+                this.selected = null;
+            } catch (HibernateException e) {
+                JsfUtil.addErrorMessage("Error al eliminar empresa: "+e.toString());
+                tx.rollback();
+                System.err.println("NULL:Empresa");
+            }
+        } else {
+
+        }
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage){

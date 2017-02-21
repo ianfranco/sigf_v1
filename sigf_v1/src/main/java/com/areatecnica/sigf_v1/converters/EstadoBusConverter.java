@@ -1,9 +1,9 @@
 package com.areatecnica.sigf_v1.converters;
 
-import com.areatecnica.sigf_v1.dao.AbstractDao;
-import com.areatecnica.sigf_v1.entities.Boleto;
+
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
-import com.areatecnica.sigf_v1.dao.BoletoDaoImpl;
+import com.areatecnica.sigf_v1.dao.EstadoBusDaoImpl;
+import com.areatecnica.sigf_v1.entities.EstadoBus;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.convert.FacesConverter;
@@ -12,11 +12,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@FacesConverter(value = "boletoConverter")
-public class BoletoConverter implements Converter {
-
-    @Inject
-    private BoletoDaoImpl dao;
+@FacesConverter(value = "estadoBusConverter")
+public class EstadoBusConverter implements Converter {
+   
+    private EstadoBusDaoImpl estadoBusDaoImpl;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -24,18 +23,18 @@ public class BoletoConverter implements Converter {
             return null;
         }
         
-        this.dao = new BoletoDaoImpl();
+        this.estadoBusDaoImpl = new EstadoBusDaoImpl();
         
-        return this.dao.findById(getKey(value));
+        return this.estadoBusDaoImpl.findById(getKey(value));
     }
 
-    java.lang.Integer getKey(String value) {
-        java.lang.Integer key;
-        key = Integer.valueOf(value);
+    int getKey(String value) {
+        int key;
+        key = Integer.parseInt(value);
         return key;
     }
 
-    String getStringKey(java.lang.Integer value) {
+    String getStringKey(int value) {
         StringBuffer sb = new StringBuffer();
         sb.append(value);
         return sb.toString();
@@ -47,11 +46,11 @@ public class BoletoConverter implements Converter {
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof Boleto) {
-            Boleto o = (Boleto) object;
-            return getStringKey(o.getIdBoleto());
+        if (object instanceof EstadoBus) {
+            EstadoBus o = (EstadoBus) object;
+            return getStringKey(o.getIdEstadoBus());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Boleto.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), EstadoBus.class.getName()});
             return null;
         }
     }

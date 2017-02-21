@@ -70,9 +70,9 @@ public class EmpresaController implements Serializable {
             try {
                 session.save(this.selected);
                 tx.commit();
-                JsfUtil.addSuccessMessage("Se ha registrado la empresa: "+this.selected+" con código: "+this.selected.getIdEmpresa());
-                
-                this.items.add(this.items.size()-1, selected);
+                JsfUtil.addSuccessMessage("Se ha registrado la empresa: " + this.selected + " con código: " + this.selected.getIdEmpresa());
+
+                this.items.add(this.items.size() - 1, selected);
 
             } catch (HibernateException e) {
                 System.err.println("SAVE:Empresa");
@@ -90,9 +90,11 @@ public class EmpresaController implements Serializable {
             Transaction tx = session.beginTransaction();
 
             try {
-                session.merge(this.selected);
+                session.saveOrUpdate(this.selected);
                 tx.commit();
-                
+
+                JsfUtil.addSuccessMessage("Se ha actualizado la empresa: " + this.selected + " con código: " + this.selected.getIdEmpresa());
+
             } catch (HibernateException e) {
                 System.err.println("SAVE:Empresa");
                 tx.rollback();
@@ -102,17 +104,44 @@ public class EmpresaController implements Serializable {
 
         }
     }
-    
-    public void resetParents(){
-        
-    }
-    
-    public void delete(){
-        
+
+    public void resetParents() {
+
     }
 
-    public String getComponentMessages(String clientComponent, String defaultMessage){
+    public void delete() {
+        if (this.selected != null) {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.delete(this.selected);
+                
+                /*
+                this.log = new Log();
+                this.log.setPrivilegio(priviliegio);
+                this.log.setUsuario(user);
+                this.log.setTipoAccion("Borrado");
+                this.log.setFechaRegistroLog(new Date());
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));*/
+
+                
+                tx.commit();
+                
+                JsfUtil.addSuccessMessage("Se ha eliminado la empresa: " + this.selected.getNombreEmpresa());
+
+                this.selected = null;
+            } catch (HibernateException e) {
+                tx.rollback();
+                System.err.println("NULL:Empresa");
+            }
+        } else {
+
+        }
+    }
+
+    public String getComponentMessages(String clientComponent, String defaultMessage) {
         return JsfUtil.getComponentMessages(clientComponent, defaultMessage);
     }
-    
+
 }

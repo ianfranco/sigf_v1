@@ -40,7 +40,7 @@ public class RegistroInventarioInternoController implements Serializable {
         this.inventarioDao = new InventarioInternoDaoImpl();
         this.boletoDao = new BoletoDaoImpl();
         this.items = this.inventarioDao.findByEstado(false);
-        this.itemsBoletos = this.boletoDao.selectedItems();
+        this.itemsBoletos = this.boletoDao.findAll();
     }
 
     public List<InventarioInterno> getItems() {

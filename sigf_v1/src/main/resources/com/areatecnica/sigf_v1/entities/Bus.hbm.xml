@@ -32,6 +32,9 @@
         <property name="patente" type="string">
             <column name="patente" length="45" not-null="true" />
         </property>
+        <property name="administrador" type="string">
+            <column name="administrador" length="100" not-null="true" />
+        </property>
         <property name="anio" type="int">
             <column name="anio" not-null="true" />
         </property>

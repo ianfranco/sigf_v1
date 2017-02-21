@@ -44,7 +44,7 @@ public class RegistroInventarioTerminalController implements Serializable {
         this.boletoDao = new BoletoDaoImpl();
         this.terminalDao = new TerminalDaoImpl();
         this.items = this.inventarioDao.findByEstado(false);
-        this.itemsBoletos = this.boletoDao.selectedItems();
+        this.itemsBoletos = this.boletoDao.findAll();
         this.itemsTerminal = this.terminalDao.findAll();
     }
 

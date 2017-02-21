@@ -5,7 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <ui:composition template="./../../templateBoletos.xhtml">
+    <ui:composition template="./../templateBoletos.xhtml">
 
         <ui:define name="title">
             <h:outputText value="Nueva Venta de Boletos"/>
@@ -21,16 +21,16 @@
                     <h:panelGroup id="display">
                         <h:panelGrid columns="2" columnClasses="value" id="grupoInicial">
                             <p:outputLabel value="Fecha" for="fechaVenta"/>
-                            <p:calendar id="fechaVenta" value="#{newVentaBoletoController.selected.fechaVenta}" required="true"  autocomplete="off" disabled="true"/> 
+                            <p:calendar id="fechaVenta" value="#{registroVentaBoletoController.selected.fechaVentaBoleto}" required="true"  autocomplete="off" disabled="true"/> 
 
                             <p:outputLabel value="Terminal" for="terminal"/>
-                            <p:selectOneMenu id="terminal" value="#{newVentaBoletoController.selected.terminal}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" converter="terminalConverter">
+                            <p:selectOneMenu id="terminal" value="#{registroVentaBoletoController.selected.terminal}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" converter="terminalConverter">
                                 <f:selectItem itemLabel="Seleccionar"/>
-                                <f:selectItems value="#{terminalOMBean.selectOneItemsTerminal}"/>
+                                <f:selectItems value="#{registroVentaBoletoController.terminalItems}"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Comprador" for="comprador"/>
-                            <p:inputText id="comprador" value="#{newVentaBoletoController.selected.nombreComprador}" required="true" size="45" requiredMessage="Debe Ingresar el Comprador"/>
+                            <p:inputText id="comprador" value="#{registroVentaBoletoController.selected.nombreComprador}" required="true" size="45" requiredMessage="Debe Ingresar el Comprador"/>
                         </h:panelGrid>
 
                         <h3 style="margin-top:10px;margin-bottom:0px"></h3>
@@ -41,26 +41,26 @@
                             <p:outputLabel value="Valor x Rollo" for="valorRollo"/>
                             <p:outputLabel value="Agregar"/>
 
-                            <p:selectOneMenu id="idBoleto" value="#{newVentaBoletoController.boleto}" requiredMessage="Debe seleccionar el tipo de boleto" converter="boletoConverter" >
+                            <p:selectOneMenu id="idBoleto" value="#{registroVentaBoletoController.boleto}" requiredMessage="Debe seleccionar el tipo de boleto" converter="boletoConverter" >
                                 <f:selectItem itemLabel="Seleccione ..."/>
-                                <f:selectItems value="#{boletoOMBean.selectOneItemsBoletos}"/>
-                                <p:ajax update="inventarioInterno" listener="#{newVentaBoletoController.handleBoletoChange}"/>
+                                <f:selectItems value="#{registroVentaBoletoController.boletoItems}"/>
+                                <p:ajax update="inventarioInterno" listener="#{registroVentaBoletoController.handleBoletoChange}"/>
                             </p:selectOneMenu>
 
-                            <p:selectOneMenu id="inventarioInterno" value="#{newVentaBoletoController.inventarioInternoSelected}" converter="inventarioInternoConverter">
+                            <p:selectOneMenu id="inventarioInterno" value="#{registroVentaBoletoController.inventarioInternoSelected}" converter="inventarioInternoConverter">
                                 <f:selectItem itemLabel="Seleccione ..."/>
-                                <f:selectItems value="#{newVentaBoletoController.inventarioItems}"/>
+                                <f:selectItems value="#{registroVentaBoletoController.inventarioItems}"/>
                             </p:selectOneMenu>
 
-                            <p:inputText id="valorRollo" value="#{newVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
-                            <p:commandButton value="Agregar" id="addButton" actionListener="#{newVentaBoletoController.addDetalleVenta(event)}" styleClass="ui-priority-primary" update=":VentaBoletoCreateForm:datalist, :growl,  :VentaBoletoCreateForm:totales">
+                            <p:inputText id="valorRollo" value="#{registroVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
+                            <p:commandButton value="Agregar" id="addButton" actionListener="#{registroVentaBoletoController.addDetalleVenta(event)}" styleClass="ui-priority-primary" update=":VentaBoletoCreateForm:datalist, :growl,  :VentaBoletoCreateForm:totales">
                                 <f:ajax render="detalleVentasPanel" resetValues="true" />
 
                             </p:commandButton>                        
                         </h:panelGrid>
 
                         <p:dataTable id="datalist"
-                                     value="#{newVentaBoletoController.items}" 
+                                     value="#{registroVentaBoletoController.items}" 
                                      widgetVar="datalist"
                                      var="item"
                                      rowKey="#{item.idDetalleVentaBoleto}"
@@ -112,9 +112,9 @@
                         <p:separator class="ui-priority-primary" />
                         <h:panelGrid id="totales" columns="2" columnClasses="value">
                             <p:outputLabel value="Total" for="totalCompra" />
-                            <p:inputText id="totalCompra" value="#{newVentaBoletoController.suma}" /> 
+                            <p:inputText id="totalCompra" value="#{registroVentaBoletoController.suma}" /> 
                         </h:panelGrid>
-                        <p:commandButton actionListener="#{newVentaBoletoController.saveNew}" value="Aceptar" update=":growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
+                        <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
                             <p:confirm header="Confirmación" message="¿Ingresar Nueva Venta?" icon="ui-icon-alert" />
                             <f:ajax render="VentaBoletoCreateForm" resetValues="true" />
                             <f:ajax render="grupoInicial" resetValues="true" />
