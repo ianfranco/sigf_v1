@@ -17,8 +17,11 @@
         <property name="cantidadRollos" type="int">
             <column name="cantidad_rollos" not-null="true" />
         </property>
+        <property name="identificador" type="string">
+            <column name="identificador" length="45" not-null="true"/>
+        </property>
         <property name="serie" type="string">
-            <column name="serie" length="45" />
+            <column name="serie" length="45" not-null="true"/>
         </property>
         <property name="total" type="int">
             <column name="total" not-null="true" />

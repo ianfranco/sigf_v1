@@ -18,9 +18,9 @@ import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.VentaBoleto;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -60,6 +60,7 @@ public class RegistroVentaBoletoController implements Serializable {
     public RegistroVentaBoletoController() {
         if (this.selected == null) {
             this.selected = new VentaBoleto();
+            this.selected.setFechaVentaBoleto(new Date());
             this.items = new ArrayList<DetalleVentaBoleto>();
             this.detalleVentaBoleto = new DetalleVentaBoleto();
             this.inventarioInternoSelected = new InventarioInterno();

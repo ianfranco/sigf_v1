@@ -89,6 +89,7 @@ public class RegistroCompraBoletoController implements Serializable {
         boleto.setCompraBoleto(this.compraBoleto);
         boleto.setBoleto(this.detalleCompraBoleto.getBoleto());
         boleto.setCantidadRollos(this.detalleCompraBoleto.getCantidadRollos());
+        boleto.setIdentificador(this.detalleCompraBoleto.getIdentificador());
         boleto.setSerie(this.detalleCompraBoleto.getSerie());
         int auxTotal = this.detalleCompraBoleto.getTotal()*this.detalleCompraBoleto.getCantidadRollos();
         boleto.setTotal(auxTotal);

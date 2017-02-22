@@ -21,7 +21,7 @@
                     <h:panelGroup id="display">
                         <h:panelGrid columns="2" columnClasses="value" id="grupoInicial">
                             <p:outputLabel value="Fecha" for="fechaVenta"/>
-                            <p:calendar id="fechaVenta" value="#{registroVentaBoletoController.selected.fechaVentaBoleto}" required="true"  autocomplete="off" disabled="true"/> 
+                            <p:calendar id="fechaVenta" pattern="dd/MM/yyyy" value="#{registroVentaBoletoController.selected.fechaVentaBoleto}" required="true"  autocomplete="off" disabled="true"/> 
 
                             <p:outputLabel value="Terminal" for="terminal"/>
                             <p:selectOneMenu id="terminal" value="#{registroVentaBoletoController.selected.terminal}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" converter="terminalConverter">
@@ -52,7 +52,7 @@
                                 <f:selectItems value="#{registroVentaBoletoController.inventarioItems}"/>
                             </p:selectOneMenu>
 
-                            <p:inputText id="valorRollo" value="#{registroVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
+                            <p:inputNumber id="valorRollo" value="#{registroVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
                             <p:commandButton value="Agregar" id="addButton" actionListener="#{registroVentaBoletoController.addDetalleVenta(event)}" styleClass="ui-priority-primary" update=":VentaBoletoCreateForm:datalist, :growl,  :VentaBoletoCreateForm:totales">
                                 <f:ajax render="detalleVentasPanel" resetValues="true" />
 
@@ -104,7 +104,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="Total"/>
                                 </f:facet>
-                                <h:outputText value="#{item.total}"/>
+                                <h:outputText value="#{item.total}">
+                                    <f:convertNumber currencyCode="$"/>
+                                </h:outputText>
                             </p:column>
 
                         </p:dataTable>
@@ -112,7 +114,7 @@
                         <p:separator class="ui-priority-primary" />
                         <h:panelGrid id="totales" columns="2" columnClasses="value">
                             <p:outputLabel value="Total" for="totalCompra" />
-                            <p:inputText id="totalCompra" value="#{registroVentaBoletoController.suma}" /> 
+                            <p:inputNumber id="totalCompra" value="#{registroVentaBoletoController.suma}" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" /> 
                         </h:panelGrid>
                         <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl, datalist" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
                             <p:confirm header="Confirmación" message="¿Ingresar Nueva Venta?" icon="ui-icon-alert" />
@@ -128,16 +130,8 @@
                         </p:commandButton>
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                     </p:confirmDialog>
-
-                    <p:dialog header="Ultima Venta" widgetVar="ultimaVenta" height="500" width="500">
-                        <h:outputText value="ESTO ES UNA PRUEBA"/>
-                    </p:dialog>
                 </h:form>
-
             </p:panel>
-
         </ui:define>
-
-
     </ui:composition>
 </html>

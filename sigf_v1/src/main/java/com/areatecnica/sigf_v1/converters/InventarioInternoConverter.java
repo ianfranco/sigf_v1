@@ -1,13 +1,11 @@
 package com.areatecnica.sigf_v1.converters;
 
-import com.areatecnica.sigf_v1.dao.AbstractDao;
 import com.areatecnica.sigf_v1.entities.InventarioInterno;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.InventarioInternoDaoImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -15,7 +13,6 @@ import javax.faces.convert.Converter;
 @FacesConverter(value = "inventarioInternoConverter")
 public class InventarioInternoConverter implements Converter {
 
-    @Inject
     private InventarioInternoDaoImpl dao;
 
     @Override

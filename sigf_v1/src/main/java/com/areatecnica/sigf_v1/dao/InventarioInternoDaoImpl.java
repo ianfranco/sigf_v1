@@ -44,10 +44,10 @@ public class InventarioInternoDaoImpl implements InventarioInternoDao{
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "SELECT * FROM Inventario_Interno  WHERE idInventarioInterno="+id;
+        String sql = "FROM InventarioInterno WHERE idInventarioInterno="+id;
         try {
 
-            inventario = (InventarioInterno) session.createSQLQuery(sql).addEntity(InventarioInterno.class).uniqueResult();
+            inventario = (InventarioInterno) session.createQuery(sql).uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();
