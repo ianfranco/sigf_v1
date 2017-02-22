@@ -19,13 +19,14 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Ian Franco
  */
 @Named(value = "newInventarioTerminalController")
-@SessionScoped
+@ViewScoped
 public class RegistroInventarioTerminalController implements Serializable {
 
     private List<InventarioTerminal> items;

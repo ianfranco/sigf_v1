@@ -18,6 +18,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
@@ -29,7 +30,7 @@ import org.hibernate.Transaction;
  * @author Ian Franco
  */
 @Named(value = "searchBoletoController")
-@SessionScoped
+@ViewScoped
 public class SearchBoletoController implements Serializable {
 
     private String serie;

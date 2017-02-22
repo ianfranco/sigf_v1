@@ -112,7 +112,7 @@
                         <p:link value="Ingresar a Tesorería" outcome="#{appBean.basePath}webapp/tesoreria/indexTesoreria.xhtml" />
                     </p:tab>
                     <p:tab title="Boletos" rendered="#{indexController.boletos==true}">
-
+                        <p:link value="Ingresar a Inventario de Boletos" outcome="#{appBean.basePath}webapp/inventarioBoletos/indexBoletos.xhtml" />
                         <p:dataTable 
                             id="boletos"                                 
                             value="#{indexController.boletosItems}"
@@ -151,7 +151,7 @@
 
                         </p:dataTable>
                         <p:separator/>
-                        <p:link value="Ingresar a Inventario de Boletos" />
+                        
                     </p:tab>
                     <p:tab title="Remuneraciones" rendered="#{indexController.remuneraciones==true}">
 

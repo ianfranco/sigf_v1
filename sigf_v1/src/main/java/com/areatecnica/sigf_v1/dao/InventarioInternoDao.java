@@ -17,7 +17,7 @@ public interface InventarioInternoDao {
 
     public List<InventarioInterno> findAll();
 
-    public InventarioInterno findById();
+    public InventarioInterno findById(int id);
     
     public List<InventarioInterno> findByEstado(boolean estado);
     

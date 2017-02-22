@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -44,7 +45,7 @@ import org.hibernate.Transaction;
  * @author Ian Franco
  */
 @Named(value = "newVentaBoletoGuiaController")
-@SessionScoped
+@ViewScoped
 public class RegistroVentaBoletoGuiaController implements Serializable {
 
     private List<VentaBoletoGuia> ventaBoletoGuiaItems;

@@ -24,7 +24,7 @@ public class InventarioInternoDaoImpl implements InventarioInternoDao{
         
         List<InventarioInterno> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioInterno";
         try {
@@ -39,15 +39,28 @@ public class InventarioInternoDaoImpl implements InventarioInternoDao{
     }
 
     @Override
-    public InventarioInterno findById() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public InventarioInterno findById(int id) {
+        InventarioInterno inventario = null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "SELECT * FROM Inventario_Interno  WHERE idInventarioInterno="+id;
+        try {
+
+            inventario = (InventarioInterno) session.createSQLQuery(sql).addEntity(InventarioInterno.class).uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return inventario;
     }
 
     @Override
     public List<InventarioInterno> findByEstado(boolean estado) {
         List<InventarioInterno> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioInterno i WHERE estado = "+estado;
         try {
@@ -65,7 +78,7 @@ public class InventarioInternoDaoImpl implements InventarioInternoDao{
     public List<InventarioInterno> findByBoleto(Boleto boleto) {
         List<InventarioInterno> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioInterno i WHERE estado = "+false+ " AND boleto ="+boleto.getIdBoleto();
         try {
@@ -83,7 +96,7 @@ public class InventarioInternoDaoImpl implements InventarioInternoDao{
     public InventarioInterno findByIdentificador(String identificador, String serie) {
         InventarioInterno inventario = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "SELECT * FROM Inventario_Interno  WHERE identificador = '"+identificador +"' AND LEFT(serie, 4)='"+serie+"'";
         try {

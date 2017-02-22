@@ -114,7 +114,7 @@
                             <p:outputLabel value="Total" for="totalCompra" />
                             <p:inputText id="totalCompra" value="#{registroVentaBoletoController.suma}" /> 
                         </h:panelGrid>
-                        <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
+                        <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl, datalist" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
                             <p:confirm header="Confirmación" message="¿Ingresar Nueva Venta?" icon="ui-icon-alert" />
                             <f:ajax render="VentaBoletoCreateForm" resetValues="true" />
                             <f:ajax render="grupoInicial" resetValues="true" />

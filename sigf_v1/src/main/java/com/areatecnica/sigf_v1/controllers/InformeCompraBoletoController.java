@@ -20,13 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Ian Franco
  */
 @Named(value = "informeCompraBoletoController")
-@SessionScoped
+@ViewScoped
 public class InformeCompraBoletoController implements Serializable {
 
     
