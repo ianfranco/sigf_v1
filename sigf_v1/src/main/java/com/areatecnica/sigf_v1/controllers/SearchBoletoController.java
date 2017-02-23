@@ -5,7 +5,6 @@
  */
 package com.areatecnica.sigf_v1.controllers;
 
-
 import com.areatecnica.sigf_v1.dao.InventarioTerminalDao;
 import com.areatecnica.sigf_v1.dao.InventarioTerminalDaoImpl;
 import com.areatecnica.sigf_v1.dao.VentaBoletoDao;
@@ -15,7 +14,6 @@ import com.areatecnica.sigf_v1.entities.VentaBoleto;
 import com.areatecnica.sigf_v1.entities.VentaBoletoGuia;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -50,45 +48,39 @@ public class SearchBoletoController implements Serializable {
         this.estado = "";
     }
 
-    
-    
     public String searchBoleto() {
 
         if (!this.serie.equals("")) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Buscando datos para la Serie:"+this.serie, "");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-
             String auxSerie = this.serie;
             String identificador = StringUtils.left(serie, 2);
             String auxNumeros = StringUtils.substring(serie, 2);
-            
+
             String numeros = StringUtils.left(auxNumeros, 4);
-            
-            
+
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
             try {
-                this.inventarioTerminalDao = new InventarioTerminalDaoImpl();                
-                this.inventarioTerminal = this.inventarioTerminalDao.findByIdentificador(identificador, numeros);
-                
-                System.err.println("DATOS DEL INVENTARIO INTERNO:"+this.inventarioTerminal.getBoleto());
-                
-                if(this.inventarioTerminal.getEstado()){
+                this.inventarioTerminalDao = new InventarioTerminalDaoImpl();
+                this.inventarioTerminal = this.inventarioTerminalDao.findByIdentificador(identificador, 1, 1);
+
+                if (this.inventarioTerminal.getEstado()) {
                     this.estado = "VENDIDO";
-                }else{
+                } else {
                     this.estado = "EN TERMINAL";
                 }
-                
+
                 tx.commit();
-            } catch (HibernateException e) {
+            } catch (HibernateException | NullPointerException e) {
                 e.printStackTrace();
+
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha encontrado un Boleto con la serie: "+this.serie, "");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+
                 tx.rollback();
             }
 
+        } else {
             
-        }else{
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ingrese un Serie de Boleto", "");
-            FacesContext.getCurrentInstance().addMessage(null, message);
         }
 
         return null;
@@ -132,7 +124,6 @@ public class SearchBoletoController implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }    
-    
+    }
 
 }

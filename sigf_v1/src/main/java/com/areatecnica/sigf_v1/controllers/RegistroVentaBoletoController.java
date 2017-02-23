@@ -209,6 +209,12 @@ public class RegistroVentaBoletoController implements Serializable {
         if (this.boleto != null) {
             InventarioInternoDao inventarioDao = new InventarioInternoDaoImpl();
             this.inventarioItems = inventarioDao.findByBoleto(this.boleto);
+            
+            if(!this.items.isEmpty()){
+                for(DetalleVentaBoleto detalle:items){
+                    this.inventarioItems.remove(detalle.getInventarioInterno());
+                }
+            }            
         }
     }
 

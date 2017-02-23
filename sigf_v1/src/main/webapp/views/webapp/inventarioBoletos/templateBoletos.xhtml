@@ -20,6 +20,10 @@
     </h:head>
 
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+            <p:graphicImage library="images" name="ajax-loader.gif" />
+        </p:dialog>
         <p:growl id="growl" life="3000"/>
         <p:layout fullPage="true">
 
@@ -58,10 +62,10 @@
 
             <p:layoutUnit position="south" size="40" resizable="true" closable="true" collapsible="true">
                 <div id="bottom" class="ui-widget-header">
-                    <ui:insert name="bottom">&copy; 2014 - IFC Asesorías Informáticas </ui:insert>
+                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2016 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
                 </div>
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="center">
                 <div id="container" class="ui-corner-all">
 
@@ -69,7 +73,7 @@
                         <div id="content" class="ui-corner-all">
 
                             <ui:insert name="content" class="ui-corner-all">
-                                
+
                             </ui:insert>
                         </div>
                     </div>

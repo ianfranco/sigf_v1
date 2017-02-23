@@ -28,5 +28,5 @@ public interface InventarioTerminalDao {
     
     public List<InventarioTerminal> findByBoletoAndIdTerminal(Boleto boleto, int idTerminal);
     
-    public InventarioTerminal findByIdentificador(String identificador, String serie);
+    public InventarioTerminal findByIdentificador(String identificador, int serieInicio, int serieFin);
 }
