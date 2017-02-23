@@ -47,9 +47,6 @@
                             <p:submenu label="Configuracion" icon="ui-icon-wrench">
                                 <p:menuitem value="Boletos" outcome="#{appBean.basePath}webapp/inventarioBoletos/boleto/List"></p:menuitem>
                             </p:submenu>
-                            <p:submenu label="Seguridad" icon="ui-icon-key">
-                                <p:menuitem value="Cambio de Contraseña" url="#{appBean.basePath}webapp/inventarioBoletos/usuario/index.xhtml"></p:menuitem>
-                            </p:submenu>
                             <f:facet name="options">                        
                                 <p:commandButton type="" value="Salir" actionListener="#{loginBean.logout()}" oncomplete="logout(xhr, status, args)" icon="ui-icon-extlink"/>
                             </f:facet>

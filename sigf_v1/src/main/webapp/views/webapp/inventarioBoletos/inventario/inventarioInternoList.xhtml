@@ -9,69 +9,72 @@
 
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="InventarioInternoListForm">
-            
-            <p:dataTable id="datalist"
-                         value="#{newInventarioInternoController.items}"
-                         var="item"
-                         rowKey="#{item.idInventarioInterno}"
-                         paginator="true"
-                         paginatorPosition="top"
-                         rows="50"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{newInventarioInternoController.selected}"
-                         rowIndexVar="rowIndex"                          
-                         widgetVar="inventarioTable"
-                         emptyMessage="No se han encontrado registros">
+            <h:panelGrid columns="1" style="margin: 0 auto;">
 
-                <f:facet name="header">
-                    Inventario Interno
-                </f:facet>            
+                <p:dataTable id="datalist"
+                             value="#{newInventarioInternoController.items}"
+                             var="item"
+                             rowKey="#{item.idInventarioInterno}"
+                             paginator="true"
+                             paginatorPosition="top"
+                             rows="50"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{newInventarioInternoController.selected}"
+                             rowIndexVar="rowIndex"                          
+                             widgetVar="inventarioTable"
+                             emptyMessage="No se han encontrado registros"
+                             style="width: 1024px;">
 
-
-                <p:column sortBy="#{item.idInventarioInterno}" filterBy="#{item.idInventarioInterno}">
                     <f:facet name="header">
-                        <h:outputText value="N°"/>
+                        Inventario Interno
                     </f:facet>
-                    <h:outputText value="#{rowIndex+1}"/>
-                </p:column>
 
-                <p:column sortBy="#{item.boleto.nombreBoleto}" filterBy="#{item.boleto.nombreBoleto}">
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('inventarioTable').filter()">
-                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{newInventarioInternoController.boletos}"/>
-                        </p:selectOneMenu>
-                    </f:facet>                
-                    <f:facet name="header">
-                        <h:outputText value="Boleto"/>
-                    </f:facet>
-                    <h:outputText value="#{item.boleto.nombreBoleto}"/>
-                </p:column>
+                    <p:column sortBy="#{item.idInventarioInterno}">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
 
-                <p:column sortBy="#{item.serie}" filterBy="#{item.serie}">
-                    <f:facet name="header">
-                        <h:outputText value="Serie"/>
-                    </f:facet>
-                    <h:outputText value="#{item.serie}"/>
-                </p:column>
+                    <p:column sortBy="#{item.boleto.nombreBoleto}" filterBy="#{item.boleto.nombreBoleto}" style="text-align: center;">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('inventarioTable').filter()">
+                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{newInventarioInternoController.boletos}"/>
+                            </p:selectOneMenu>
+                        </f:facet>                
+                        <f:facet name="header">
+                            <h:outputText value="Boleto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.boleto.nombreBoleto}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.serie}" filterBy="#{item.serie}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Serie"/>
+                        </f:facet>
+                        <h:outputText value="#{item.serie}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.identificador}" filterBy="#{item.identificador}">
-                    <f:facet name="header">
-                        <h:outputText value="Identificador"/>
-                    </f:facet>
-                    <h:outputText value="#{item.identificador}"/>
-                </p:column>
+                    <p:column sortBy="#{item.identificador}" filterBy="#{item.identificador}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Identificador"/>
+                        </f:facet>
+                        <h:outputText value="#{item.identificador}"/>
+                    </p:column>
 
-                <p:column sortBy="#{item.cantidadRollos}" filterBy="#{item.cantidadRollos}">
-                    <f:facet name="header">
-                        <h:outputText value="N° Rollos"/>
-                    </f:facet>
-                    <h:outputText value="#{item.cantidadRollos}"/>
-                </p:column>
+                    <p:column sortBy="#{item.cantidadRollos}" filterBy="#{item.cantidadRollos}" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="N° Rollos"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cantidadRollos}"/>
+                    </p:column>
 
-            </p:dataTable>
+                </p:dataTable>
+
+            </h:panelGrid>
 
             <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
         </h:form>

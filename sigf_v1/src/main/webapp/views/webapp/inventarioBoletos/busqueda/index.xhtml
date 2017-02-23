@@ -32,36 +32,36 @@
                                 
                                 
                                 <p:outputLabel value="Serie:"/>
-                                <p:inputText id="serie" value="#{searchBoletoController.inventarioInterno.serie}"/>
+                                <p:outputLabel id="serie" value="#{searchBoletoController.inventarioInterno.serie}"/>
                                 
                                 <p:outputLabel value="Tipo de Boleto:"/>
-                                <p:inputText id="tipoBoleto" value="#{searchBoletoController.inventarioInterno.boleto}"/>
+                                <p:outputLabel id="tipoBoleto" value="#{searchBoletoController.inventarioInterno.boleto}"/>
                                 
                                 <p:outputLabel value="Terminal:"/>
-                                <p:inputText id="terminal" value="#{searchBoletoController.inventarioInterno.terminal}"/>
+                                <p:outputLabel id="terminal" value="#{searchBoletoController.inventarioInterno.terminal}"/>
                                 
                                 <p:outputLabel value="Estado:"/>
-                                <p:inputText id="estado" value="#{searchBoletoController.estado}"/>
+                                <p:outputLabel id="estado" value="#{searchBoletoController.estado}"/>
                                 
                                 <p:outputLabel value="Fecha de Venta:"/>
-                                <p:inputText id="fechaVenta"/>
+                                <p:outputLabel id="fechaVenta"/>
                                  
                                 <p:outputLabel value="N° Bus:"/>
-                                <p:inputText id = "numeroBus" value="00"/>
+                                <p:outputLabel id = "numeroBus" value="00"/>
                                 
                                 <p:outputLabel value="N° Conductor:"/>
-                                <p:inputText id="numeroConductor" value="15"/>
+                                <p:outputLabel id="numeroConductor" value="15"/>
                                 
                                 <p:outputLabel value="Nombre:"/>
-                                <p:inputText id="nombreConductor" value="Nombre conductor"/>
+                                <p:outputLabel id="nombreConductor" value="Nombre conductor"/>
                             </h:panelGrid>
 
                         </p:panel>
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                             <p:printer target="detalle" />
-                        </p:commandButton>       
-                        <h3 style="margin-top:0"></h3>
+                        </p:commandButton> 
                         <p:separator class="ui-priority-primary" />
+                                                
                         <h:panelGrid columns="2" columnClasses="value">
 
                         </h:panelGrid>

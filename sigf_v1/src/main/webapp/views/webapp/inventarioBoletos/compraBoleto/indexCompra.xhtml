@@ -66,7 +66,7 @@
                                      var="item"
                                      rowKey="#{item.idDetalleCompraBoleto}"                                 
                                      rowIndexVar="rowIndex"
-                                     emptyMessage="No se han encontrado registros">
+                                     emptyMessage="No se han encontrado registros" style="width: 800px;">
 
                             <f:facet name="header">
                                 Detalle Compra
@@ -123,7 +123,7 @@
                 <h:form id="CompraBoletoCreateForm">
                     <h:panelGrid id="totales" columns="2">
                         <p:outputLabel value="Total" for="total"/>
-                        <p:inputNumber id="total" value="#{registroCompraBoletoController.total}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/> 
+                        <p:inputNumber id="total" value="#{registroCompraBoletoController.total}" required="true" requiredMessage="Debe ingresar el monto de la compra" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/> 
                     </h:panelGrid>
                     <p:separator class="ui-priority-primary" />
                     <p:commandButton actionListener="#{registroCompraBoletoController.saveNew}" value="Aceptar" update=":growl, :detalle " oncomplete="handleSubmit(xhr,status,args,PF('CompraBoletoCreateDialog'));" styleClass="ui-priority-primary" >

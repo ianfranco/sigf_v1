@@ -7,11 +7,6 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="./../templateBoletos.xhtml">
 
-        <ui:define name="title">
-            <h:outputText value="Nueva Venta de Boletos"/>
-        </ui:define>
-
-
         <ui:define name="content">      
 
             <p:panel id="VentaBoletoCreateDlg" widgetVar="VentaBoletoCreateDialog" header="Nueva Venta de Boletos">
@@ -33,9 +28,8 @@
                             <p:inputText id="comprador" value="#{registroVentaBoletoController.selected.nombreComprador}" required="true" size="45" requiredMessage="Debe Ingresar el Comprador"/>
                         </h:panelGrid>
 
-                        <h3 style="margin-top:10px;margin-bottom:0px"></h3>
                         <p:separator class="ui-priority-primary"/>
-                        <h:panelGrid columns="4" id="detalleVentasPanel">
+                        <h:panelGrid columns="4" id="detalleVentasPanel" style="margin-top:10px;margin-bottom:0px">
                             <p:outputLabel value="Tipo Boleto" for="idBoleto"/>
                             <p:outputLabel value="Serie" for="inventarioInterno"/>
                             <p:outputLabel value="Valor x Rollo" for="valorRollo"/>
@@ -52,8 +46,8 @@
                                 <f:selectItems value="#{registroVentaBoletoController.inventarioItems}"/>
                             </p:selectOneMenu>
 
-                            <p:inputNumber id="valorRollo" value="#{registroVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
-                            <p:commandButton value="Agregar" id="addButton" actionListener="#{registroVentaBoletoController.addDetalleVenta(event)}" styleClass="ui-priority-primary" update=":VentaBoletoCreateForm:datalist, :growl,  :VentaBoletoCreateForm:totales">
+                            <p:inputNumber decimalPlaces="0" id="valorRollo" value="#{registroVentaBoletoController.valorRollo}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="10" maxlength="10" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" />
+                            <p:commandButton value="Agregar" id="addButton" actionListener="#{registroVentaBoletoController.addDetalleVenta(event)}" styleClass="ui-priority-primary" update=":VentaBoletoCreateForm:datalist, :growl,  :VentaBoletoCreateForm:totales, inventarioInterno">
                                 <f:ajax render="detalleVentasPanel" resetValues="true" />
 
                             </p:commandButton>                        
@@ -64,10 +58,8 @@
                                      widgetVar="datalist"
                                      var="item"
                                      rowKey="#{item.idDetalleVentaBoleto}"
-                                     rowIndexVar="rowIndex"
-                                     scrollable="true"
-                                     scrollHeight="250"
-                                     emptyMessage="No se han encontrado registros">
+                                     rowIndexVar="rowIndex"                                                                          
+                                     emptyMessage="No se han encontrado registros" style="width: 800px;margin-top: 10px;">
 
                             <f:facet name="header">
                                 Detalle Venta
@@ -109,27 +101,17 @@
                                 </h:outputText>
                             </p:column>
 
-                        </p:dataTable>
-                        <h3 style="margin-top:0"></h3>
+                        </p:dataTable>                       
                         <p:separator class="ui-priority-primary" />
-                        <h:panelGrid id="totales" columns="2" columnClasses="value">
+                        <h:panelGrid id="totales" columns="3" columnClasses="value" style="margin-bottom: 10px;">
                             <p:outputLabel value="Total" for="totalCompra" />
-                            <p:inputNumber id="totalCompra" value="#{registroVentaBoletoController.suma}" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" /> 
+                            <p:inputNumber decimalPlaces="0" id="totalCompra" value="#{registroVentaBoletoController.suma}" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off" /> 
+                            <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl, datalist" styleClass="ui-priority-primary" >
+                                <p:confirm header="Confirmación" message="¿Ingresar Nueva Venta?" icon="ui-icon-alert" />                            
+                            </p:commandButton>                        
                         </h:panelGrid>
-                        <p:commandButton actionListener="#{registroVentaBoletoController.saveNew}" value="Aceptar" update=":growl, datalist" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));" styleClass="ui-priority-primary" >
-                            <p:confirm header="Confirmación" message="¿Ingresar Nueva Venta?" icon="ui-icon-alert" />
-                            <f:ajax render="VentaBoletoCreateForm" resetValues="true" />
-                            <f:ajax render="grupoInicial" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" onclick="PF('VentaBoletoCreateDialog').hide()" styleClass="ui-priority-primary" />
-                    </h:panelGroup>
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
-                            <f:ajax render="VentaBoletoCreateForm" resetValues="true" />
-                            <f:ajax render="grupoInicial" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                    </p:confirmDialog>
+                    </h:panelGroup>   
+                    <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
                 </h:form>
             </p:panel>
         </ui:define>

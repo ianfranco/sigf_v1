@@ -134,6 +134,8 @@ public class RegistroVentaBoletoController implements Serializable {
         detalle.setVentaBoleto(this.selected);
         detalle.setTotal(this.inventarioInternoSelected.getCantidadRollos() * this.valorRollo);
 
+        this.inventarioItems.remove(this.inventarioInternoSelected);
+        
         this.suma += detalle.getTotal();
         
         items.add(detalle);
@@ -143,9 +145,8 @@ public class RegistroVentaBoletoController implements Serializable {
 
         this.detalleVentaBoleto.setInventarioInterno(null);
         this.detalleVentaBoleto.setTotal(0);
-        this.boleto = null;
-
         
+        this.inventarioInternoSelected = null;
         this.selected.setTotalCompra(this.suma);
 
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "TOTAL VENTA:" + this.selected.getTotalCompra(), "");
