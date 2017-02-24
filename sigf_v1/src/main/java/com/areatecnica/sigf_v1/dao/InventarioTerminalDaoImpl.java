@@ -116,12 +116,12 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     }
 
     @Override
-    public InventarioTerminal findByIdentificador(String identificador, int serieInicio, int serieFin) {
+    public InventarioTerminal findByIdentificador(String identificador, String serieInicio) {
         InventarioTerminal inventario = null;
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        String sql = "SELECT * FROM Inventario_Terminal WHERE identificador = '"+identificador +"' AND serie BETWEEN "+serieInicio+" AND "+serieFin;
+        String sql = "SELECT * FROM Inventario_Terminal WHERE identificador = '"+identificador +"' AND "+serieInicio+" BETWEEN serie AND (serie+1000)";
         try {
 
             inventario = (InventarioTerminal) session.createSQLQuery(sql).addEntity(InventarioTerminal.class).uniqueResult();

@@ -32,6 +32,7 @@ import org.hibernate.Transaction;
 public class SearchBoletoController implements Serializable {
 
     private String serie;
+    private String identificador;
     private String estado;
     private InventarioTerminal inventarioTerminal;
     private InventarioTerminalDao inventarioTerminalDao;
@@ -51,36 +52,36 @@ public class SearchBoletoController implements Serializable {
     public String searchBoleto() {
 
         if (!this.serie.equals("")) {
-            String auxSerie = this.serie;
-            String identificador = StringUtils.left(serie, 2);
-            String auxNumeros = StringUtils.substring(serie, 2);
-
-            String numeros = StringUtils.left(auxNumeros, 4);
 
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
             try {
                 this.inventarioTerminalDao = new InventarioTerminalDaoImpl();
-                this.inventarioTerminal = this.inventarioTerminalDao.findByIdentificador(identificador, 1, 1);
+                this.inventarioTerminal = this.inventarioTerminalDao.findByIdentificador(identificador, this.serie);
 
-                if (this.inventarioTerminal.getEstado()) {
-                    this.estado = "VENDIDO";
+                if (this.inventarioTerminal != null) {
+                    if (this.inventarioTerminal.getEstado()) {
+                        this.estado = "VENDIDO";
+                    } else {
+                        this.estado = "EN TERMINAL";
+                    }
                 } else {
-                    this.estado = "EN TERMINAL";
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha encontrado un Boleto con la serie: " + this.serie, "");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
                 }
 
                 tx.commit();
             } catch (HibernateException | NullPointerException e) {
                 e.printStackTrace();
 
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha encontrado un Boleto con la serie: "+this.serie, "");
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha encontrado un Boleto con la serie: " + this.serie, "");
                 FacesContext.getCurrentInstance().addMessage(null, message);
 
                 tx.rollback();
             }
 
         } else {
-            
+
         }
 
         return null;
@@ -124,6 +125,14 @@ public class SearchBoletoController implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 
 }

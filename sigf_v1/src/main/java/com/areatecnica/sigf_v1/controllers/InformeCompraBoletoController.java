@@ -58,17 +58,12 @@ public class InformeCompraBoletoController implements Serializable {
         
     }
     
-    private String loadData(){        
+    public void loadData(){        
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Buscando datos", "");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        
-        this.dao = new CompraBoletoDaoImpl();
-        
-        this.items = this.dao.findByFechas(this.desde, this.hasta);
-        
-        this.selected = new CompraBoleto();
-        
-        return null;
+        FacesContext.getCurrentInstance().addMessage(null, message);        
+        this.dao = new CompraBoletoDaoImpl();        
+        this.items = this.dao.findByFechas(this.desde, this.hasta);        
+        this.selected = new CompraBoleto();        
     }
 
     public Date getDesde() {

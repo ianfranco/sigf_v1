@@ -13,33 +13,17 @@
 
 
         <ui:define name="content">      
-
-            <p:panel header="Nueva Compra de Boletos">
-                <p:focus context="CompraBoletoCreateDlg"/>
-
-                <h:panelGrid columns="2" columnClasses="value" id="grupoInicial">
-                    <p:outputLabel value="N° Factura" for="folioFactura"/>
-                    <p:inputText id="folioFactura" value="#{registroCompraBoletoController.compraBoleto.folioFactura}" required="true" requiredMessage="Debe Ingresar el Folio" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
-
-                    <p:outputLabel value="Fecha Compra" for="fechaCompraBoleto"/>
-                    <p:calendar id="fechaCompraBoleto" value="#{registroCompraBoletoController.compraBoleto.fechaCompraBoleto}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" autocomplete="off" locale="es"/>
-                </h:panelGrid>
-
-            </p:panel>
-
             <p:panel id="detalle" header="Detalle Compra" style="margin-top: 5px">
                 <h:form id="SelectorCompraBoletoCreateForm">
-
-
                     <h3 style="margin-top:10px;margin-bottom:0px"></h3>
                     <p:separator class="ui-priority-primary"/>
                     <p:focus context="cantidadRollos"/>
                     <h:panelGrid columns="6" id="detalleComprasPanel">
-                        <p:outputLabel value="N° Rollos" for="folioFactura"/>
-                        <p:outputLabel value="Identificador" for="identificador"/>
+                        <p:outputLabel value="N° Rollos" />
+                        <p:outputLabel value="Identificador" />
                         <p:outputLabel value="Serie" for="serie"/>
                         <p:outputLabel value="Tipo Boleto" for="idBoleto"/>
-                        <p:outputLabel value="Valor x Rollo" for="folioFactura"/>
+                        <p:outputLabel value="Valor x Rollo" />
                         <p:outputLabel value="Agregar"/>
 
                         <p:inputNumber decimalPlaces="0" id="cantidadRollos" value="#{registroCompraBoletoController.detalleCompraBoleto.cantidadRollos}" title="#{bundle.CreateDetalleCompraBoletoTitle_cantidadRollos}" required="true" requiredMessage="#{bundle.CreateDetalleCompraBoletoRequiredMessage_cantidadRollos}" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/>
@@ -84,7 +68,7 @@
                                 </f:facet>
                                 <h:outputText value="#{item.boleto.nombreBoleto}"/>
                             </p:column>
-                            
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Identificador"/>
@@ -122,8 +106,14 @@
             <p:panel id="CompraBoletoCreateDlg" widgetVar="CompraBoletoCreateDialog" style="margin-top: 5px;">
                 <h:form id="CompraBoletoCreateForm">
                     <h:panelGrid id="totales" columns="2">
+                        <p:outputLabel value="N° Factura" for="folioFactura"/>
+                        <p:inputText id="folioFactura" value="#{registroCompraBoletoController.compraBoleto.folioFactura}" required="true" requiredMessage="Debe Ingresar el Folio" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
+
+                        <p:outputLabel value="Fecha Compra" for="fechaCompraBoleto"/>
+                        <p:calendar id="fechaCompraBoleto" value="#{registroCompraBoletoController.compraBoleto.fechaCompraBoleto}" required="true" requiredMessage="Debe Ingresar la Fecha de Compra" autocomplete="off" locale="es"/>
+
                         <p:outputLabel value="Total" for="total"/>
-                        <p:inputNumber id="total" value="#{registroCompraBoletoController.total}" required="true" requiredMessage="Debe ingresar el monto de la compra" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/> 
+                        <p:inputNumber id="total" value="#{registroCompraBoletoController.total}" required="true" requiredMessage="Debe ingresar el monto de la compra" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)"/>                         
                     </h:panelGrid>
                     <p:separator class="ui-priority-primary" />
                     <p:commandButton actionListener="#{registroCompraBoletoController.saveNew}" value="Aceptar" update=":growl, :detalle " oncomplete="handleSubmit(xhr,status,args,PF('CompraBoletoCreateDialog'));" styleClass="ui-priority-primary" >

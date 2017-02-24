@@ -9,8 +9,10 @@ package com.areatecnica.sigf_v1.dao;
 
 import com.areatecnica.sigf_v1.entities.CompraBoleto;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -63,13 +65,17 @@ public class CompraBoletoDaoImpl implements CompraBoletoDao {
     @Override
     public List<CompraBoleto> findByFechas(Date desde, Date hasta) {
         List<CompraBoleto> list = null;
-
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM CompraBoleto c WHERE Fecha BETWEEN '"+desde+"' AND '"+hasta+"'";
+        String sql = "FROM CompraBoleto c WHERE fechaCompraBoleto BETWEEN '"+format.format(desde)+"' AND '"+format.format(hasta)+"'";
 
         try {
             list = session.createQuery(sql).list();
+            
+            for(CompraBoleto c:list){
+                Hibernate.initialize(c.getDetalleCompraBoletos());
+            }
             
             tx.commit();
         } catch (HibernateException e) {

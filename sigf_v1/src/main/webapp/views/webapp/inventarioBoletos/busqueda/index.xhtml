@@ -19,10 +19,14 @@
                 <h:form id="BusquedaForm">
 
                     <h:panelGroup id="display">
-                        <h:panelGrid columns="3" columnClasses="value" id="grupoInicial">
-                            <p:outputLabel value="Ingrese la Serie del Boleto" for="serieBoleto"/>
-                            <p:inputText id="serieBoleto" value="#{searchBoletoController.serie}" required="true" requiredMessage="Debe ingresar la serie" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
+                        <h:panelGrid columns="5" columnClasses="value" id="grupoInicial">
+                            <p:outputLabel value="Identificador:" for="inputIdentificador"/>
+                            <p:inputText id="inputIdentificador" value="#{searchBoletoController.identificador}" required="true" requiredMessage="Debe ingresar la serie" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
+                            
+                            <p:outputLabel value="Serie:" for="inputSerie"/>
+                            <p:inputNumber decimalPlaces="0" id="inputSerie" value="#{searchBoletoController.serie}" required="true" requiredMessage="Debe ingresar la serie" onfocus="this.setSelectionRange(0, this.value.length)" autocomplete="off"/> 
                             <p:commandButton value="Aceptar"  styleClass="ui-priority-primary" actionListener="#{searchBoletoController.searchBoleto()}" update=":growl, :BusquedaForm"/>
+                            
                         </h:panelGrid>
 
                         <h3 style="margin-top:10px;margin-bottom:0px"></h3>
@@ -58,15 +62,10 @@
                             </h:panelGrid>
 
                         </p:panel>
+                        <p:separator class="ui-priority-primary" />
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                             <p:printer target="detalle" />
-                        </p:commandButton> 
-                        <p:separator class="ui-priority-primary" />
-
-                        <h:panelGrid columns="2" columnClasses="value">
-
-                        </h:panelGrid>
-
+                        </p:commandButton>                        
 
                     </h:panelGroup>
                     <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
@@ -75,13 +74,6 @@
             </p:panel>
 
         </ui:define>
-
-        <p:dialog id="detalleBusquedaBoletoDlg" widgetVar="detalleBusquedaBoleto" modal="true" resizable="false" appendTo="@(body)" header="Nueva Compra de Boletos" closeOnEscape="true">
-
-            <h:form id="DetalleBusquedaForm">
-
-            </h:form>
-        </p:dialog>
 
     </ui:composition>
 </html>

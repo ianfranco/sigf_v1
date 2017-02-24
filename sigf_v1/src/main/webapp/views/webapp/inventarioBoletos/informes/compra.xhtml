@@ -10,14 +10,14 @@
     <ui:define name="content" class="ui-corner-all" >
         <h:form id="CompraBoletoListForm">
             <h:panelGroup id="display">
-                <p:panel header="Entradas">
+                <p:panel header="Fechas" style="margin-left: 10px;margin-right: 10px;">
                     <h:panelGrid columns="3" columnClasses="value">
                         <p:outputLabel value="Desde: " for="desde"/>
                         <p:outputLabel value="Hasta: " for="hasta"/>
                         <p:outputLabel value="" for="aceptar"/>
                         <p:calendar id="desde" size="10" value="#{informeCompraBoletoController.desde}" locale="es" pattern="dd/MM/yy"/>
                         <p:calendar id="hasta" size="10" value="#{informeCompraBoletoController.hasta}" locale="es" pattern="dd/MM/yy"/>
-                        <p:commandButton id="aceptar" value="Aceptar"/>
+                        <p:commandButton id="aceptar" value="Aceptar" actionListener="#{informeCompraBoletoController.loadData()}" update="datalist"/>
                     </h:panelGrid>
                 </p:panel>
                 <p:dataTable id="datalist"
@@ -31,12 +31,10 @@
                              selection="#{informeCompraBoletoController.selected}"
                              rowIndexVar="rowIndex" 
                              scrollable="true"
-                             scrollHeight="200" 
-                             emptyMessage="No se han encontrado registros">
-
+                             emptyMessage="No se han encontrado registros" style="margin-left: 10px;margin-right: 10px;margin-top: 10px;width: 1024px;">
 
                     <p:ajax event="rowDblselect" onsuccess="document.getElementById('CompraBoletoListForm:viewButton').click();"/>
-
+                    
                     <f:facet name="header">
                         Compras de Boletos
                     </f:facet>
@@ -46,48 +44,40 @@
                         </f:facet>
                         <h:outputText value="#{rowIndex+1}"/>
                     </p:column>
-
-
                     <p:column sortBy="#{item.folioFactura}" filterBy="#{item.folioFactura}" style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="N° Factura"/>
                         </f:facet>
                         <h:outputText value="#{item.folioFactura}"/>
                     </p:column>
-
-
                     <p:column sortBy="#{item.fechaCompraBoleto}" filterBy="#{item.fechaCompraBoleto}" style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="Fecha"/>
                         </f:facet>
                         <h:outputText value="#{item.fechaCompraBoleto}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yy" />
                         </h:outputText>
                     </p:column>
-
-
-                    <p:column sortBy="#{item.total}" filterBy="#{item.total}" >
+                    <p:column sortBy="#{item.total}" filterBy="#{item.total}" style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="Total"/>
                         </f:facet>
-                        <h:outputText value="#{item.total}" style="text-align: right">
+                        <h:outputText value="#{item.total}" >
                             <f:convertNumber type="currency" currencySymbol="$ " />
                         </h:outputText>
                     </p:column>
-
-
-
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="N° de Paquetes"/>
+                        </f:facet>
+                        <h:outputText value="#{item.detalleCompraBoletos.size()}" style="text-align: right"/>
+                    </p:column>
                 </p:dataTable>
-
                 <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":CompraBoletoViewForm" oncomplete="PF('CompraBoletoViewDialog').show()" disabled="#{empty informeCompraBoletoController.selected}" styleClass="ui-priority-primary"/>
                 <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar"  oncomplete="PF('CompraBoletoEditDialog').show()" disabled="#{empty informeCompraBoletoController.selected}" styleClass="ui-priority-primary"/>
                 <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{compraBoletoController.delete}" update=":growl,datalist" disabled="#{empty informeCompraBoletoController.selected}" styleClass="ui-priority-primary">
                     <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
-
-
-
-
                 <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
             </h:panelGroup>
         </h:form>

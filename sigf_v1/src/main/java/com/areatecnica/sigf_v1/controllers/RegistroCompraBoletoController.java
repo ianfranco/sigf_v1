@@ -98,13 +98,13 @@ public class RegistroCompraBoletoController implements Serializable {
         this.compraBoleto.setTotal(total);
         list.add(boleto);
 
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se han agregado " + this.detalleCompraBoleto.getCantidadRollos() + " de boletos del tipo " + this.detalleCompraBoleto.getBoleto().getNombreBoleto() + "Por un Valor de: "+this.total, "");
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se han agregado " + this.detalleCompraBoleto.getCantidadRollos() + " de boletos del tipo " + this.detalleCompraBoleto.getBoleto().getNombreBoleto() + " Por un Valor de: "+this.total, "");
         FacesContext.getCurrentInstance().addMessage(null, message);
 
         this.detalleCompraBoleto.setBoleto(null);
         this.detalleCompraBoleto.setSerie("0");
         this.detalleCompraBoleto.setCantidadRollos(100);
-
+        this.total = 0;
         return null;
     }
 
