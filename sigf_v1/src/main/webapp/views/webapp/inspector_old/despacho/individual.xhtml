@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+
+        <p:layout >
+            <p:layoutUnit position="west" resizable="false" size="500">
+                <p:panel header="Nuevo Despacho:">
+                    <h:form id="GuiaListForm">        
+                        <h:panelGroup id="display" >
+                            <h:panelGrid columns="2" columnClasses="value" id="panelServicio">                        
+                                <p:outputLabel value="Fecha" for="fecha"/>
+                                <p:calendar id="fecha" value="#{newGuiaController.fecha}" required="true" mindate="#{newGuiaController.minDate}" maxdate="#{newGuiaController.maxDate}" pattern="dd/MM/yyyy" requiredMessage="Debe Ingresar la Fecha de Compra"  autocomplete="off" locale="es"/>
+
+                                <p:outputLabel value="N° Bus" for="bus"/>
+                                <p:selectOneMenu id="bus" value="#{recaudacionIndividual.selectedBus}" requiredMessage="Debe seleccionar un Bus" converter="busConverter"  required="true" >
+                                    <f:selectItem itemLabel="Seleccionar"/>
+                                    <f:selectItems value="#{recaudacionIndividual.itemsBus}"/>                            
+                                </p:selectOneMenu>
+
+
+                                <p:outputLabel value="Conductor" for="trabajador"/>
+                                <p:autoComplete size="50" id="trabajador" value="#{item.trabajador}" completeMethod="#{newGuiaController.completeTheme}"
+                                                var="theme" itemLabel="#{theme.nombreTrabajador}" itemValue="#{theme}" converter="trabajadorConverter" forceSelection="true" />
+
+                                <p:outputLabel value="Estado" for="estadoGuia"/>
+                                <p:selectOneMenu id="estadoGuia" value="#{item.estadoGuia}" requiredMessage="Debe seleccionar el estado del Bus" converter="estadoGuiaConverter" >
+                                    <f:selectItem itemLabel="Seleccionar..."/>
+                                    <f:selectItems value="#{newGuiaController.itemsEstadoGuia}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Turno" for="turno"/>
+                                <p:inputText id="turno" value="#{newGuiaController.selectedGuia.turno}" size="20"/>
+
+                                <p:outputLabel value="Observación" for="observacion"/>
+                                <p:inputTextarea id="observacion" rows="10" cols="50"  queryDelay="750" minQueryLength="4" />
+
+                                <p:outputLabel value="" for="aceptar"/>
+                                <p:commandButton id="aceptar" actionListener="#{newGuiaController.initComponents}" value="Aceptar"  styleClass="ui-priority-primary" >
+                                </p:commandButton>
+                            </h:panelGrid>
+
+                            <p:separator class="ui-priority-primary" />
+
+                        </h:panelGroup>
+                    </h:form>
+                </p:panel>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <p:panel header="Despachos al Día:">
+                    
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
+
+
+    </ui:define>
+
+</ui:composition>

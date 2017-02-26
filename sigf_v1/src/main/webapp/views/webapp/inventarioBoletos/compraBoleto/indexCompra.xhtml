@@ -38,7 +38,7 @@
                                            />
                         </p:selectOneMenu>
                         <p:inputNumber id="valorXRollo" value="#{registroCompraBoletoController.detalleCompraBoleto.total}" title="#{bundle.CreateDetalleCompraBoletoTitle_serie}" size="5" maxlength="5" onfocus="this.setSelectionRange(0, this.value.length)" required="true" requiredMessage="Debe ingresar el valor del rollo" decimalPlaces="0"/>
-                        <p:commandButton value="Agregar" id="addButton" actionListener="#{registroCompraBoletoController.addDetalleCompra(event)}" styleClass="ui-priority-primary" update="datalist, :growl, :CompraBoletoCreateDlg">
+                        <p:commandButton value="Agregar" id="addButton" actionListener="#{registroCompraBoletoController.addDetalleCompra(event)}" styleClass="ui-priority-primary" update="datalist, :growl, :CompraBoletoCreateForm, :CompraBoletoCreateForm:totales">
                             <f:ajax render="detalleComprasPanel" resetValues="true" />
                             <f:ajax rendered="totales22" />
                         </p:commandButton>                        

@@ -30,7 +30,7 @@
                         <p:menubar>
                             <p:menuitem value="Inicio" url="#{appBean.basePath}webapp/inspector/indexInspector.xhtml" icon="ui-icon-home" />
 
-                            <p:submenu label="Guías" icon="fa-taxi">
+                            <p:submenu label="Despachos" icon="fa-taxi">
                                 <p:menuitem value="Individual" outcome="#{appBean.basePath}webapp/inspector/despacho/individual" />
                                 <p:menuitem value="Grupal" outcome="#{appBean.basePath}webapp/inspector/despacho/grupal" />                                
                                 <p:menuitem value="Historial" outcome="#{appBean.basePath}webapp/inspector/guias/historialGuias" />
@@ -58,7 +58,8 @@
                             </p:submenu>
                             <p:submenu label="Informes" icon="ui-icon-note">
                                 <p:submenu label="Ventas por Tramo" icon="ui-icon-refresh">
-                                    
+                                    <p:menuitem value="Save" actionListener="#{menuBean.save}" icon="ui-icon-disk" />
+                                    <p:menuitem value="Update" actionListener="#{menuBean.update}" icon="ui-icon-arrowrefresh-1-w" />
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="Configuracion" icon="ui-icon-wrench">

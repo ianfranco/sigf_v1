@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" 
+                template="./../templateInspector_1.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <h:form id="BusListForm">
+
+            <p:dataTable id="datalist"
+                         value="#{busListController.items}"
+                         var="item"
+                         rowKey="#{item.idBus}"
+                         paginator="true"
+                         paginatorPosition="top"
+                         rows="50"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{busListController.selected}" 
+                         rowIndexVar="rowIndex"
+                         widgetVar="dataList">
+
+                <f:facet name="header">
+                    Lista de Buses
+                </f:facet>
+
+                <p:column width="20">
+                    <f:facet name="header">
+                        <h:outputText value="N°"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.numeroBus}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Bus"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroBus}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.unidadNegocio.numeroUnidadNegocio}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dataList').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{busListController.forFilterUnidad}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocio.numeroUnidadNegocio}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.patente}">
+                    <f:facet name="header">
+                        <h:outputText value="Patente"/>
+                    </f:facet>
+                    <h:outputText value="#{item.patente}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.año}" width="120" filterMatchMode="lte">
+                    <f:facet name="header">
+                        <h:outputText value="Año"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:spinner onchange="PF('dataList').filter()" size="10" min="2000">
+                            <f:converter converterId="javax.faces.Integer"/>
+                        </p:spinner>
+                    </f:facet>
+                    <h:outputText value="#{item.año}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.empresa.nombreEmpresa}" width="200">
+                    <f:facet name="header">
+                        <h:outputText value="Empresa"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dataList').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{busListController.forFilterEmpresa}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.empresa.nombreEmpresa}"/>
+                </p:column>
+
+
+                <p:column filterBy="#{item.flota.nombreFlota}">
+                    <f:facet name="header">
+                        <h:outputText value="Flota"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dataList').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{busListController.forFilterFlota}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.flota.nombreFlota}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.modeloMarcaBus}">
+                    <f:facet name="header">
+                        <h:outputText value="Modelo"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('dataList').filter()">
+                            <f:selectItem itemLabel="Seleccione.." itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{busListController.forFilterModelo}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.modeloMarcaBus}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.carroceria}" filterBy="#{item.carroceria}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_carroceria}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.carroceria}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idEmpresa.idEmpresa}" filterBy="#{item.idEmpresa.idEmpresa}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_idEmpresa}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEmpresa.idEmpresa}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idFlota.idFlota}" filterBy="#{item.idFlota.idFlota}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_idFlota}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idFlota.idFlota}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idModelo.idModeloMarcaBus}" filterBy="#{item.idModelo.idModeloMarcaBus}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_idModelo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idModelo.idModeloMarcaBus}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTerminal.idTerminal}" filterBy="#{item.idTerminal.idTerminal}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_idTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTerminal.idTerminal}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idUnidadNegocio.idUnidadNegocio}" filterBy="#{item.idUnidadNegocio.idUnidadNegocio}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListBusTitle_idUnidadNegocio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idUnidadNegocio.idUnidadNegocio}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../templateInspector.xhtml">
+
+    <ui:define name="content" class="ui-corner-all" >
+        <p:panel header="Registro Ventas de Boletos">
+            <h:form id="historialVentaBoletos">
+                <h:panelGroup id="panelGroup">
+                    <h:panelGrid columns="6">
+                        <p:outputLabel value="Bus" for="bus"/>
+                        <p:outputLabel value="Tipo Boleto" for="idBoleto"/>
+                        <p:outputLabel value="Serie" for="serie"/>
+                        <p:outputLabel value="Valor" for="valor"/>
+                        <p:outputLabel value="Cancelado" for="cancelado"/>
+                        <p:outputLabel value="" for="ok"/>
+
+                        <p:selectOneMenu id="bus" value="#{recaudacionIndividual.selectedBus}" requiredMessage="Debe seleccionar un Bus" converter="busConverter"  required="true" >
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{recaudacionIndividual.itemsBus}"/>                            
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu id="idBoleto" value="#{newCompraBoletoController.detalleCompraBoleto.boleto}" requiredMessage="Debe seleccionar el tipo de boleto" converter="boletoConverter" >
+                            <f:selectItem itemLabel="Seleccionar"/>
+                            <f:selectItems value="#{boletoOMBean.selectOneItemsBoletos}"/>
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu id="serie" value="#{newVentaBoletoController.inventarioInternoSelected}" converter="inventarioInternoConverter">
+                            <f:selectItem itemLabel="Seleccione ..."/>
+                            <f:selectItems value="#{newVentaBoletoController.inventarioItems}"/>
+                        </p:selectOneMenu>
+
+                        <p:inputText id="valor" />
+
+                        <p:selectBooleanCheckbox id="cancelado" label="Cancelado?"/>
+
+                        <p:commandButton id="ok" value="Ingresar Venta" actionListener="#{newVentaBoletoGuiaController.test}">
+
+                        </p:commandButton>
+
+                    </h:panelGrid>
+                    <p:separator class="ui-priority-primary"/>
+                    <p:dataTable id="datalist"
+                                 value="#{newGuiaController.items}"
+                                 var="item"
+                                 rowKey="#{item.idGuia}"                                 
+                                 widgetVar="datalist" 
+                                 rowIndexVar="rowIndex">
+
+                        <f:facet name="header">
+                            Detalle Buses 
+                        </f:facet>
+
+                        <p:column width="10">
+                            <f:facet name="header">
+                                <h:outputText value="N°"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="N° Bus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bus.numeroBus}" />
+                        </p:column>
+
+                        <p:column width="180">
+                            <f:facet name="header">
+                                <h:outputText value="Conductor"/>
+                            </f:facet>
+                            <p:autoComplete size="50" id="trabajador" value="#{item.trabajador}" completeMethod="#{newGuiaController.completeTheme}"
+                                            var="theme" itemLabel="#{theme.nombreTrabajador}" itemValue="#{theme}" converter="trabajadorConverter" forceSelection="true" />
+                        </p:column>
+
+                        <p:column width="50" >
+                            <f:facet name="header">
+                                <h:outputText value="Estado"/>
+                            </f:facet>
+                            <p:selectOneMenu id="estadoGuia" value="#{item.estadoGuia}" requiredMessage="Debe seleccionar el estado del Bus" converter="estadoGuiaConverter" >
+                                <f:selectItem itemLabel="Seleccionar..."/>
+                                <f:selectItems value="#{newGuiaController.itemsEstadoGuia}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+
+                        <p:column width="180">
+                            <f:facet name="header">
+                                <h:outputText value="Observación" />
+                            </f:facet>
+                            <p:inputText value="#{item.observacion}" size="50"/>
+                        </p:column>                            
+
+                    </p:dataTable>
+
+                </h:panelGroup>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
