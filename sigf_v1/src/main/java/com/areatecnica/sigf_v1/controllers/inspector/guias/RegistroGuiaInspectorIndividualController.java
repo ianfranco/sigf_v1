@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.areatecnica.sigf_v1.controllers.inspesctor.guias;
+package com.areatecnica.sigf_v1.controllers.inspector.guias;
 
 import com.areatecnica.sigf_v1.dao.BusDaoImpl;
 import com.areatecnica.sigf_v1.dao.EstadoGuiaDaoImpl;
@@ -13,6 +13,7 @@ import com.areatecnica.sigf_v1.entities.Bus;
 import com.areatecnica.sigf_v1.entities.EstadoGuia;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.Trabajador;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
@@ -24,7 +25,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "registroGuiaInspectorIndividualController")
 @ViewScoped
-public class RegistroGuiaInspectorIndividualController {
+public class RegistroGuiaInspectorIndividualController implements Serializable{
 
     private Guia selected;
     
