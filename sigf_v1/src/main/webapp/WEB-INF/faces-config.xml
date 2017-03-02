@@ -31,4 +31,9 @@
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
+    <managed-bean>
+        <managed-bean-name>registroTrabajadorController</managed-bean-name>
+        <managed-bean-class>com.areatecnica.sigf_v1.controllers.remuneraciones.RegistroTrabajadorController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

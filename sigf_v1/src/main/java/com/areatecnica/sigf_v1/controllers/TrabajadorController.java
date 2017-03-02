@@ -34,13 +34,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.primefaces.event.FlowEvent;
+
 
 /**
  *
@@ -76,6 +75,7 @@ public class TrabajadorController implements Serializable {
     private String nacionalidad;
     private String sexo;
     private String estadoCivil;
+    private String rut;
     private boolean regimen;
     private boolean fonasa;
     private boolean ahorro;
@@ -109,7 +109,7 @@ public class TrabajadorController implements Serializable {
 
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.asignacionFamiliarItems = this.asignacionFamiliarDaoImpl.findAll();
-
+        this.selected = new Trabajador();
     }
 
     public void loadContratos() {
@@ -138,11 +138,6 @@ public class TrabajadorController implements Serializable {
         }
 
         tx.commit();
-    }
-
-    @PostConstruct
-    public void init() {
-        //loadContratos();
     }
 
     public List<Trabajador> getItems() {
@@ -318,7 +313,9 @@ public class TrabajadorController implements Serializable {
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
-
+        
+        JsfUtil.addErrorMessage("SE HA CREADO EL CONDUCTOR"+this.selected.getCodigoTrabajador());
+        
         setDefaultValues();
 
         return this.selected;
@@ -446,19 +443,9 @@ public class TrabajadorController implements Serializable {
         }
     }
 
-    public String onFlowProcess(FlowEvent event) {
-        /*if (skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
-        } else {
-            
-        }*/
-        return event.getNewStep();
-    }
-
     public void validarRut() {
         validaRut = false;
-
+        JsfUtil.addErrorMessage("RUT TANTO:"+rut);
         //JsfUtil.addErrorMessage("RUT");
         
         /*try {
@@ -532,6 +519,14 @@ public class TrabajadorController implements Serializable {
 
     public void setAsignacionFamiliar(AsignacionFamiliar asignacionFamiliar) {
         this.asignacionFamiliar = asignacionFamiliar;
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
     }
 
 }
