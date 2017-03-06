@@ -448,7 +448,7 @@ public class TrabajadorController implements Serializable {
         JsfUtil.addErrorMessage("RUT TANTO:"+rut);
         //JsfUtil.addErrorMessage("RUT");
         
-        /*try {
+        try {
             String rut = null;
             rut = this.selected.getRutTrabajador();
                         
@@ -482,7 +482,7 @@ public class TrabajadorController implements Serializable {
 
         } catch (java.lang.NumberFormatException | javax.el.PropertyNotFoundException | NullPointerException | javax.faces.FacesException e) {
             JsfUtil.addErrorMessage("Rut Mal Formado");
-        }*/
+        }
     }
 
     public void addMessageContrato() {

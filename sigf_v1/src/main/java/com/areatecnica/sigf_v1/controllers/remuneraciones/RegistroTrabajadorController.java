@@ -79,6 +79,7 @@ public class RegistroTrabajadorController implements Serializable {
     private boolean regimen;
     private boolean fonasa;
     private boolean ahorro;
+    private boolean validaRut;
 
     /**
      * Creates a new instance of RegistroTrabajadorController
@@ -338,4 +339,44 @@ public class RegistroTrabajadorController implements Serializable {
         }
     }
 
+    public void validarRut() {
+        validaRut = false;
+        JsfUtil.addErrorMessage("rut"+this.selected.getRutTrabajador());
+        try {
+            String rut = null;
+            rut = this.selected.getRutTrabajador();
+                        
+            if (rut!=null && rut.length()>0) {
+                rut = rut.toUpperCase();
+                rut = rut.replace(".", "");
+                rut = rut.replace("-", "");
+                int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+                
+                char dv = rut.charAt(rut.length() - 1);
+                
+                int m = 0, s = 1;
+                for (; rutAux != 0; rutAux /= 10) {
+                    s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+                }
+                if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                    validaRut = true;
+                    
+                    if (trabajadorDaoImpl.existeTrabajador(rut)) {
+                        this.selected.setRutTrabajador("");
+                        JsfUtil.addErrorMessage("El rut se encuentra registrado");
+                    }
+                    
+                } else {
+                    this.selected.setRutTrabajador("");
+                    JsfUtil.addErrorMessage("Rut Mal Formado");
+                }
+            }else{
+                JsfUtil.addErrorMessage("Debe ingresar un rut válido");
+            }
+
+        } catch (java.lang.NumberFormatException | javax.el.PropertyNotFoundException | NullPointerException | javax.faces.FacesException e) {
+            JsfUtil.addErrorMessage("Rut Mal Formado");
+        }
+    }
+    
 }

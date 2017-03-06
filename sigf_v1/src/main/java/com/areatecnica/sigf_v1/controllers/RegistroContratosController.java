@@ -24,6 +24,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -34,7 +35,7 @@ import org.hibernate.Transaction;
  * @author ianfr
  */
 @Named(value = "registroContratosController")
-@ViewScoped
+@SessionScoped
 public class RegistroContratosController implements Serializable {
 
     private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
@@ -89,7 +90,7 @@ public class RegistroContratosController implements Serializable {
         RelacionLaboral newRelacionLaboral;
         newRelacionLaboral = new RelacionLaboral();
         this.selected = newRelacionLaboral;
-        this.selected.setSueldoBase(257500);
+        this.selected.setSueldoBase(264000);
         this.selected.setIdOperador(0);
         return newRelacionLaboral;
     }

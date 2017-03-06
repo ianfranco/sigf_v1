@@ -10,6 +10,7 @@ import com.areatecnica.sigf_v1.entities.EgresoRecaudacion;
 import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -42,9 +43,11 @@ public class EgresoGuiaDaoImpl implements GenericDao<EgresoGuia>{
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "SELECT * FROM egreso_guia WHERE id_egreso_servicio="+egresoRecaudacion.getIdEgresoRecaudacion()+" AND id_guia=" + guia;
+        String sql = "FROM EgresoGuia WHERE egresoRecaudacion="+egresoRecaudacion.getIdEgresoRecaudacion()+" AND guia=" + guia;
         try {
-            egresoGuia = (EgresoGuia) session.createSQLQuery(sql).addEntity(EgresoGuia.class).uniqueResult();
+            
+            egresoGuia = (EgresoGuia) session.createQuery(sql).uniqueResult();
+            
             tx.commit();
         } catch (HibernateException e) {
             tx.rollback();

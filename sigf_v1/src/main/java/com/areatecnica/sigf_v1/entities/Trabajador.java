@@ -87,6 +87,9 @@ public class Trabajador implements java.io.Serializable {
         this.nacionalidad = true;
         this.estadoCivil = 2;
         this.sexo = true;
+        this.nombreTrabajador = " ";
+        this.apellidoPaternoTrabajador = " ";
+        this.apellidoMaternoTrabajador = " ";
     }
 
     public Trabajador(AsignacionFamiliar asignacionFamiliar, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaIngresoTrabajador) {
@@ -663,6 +666,8 @@ public class Trabajador implements java.io.Serializable {
     public String toString() {
         if (this.nombreTrabajador.equals("")) {
             this.nombreTrabajador = " ";
+            this.apellidoPaternoTrabajador = " ";
+            this.apellidoMaternoTrabajador = " ";
         }
         return apellidoPaternoTrabajador + " " + apellidoMaternoTrabajador + " " + nombreTrabajador;
     }

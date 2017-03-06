@@ -106,10 +106,7 @@ public class TotalCargoBusController implements Serializable {
         for (CargoBus c : this.items) {
             suma += c.getMontoCargoBus();
 
-            int dias = 0;
-            this.guiasItems = this.guiaDaoImpl.findByBusBetweenDatesDiciembre(c.getBus(), fecha);
-
-            dias = this.guiasItems.size();
+            int dias = this.guiaDaoImpl.findDTByBusBetweenDates(c.getBus(), fecha);
             c.setIdCargo(dias);
 
         }
