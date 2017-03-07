@@ -24,7 +24,7 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     public List<InventarioTerminal> findAll() {
         List<InventarioTerminal> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioTerminal";
         try {
@@ -42,7 +42,7 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     public List<InventarioTerminal> findByEstado(boolean estado) {
         List<InventarioTerminal> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioTerminal i WHERE estado = "+estado;
         try {
@@ -65,7 +65,7 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     public List<InventarioTerminal> findByBoletoANDTerminal(Boleto boleto, Terminal terminal) {
         List<InventarioTerminal> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioTerminal i WHERE estado = "+false+ " AND boleto ="+boleto.getIdBoleto()+" AND terminal="+terminal.getIdTerminal();
         try {
@@ -83,7 +83,7 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     public List<InventarioTerminal> findByIdTerminal(int idTerminal) {
         List<InventarioTerminal> list = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InventarioTerminal i WHERE estado = "+false+ " AND terminal="+idTerminal;
         try {
@@ -119,7 +119,7 @@ public class InventarioTerminalDaoImpl implements InventarioTerminalDao{
     public InventarioTerminal findByIdentificador(String identificador, String serieInicio) {
         InventarioTerminal inventario = null;
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "SELECT * FROM Inventario_Terminal WHERE identificador = '"+identificador +"' AND "+serieInicio+" BETWEEN serie AND (serie+1000)";
         try {

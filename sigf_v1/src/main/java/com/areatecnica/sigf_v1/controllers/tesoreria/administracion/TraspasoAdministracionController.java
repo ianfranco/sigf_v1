@@ -148,13 +148,27 @@ public class TraspasoAdministracionController implements Serializable {
             }
         });
         
-        this.administracion = this.totaltGastos / this.numeroBuses;
+        if(this.totaltGastos>0 && this.numeroBuses> 0){
+            this.administracion = this.totaltGastos / this.numeroBuses;
+        }else{
+            this.administracion = 0;
+        }
+        
+        
+        
+        
         System.err.println("TOTAL ADMINISTRACIÓN: " + this.administracion);
 
         int valorMitadAdministracion = this.numeroBusesCompleto * this.administracion;
         int diferenciaGastos = this.totaltGastos-valorMitadAdministracion;
         
-        this.valorDia = Math.round(diferenciaGastos/this.totalDias);
+        if(totalDias>0){
+            this.valorDia = Math.round(diferenciaGastos/this.totalDias);
+        }else{
+            this.valorDia = 0;
+        }
+        
+        
         
         System.err.println("total dias:"+this.totalDias+"DIFERENCIA DE GASTOS: "+diferenciaGastos+" valor dia: "+this.valorDia);
     }

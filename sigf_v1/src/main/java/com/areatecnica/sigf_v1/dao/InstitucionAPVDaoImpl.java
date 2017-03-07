@@ -40,7 +40,7 @@ public class InstitucionAPVDaoImpl implements GenericDao<InstitucionApv>{
     public List<InstitucionApv> findAll() {
         List<InstitucionApv> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InstitucionApv WHERE idInstitucionApv <1000 ";
         try {

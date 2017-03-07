@@ -36,7 +36,7 @@ public class DiasTrabajadosFlotaQuery {
 
         List list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
                 + "                flota.nombre_flota, \n"
@@ -52,7 +52,7 @@ public class DiasTrabajadosFlotaQuery {
                 + "                ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
         try {
 
-            list = session.createSQLQuery(query).list();
+            list = session.createNativeQuery(query).list();
 
             for (int i = 0; i < list.size(); i++) {
 
@@ -83,7 +83,7 @@ public class DiasTrabajadosFlotaQuery {
 
         List list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
                 + "                flota.nombre_flota, \n"
@@ -101,7 +101,7 @@ public class DiasTrabajadosFlotaQuery {
         
         try {
 
-            list = session.createSQLQuery(query).list();
+            list = session.createNativeQuery(query).list();
 
             for (int i = 0; i < list.size(); i++) {
 

@@ -95,7 +95,7 @@ public class GastoAdministracionMensualController implements Serializable {
                 Date fechaAux = this.selected.getFechaGastoAdministracion();
                 Departamento deptoAux = this.selected.getDepartamento();
                 
-                this.items.add(selected);
+                this.items.add(0, selected);
                 
                 
                 this.selected = null;

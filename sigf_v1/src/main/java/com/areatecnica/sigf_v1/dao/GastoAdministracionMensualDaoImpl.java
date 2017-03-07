@@ -45,7 +45,7 @@ public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdmini
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM GastoAdministracionMensual";
+        String sql = "FROM GastoAdministracionMensual ORDER BY idGastoAdministracionMensual DESC";
         try {
 
             list = session.createQuery(sql).list();
@@ -90,7 +90,7 @@ public class GastoAdministracionMensualDaoImpl implements GenericDao<GastoAdmini
         String query = "SELECT \n"
                 + " CAST((IFNULL(SUM(gasto_administracion_mensual.valor ), 0)) AS SIGNED) \n"
                 + " FROM gasto_administracion_mensual \n"
-                + " WHERE gasto_administracion_mensual.fecha_gasto_administracion BETWEEN '2017-01-01' AND LAST_DAY('2017-01-01')";
+                + " WHERE gasto_administracion_mensual.fecha_gasto_administracion BETWEEN '"+format.format(fecha)+"' AND LAST_DAY('"+format.format(fecha)+"')";
 
         try {
 

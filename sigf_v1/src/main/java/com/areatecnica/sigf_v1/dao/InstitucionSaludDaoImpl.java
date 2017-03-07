@@ -39,7 +39,7 @@ public class InstitucionSaludDaoImpl implements GenericDao<InstitucionSalud>{
     public List<InstitucionSalud> findAll() {
         List<InstitucionSalud> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM InstitucionSalud WHERE nombreInstitucionSalud NOT LIKE '%fonasa'";
         try {

@@ -42,7 +42,7 @@ public class MonedaPactadaInstitucionSaludImpl implements GenericDao<MonedaPacta
     public List<MonedaPactadaInstitucionSalud> findAll() {
         List<MonedaPactadaInstitucionSalud> list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         String sql = "FROM MonedaPactadaInstitucionSalud";
         try {

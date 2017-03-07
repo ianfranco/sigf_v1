@@ -35,7 +35,7 @@ public class CargosBusQuery {
 
         List list = null;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         this.query = "SELECT \n"
                 + "	cargo_bus.fecha_inicio_cargo_bus AS fecha, \n"
@@ -50,7 +50,7 @@ public class CargosBusQuery {
                 + "     WHERE id_bus = "+bus.getIdBus()+" ORDER BY cargo_bus.fecha_inicio_cargo ASC";
         try {
 
-            list = session.createSQLQuery(query).list();
+            list = session.createNativeQuery(query).list();
 
             for (int i = 0; i < list.size(); i++) {
 
