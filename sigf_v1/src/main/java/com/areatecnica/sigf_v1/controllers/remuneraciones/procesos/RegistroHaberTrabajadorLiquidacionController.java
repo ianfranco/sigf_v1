@@ -167,7 +167,7 @@ public class RegistroHaberTrabajadorLiquidacionController implements Serializabl
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         
-        this.mes = 1;
+        this.mes = 5;
         this.anio = 2017;
         
         String from = "01/" + mes + "/" + anio;

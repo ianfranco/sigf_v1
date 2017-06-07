@@ -8,9 +8,11 @@ package com.areatecnica.sigf_v1.controllers;
 import com.areatecnica.sigf_v1.controllers.util.JsfUtil;
 import com.areatecnica.sigf_v1.dao.HaberTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.HaberTrabajadorLiquidacionDaoImpl;
+import com.areatecnica.sigf_v1.dao.RelacionLaboralDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.entities.HaberTrabajador;
 import com.areatecnica.sigf_v1.entities.HaberTrabajadorLiquidacion;
+import com.areatecnica.sigf_v1.entities.RelacionLaboral;
 import com.areatecnica.sigf_v1.entities.Trabajador;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import javax.inject.Named;
@@ -40,7 +42,9 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
     private List<HaberTrabajadorLiquidacion> items;
     private List<HaberTrabajador> haberItems;
     private List<Trabajador> trabajadorItems;
-
+    private RelacionLaboralDaoImpl relacionLaboralDaoImpl;
+    private RelacionLaboral relacionLaboral;
+    
     /**
      * Creates a new instance of InstitucionPrevisionController
      */
@@ -55,6 +59,7 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
         this.items = this.haberTrabajadorLiquidacionDaoImpl.findWithLimit();
 
         this.selected = prepareCreate();
+        
 
     }
 
@@ -67,12 +72,14 @@ public class HaberTrabajadorLiquidacionController implements Serializable {
     }
 
     public HaberTrabajadorLiquidacion prepareCreate() {
+        
         HaberTrabajadorLiquidacion newHaberTrabajadorLiquidacion;
         newHaberTrabajadorLiquidacion = new HaberTrabajadorLiquidacion();
         newHaberTrabajadorLiquidacion.setMonto(0);
         newHaberTrabajadorLiquidacion.setNumeroCuotas(0);
         newHaberTrabajadorLiquidacion.setFechaIngresoHaber(new Date());
         newHaberTrabajadorLiquidacion.setFechaInicioHaber(new Date());
+        newHaberTrabajadorLiquidacion.setIdRelacionLaboral(1771);
         return newHaberTrabajadorLiquidacion;
     }
 

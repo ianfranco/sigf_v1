@@ -73,6 +73,7 @@ public class DescuentoTrabajadorLiquidacionController implements Serializable {
         newDescuentoTrabajadorLiquidacion = new DescuentoTrabajadorLiquidacion();
         newDescuentoTrabajadorLiquidacion.setMonto(0);
         newDescuentoTrabajadorLiquidacion.setNumeroCuotas(0);
+        newDescuentoTrabajadorLiquidacion.setIdRelacionLaboral(1771);
         return newDescuentoTrabajadorLiquidacion;
     }
 
