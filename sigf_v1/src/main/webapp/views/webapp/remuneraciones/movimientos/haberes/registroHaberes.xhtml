@@ -19,7 +19,7 @@
                         <p:outputLabel value="Haber" for="descuentoTrabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4" >
-                                <p:selectOneMenu id="descuentoTrabajador" value="#{haberTrabajadorLiquidacionController.selected.haberTrabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_descuentoTrabajador}" converter="haberTrabajadorConverter">
+                                <p:selectOneMenu id="descuentoTrabajador" value="#{haberTrabajadorLiquidacionController.selected.haberTrabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_descuentoTrabajador}" converter="haberTrabajadorConverter" filter="true">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{haberTrabajadorLiquidacionController.haberItems}"
                                                    var="descuentoTrabajadorItem"

@@ -22,7 +22,7 @@
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="trabajador" value="#{registroDescuentoTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <p:selectOneMenu id="trabajador" value="#{registroDescuentoTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter" filter="true">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{registroDescuentoTrabajadorLiquidacionController.trabajadorItems}"
                                                    var="trabajadorItem"

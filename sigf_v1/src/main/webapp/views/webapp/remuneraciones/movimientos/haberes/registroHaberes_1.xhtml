@@ -4,7 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
+                xmlns:p="http://primefaces.org/ui"                
                 template="./../../templateRemuneraciones.xhtml">
 
     <ui:define name="content" class="ui-corner-all" >
@@ -18,11 +18,11 @@
 
                         <p:outputLabel value="Abono:" for="abono" />                        
                         <p:outputLabel id="abono" value="#{registroHaberTrabajadorLiquidacionController.haberTrabajador.nombreTipoHaber}" />
-                        
+
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="trabajador" value="#{registroHaberTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <p:selectOneMenu id="trabajador" value="#{registroHaberTrabajadorLiquidacionController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter" filter="true">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{registroHaberTrabajadorLiquidacionController.trabajadorItems}"
                                                    var="trabajadorItem"
@@ -34,11 +34,11 @@
                                 <p:outputLabel id="nombreTrabajador" value="#{registroHaberTrabajadorLiquidacionController.selected.trabajador}"/>
                             </h:panelGrid>
                         </h:panelGroup>
-                        
+
                         <p:outputLabel value="Empresa:" for="empresa" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="empresa" value="#{registroHaberTrabajadorLiquidacionController.relacionLaboral}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="relacionLaboralConverter">
+                                <p:selectOneMenu id="empresa" value="#{registroHaberTrabajadorLiquidacionController.relacionLaboral}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="relacionLaboralConverter" filter="true">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{registroHaberTrabajadorLiquidacionController.relacionLaboralItems}"
                                                    var="relacionItem"
@@ -51,21 +51,21 @@
 
                         <p:outputLabel value="Estado:"/>
                         <h:outputLabel id="contratado"  value="#{registroHaberTrabajadorLiquidacionController.selected.trabajador.relacionLaborals.size()==0? '  S/C':'CONTRATADO'}"/>
-                        
+
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_monto}" for="monto" />
                         <h:panelGroup>
                             <p:inputText id="monto" value="#{registroHaberTrabajadorLiquidacionController.selected.monto}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_monto}">
 
                             </p:inputText>
-                            
+
                         </h:panelGroup>
-                        
+
                         <p:outputLabel value="F.Inicio" for="fechaInicioDescuento" />
                         <h:panelGroup>
                             <p:calendar id="fechaInicioDescuento" pattern="dd/MM/yyyy" value="#{registroHaberTrabajadorLiquidacionController.selected.fechaInicioHaber}" title="#{bundle.CreateDescuentoTrabajadorLiquidacionTitle_fechaInicioDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_fechaInicioDescuento}" />                            
                         </h:panelGroup>
-                        
-                        
+
+
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{registroHaberTrabajadorLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorLiquidacionListForm:datalist,:growl" resetValues="true">
@@ -126,7 +126,7 @@
                         </f:facet>
                         <h:outputText value="#{item.haberTrabajador}"/>
                     </p:column>
-                    
+
                     <p:column  filterBy="#{item.trabajador.codigoTrabajador}" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="Cód.Trabajador"/>

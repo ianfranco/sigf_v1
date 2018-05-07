@@ -30,7 +30,7 @@ public class BusDaoImpl implements BusDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Bus b";
+        String sql = "FROM Bus b ORDER BY b.numeroBus ASC";
         try {
 
             list = session.createQuery(sql).list();
@@ -58,7 +58,7 @@ public class BusDaoImpl implements BusDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Bus b";
+        String sql = "FROM Bus b ORDER BY b.numeroBus ASC";
         try {
             list = session.createQuery(sql).list();
             tx.commit();

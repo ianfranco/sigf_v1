@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLiquidacionLabel_trabajador}" for="trabajador" />
                         <h:panelGroup>
                             <h:panelGrid columns="4">
-                                <p:selectOneMenu id="trabajador" value="#{registroSaldoAnteriorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter">
+                                <h:selectOneMenu id="trabajador" value="#{registroSaldoAnteriorController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorLiquidacionRequiredMessage_trabajador}" converter="trabajadorConverter" >
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{registroSaldoAnteriorController.trabajadorItems}"
                                                    var="trabajadorItem"
@@ -27,7 +27,7 @@
                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                    />
                                     <p:ajax event="valueChange" update="nombreTrabajador, contratado" global="false"/>
-                                </p:selectOneMenu>
+                                </h:selectOneMenu>
                                 <p:outputLabel id="nombreTrabajador" value="#{registroSaldoAnteriorController.selected.trabajador}"/>
                             </h:panelGrid>
                         </h:panelGroup>

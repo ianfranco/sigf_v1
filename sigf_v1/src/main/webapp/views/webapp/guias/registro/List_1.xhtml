@@ -18,7 +18,7 @@
                     <p:calendar id="fechaRecaudacion" value="#{planillonGuiaController.fechaRecaudacion}" required="true" requiredMessage="Debe ingresar la fecha de recaudación" showOn="button" pattern="dd/MM/yyyy" size="12" locale="es"/>
 
                     <p:outputLabel value="Proceso:" for="procesoRecaudacion"/>
-                    <p:selectOneMenu id="procesoRecaudacion" value="#{planillonGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="procesoRecaudacionConverter" disabled="">
+                    <p:selectOneMenu id="procesoRecaudacion" value="#{planillonGuiaController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="omnifaces.SelectItemsConverter" filter="true" disabled="">
                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                         <f:selectItems value="#{planillonGuiaController.procesoRecaudacionItems}"
                                        var="procesoItem"
@@ -153,7 +153,7 @@
                                         <h:panelGrid columns="4" style="margin-top: 0px;">
                                             <p:outputLabel value="Bus:" for="bus" style="margin-right: 34px;"/>
                                             <h:panelGroup>
-                                                <p:selectOneMenu id="bus" style="margin-left: 10px;" value="#{planillonGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="busConverter">
+                                                <p:selectOneMenu id="bus" style="margin-left: 10px;" value="#{planillonGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="omnifaces.SelectItemsConverter" filter="true">
                                                     <f:selectItem itemLabel=" "/>
                                                     <f:selectItems value="#{planillonGuiaController.busItems}"
                                                                    var="busItem"
@@ -173,7 +173,7 @@
                                         <h:panelGrid columns="4" style="margin-top: 0px;">
                                             <p:outputLabel value="Conductor" for="trabajador" />
                                             <h:panelGroup>
-                                                <p:selectOneMenu id="trabajador" style="margin-left: 10px;" value="#{planillonGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="trabajadorConverter" >
+                                                <p:selectOneMenu id="trabajador" style="margin-left: 10px;" value="#{planillonGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="omnifaces.SelectItemsConverter" filter="true" >
                                                     <f:selectItem itemLabel=" "/>
                                                     <f:selectItems value="#{planillonGuiaController.trabajadorItems}"
                                                                    var="trabajadorItem"
