@@ -358,6 +358,8 @@ public class InformeProduccionConductorController implements Serializable {
                             }
                         } else {
                             hashMap.put(er.getEgreso().getNombreEgreso(), 0);
+                            String key = er.getEgreso().getNombreEgreso();
+                            totales.put(key, 0);
                         }
                     }
                 }
