@@ -15,6 +15,7 @@ import com.areatecnica.sigf_v1.entities.Guia;
 import com.areatecnica.sigf_v1.entities.TipoCargo;
 import com.areatecnica.sigf_v1.util.HibernateUtil;
 import com.areatecnica.sigf_v1.util.JsfUtil;
+import com.ibm.icu.text.NumberFormat;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +48,7 @@ public class TraspasoAdministracionController implements Serializable {
     private GuiaDaoImpl guiaDao;
     private TipoCargoDaoImpl tipoCargoDaoImpl;
     private BusDaoImpl busDaoImpl;
-    
+
     private TipoCargo tipoCargo;
 
     private Date fecha;
@@ -61,6 +62,9 @@ public class TraspasoAdministracionController implements Serializable {
     private int numeroBusesProporcional;
     private int totalDias;
     private int valorDia;
+    private int totalAdministracion;
+
+    private static final NumberFormat format = NumberFormat.getInstance();
 
     /**
      * Creates a new instance of DiasBusesController
@@ -68,8 +72,8 @@ public class TraspasoAdministracionController implements Serializable {
     public TraspasoAdministracionController() {
         this.tipoCargoDaoImpl = new TipoCargoDaoImpl();
         this.tipoCargo = this.tipoCargoDaoImpl.findById(2);
-        
-        System.err.println("tipo de cargo:"+this.tipoCargo.getNombreTipoCargo());
+
+        System.err.println("tipo de cargo:" + this.tipoCargo.getNombreTipoCargo());
         this.totalDias = 0;
         this.numeroBusesCompleto = 0;
         this.numeroBusesProporcional = 0;
@@ -113,25 +117,23 @@ public class TraspasoAdministracionController implements Serializable {
         this.totaltGastos = this.administracionMensualDaoImpl.findTotalByMonthAndYear(fecha);
         System.err.println("TOTAL GASTOS ADMINISTRACIÓN: " + this.totaltGastos);
 
-        
-
         for (Guia g : this.itemsGuias) {
-            if (g.getBus().getEmpresa().getIdEmpresa()!=29) {
-                
-                this.numeroBuses = this.numeroBuses+1;
-                
+            if (g.getBus().getEmpresa().getIdEmpresa() != 29) {
+
+                this.numeroBuses = this.numeroBuses + 1;
+
                 DiasBusesHelper d = new DiasBusesHelper();
-                
+
                 d.setBus(g.getBus());
                 d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
-                
+
                 if (d.getDt() < 15) {
                     this.totalDias = this.totalDias + d.getDt();
                     this.numeroBusesProporcional = this.numeroBusesProporcional + 1;
                 } else {
                     this.numeroBusesCompleto = this.numeroBusesCompleto + 1;
                 }
-                
+
                 this.items.add(d);
             }
         }
@@ -147,34 +149,45 @@ public class TraspasoAdministracionController implements Serializable {
                 return 1;
             }
         });
-        
-        if(this.totaltGastos>0 && this.numeroBuses> 0){
+
+        if (this.totaltGastos > 0 && this.numeroBuses > 0) {
             this.administracion = this.totaltGastos / this.numeroBuses;
-        }else{
+        } else {
             this.administracion = 0;
         }
-        
-        
-        
-        
+
         System.err.println("TOTAL ADMINISTRACIÓN: " + this.administracion);
 
         int valorMitadAdministracion = this.numeroBusesCompleto * this.administracion;
-        int diferenciaGastos = this.totaltGastos-valorMitadAdministracion;
-        
-        if(totalDias>0){
-            this.valorDia = Math.round(diferenciaGastos/this.totalDias);
-        }else{
+        int diferenciaGastos = this.totaltGastos - valorMitadAdministracion;
+
+        if (totalDias > 0) {
+            this.valorDia = Math.round(diferenciaGastos / this.totalDias);
+        } else {
             this.valorDia = 0;
         }
-        
-        
-        
-        System.err.println("total dias:"+this.totalDias+"DIFERENCIA DE GASTOS: "+diferenciaGastos+" valor dia: "+this.valorDia);
+
+        System.err.println("total dias:" + this.totalDias + "DIFERENCIA DE GASTOS: " + diferenciaGastos + " valor dia: " + this.valorDia);
+    }
+
+    public int getTotalAdministracion() {
+        return totalAdministracion;
+    }
+
+    public void setTotalAdministracion(int totalAdministracion) {
+        this.totalAdministracion = totalAdministracion;
+    }
+
+    public String getFormatValue(int valor) {
+        return format.format(valor);
+    }
+    
+    public String getFormatAdminitracion(){
+        return getFormatValue(this.totalAdministracion);
     }
 
     public void traspaso() {
-
+        this.totalAdministracion = 0;
         for (DiasBusesHelper d : this.items) {
             if (d.getDt() > 14) {
                 d.setMontoAdministracion(administracion);
@@ -224,44 +237,47 @@ public class TraspasoAdministracionController implements Serializable {
                         d.setMontoAdministracion((int) (administracion * 0.85));
                         break;
                 }
+
             }
+
+            this.totalAdministracion = totalAdministracion + d.getMontoAdministracion();
         }
 
     }
-    
-    public void save() {
-        
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = session.beginTransaction();
 
-            try {
-                
-                for(DiasBusesHelper d:this.items){
-                    CargoBus cargo = new CargoBus();
-                    
-                    cargo.setTipoCargo(tipoCargo);
-                    cargo.setBus(d.getBus());
-                    cargo.setFechaIngresoCargoBus(new Date());
-                    cargo.setFechaInicioCargoBus(this.fecha);
-                    cargo.setNumeroCuotasCargoBus(1);
-                    cargo.setTotalCuotasCargoBus(0);
-                    cargo.setMontoCargoBus(d.montoAdministracion);
-                    cargo.setDescripcion(" ");
-                    cargo.setIdCargo(1);
-                    cargo.setActivoCargoBus(true);
-                    
-                    session.save(cargo);
-                }
-                
-                tx.commit();
-                JsfUtil.addSuccessMessage("Se ha realizado el cargo de ADMINISTRACIÓN"+ this.items.size()+" cargos");
-                this.items = new ArrayList<>();
-                
-            } catch (HibernateException e) {
-                tx.rollback();
-                System.err.println("NULL:CargoBus");
+    public void save() {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+
+        try {
+
+            for (DiasBusesHelper d : this.items) {
+                CargoBus cargo = new CargoBus();
+
+                cargo.setTipoCargo(tipoCargo);
+                cargo.setBus(d.getBus());
+                cargo.setFechaIngresoCargoBus(new Date());
+                cargo.setFechaInicioCargoBus(this.fecha);
+                cargo.setNumeroCuotasCargoBus(1);
+                cargo.setTotalCuotasCargoBus(0);
+                cargo.setMontoCargoBus(d.montoAdministracion);
+                cargo.setDescripcion(" ");
+                cargo.setIdCargo(1);
+                cargo.setActivoCargoBus(true);
+
+                session.save(cargo);
             }
-        
+
+            tx.commit();
+            JsfUtil.addSuccessMessage("Se ha realizado el cargo de ADMINISTRACIÓN" + this.items.size() + " cargos");
+            this.items = new ArrayList<>();
+
+        } catch (HibernateException e) {
+            tx.rollback();
+            System.err.println("NULL:CargoBus");
+        }
+
     }
 
     public List<Bus> getItemsBuses() {

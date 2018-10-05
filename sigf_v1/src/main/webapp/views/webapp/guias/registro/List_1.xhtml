@@ -250,8 +250,7 @@
                                             <h:outputText value="Valor"/>
                                         </f:facet>
                                         <p:inputNumber decimalPlaces="0"  value="#{item.monto}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" style="text-align: right;" size="8">
-                                            <p:ajax event="valueChange" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
-                                        </p:inputNumber>
+                                            </p:inputNumber>
                                     </p:column>
                                 </p:dataTable>                            
                             </p:fieldset>

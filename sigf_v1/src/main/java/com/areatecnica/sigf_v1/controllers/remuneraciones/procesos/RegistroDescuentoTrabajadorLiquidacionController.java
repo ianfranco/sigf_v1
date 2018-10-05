@@ -171,7 +171,7 @@ public class RegistroDescuentoTrabajadorLiquidacionController implements Seriali
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         
-        this.mes = 04;
+        this.mes = 8;
         this.anio = 2018;
         
         String from = "01/" + mes + "/" + anio;

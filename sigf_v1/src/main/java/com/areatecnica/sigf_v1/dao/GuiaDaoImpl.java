@@ -188,7 +188,7 @@ public class GuiaDaoImpl implements GuiaDao {
         Session session = null;
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND fechaRecaudacion BETWEEN '2018-02-01' AND '2018-02-28' ORDER BY fechaGuia";
+        String sql = "FROM Guia WHERE bus=" + bus.getIdBus() + " AND fechaRecaudacion BETWEEN '2018-09-01' AND '2018-09-28' ORDER BY fechaGuia";
         try {
             list = session.createQuery(sql).list();
 
@@ -236,9 +236,9 @@ public class GuiaDaoImpl implements GuiaDao {
         
         BigInteger dt = BigInteger.ZERO;
         String query = "SELECT \n"
-                + " CAST((IFNULL(COUNT(guia.fecha_recaudacion ), 0)) AS SIGNED) \n"
+                + " CAST((IFNULL(COUNT(DISTINCT guia.fecha_guia ), 0)) AS SIGNED) \n"
                 + " FROM guia \n"
-                + " WHERE guia.id_bus = " + bus.getIdBus() + " AND  guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "')";
+                + " WHERE guia.id_bus = " + bus.getIdBus() + " AND  guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND guia.total_ingresos > 0";
         try {
 
             dt = (BigInteger) session.createNativeQuery(query).uniqueResult();

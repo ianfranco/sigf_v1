@@ -65,20 +65,35 @@ public class DiasBusesController implements Serializable {
         this.itemsGuias = this.guiaDao.findByFecha(fecha);
         this.items = new ArrayList<>();
 
-        for (Guia g : this.itemsGuias) {
+        this.itemsBuses = new BusDaoImpl().findAllClean();
+
+        for (Bus b : this.itemsBuses) {
             DiasBusesHelper d = new DiasBusesHelper();
-            
-            d.setBus(g.getBus());
-            d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
-            
+
+            d.setBus(b);
+            d.setDt(this.guiaDao.findDTByBusBetweenDates(b, fecha));
             this.items.add(d);
         }
 
-        
+        for (DiasBusesHelper d : this.items) {
+            if (d.getDt() == 0) {
+                //this.items.remove(d);
+                System.err.println("VACIO EL BUS:"+d.getBus().getPatente());
+            }
+        }
+
+//        for (Guia g : this.itemsGuias) {
+//            DiasBusesHelper d = new DiasBusesHelper();
+//
+//            d.setBus(g.getBus());
+//            d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
+//
+//            this.items.add(d);
+//        }
         Collections.sort(this.items, new Comparator<DiasBusesHelper>() {
             @Override
             public int compare(DiasBusesHelper o1, DiasBusesHelper o2) {
-                if (o1.getDt()== o2.getDt()) {
+                if (o1.getDt() == o2.getDt()) {
                     return 0;
                 } else if (o1.getDt() < o2.getDt()) {
                     return -1;
@@ -86,7 +101,7 @@ public class DiasBusesController implements Serializable {
                 return 1;
             }
         });
-        
+
     }
 
     public List<Bus> getItemsBuses() {
@@ -138,7 +153,7 @@ public class DiasBusesController implements Serializable {
     }
 
     public class DiasBusesHelper {
-        
+
         private Bus bus;
         private int dt;
         private int montoAdministracion;
@@ -174,8 +189,7 @@ public class DiasBusesController implements Serializable {
         public void setMontoAdministracion(int montoAdministracion) {
             this.montoAdministracion = montoAdministracion;
         }
-        
-        
+
     }
 
 }

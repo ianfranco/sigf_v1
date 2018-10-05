@@ -44,10 +44,10 @@ public class RegistroHaberTrabajadorLiquidacionController implements Serializabl
     private RelacionLaboral relacionLaboral;
 
     private List<HaberTrabajadorLiquidacion> items;
-    
+
     private List<Trabajador> trabajadorItems;
     private List<RelacionLaboral> relacionLaboralItems;
-    
+
     private Date fecha;
     private int mes;
     private int anio;
@@ -97,7 +97,7 @@ public class RegistroHaberTrabajadorLiquidacionController implements Serializabl
                 this.selected.setActivoHaberTrabajador(Boolean.TRUE);
                 this.selected.setIdRelacionLaboral(this.relacionLaboral.getIdRelacionLaboral());
                 this.selected.setHaberTrabajador(this.haberTrabajador);
-                
+
                 HaberTrabajador haberAux = this.selected.getHaberTrabajador();
 
                 session.save(this.selected);
@@ -109,7 +109,7 @@ public class RegistroHaberTrabajadorLiquidacionController implements Serializabl
 
                 this.selected = null;
                 this.selected = new HaberTrabajadorLiquidacion();
-                
+
                 this.selected.setMonto(0);
                 this.selected.setNumeroCuotas(0);
                 this.selected.setFechaInicioHaber(fecha);
@@ -166,23 +166,20 @@ public class RegistroHaberTrabajadorLiquidacionController implements Serializabl
     public void findEmpresa() {
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
-        this.mes = 04;
+
+        this.mes = 8;
         this.anio = 2018;
-        
+
         String from = "01/" + mes + "/" + anio;
         try {
             this.fecha = format.parse(from);
-            
+
         } catch (ParseException p) {
 
         }
 
         this.relacionLaboralDaoImpl = new RelacionLaboralDaoImpl();
         this.relacionLaboralItems = this.relacionLaboralDaoImpl.findActivasByTrabajador(fecha, this.selected.getTrabajador());
-        
-        
-
     }
 
     public String getComponentMessages(String clientComponent, String defaultMessage) {
