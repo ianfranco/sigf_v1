@@ -23,6 +23,12 @@
         <many-to-one name="institucionSalud" class="com.areatecnica.sigf_v1.entities.InstitucionSalud" fetch="select">
             <column name="id_institucion_salud" not-null="true" />
         </many-to-one>
+        <many-to-one name="sindicato" class="com.areatecnica.sigf_v1.entities.Sindicato" fetch="select">
+            <column name="id_sindicato" not-null="true" />
+        </many-to-one>
+        <many-to-one name="terminal" class="com.areatecnica.sigf_v1.entities.Terminal" fetch="select">
+            <column name="id_terminal" not-null="true" />
+        </many-to-one>
         <many-to-one name="monedaPactadaInstitucionSalud" class="com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud" fetch="select">
             <column name="id_moneda_pactada_salud" not-null="true" />
         </many-to-one>
@@ -55,6 +61,9 @@
         </property>
         <property name="estadoCivil" type="java.lang.Short">
             <column name="estado_civil" />
+        </property>
+        <property name="fonasa" type="java.lang.Short">
+            <column name="fonasa" />
         </property>
         <property name="calleTrabajador" type="string">
             <column name="calle_trabajador" />

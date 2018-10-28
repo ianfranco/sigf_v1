@@ -89,7 +89,7 @@ public class DetalleLiquidacionController implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         Calendar calendar = GregorianCalendar.getInstance();
         this.mes = calendar.get(Calendar.MONTH) + 1;
         this.anio = calendar.get(Calendar.YEAR);

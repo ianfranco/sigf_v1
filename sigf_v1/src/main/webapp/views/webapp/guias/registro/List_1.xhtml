@@ -134,9 +134,8 @@
                                     <h:panelGrid columns="4">
                                         <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio"  style="margin-right: 29px;"/>
                                         <h:panelGroup>
-                                            <p:inputNumber style="margin-left: 10px;"  decimalPlaces="0" decimalSeparator="" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" " >
+                                            <p:inputNumber style="margin-left: 10px;"  decimalPlaces="0" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" " >
                                                 <p:ajax event="blur" listener="#{planillonGuiaController.findFolio}" update="growl, okButton, msgFolio" global="false"/>
-
                                             </p:inputNumber>
                                             <p:message for="folio" id="msgFolio" display="icon"/>
                                         </h:panelGroup>
@@ -191,7 +190,7 @@
                                     <h:panelGroup>
                                         <p:outputLabel value="Bruto:" for="totalIngresos" style="margin-right: 41px;" />
                                         <h:panelGroup>
-                                            <p:inputNumber style="margin-left: 10px;" decimalPlaces="0" id="totalIngresos" value="#{planillonGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14">
+                                            <p:inputNumber style="margin-left: 10px;" decimalPlaces="0" id="totalIngresos" value="#{planillonGuiaController.selected.totalIngresos}" title="#{bundle.CreateGuiaTitle_totalIngresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="14" minValue="0">
                                                 <p:ajax event="blur" update="datalistEgresos" listener="#{planillonGuiaController.setValoresVariables}" global="false"/>
                                             </p:inputNumber>
                                         </h:panelGroup>
@@ -260,8 +259,8 @@
                             <h:panelGrid columns="2" columnClasses="column, column">
                                 <p:outputLabel value="Egresos:" for="totalEgresos" />
                                 <h:panelGroup>
-                                    <p:inputNumber decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8">
-                                        <p:ajax event="blur" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
+                                    <p:inputNumber decimalPlaces="0" id="totalEgresos" value="#{planillonGuiaController.selected.totalEgresos}" title="#{bundle.CreateGuiaTitle_totalEgresos}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8" minValue="0">
+                                        <p:ajax event="valueChange" update=":GuiaCreateForm:totales" listener="#{planillonGuiaController.setTotal}" global="false"></p:ajax>
                                     </p:inputNumber>
 
                                 </h:panelGroup>
@@ -304,7 +303,10 @@
                                     <h:panelGrid columns="4">
                                         <p:outputLabel value="#{bundle.CreateGuiaLabel_folio}" for="folio"  style="margin-right: 30px;"/>
                                         <h:panelGroup>
-                                            <p:inputNumber style="margin-left: 10px;"  decimalPlaces="0" decimalSeparator="" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" " />                                                                                        
+                                            <p:inputNumber style="margin-left: 10px;" decimalPlaces="0" id="folio" value="#{planillonGuiaController.selected.folio}" title="#{bundle.CreateGuiaTitle_folio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_folio}" size="14" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" maxlength="8" placeholder=" " >
+                                                <p:ajax event="valueChange" listener="#{planillonGuiaController.findFolioUpdate}" update="growl, okButton, msgFolio" global="false"/>
+                                            </p:inputNumber>
+                                            <p:message for="folio" id="msgFolio" display="icon"/>
                                         </h:panelGroup>
                                     </h:panelGrid>
 
@@ -445,7 +447,7 @@
                                     <p:inputNumber decimalPlaces="0" id="turno" value="#{planillonGuiaController.selected.turno}" title="#{bundle.CreateGuiaTitle_turno}" autocomplete="off" onfocus="this.setSelectionRange(0, this.value.length)" size="8" />
                                 </h:panelGroup>
 
-                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" update="GuiaListForm:datalist,  GuiaListForm:tablaTotales, :growl"  oncomplete="PF('GuiaEditDialog').hide()" global="false">                                    
+                                <p:commandButton id="okButton" actionListener="#{planillonGuiaController.save}" value="#{bundle.Save}" disabled="#{planillonGuiaController.guiaIngresada}" update="GuiaListForm:datalist,  GuiaListForm:tablaTotales, :growl"  oncomplete="PF('GuiaEditDialog').hide()" global="false">                                    
                                 </p:commandButton>                                
                                 <p:commandButton value="#{bundle.Cancel}" actionListener="#{planillonGuiaController.init}" oncomplete="PF('GuiaEditDialog').hide()" update=":GuiaViewForm:display2" process="@this" immediate="true" resetValues="true" global="false"/>
                             </h:panelGrid>

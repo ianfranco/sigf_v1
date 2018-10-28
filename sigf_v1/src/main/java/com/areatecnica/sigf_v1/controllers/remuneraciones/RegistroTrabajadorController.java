@@ -80,6 +80,16 @@ public class RegistroTrabajadorController implements Serializable {
     private boolean fonasa;
     private boolean ahorro;
     private boolean validaRut;
+    private Date minFechaNacimiento;
+    private Date maxFechaNacimiento;
+    private int regimenPrevisional;
+    private boolean errorTrabajador;
+
+    //helpers
+    private String rut;
+
+    private boolean skip;
+    private int sueldo;
 
     /**
      * Creates a new instance of RegistroTrabajadorController
@@ -93,6 +103,66 @@ public class RegistroTrabajadorController implements Serializable {
         this.selected.setApellidoPaternoTrabajador("");
         this.selected.setNombreTrabajador("");
 
+    }
+
+    public void resetParents() {
+
+    }
+
+    public Date getMinFechaNacimiento() {
+        return minFechaNacimiento;
+    }
+
+    public void setMinFechaNacimiento(Date minFechaNacimiento) {
+        this.minFechaNacimiento = minFechaNacimiento;
+    }
+
+    public Date getMaxFechaNacimiento() {
+        return maxFechaNacimiento;
+    }
+
+    public void setMaxFechaNacimiento(Date maxFechaNacimiento) {
+        this.maxFechaNacimiento = maxFechaNacimiento;
+    }
+
+    public int getRegimenPrevisional() {
+        return regimenPrevisional;
+    }
+
+    public void setRegimenPrevisional(int regimenPrevisional) {
+        this.regimenPrevisional = regimenPrevisional;
+    }
+
+    public boolean isValidaRut() {
+        return validaRut;
+    }
+
+    public void setValidaRut(boolean validaRut) {
+        this.validaRut = validaRut;
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    public int getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(int sueldo) {
+        this.sueldo = sueldo;
     }
 
     public List<Trabajador> getItems() {
@@ -231,13 +301,17 @@ public class RegistroTrabajadorController implements Serializable {
         this.ahorro = ahorro;
     }
 
+    public void findTrabajador() {
+
+    }
+
     public Trabajador prepareCreate(ActionEvent event) {
         nacionalidad = 1;
-        estadoCivil = 1;
+        estadoCivil = 0;
         sexo = 1;
-        fonasa = true;
-        ahorro = false;
-        regimen = false;
+//        fonasa = true;
+//        ahorro = false;
+//        regimen = false;
 
         this.institucionSaludDaoImpl = new InstitucionSaludDaoImpl();
         this.institucionAPVDaoImpl = new InstitucionAPVDaoImpl();
@@ -245,6 +319,15 @@ public class RegistroTrabajadorController implements Serializable {
         this.asignacionFamiliarDaoImpl = new AsignacionFamiliarDaoImpl();
         this.institucionPrevisionDaoImpl = new InstitucionPrevisionDaoImpl();
         this.tipoCotizacionTrabajadorDaoImpl = new TipoCotizacionTrabajadorDaoImpl();
+        this.comunaDaoImpl = new ComunaDaoImpl();
+
+        this.itemsComuna = this.comunaDaoImpl.findAll();
+        this.itemsAsignacionFamiliar = this.asignacionFamiliarDaoImpl.findAll();
+        this.itemsTipoCotizacion = this.tipoCotizacionTrabajadorDaoImpl.findAll();
+        this.itemsInstitucionPrevision = this.institucionPrevisionDaoImpl.findAll();
+        this.itemsInstitucionSalud = this.institucionSaludDaoImpl.findAll();
+        this.itemsMonedaPactadaInstitucionSalud = this.monedaPactadaInstitucionSaludImpl.findAll();
+        this.itemsInstitucionApv = this.institucionAPVDaoImpl.findAll();
 
         this.institucionSalud = this.institucionSaludDaoImpl.findById(7);
         this.institucionAPV = this.institucionAPVDaoImpl.findById(1000);
@@ -252,21 +335,23 @@ public class RegistroTrabajadorController implements Serializable {
         this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
         this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(34);
 
-        this.selected = new Trabajador(true);;
+        this.selected = new Trabajador(true);
+        this.selected.setFechaNacimientoTrabajador(new Date());
+        this.selected.setComuna(this.itemsComuna.get(0));
         this.selected.setCodigoTrabajador(trabajadorDaoImpl.maxId());
         this.selected.setInstitucionSalud(institucionSalud);
         this.selected.setInstitucionApv(institucionAPV);
         this.selected.setMonedaPactadaInstitucionSalud(monedaPactadaInstitucionSalud);
         this.selected.setTipoCotizacionTrabajador(cotizacionTrabajador);
+        this.selected.setInstitucionPrevision(institucionPrevision);
+        this.selected.setAsignacionFamiliar(this.itemsAsignacionFamiliar.get(4));
         this.selected.setNumeroCargas(0);
         this.selected.setMontoApv(0);
         this.selected.setMontoSalud(BigDecimal.ZERO);
         this.selected.setFechaIngresoTrabajador(new Date());
 
-        JsfUtil.addErrorMessage("SE HA CREADO EL CONDUCTOR" + this.selected.getCodigoTrabajador());
-
+        //JsfUtil.addErrorMessage("SE HA CREADO EL CONDUCTOR" + this.selected.getCodigoTrabajador());
         setDefaultValues();
-
         return this.selected;
     }
 
@@ -341,36 +426,36 @@ public class RegistroTrabajadorController implements Serializable {
 
     public void validarRut() {
         validaRut = false;
-        JsfUtil.addErrorMessage("rut"+this.selected.getRutTrabajador());
+        //JsfUtil.addErrorMessage("rut"+this.selected.getRutTrabajador());
         try {
             String rut = null;
             rut = this.selected.getRutTrabajador();
-                        
-            if (rut!=null && rut.length()>0) {
+
+            if (rut != null && rut.length() > 0) {
                 rut = rut.toUpperCase();
                 rut = rut.replace(".", "");
                 rut = rut.replace("-", "");
                 int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-                
+
                 char dv = rut.charAt(rut.length() - 1);
-                
+
                 int m = 0, s = 1;
                 for (; rutAux != 0; rutAux /= 10) {
                     s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
                 }
                 if (dv == (char) (s != 0 ? s + 47 : 75)) {
                     validaRut = true;
-                    
+
                     if (trabajadorDaoImpl.existeTrabajador(rut)) {
                         this.selected.setRutTrabajador("");
                         JsfUtil.addErrorMessage("El rut se encuentra registrado");
                     }
-                    
+
                 } else {
                     this.selected.setRutTrabajador("");
                     JsfUtil.addErrorMessage("Rut Mal Formado");
                 }
-            }else{
+            } else {
                 JsfUtil.addErrorMessage("Debe ingresar un rut válido");
             }
 
@@ -378,5 +463,9 @@ public class RegistroTrabajadorController implements Serializable {
             JsfUtil.addErrorMessage("Rut Mal Formado");
         }
     }
-    
+
+    public void delete() {
+
+    }
+
 }

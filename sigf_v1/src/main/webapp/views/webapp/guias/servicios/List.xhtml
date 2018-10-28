@@ -30,6 +30,8 @@
                 <p:ajax event="rowSelect"   update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" global="false"/>
                 <p:ajax event="rowUnselect" update=":ServicioListForm:createButton :ServicioListForm:viewButton :ServicioListForm:editButton :ServicioListForm:deleteButton :ServicioListForm:ServicioDataTableContextMenu" global="false"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicioListForm:viewButton').click();" global="false"/>
+                <p:ajax event="filter"  global="false"/>
+
 
                 <f:facet name="header">
                     Lista de Servicios
@@ -77,14 +79,14 @@
                     </f:facet>
                     <h:outputText value="#{item.longitud}"/>
                 </p:column>
-                
+
                 <p:column filterBy="#{item.origenServicio}" style="text-align: center;" filterStyle="width: 150px;">
                     <f:facet name="header">
                         <h:outputText value="Origen"/>
                     </f:facet>
                     <h:outputText value="#{item.origenServicio}"/>
                 </p:column>
-                
+
                 <p:column filterBy="#{item.destinoServicio}" style="text-align: center;" filterStyle="width: 150px;">
                     <f:facet name="header">
                         <h:outputText value="Destino"/>

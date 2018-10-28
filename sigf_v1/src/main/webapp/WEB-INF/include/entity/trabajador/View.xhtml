@@ -8,189 +8,113 @@
 
     <ui:composition>
 
-        <p:dialog id="TrabajadorViewDlg" widgetVar="TrabajadorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTrabajadorTitle}" closeOnEscape="true">
+        <p:dialog id="TrabajadorViewDlg" widgetVar="TrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTrabajadorTitle}" closeOnEscape="true">
 
             <h:form id="TrabajadorViewForm">
 
-                <h:panelGroup id="display" >
+                <h:panelGroup id="display">
+                    <p:tabView id="TrabajadorTabView">
 
-                    <p:dashboard id="board" model="#{dashboardModel.modelMain}">
-                        <p:ajax event="reorder" listener="#{dashboardModel.handleReorder}" update="growl" />
+                        <p:tab id="TrabajadorTab1" title="#{myBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorId}"/>
+                                <h:outputText value="#{trabajadorController.selected.idTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorId}"/>
 
-                        <p:panel id="personal" header="Datos Personales" style="margin: 10px;">
-                            <p:panelGrid columns="2" columnClasses="column">
-                                <p:outputLabel value="Cód.:" for="codigoTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="codigoTrabajador" value="#{trabajadorController.selected.codigoTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorFonasa}"/>
+                                <p:selectBooleanCheckbox id="trabajadorFonasa" value="#{trabajadorController.selected.fonasa}" title="#{myBundle.EditTrabajadorTitle_trabajadorFonasa}" required="true" requiredMessage="#{myBundle.EditTrabajadorRequiredMessage_trabajadorFonasa}"/>
 
-                                <p:outputLabel value="Rut:" for="rutTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="rutTrabajador" value="#{trabajadorController.selected.rutTrabajador}" title="#{bundle.CreateTrabajadorTitle_rutTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorCodigo}"/>
+                                <h:outputText value="#{trabajadorController.selected.codigoTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorCodigo}"/>
 
-                                <p:outputLabel value="Nombres" for="nombreTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="nombreTrabajador" value="#{trabajadorController.selected.nombreTrabajador}" title="#{bundle.CreateTrabajadorTitle_nombreTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorRut}"/>
+                                <h:outputText value="#{trabajadorController.selected.rutTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorRut}"/>
 
-                                <p:outputLabel value="Apellido P." for="apellidoPaternoTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="apellidoPaternoTrabajador" value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoPaternoTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorNombres}"/>
+                                <h:outputText value="#{trabajadorController.selected.nombreTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorNombres}"/>
 
-                                <p:outputLabel value="Apellido M.:" for="apellidoMaternoTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="apellidoMaternoTrabajador" value="#{trabajadorController.selected.apellidoMaternoTrabajador}" title="#{bundle.CreateTrabajadorTitle_apellidoMaternoTrabajador}" />
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorApellidoPaterno}"/>
+                                <h:outputText value="#{trabajadorController.selected.apellidoPaternoTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorApellidoPaterno}"/>
 
-                                <p:outputLabel value="F.Nacimiento:" for="fechaNacimientoTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="fechaNacimientoTrabajador" value="#{trabajadorController.selected.fechaNacimientoTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorApellidoMaterno}"/>
+                                <h:outputText value="#{trabajadorController.selected.apellidoMaternoTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorApellidoMaterno}"/>
 
-                                <p:outputLabel value="Dirección:" for="calleTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="calleTrabajador" value="#{trabajadorController.selected.calleTrabajador}" />
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorFechaNacimiento}"/>
+                                <h:outputText value="#{trabajadorController.selected.fechaNacimientoTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorFechaNacimiento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
 
-                                <p:outputLabel value="N°/Depto:" for="numeroDireccionTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="numeroDireccionTrabajador" value="#{trabajadorController.selected.numeroDireccionTrabajador}" />
-                                </h:panelGroup>
+                                <h:outputText value="Chileno?:"/>
+                                <p:selectBooleanCheckbox id="trabajadorNacionalidad" value="#{trabajadorController.selected.nacionalidad}" title="#{myBundle.EditTrabajadorTitle_trabajadorNacionalidad}" />
 
-                                <p:outputLabel value="Comuna:" for="comuna" />
-                                <p:outputLabel id="comuna" value="#{trabajadorController.selected.comuna}" />                                        
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorSexo}"/>
+                                <p:selectBooleanCheckbox id="trabajadorSexo" value="#{trabajadorController.selected.sexo}" title="#{myBundle.EditTrabajadorTitle_trabajadorSexo}" />
 
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorCalle}"/>
+                                <h:outputText value="#{trabajadorController.selected.calleTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorCalle}"/>
 
-                                <p:outputLabel value="País:" for="nacionalidad" />
-                                <h:panelGroup>     
-                                    <p:selectOneRadio id="nacionalidad" value="#{trabajadorController.nacionalidad}" disabled="true">
-                                        <f:selectItem itemLabel="Chile" itemValue="1" />
-                                        <f:selectItem itemLabel="Extranjero" itemValue="0" />
-                                    </p:selectOneRadio>                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorNumeroDireccion}"/>
+                                <h:outputText value="#{trabajadorController.selected.numeroDireccionTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorNumeroDireccion}"/>
 
-                                <p:outputLabel value="Sexo:" for="sexo" />
-                                <h:panelGroup>
-                                    <p:selectOneRadio id="sexo" value="#{trabajadorController.sexo}" disabled="true">
-                                        <f:selectItem itemLabel="Hombre" itemValue="1" />
-                                        <f:selectItem itemLabel="Mujer" itemValue="0" />
-                                    </p:selectOneRadio>                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorTelefonoFijo}"/>
+                                <h:outputText value="#{trabajadorController.selected.telefonoFijoTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorTelefonoFijo}"/>
 
-                                <p:outputLabel value="Estado Civil:" for="estadoCivil" />
-                                <h:panelGroup>
-                                    <p:selectOneRadio id="estadoCivil" value="#{trabajadorController.estadoCivil}" disabled="true">
-                                        <f:selectItem itemLabel="Soltero" itemValue="0" />
-                                        <f:selectItem itemLabel="Casado" itemValue="1" />
-                                        <f:selectItem itemLabel="Separado" itemValue="2" />
-                                        <f:selectItem itemLabel="Viudo" itemValue="3" />
-                                    </p:selectOneRadio>
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorCelular}"/>
+                                <h:outputText value="#{trabajadorController.selected.celularTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorCelular}"/>
 
-                                <p:outputLabel value="Teléfono:" for="telefonoFijoTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="telefonoFijoTrabajador" value="#{trabajadorController.selected.telefonoFijoTrabajador}" title="#{bundle.CreateTrabajadorTitle_telefonoFijoTrabajador}"/>                                   
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorEmail}"/>
+                                <h:outputText value="#{trabajadorController.selected.emailTrabajador}" title="#{myBundle.ViewTrabajadorTitle_trabajadorEmail}"/>
 
-                                <p:outputLabel value="Celular:" for="celularTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="celularTrabajador" value="#{trabajadorController.selected.celularTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorNumeroCargas}"/>
+                                <h:outputText value="#{trabajadorController.selected.numeroCargas}" title="#{myBundle.ViewTrabajadorTitle_trabajadorNumeroCargas}"/>
 
-                                <p:outputLabel value="Email:" for="emailTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="emailTrabajador" value="#{trabajadorController.selected.emailTrabajador}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorMontoSalud}"/>
+                                <h:outputText value="#{trabajadorController.selected.montoSalud}" title="#{myBundle.ViewTrabajadorTitle_trabajadorMontoSalud}"/>
 
                             </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="TrabajadorTab2" title="#{myBundle.TabHeaderPrefix} 2">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{trabajadorController.selected != null}">
+                               
 
-                        </p:panel>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorMontoApv}"/>
+                                <h:outputText value="#{trabajadorController.selected.montoApv}" title="#{myBundle.ViewTrabajadorTitle_trabajadorMontoApv}"/>
 
-                        <p:panel id="previsional" header="Previsión" style="margin: 10px;">
-                            <h:panelGrid columns="1">                                
-                                <p:panelGrid columns="2" columnClasses="column">
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorCesantia}"/>
+                                <p:selectBooleanCheckbox id="trabajadorCesantia" value="#{trabajadorController.selected.cesantia}" title="#{myBundle.EditTrabajadorTitle_trabajadorCesantia}" />
 
-                                    <p:outputLabel value="Tipo Cotización:" for="tipoCotizacionTrabajador" />
-                                    <h:panelGroup>
-                                        <p:outputLabel id="tipoCotizacionTrabajador" value="#{trabajadorController.selected.tipoCotizacionTrabajador}" />
-                                    </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorContratado}"/>
+                                <p:selectBooleanCheckbox id="trabajadorContratado" value="#{trabajadorController.selected.contratado}" title="#{myBundle.EditTrabajadorTitle_trabajadorContratado}" />
 
-                                    <p:outputLabel value="AFP:" for="institucionPrevision" />
-                                    <h:panelGroup>
-                                        <p:outputLabel id="institucionPrevision" value="#{trabajadorController.selected.institucionPrevision}" />                                            
-                                    </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdInstitucionApv}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionApv}"/>
 
-                                    <p:outputLabel value="Ahorro Voluntario" for="ips" />                                        
-                                    <p:selectBooleanCheckbox id="ips" disabled="true">
-                                        <p:ajax update="institucionApv,montoAPV" event="valueChange" listener="#{trabajadorController.updateAhorro}"/>
-                                    </p:selectBooleanCheckbox>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdAsignacionFamiliar}"/>
+                                <h:outputText value="#{trabajadorController.selected.asignacionFamiliar}"/>
 
-                                    <p:outputLabel value="APV:" for="institucionApv" />
-                                    <h:panelGroup>
-                                        <p:outputLabel id="institucionApv" value="#{trabajadorController.selected.institucionApv}" />                                            
-                                    </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdComuna}"/>
+                                <h:outputText value="#{trabajadorController.selected.comuna}"/>
 
-                                    <p:outputLabel value="Monto APV:" for="montoAPV" />
-                                    <h:panelGroup>
-                                        <p:outputLabel id="montoAPV" value="#{trabajadorController.selected.montoApv}" />
-                                    </h:panelGroup>
-                                </p:panelGrid>                               
-                            </h:panelGrid>
-                        </p:panel>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdTipoCotizacionTrabajador}"/>
+                                <h:outputText value="#{trabajadorController.selected.tipoCotizacionTrabajador}"/>
 
-                        <p:panel id="salud" header="Salud" style="margin: 10px;">
-                            <p:panelGrid columns="2" columnClasses="column">
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdEstadoCivil}"/>
+                                <h:outputText value="#{trabajadorController.selected.estadoCivil}"/>
 
-                                <p:outputLabel value="Fonasa:" for="fonasa" />                                        
-                                <p:selectBooleanCheckbox id="fonasa" value="#{trabajadorController.fonasa}" disabled="true">
-                                    <p:ajax update="institucionSalud, monedaPactadaInstitucionSalud, montoSalud" />
-                                </p:selectBooleanCheckbox>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdInstitucionPrevision}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionPrevision}"/>
 
-                                <p:outputLabel value="Salud:" for="institucionSalud" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="institucionSalud" value="#{trabajadorController.selected.institucionSalud}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdTerminal}"/>
+                                <h:outputText value="#{trabajadorController.selected.terminal}"/>
 
-                                <p:outputLabel value="Moneda:" for="monedaPactadaInstitucionSalud" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="monedaPactadaInstitucionSalud" value="#{trabajadorController.selected.monedaPactadaInstitucionSalud}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdInstitucionSalud}"/>
+                                <h:outputText value="#{trabajadorController.selected.institucionSalud}"/>
 
-                                <p:outputLabel value="Monto:" for="montoSalud" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="montoSalud" value="#{trabajadorController.selected.montoSalud}" />                                    
-                                </h:panelGroup>
+                                <h:outputText value="#{myBundle.ViewTrabajadorLabel_trabajadorIdSindicato}"/>
+                                <h:outputText value="#{trabajadorController.selected.sindicato}"/>
                             </p:panelGrid>
-                        </p:panel>
-
-                        <p:panel id="varios" header="Asignación Familiar" style="margin: 10px;">
-                            <p:panelGrid columns="2" columnClasses="column">
-
-                                <p:outputLabel value="N° de Cargas" for="numeroCargas" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="numeroCargas" value="#{trabajadorController.selected.numeroCargas}" title="#{bundle.CreateTrabajadorTitle_numeroCargas}" />
-                                </h:panelGroup>
-
-
-                                <p:outputLabel value="Grupo:" for="AsignacionTrabajador" />
-                                <h:panelGroup>
-                                    <p:outputLabel id="AsignacionTrabajador" value="#{trabajadorController.selected.asignacionFamiliar}" />                                    
-                                </h:panelGroup>
-                            </p:panelGrid>
-                        </p:panel>
-
-                        <p:panel id="politics" header="Politics">
-                            <h:outputText value="Politics Content" />
-                        </p:panel>
-                    </p:dashboard>
-
-                    <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorViewDialog'));">
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
-                    </p:commandButton>
-
-                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorViewDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TrabajadorViewDialog').hide()"/>
                 </h:panelGroup>
 
             </h:form>

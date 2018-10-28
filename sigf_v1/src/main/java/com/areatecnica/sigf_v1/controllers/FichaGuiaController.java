@@ -114,8 +114,8 @@ public class FichaGuiaController implements Serializable {
             
             JsfUtil.addErrorMessage("No se ha encontrado una Guía con el Folio: ");
         }
-
     }
+
 
     public void setMessage() {
         JsfUtil.addSuccessMessage("VALOR DEL CODIGO:" + codigo);
@@ -150,6 +150,8 @@ public class FichaGuiaController implements Serializable {
     }
     
     private void loadEgresosByGuia(int idGuia) {
+        this.egresosGuiaItems = new ArrayList<>();
+        
         EgresoGuiaDaoImpl daoImpl = new EgresoGuiaDaoImpl();
 
         for (EgresoRecaudacion eg : this.selected.getProcesoRecaudacion().getEgresoRecaudacions()) {

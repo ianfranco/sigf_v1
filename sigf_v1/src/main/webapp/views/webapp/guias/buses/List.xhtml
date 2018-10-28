@@ -28,17 +28,19 @@
                          rowsPerPageTemplate="50,100, 200, 500"
                          selectionMode="single"
                          selection="#{registroBusesController.selected}"
-                         emptyMessage="No se han encontrado BUSES en la base de datos">
+                         emptyMessage="No se han encontrado BUSES en la base de datos" >
 
                 <p:ajax event="rowSelect"   update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}" global="false"/>
                 <p:ajax event="rowUnselect" update=":BusListForm:createButton :BusListForm:viewButton :BusListForm:editButton :BusListForm:deleteButton :BusListForm:BusDataTableContextMenu" listener="#{registroBusesController.resetParents}" global="false"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('BusListForm:viewButton').click();" global="false"/>
+                <p:ajax event="filter"  global="false"/>
+
 
                 <f:facet name="header">
                     Lista de Buses
                 </f:facet>
 
-                <p:column style="width: 30px;text-align: center;">
+                <p:column style="width: 30px;text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="N°"/>
                     </f:facet>
@@ -60,7 +62,7 @@
                     <h:outputText value="#{item.unidadNegocio.numeroUnidadNegocio}"/>
                 </p:column>
 
-                <p:column filterBy="#{item.patente}" style="width: 110px;text-align: center;" >
+                <p:column filterBy="#{item.patente}" filterMatchMode="contains" style="width: 110px;text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="#{bundle.ListBusTitle_patente}"/>
                     </f:facet>
@@ -68,7 +70,7 @@
                 </p:column>
 
 
-                <p:column filterBy="#{item.empresa}" style="width: 350px;" filterStyle="width: 340px;">
+                <p:column filterBy="#{item.empresa}" filterMatchMode="contains"  style="width: 350px;" filterStyle="width: 340px;">
                     <f:facet name="header">
                         <h:outputText value="Empresa"/>
                     </f:facet>
@@ -82,7 +84,7 @@
                     <h:outputText value="#{item.terminal}"/>
                 </p:column>
 
-                <p:column filterBy="#{item.flota}" style="width: 150px;text-align: center;">
+                <p:column filterBy="#{item.flota}" filterMatchMode="contains"  style="width: 150px;text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Flota"/>
                     </f:facet>

@@ -15,7 +15,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            900
+            1800
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -27,7 +27,7 @@
     </context-param>
     <context-param>  
         <param-name>primefaces.THEME</param-name>  
-        <param-value>hot-sneaks</param-value>  
+        <param-value>omega</param-value>  
     </context-param>
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
@@ -39,7 +39,7 @@
     </context-param>
     <context-param>
         <param-name>com.sun.faces.clientStateTimeout</param-name>
-        <param-value>1200</param-value>
+        <param-value>4800</param-value>
     </context-param>
     
     <context-param>

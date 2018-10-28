@@ -7,35 +7,137 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
-        <h:outputStylesheet name="css/default.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>SIGF</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <!-- Bootstrap 3.3.5 -->
+        <h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css"/>
+
+        <h:outputStylesheet library="css" name="ionicons.min.css"/>
+        <h:outputStylesheet library="css" name="nprogress.css"/>
         <style type="text/css">
-            #growl {
-                background: #D20005;
+            div[id="growl_container"] {
+                top: 60px;
+                z-index:1001; 
             }
-            
-            .nombre{
-                width: 500px;
+            div[id="growl_container"] {
+                position:fixed;
+                top:60px;
+                z-index:1001;
+            }
+
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-button {
+                width: 8px;
+                height:5px;
+            }
+            ::-webkit-scrollbar-track {
+                background:#eee;
+                border: thin solid lightgray;
+                box-shadow: 0px 0px 3px #3c8dbc inset;
+                border-radius:10px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background:#3c8dbc;
+                border: thin solid #3c8dbc;
+                border-radius:10px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background:#3c8dbc;
+            }
+
+            .ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+                border-right: 0;
+                border-top: 0;
+                border-bottom: 0;
+                cursor: pointer;
+                width: 25px;
+                height: 100%;
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding: 0 3px;
+            }
+
+            .box.box-default {
+                border-top-color: #d2d6de;
+            }
+            .box {
+                position: relative;
+                border-radius: 3px;
+                background: #ffffff;
+                border-top: 3px solid #d2d6de;
+                border-top-color: rgb(210, 214, 222);
+                margin-bottom: 20px;
+                width: 100%;
+                box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            }
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            .ct-label{fill:rgba(0,0,0,.4);color:rgba(0,0,0,.4);font-size:15px;line-height:1}
+
+            .btn:hover, .btn-primary:focus{
+                background-color: red;                
+            }
+
+            .ui-button:hover, .ui-button:focus{
+                background-color: red;
+            }
+
+            .fc-event, .fc-title, .ui-widget .fc-event .event1 {
+                font-size: 18px;
+                text-align: center;
+
+            }
+
+            .red{
+                background-color:red;
+                background-image:none;
+            }
+
+            .normal{
+                background-color:blue;
+                background-image:none;
+            }
+
+            .errorColor{
+                background: #FF0000;
+            }
+            .alignTop {
+                vertical-align: top;
+            }
+
+            @media print
+            {    
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
             }
         </style>
 
-        <title>SIGF - Remuneraciones</title>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
 
-        <h:outputScript target="head">
-            jQuery(document).ready(function() {
-            jQuery(document).ready(function() {
-            fixPFMDialogs();
-            });
-            });
-        </h:outputScript>
+        <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <title>SIGF - Remuneraciones</title>
     </h:head>
 
     <h:body>
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
-            <p:graphicImage library="images" name="ajax-loader.gif" />
-        </p:dialog>
         <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show();" />
@@ -43,15 +145,17 @@
         <p:ajaxExceptionHandler type="java.lang.NullPointerException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show();" />
-        
+
         <p:ajaxExceptionHandler type="java.lang.IllegalArgumentException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show();" />
-        
+
         <p:ajaxExceptionHandler type="javax.el.PropertyNotFoundException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show();" />
-        
+
+
+
         <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
                   height="500px">
             Message: #{pfExceptionHandler.message} <br/>
@@ -61,7 +165,12 @@
                       value="Reload!"
                       rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
         </p:dialog>
-        <p:growl id="growl" life="3000"/>
+        <p:growl id="growl" life="5000" />
+
+        <p:dialog appendTo="@(body)" modal="true" resizable="false" closable="false" header="Favor esperar ..." widgetVar="Loading" width="300">
+            <center>Cargando
+                <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/></center>
+        </p:dialog>
         <p:layout fullPage="true">            
             <p:layoutUnit position="north" size="75" header="Remuneraciones"  collapsible="true">
                 <div id="menu">
@@ -75,8 +184,8 @@
                                     <p:menuitem value="Laboral" outcome="#{appBean.basePath}webapp/remuneraciones/personal/FichaLaboral" />
                                     <p:menuitem value="Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/FichaLaboral" />
                                 </p:submenu>
-                                
-                                <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/personal/list" />
+
+                                <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/personal/index" />
                                 <p:submenu label="Cargas Familiares">
                                     <p:menuitem value="Registro por R.Laboral" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares/registroCargasFamiliares"/>
                                     <p:menuitem value="Nueva" outcome="#{appBean.basePath}webapp/remuneraciones/personal/cargasfamiliares/registro" />
@@ -87,7 +196,7 @@
                                         <p:menuitem value="Parentescos" outcome="#{appBean.basePath}webapp/remuneraciones/personal/list" />
                                     </p:submenu>
                                 </p:submenu>
-                                
+
                                 <p:submenu label="Contratos" >                                    
                                     <p:menuitem value="Nuevo" outcome="#{appBean.basePath}webapp/remuneraciones/personal/relacionlaboral/registroContrato"/>
                                     <p:menuitem value="Registro x Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/relacionlaboral/list"/>
@@ -97,7 +206,7 @@
                                         <p:menuitem value="Tipos de Contrato" outcome="#{appBean.basePath}webapp/remuneraciones/personal/relacionlaboral/tipoContrato" />
                                     </p:submenu>
                                 </p:submenu>
-                                
+
                                 <p:submenu label="Finiquitos">
                                     <p:menuitem value="Nuevo" outcome="#{appBean.basePath}webapp/remuneraciones/personal/finiquitos/registroFiniquito"/>
                                     <p:menuitem value="Registro x Mes" outcome="#{appBean.basePath}webapp/remuneraciones/personal/finiquitos/list"/>
@@ -122,11 +231,11 @@
                                     <p:menuitem value="Asignación x Trabajador" outcome="#{appBean.basePath}webapp/remuneraciones/personal/sindicatos/sindicatoxpersonal" />
                                 </p:submenu>
                             </p:submenu>    
-                            
+
                             <p:submenu label="Empresas">
                                 <p:menuitem value="Lista" outcome="#{appBean.basePath}webapp/remuneraciones/empresas/index" />
                             </p:submenu>
-                            
+
                             <p:submenu label="Movimientos">
                                 <p:menuitem value="Liquidación" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/detalleLiquidacion"/>                                
                                 <p:submenu label="Descuentos">
@@ -149,21 +258,21 @@
                                     <p:menuitem value="Registro General" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/registroHaberes"/>
                                     <p:menuitem value="Abono 2do Contrato" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/registroHaberes_1"/>
                                     <p:menuitem value="Aguinaldo" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/aguinaldo"/>
-                                    
+
                                     <p:submenu label="Avanzado">
                                         <p:menuitem value="Definición de Haberes" outcome="#{appBean.basePath}webapp/remuneraciones/movimientos/haberes/definicion"/>                                        
                                     </p:submenu>                                
                                 </p:submenu>
                                 <p:menuitem value="Anticipos"/>
                             </p:submenu>
-                            
+
                             <p:submenu label="Procesos">
                                 <p:menuitem value="Planillón Imposiciones" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonImposiciones_1" />
                                 <p:menuitem value="Planillón Descuentos" outcome="#{appBean.basePath}webapp/remuneraciones/procesos/planillonDescuentos" />
                                 <p:menuitem value="Cierre de Mes" />
                                 <p:menuitem value="Liquidaciones"  />                                
                             </p:submenu>
-                            
+
                             <p:submenu label="RR.HH">
                                 <p:menuitem value="Guías x Conductor" outcome="#{appBean.basePath}webapp/remuneraciones/reportes/produccionxconductor" />
                                 <p:menuitem value="Control de Asistencia"  />
@@ -173,7 +282,7 @@
                                 <p:menuitem value="Observaciones" />
                                 <p:menuitem value="Tipos de Trabajadores" />
                             </p:submenu>   
-                            
+
                             <p:submenu label="Instituciones">
                                 <p:menuitem value="AFP" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/afp" />
                                 <p:menuitem value="Ahorro Previsional" outcome="#{appBean.basePath}webapp/remuneraciones/instituciones/apv" />
@@ -223,7 +332,7 @@
 
                             <ui:insert name="content" class="ui-corner-all">
 
-                                
+
 
                             </ui:insert>
                         </div>

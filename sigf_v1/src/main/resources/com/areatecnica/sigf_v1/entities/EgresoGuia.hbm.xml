@@ -13,6 +13,9 @@
         </many-to-one>
         <many-to-one name="guia" class="com.areatecnica.sigf_v1.entities.Guia" fetch="select">
             <column name="id_guia" not-null="true" />
+        </many-to-one>        
+        <many-to-one name="egreso" class="com.areatecnica.sigf_v1.entities.Egreso" fetch="select">
+            <column name="id_egreso" not-null="true" />
         </many-to-one>
         <property name="monto" type="int">
             <column name="monto" not-null="true" />

@@ -110,6 +110,7 @@ public class PlanillonGuiaController implements Serializable {
 
     private Object header;
     private boolean registroGuias = false;
+    private Guia newGuia;
 
     /**
      * Creates a new instance of InstitucionPrevisionController
@@ -121,12 +122,7 @@ public class PlanillonGuiaController implements Serializable {
     @PostConstruct
     public void start() {
         if (this.sessionController.isRegistroGuias()) {
-
-            System.err.println("SI TIENE ACCESO A LAS GUÍAS");
-
             this.user = this.sessionController.getUsuario();
-
-            System.err.println("CARACTERISTICAS DEL USUARIO:" + this.user.getRut() + " " + this.user.getEmail());
 
             this.privilegioDao = new PrivilegioDaoImpl();
             this.guiaDao = new GuiaDaoImpl();
@@ -316,13 +312,31 @@ public class PlanillonGuiaController implements Serializable {
         this.resultsTotals = resultsTotals;
     }
 
+    public Guia getNewGuia() {
+        return newGuia;
+    }
+
+    public void setNewGuia(Guia newGuia) {
+        this.newGuia = newGuia;
+    }
+
     public void findFolio() {
         Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
         if (auxGuia != null) {
             this.guiaIngresada = true;
             JsfUtil.addErrorMessage("Guía N°:" + this.selected.getFolio() + " Ingresada");
             JsfUtil.isValidationFailed();
+        } else {
+            this.guiaIngresada = false;
+        }
+    }
 
+    public void findFolioUpdate() {
+        Guia auxGuia = this.guiaDao.findByFolio(this.selected.getFolio());
+        if (auxGuia != null) {
+            this.guiaIngresada = true;
+            JsfUtil.addErrorMessage("El Folio N°:" + this.selected.getFolio() + " ya se encuentra ingresado");
+            JsfUtil.isValidationFailed();
         } else {
             this.guiaIngresada = false;
         }
@@ -421,7 +435,6 @@ public class PlanillonGuiaController implements Serializable {
 
         this.trabajadorItems = this.trabajadorDao.findAllClean();
 
-        Guia newGuia;
         newGuia = new Guia();
         this.selected = newGuia;
         this.selected.setFechaGuia(this.fechaRecaudacion);
@@ -438,7 +451,7 @@ public class PlanillonGuiaController implements Serializable {
         this.trabajador.setRutTrabajador("XXXXXXXXX");
         this.bus = new Bus();
         this.bus.setPatente("XXXXXX");
-        this.bus.setAnio(2016);
+        this.bus.setAnio(2018);
         Empresa empresa = new Empresa();
         empresa.setNombreEmpresa("Nombre Empresa");
         this.bus.setEmpresa(empresa);
@@ -495,13 +508,13 @@ public class PlanillonGuiaController implements Serializable {
         createDynamicColumns();
     }
 
-    public void loadGuia() {
+    public void loadGuia() {//CORREGIR POR ACÁ SEPTIEMBRE
 
         LinkedHashMap link = this.selectedHashMap;
         int folioGuia = (int) link.get("Folio");
         int idGuia = (int) this.folios.get(folioGuia);
 
-        this.guiaIngresada = true;
+        this.guiaIngresada = false;
         this.selected = this.guiaDao.findByFolio(folioGuia);
         this.egresosGuiaItems = loadEgresosByGuia(idGuia);
         this.bus = this.selected.getBus();
@@ -541,31 +554,13 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected.setFechaRecaudacion(fechaRecaudacion);
                 this.selected.setProcesoRecaudacion(procesoRecaudacion);
                 this.selected.setRecaudada(Boolean.TRUE);
+                this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
 
                 session.save(this.selected);
 
-                this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
-
-                /*hashMap.put("Folio", this.selected.getFolio());
-                hashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
-                hashMap.put("Bus", this.selected.getBus().getNumeroBus());
-                hashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
-                hashMap.put("Nombre Conductor", this.selected.getTrabajador());*/
                 for (EgresoGuia e : this.egresosGuiaItems) {
                     e.setGuia(selected);
                     session.save(e);
-                    /*if (e.getEgresoRecaudacion().getEgreso().isActivo()) {
-                        String key = e.getEgresoRecaudacion().getEgreso().getNombreEgreso();
-                        hashMap.put(key, e.getMonto());
-
-                        if (totales.containsKey(key)) {
-                            int aux = (int) totales.get(key);
-                            aux += e.getMonto();
-                            totales.put(key, aux);
-                        } else {
-                            totales.put(key, e.getMonto());
-                        }
-                    }*/
                     e = null;
                 }
 
@@ -581,29 +576,6 @@ public class PlanillonGuiaController implements Serializable {
                 JsfUtil.addSuccessMessage("SE INGRESÓ LA GUÍA N°:" + this.selected.getFolio() + " EN LA RECUADACIÓN:" + this.selected.getProcesoRecaudacion().getNombreProceso() + " CON FECHA:" + format.format(fechaRecaudacion));
                 tx.commit();
 
-                //this.items.add(selected);
-
-                /*for (Object i : totales.values()) {
-                    int totali = (int) i;
-                    resultsTotals.add(String.valueOf(totali));
-                }*/
-
- /*Por todos los egresos que estén asociados al proceso de recaudación*/
- /*if (this.listOfMaps.size() == 1) {
-                    LinkedHashMap auxHash = this.listOfMaps.get(0);
-                    String auxFolio = String.valueOf(auxHash.get("Folio"));
-                    if (auxFolio.equals("")) {
-                        this.listOfMaps = new ArrayList<>();
-                    } else {
-                        System.err.println("HAY UNA GUÍA INGRESADA CON EL FOLIO:" + auxFolio);
-                    }
-                }*/
-
- /*if(.size()==0){
-                    this.listOfMaps = new ArrayList<LinkedHashMap>();
-                }*/
-                //this.listOfMaps.add(hashMap);
-                /*Termina de agregar la información*/
                 this.fechaGuiaDate = this.selected.getFechaGuia();
 
                 this.selected = new Guia();
@@ -617,6 +589,7 @@ public class PlanillonGuiaController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
+                JsfUtil.addErrorMessage(e.getLocalizedMessage());
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -669,6 +642,7 @@ public class PlanillonGuiaController implements Serializable {
 
             } catch (HibernateException e) {
                 tx.rollback();
+                JsfUtil.addErrorMessage(e.getLocalizedMessage());
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -705,6 +679,7 @@ public class PlanillonGuiaController implements Serializable {
                 this.selected = null;
             } catch (HibernateException e) {
                 tx.rollback();
+                JsfUtil.addErrorMessage(e.getLocalizedMessage());
                 System.err.println("NULL:Guia");
             }
         } else {
@@ -720,6 +695,8 @@ public class PlanillonGuiaController implements Serializable {
         for (EgresoRecaudacion e : this.egresosRecaudacionItems) {
 
             EgresoGuia egreso = new EgresoGuia();
+            egreso.setEgreso(e.getEgreso());
+            egreso.setGuia(this.selected);
             egreso.setEgresoRecaudacion(e);
             egreso.setMonto(e.getValorDefectoEgreso());
 
@@ -751,9 +728,6 @@ public class PlanillonGuiaController implements Serializable {
         //list.get(getRowCount()-1).setMonto(total);
         this.selected.setTotalEgresos(total);
         this.selected.setSaldo(this.selected.getTotalIngresos() - this.selected.getTotalEgresos());
-
-        System.err.println("CALCULADO EL TOTAL");
-
         return total;
     }
 

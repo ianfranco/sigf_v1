@@ -38,7 +38,7 @@ public class Conexion {
         try{
        
         Class.forName("com.mysql.jdbc.Driver");
-        String url = "jdbc:mysql://190.114.255.121:3306/sigf_v1?user=root&password=NintendO64";
+        String url = "jdbc:mysql://www.areatecnica.cl:3306/sigf_v1?user=root&password=NintendO64";
 
         conn = DriverManager.getConnection(url);
         statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);

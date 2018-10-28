@@ -50,7 +50,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
 
-                        <p:commandButton actionListener="#{detalleLiquidacionController.init}" value="Buscar Liquidación" update="display,:DescuentosForm:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl" resetValues="true">
+                        <p:commandButton actionListener="#{detalleLiquidacionController.find}" value="Buscar Liquidación" update="display,:DescuentosForm:data:datalist, :DescuentoTrabajadorLiquidacionListForm:datalistGuias,:growl" resetValues="true">
                         </p:commandButton>
                     </h:panelGrid>
                 </h:panelGroup>

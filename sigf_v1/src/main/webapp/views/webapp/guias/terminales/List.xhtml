@@ -21,6 +21,9 @@
                          selection="#{registroTerminalesController.selected}"
                          emptyMessage="No se han encontrado TERMINALES en la base de datos">
 
+                <p:ajax event="filter"  global="false"/>
+
+
                 <f:facet name="header">
                     Lista de Terminales
                 </f:facet>
@@ -47,7 +50,7 @@
                     </f:facet>
                     <h:outputText value="#{item.direccionTerminal}"/>
                 </p:column>
-                
+
 
                 <p:column filterBy="#{item.telefonoTerminal}">
                     <f:facet name="header">
@@ -55,14 +58,14 @@
                     </f:facet>
                     <h:outputText value="#{item.telefonoTerminal}"/>
                 </p:column>
-                
+
                 <p:column filterBy="#{item.emailTerminal}">
                     <f:facet name="header">
                         <h:outputText value="Email"/>
                     </f:facet>
                     <h:outputText value="#{item.emailTerminal}"/>
                 </p:column>
-               
+
             </p:dataTable>
             <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
                 <p:printer target="datalist" />
@@ -90,7 +93,7 @@
                         <p:gmap id="ubicacion" center="-33.07640382976732, -71.45355834960935" zoom="10" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" >
                             <p:ajax event="markerDrag" listener="#{registroTerminalesController.onMarkerDrag}" update=":growl, longitud, latitud"/>
                         </p:gmap>
-                        
+
                         <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud" />
                         <p:inputText id="latitud" size="10" value="#{registroTerminalesController.lat}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
 
@@ -108,7 +111,7 @@
                     </p:panelGrid>
                     <p:commandButton actionListener="#{registroTerminalesController.saveNew}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalCreateDialog'));">
                         <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
-                        
+
                     </p:commandButton>
 
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('TerminalCreateDialog').hide()" />
@@ -133,14 +136,14 @@
 
                         <h:outputText value="Ubicación" />
                         <p:gmap id="ubicacion2" center="#{registroTerminalesController.selected.ubicacionLatitud}, #{registroTerminalesController.selected.ubicacionLongitud}" zoom="10" draggable="false" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" />                            
-                        
-                        
+
+
                         <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud2" />
                         <p:inputText id="latitud2" size="10" value="#{registroTerminalesController.selected.ubicacionLatitud}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
 
                         <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud2" />
                         <p:inputText id="longitud2" size="10" value="#{registroTerminalesController.selected.ubicacionLongitud}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
-                        
+
                         <h:outputText value="Superficie"/>
                         <h:outputText value="#{registroTerminalesController.selected.superficie}" title="#{bundle.ViewTerminalTitle_superficie}"/>
 
@@ -149,7 +152,7 @@
 
                         <h:outputText value="Email"/>
                         <h:outputText value="#{registroTerminalesController.selected.emailTerminal}" title="#{bundle.ViewTerminalTitle_emailTerminal}"/>
-                        
+
                         <h:outputText value=""/>
                         <h:panelGrid columns="2">
                             <p:commandButton value="#{bundle.Close}" onclick="PF('TerminalViewDialog').hide()" icon="ui-icon-print"/>
@@ -182,13 +185,13 @@
                         <p:gmap id="ubicacion1" center="#{registroTerminalesController.selected.ubicacionLatitud}  , #{registroTerminalesController.selected.ubicacionLongitud}" zoom="10" type="HYBRID" style="width:800px;height: 300px" model="#{registroTerminalesController.draggableModel}" widgetVar="map" >
                             <p:ajax event="markerDrag" listener="#{registroTerminalesController.onMarkerDrag}" update=":growl, longitud1, latitud1"/>
                         </p:gmap>
-                        
+
                         <p:outputLabel value="#{bundle.CreateControlLabel_latitud}" for="latitud1" />
                         <p:inputText id="latitud1" size="10" value="#{registroTerminalesController.selected.ubicacionLatitud}" title="#{bundle.CreateControlTitle_latitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_latitud}" style="width: 300px;" maxlength="12"/>
 
                         <p:outputLabel value="#{bundle.CreateControlLabel_longitud}" for="longitud1" />
                         <p:inputText id="longitud1" size="10" value="#{registroTerminalesController.selected.ubicacionLongitud}" title="#{bundle.CreateControlTitle_longitud}" required="true" requiredMessage="#{bundle.CreateControlRequiredMessage_longitud}" style="width: 300px;" maxlength="12"/>
-                        
+
                         <p:outputLabel value="Superficie" for="superficie" />
                         <p:inputText id="superficie" value="#{registroTerminalesController.selected.superficie}" title="#{bundle.EditTerminalTitle_superficie}"/>
 

@@ -32,7 +32,9 @@
 
                 <p:ajax event="rowSelect"   update="viewButton " listener="#{trabajadorController.resetParents}"/>
                 <p:ajax event="rowUnselect" update="viewButton " listener="#{trabajadorController.resetParents}"/>
-                
+                <p:ajax event="filter"  global="false"/>
+
+
                 <f:facet name="header">
                     Lista de Trabajadores
                 </f:facet>
@@ -206,12 +208,12 @@
         <h:form>
             <p:commandLink ajax="false" value="Descargar Informe" actionListener="#{reportBean.printPDF()}"/>
         </h:form>
-        
+
         <p:dialog id="TrabajadorViewDlg" widgetVar="TrabajadorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Conductor:" closeOnEscape="true">
             <h:form id="TrabajadorViewForm">
-                
+
             </h:form>    
         </p:dialog>
-        
+
     </ui:define>
 </ui:composition>

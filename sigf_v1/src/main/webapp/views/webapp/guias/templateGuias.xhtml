@@ -18,22 +18,6 @@
         </style>
 
         <title>SIGF - Registro de Guías</title>
-
-        <h:outputScript target="head">
-            jQuery(document).ready(function() {
-            jQuery(document).ready(function() {
-            fixPFMDialogs();
-            $('input').keydown( function(e) {
-            var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-            if(key == 13) {
-            e.preventDefault();
-            var inputs = $(this).closest('form').find(':input:visible');
-            inputs.eq( inputs.index(this)+ 1 ).focus();
-            }
-            });
-            });
-            });
-        </h:outputScript>
     </h:head>
 
     <h:body>
@@ -114,7 +98,7 @@
                 <ui:insert name="footer"/>
                 <div id="bottom" class="ui-widget-header">
                     <p:outputLabel value="Bienvenido: #{loginBean.userName}" style="float: left;"/>
-                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2016 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
+                    <ui:insert name="bottom"><p:outputLabel value="&copy; 2018 - áreaTECNICA" style="float: right; padding-right: 30px;"/> </ui:insert>
                 </div>
             </p:layoutUnit>      
 

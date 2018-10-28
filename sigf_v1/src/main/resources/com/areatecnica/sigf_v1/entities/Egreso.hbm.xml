@@ -19,6 +19,6 @@
                 <column name="id_egreso" not-null="true" />
             </key>
             <one-to-many class="com.areatecnica.sigf_v1.entities.EgresoRecaudacion" />
-        </set>
+        </set>        
     </class>
 </hibernate-mapping>
