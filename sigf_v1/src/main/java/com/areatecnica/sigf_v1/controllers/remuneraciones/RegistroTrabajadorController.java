@@ -302,7 +302,19 @@ public class RegistroTrabajadorController implements Serializable {
     }
 
     public void findTrabajador() {
+        
+    }
 
+    public void setPrevision() {
+        switch (this.regimenPrevisional) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+        }
     }
 
     public Trabajador prepareCreate(ActionEvent event) {
@@ -334,11 +346,13 @@ public class RegistroTrabajadorController implements Serializable {
         this.monedaPactadaInstitucionSalud = this.monedaPactadaInstitucionSaludImpl.findById(1);
         this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
         this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(34);
-
+        
+        
         this.selected = new Trabajador(true);
         this.selected.setFechaNacimientoTrabajador(new Date());
         this.selected.setComuna(this.itemsComuna.get(0));
-        this.selected.setCodigoTrabajador(trabajadorDaoImpl.maxId());
+        this.selected.setCodigoTrabajador(new TrabajadorDaoImpl().maxId());
+        System.err.println("CODIGO TRABAJADOR = "+this.selected.getCodigoTrabajador());
         this.selected.setInstitucionSalud(institucionSalud);
         this.selected.setInstitucionApv(institucionAPV);
         this.selected.setMonedaPactadaInstitucionSalud(monedaPactadaInstitucionSalud);
