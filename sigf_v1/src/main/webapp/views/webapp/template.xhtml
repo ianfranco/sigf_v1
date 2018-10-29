@@ -74,6 +74,11 @@
         <p:ajaxExceptionHandler type="java.lang.NullPointerException"
                                 update="exceptionDialog"
                                 onexception="PF('exceptionDialog').show();" />
+        
+        <p:ajaxExceptionHandler type="org.primefaces.expression.ComponentNotFoundException"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show();" />
+        
         <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
                   height="500px">
             Message: #{pfExceptionHandler.message} <br/>
