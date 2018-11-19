@@ -153,14 +153,14 @@
                                         <h:panelGrid columns="4" style="margin-top: 0px;">
                                             <p:outputLabel value="Bus:" for="bus" style="margin-right: 34px;"/>
                                             <h:panelGroup>
-                                                <p:selectOneMenu id="bus" style="margin-left: 10px;" value="#{planillonGuiaController.selected.bus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_bus}" converter="omnifaces.SelectItemsConverter" filter="true">
+                                                <p:selectOneMenu id="bus" style="margin-left: 10px;" value="#{planillonGuiaController.selected.bus}" required="true" requiredMessage="Debe seleccionar un bus" converter="busConverter">
                                                     <f:selectItem itemLabel=" "/>
                                                     <f:selectItems value="#{planillonGuiaController.busItems}"
                                                                    var="busItem"
                                                                    itemValue="#{busItem}"
                                                                    itemLabel="#{busItem}"
                                                                    />                                        
-                                                    <p:ajax event="valueChange" update="infoBus, bus"  listener="#{planillonGuiaController.findBus}" global="false"/>
+                                                    <p:ajax event="valueChange" update="infoBus"  listener="#{planillonGuiaController.findBus}" global="false"/>
                                                 </p:selectOneMenu>
 
                                             </h:panelGroup>
@@ -173,14 +173,14 @@
                                         <h:panelGrid columns="4" style="margin-top: 0px;">
                                             <p:outputLabel value="Conductor" for="trabajador" />
                                             <h:panelGroup>
-                                                <p:selectOneMenu id="trabajador" style="margin-left: 10px;" value="#{planillonGuiaController.selected.trabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_trabajador}" converter="omnifaces.SelectItemsConverter" filter="true" >
+                                                <p:selectOneMenu id="trabajador" style="margin-left: 10px;" value="#{planillonGuiaController.selected.trabajador}" required="true" requiredMessage="Debe seleccionar el trabajador" converter="trabajadorConverter" >
                                                     <f:selectItem itemLabel=" "/>
                                                     <f:selectItems value="#{planillonGuiaController.trabajadorItems}"
                                                                    var="trabajadorItem"
                                                                    itemValue="#{trabajadorItem}"
                                                                    itemLabel="#{trabajadorItem.codigoTrabajador}"
                                                                    />
-                                                    <p:ajax event="valueChange" update="nombreCond, trabajador"  listener="#{planillonGuiaController.findConductor}" global="false"/>
+                                                    <p:ajax event="valueChange" update="nombreCond"  listener="#{planillonGuiaController.findConductor}" global="false"/>
                                                 </p:selectOneMenu>
                                             </h:panelGroup>
                                             <p:outputLabel value="Nombre:" style="margin-left: 10px;"/>

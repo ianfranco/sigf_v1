@@ -162,7 +162,24 @@ public class BusDaoImpl implements BusDao {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
-        String sql = "FROM Bus WHERE flota=" +flota.getIdFlota()+" AND unidadNegocio<>3";
+        String sql = "FROM Bus WHERE flota=" +flota.getIdFlota()+" AND unidadNegocio<>3 and activo = 1";
+        try {
+
+            list = session.createQuery(sql).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            tx.rollback();
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Bus> findByVinabus() {
+        List<Bus> list = null;
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        String sql = "FROM Bus WHERE unidadNegocio<>3 and activo = 1";
         try {
 
             list = session.createQuery(sql).list();

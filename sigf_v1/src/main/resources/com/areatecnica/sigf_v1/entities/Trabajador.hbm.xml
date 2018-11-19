@@ -62,7 +62,7 @@
         <property name="estadoCivil" type="java.lang.Short">
             <column name="estado_civil" />
         </property>
-        <property name="fonasa" type="java.lang.Short">
+        <property name="fonasa" type="java.lang.Boolean">
             <column name="fonasa" />
         </property>
         <property name="calleTrabajador" type="string">

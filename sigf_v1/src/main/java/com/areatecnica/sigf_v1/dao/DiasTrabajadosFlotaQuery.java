@@ -94,7 +94,7 @@ public class DiasTrabajadosFlotaQuery {
                 + "                LEFT JOIN bus ON guia.id_bus = bus.id_bus \n"
                 + "                LEFT JOIN flota on bus.id_flota = flota.id_flota\n"
                 + "                LEFT JOIN unidad_negocio ON bus.id_unidad_negocio = unidad_negocio.id_unidad_negocio \n"
-                + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND flota.id_flota = "+flota.getIdFlota()+"\n"
+                + "                WHERE guia.fecha_recaudacion BETWEEN '" + format.format(fecha) + "' AND LAST_DAY('" + format.format(fecha) + "') AND flota.id_flota = "+flota.getIdFlota()+" AND guia.total_ingresos > 0\n"
                 + "                GROUP BY guia.id_bus \n"
                 + "                ORDER BY flota.nombre_flota, unidad_negocio.numero_unidad_negocio, bus.numero_bus  ASC";
         

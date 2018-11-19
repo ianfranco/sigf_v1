@@ -63,6 +63,7 @@ public class TraspasoAdministracionController implements Serializable {
     private int totalDias;
     private int valorDia;
     private int totalAdministracion;
+    private List<Bus> busItems;
 
     private static final NumberFormat format = NumberFormat.getInstance();
 
@@ -107,7 +108,7 @@ public class TraspasoAdministracionController implements Serializable {
         System.err.println("TOTAL ADMINISTRACIÓN:" + this.administracion);
 
         this.guiaDao = new GuiaDaoImpl();
-        this.itemsGuias = this.guiaDao.findByFecha(fecha);
+
         this.items = new ArrayList<>();
 
         this.numeroBuses = 0;
@@ -117,39 +118,48 @@ public class TraspasoAdministracionController implements Serializable {
         this.totaltGastos = this.administracionMensualDaoImpl.findTotalByMonthAndYear(fecha);
         System.err.println("TOTAL GASTOS ADMINISTRACIÓN: " + this.totaltGastos);
 
-        for (Guia g : this.itemsGuias) {
-            if (g.getBus().getEmpresa().getIdEmpresa() != 29) {
+        this.busDaoImpl = new BusDaoImpl();
+        this.busItems = this.busDaoImpl.findByVinabus();
 
-                this.numeroBuses = this.numeroBuses + 1;
-
-                DiasBusesHelper d = new DiasBusesHelper();
-
-                d.setBus(g.getBus());
-                d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
-
-                if (d.getDt() < 15) {
-                    this.totalDias = this.totalDias + d.getDt();
-                    this.numeroBusesProporcional = this.numeroBusesProporcional + 1;
-                } else {
-                    this.numeroBusesCompleto = this.numeroBusesCompleto + 1;
-                }
-
-                this.items.add(d);
-            }
+        for (Bus b : this.busItems) {
+            DiasBusesHelper d = new DiasBusesHelper();
+            System.err.println("BUS:" + b.getPatente());
+            d.setBus(b);
+            d.setDt(this.guiaDao.findDTByBusBetweenDates(b, fecha));
+            this.items.add(d);
         }
 
-        Collections.sort(this.items, new Comparator<DiasBusesHelper>() {
-            @Override
-            public int compare(DiasBusesHelper o1, DiasBusesHelper o2) {
-                if (o1.getDt() == o2.getDt()) {
-                    return 0;
-                } else if (o1.getDt() < o2.getDt()) {
-                    return -1;
-                }
-                return 1;
-            }
-        });
-
+//        for (Guia g : this.itemsGuias) {
+//            //if (g.getBus().getEmpresa().getIdEmpresa() != 29) {
+//
+//            this.numeroBuses = this.numeroBuses + 1;
+//
+//            DiasBusesHelper d = new DiasBusesHelper();
+//
+//            d.setBus(g.getBus());
+//            d.setDt(this.guiaDao.findDTByBusBetweenDates(g.getBus(), fecha));
+//
+//            if (d.getDt() < 15) {
+//                this.totalDias = this.totalDias + d.getDt();
+//                this.numeroBusesProporcional = this.numeroBusesProporcional + 1;
+//            } else {
+//                this.numeroBusesCompleto = this.numeroBusesCompleto + 1;
+//            }
+//
+//            this.items.add(d);
+//            //}
+//        }
+//        Collections.sort(this.items, new Comparator<DiasBusesHelper>() {
+//            @Override
+//            public int compare(DiasBusesHelper o1, DiasBusesHelper o2) {
+//                if (o1.getDt() == o2.getDt()) {
+//                    return 0;
+//                } else if (o1.getDt() < o2.getDt()) {
+//                    return -1;
+//                }
+//                return 1;
+//            }
+//        });
         if (this.totaltGastos > 0 && this.numeroBuses > 0) {
             this.administracion = this.totaltGastos / this.numeroBuses;
         } else {
@@ -181,64 +191,66 @@ public class TraspasoAdministracionController implements Serializable {
     public String getFormatValue(int valor) {
         return format.format(valor);
     }
-    
-    public String getFormatAdminitracion(){
+
+    public String getFormatAdminitracion() {
         return getFormatValue(this.totalAdministracion);
     }
 
     public void traspaso() {
         this.totalAdministracion = 0;
         for (DiasBusesHelper d : this.items) {
-            if (d.getDt() > 14) {
-                d.setMontoAdministracion(administracion);
-            } else {
 
-                switch (d.getDt()) {
-                    case 1:
-                        d.setMontoAdministracion((int) (administracion * 0.05));
-                        break;
-                    case 2:
-                        d.setMontoAdministracion((int) (administracion * 0.1));
-                        break;
-                    case 3:
-                        d.setMontoAdministracion((int) (administracion * 0.15));
-                        break;
-                    case 4:
-                        d.setMontoAdministracion((int) (administracion * 0.20));
-                        break;
-                    case 5:
-                        d.setMontoAdministracion((int) (administracion * 0.25));
-                        break;
-                    case 6:
-                        d.setMontoAdministracion((int) (administracion * 0.30));
-                        break;
-                    case 7:
-                        d.setMontoAdministracion((int) (administracion * 0.35));
-                        break;
-                    case 8:
-                        d.setMontoAdministracion((int) (administracion * 0.40));
-                        break;
-                    case 9:
-                        d.setMontoAdministracion((int) (administracion * 0.45));
-                        break;
-                    case 10:
-                        d.setMontoAdministracion((int) (administracion * 0.50));
-                        break;
-                    case 11:
-                        d.setMontoAdministracion((int) (administracion * 0.60));
-                        break;
-                    case 12:
-                        d.setMontoAdministracion((int) (administracion * 0.65));
-                        break;
-                    case 13:
-                        d.setMontoAdministracion((int) (administracion * 0.75));
-                        break;
-                    case 14:
-                        d.setMontoAdministracion((int) (administracion * 0.85));
-                        break;
-                }
-
-            }
+            d.setMontoAdministracion(administracion);
+//            if (d.getDt() > 14) {
+//                d.setMontoAdministracion(administracion);
+//            } else {
+//
+//                switch (d.getDt()) {
+//                    case 1:
+//                        d.setMontoAdministracion((int) (administracion * 0.05));
+//                        break;
+//                    case 2:
+//                        d.setMontoAdministracion((int) (administracion * 0.1));
+//                        break;
+//                    case 3:
+//                        d.setMontoAdministracion((int) (administracion * 0.15));
+//                        break;
+//                    case 4:
+//                        d.setMontoAdministracion((int) (administracion * 0.20));
+//                        break;
+//                    case 5:
+//                        d.setMontoAdministracion((int) (administracion * 0.25));
+//                        break;
+//                    case 6:
+//                        d.setMontoAdministracion((int) (administracion * 0.30));
+//                        break;
+//                    case 7:
+//                        d.setMontoAdministracion((int) (administracion * 0.35));
+//                        break;
+//                    case 8:
+//                        d.setMontoAdministracion((int) (administracion * 0.40));
+//                        break;
+//                    case 9:
+//                        d.setMontoAdministracion((int) (administracion * 0.45));
+//                        break;
+//                    case 10:
+//                        d.setMontoAdministracion((int) (administracion * 0.50));
+//                        break;
+//                    case 11:
+//                        d.setMontoAdministracion((int) (administracion * 0.60));
+//                        break;
+//                    case 12:
+//                        d.setMontoAdministracion((int) (administracion * 0.65));
+//                        break;
+//                    case 13:
+//                        d.setMontoAdministracion((int) (administracion * 0.75));
+//                        break;
+//                    case 14:
+//                        d.setMontoAdministracion((int) (administracion * 0.85));
+//                        break;
+//                }
+//
+//            }
 
             this.totalAdministracion = totalAdministracion + d.getMontoAdministracion();
         }

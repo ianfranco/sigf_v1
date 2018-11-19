@@ -366,13 +366,13 @@ public class RegistroCargoFlotaController implements Serializable {
                 int i = 0;
                 for (Bus b : this.busItems) {
                     int dias = 0;
-                    this.guiasItems = this.guiaDaoImpl.findByBusBetweenDatesDiciembre(b, fecha);
+//                    this.guiasItems = this.guiaDaoImpl.findByBusBetweenDatesDiciembre(b, fecha);
+//
+//                    dias = this.guiasItems.size();
 
-                    dias = this.guiasItems.size();
-
-                    if (this.selected.getTipoCargo().getIdTipoCargo() == 2 && b.getEmpresa().getIdEmpresa() == 29) {
-                        continue;
-                    }
+//                    if (this.selected.getTipoCargo().getIdTipoCargo() == 2 && b.getEmpresa().getIdEmpresa() == 29) {
+//                        continue;
+//                    }
 
                     this.items = this.cargoBusDaoImpl.findByBusAndDateAndCargo(b, this.selected.getFechaInicioCargoBus(), this.selected.getTipoCargo());
 

@@ -330,6 +330,8 @@ public class InformeProduccionConductorController implements Serializable {
 
                 if(totales.containsKey("T.Ingresos")){
                     int totalIngresos = (int)totales.get("T.Ingresos");
+                    System.err.println("total Ingresos: "+g.getTotalIngresos());
+                    
                     totalIngresos = totalIngresos+g.getTotalIngresos();
                     totales.put("T.Ingresos", totalIngresos);
                 }else{

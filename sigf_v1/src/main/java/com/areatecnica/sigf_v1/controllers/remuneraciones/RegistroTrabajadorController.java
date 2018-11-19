@@ -13,6 +13,7 @@ import com.areatecnica.sigf_v1.dao.InstitucionAPVDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionPrevisionDaoImpl;
 import com.areatecnica.sigf_v1.dao.InstitucionSaludDaoImpl;
 import com.areatecnica.sigf_v1.dao.MonedaPactadaInstitucionSaludImpl;
+import com.areatecnica.sigf_v1.dao.SindicatoDaoImpl;
 import com.areatecnica.sigf_v1.dao.TerminalDaoImpl;
 import com.areatecnica.sigf_v1.dao.TipoCotizacionTrabajadorDaoImpl;
 import com.areatecnica.sigf_v1.dao.TrabajadorDaoImpl;
@@ -23,6 +24,7 @@ import com.areatecnica.sigf_v1.entities.InstitucionApv;
 import com.areatecnica.sigf_v1.entities.InstitucionPrevision;
 import com.areatecnica.sigf_v1.entities.InstitucionSalud;
 import com.areatecnica.sigf_v1.entities.MonedaPactadaInstitucionSalud;
+import com.areatecnica.sigf_v1.entities.Sindicato;
 import com.areatecnica.sigf_v1.entities.Terminal;
 import com.areatecnica.sigf_v1.entities.TipoCotizacionTrabajador;
 import com.areatecnica.sigf_v1.entities.Trabajador;
@@ -65,6 +67,7 @@ public class RegistroTrabajadorController implements Serializable {
     private List<InstitucionApv> itemsInstitucionApv;
     private List<MonedaPactadaInstitucionSalud> itemsMonedaPactadaInstitucionSalud;
     private List<Comuna> itemsComuna;
+    private List<Sindicato> itemsSindicato;
 
     private Trabajador selected;
     private InstitucionSalud institucionSalud;
@@ -72,6 +75,8 @@ public class RegistroTrabajadorController implements Serializable {
     private InstitucionPrevision institucionPrevision;
     private TipoCotizacionTrabajador cotizacionTrabajador;
     private MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud;
+    private InstitucionPrevision jubilado;
+    private InstitucionPrevision ips;
 
     private int nacionalidad;
     private int sexo;
@@ -102,7 +107,8 @@ public class RegistroTrabajadorController implements Serializable {
         this.selected.setApellidoMaternoTrabajador("");
         this.selected.setApellidoPaternoTrabajador("");
         this.selected.setNombreTrabajador("");
-
+        this.jubilado = new InstitucionPrevisionDaoImpl().findById(100);
+        this.ips = new InstitucionPrevisionDaoImpl().findById(99);
     }
 
     public void resetParents() {
@@ -302,22 +308,42 @@ public class RegistroTrabajadorController implements Serializable {
     }
 
     public void findTrabajador() {
-        
+        if (!validarRut()) {
+            System.err.println("NO HA SIDO VALIDADO EL RUT");
+            JsfUtil.isValidationFailed();
+        }else{
+            
+            System.err.println("EL RUT HA SIDO VALIDADO EL RUT");
+        }
     }
 
     public void setPrevision() {
         switch (this.regimenPrevisional) {
             case 0:
+                this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
                 break;
             case 1:
+                this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(2);
+                this.selected.setInstitucionPrevision(ips);
                 break;
             case 2:
+                this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(3);
+                this.selected.setInstitucionPrevision(jubilado);
                 break;
             default:
         }
     }
 
+    public List<Sindicato> getItemsSindicato() {
+        return itemsSindicato;
+    }
+
+    public void setItemsSindicato(List<Sindicato> itemsSindicato) {
+        this.itemsSindicato = itemsSindicato;
+    }
+
     public Trabajador prepareCreate(ActionEvent event) {
+        JsfUtil.addSuccessMessage("Generando ficha de nuevo conductor");
         nacionalidad = 1;
         estadoCivil = 0;
         sexo = 1;
@@ -333,6 +359,8 @@ public class RegistroTrabajadorController implements Serializable {
         this.tipoCotizacionTrabajadorDaoImpl = new TipoCotizacionTrabajadorDaoImpl();
         this.comunaDaoImpl = new ComunaDaoImpl();
 
+        this.itemsSindicato = new SindicatoDaoImpl().findAll();
+        this.itemsTerminal = new TerminalDaoImpl().findAll();
         this.itemsComuna = this.comunaDaoImpl.findAll();
         this.itemsAsignacionFamiliar = this.asignacionFamiliarDaoImpl.findAll();
         this.itemsTipoCotizacion = this.tipoCotizacionTrabajadorDaoImpl.findAll();
@@ -346,13 +374,12 @@ public class RegistroTrabajadorController implements Serializable {
         this.monedaPactadaInstitucionSalud = this.monedaPactadaInstitucionSaludImpl.findById(1);
         this.cotizacionTrabajador = this.tipoCotizacionTrabajadorDaoImpl.findById(1);
         this.institucionPrevision = this.institucionPrevisionDaoImpl.findById(34);
-        
-        
+
         this.selected = new Trabajador(true);
         this.selected.setFechaNacimientoTrabajador(new Date());
         this.selected.setComuna(this.itemsComuna.get(0));
         this.selected.setCodigoTrabajador(new TrabajadorDaoImpl().maxId());
-        System.err.println("CODIGO TRABAJADOR = "+this.selected.getCodigoTrabajador());
+
         this.selected.setInstitucionSalud(institucionSalud);
         this.selected.setInstitucionApv(institucionAPV);
         this.selected.setMonedaPactadaInstitucionSalud(monedaPactadaInstitucionSalud);
@@ -431,16 +458,17 @@ public class RegistroTrabajadorController implements Serializable {
                 System.err.println("Error SAVE:Trabajador");
                 tx.rollback();
                 System.err.println(e.getMessage());
+                JsfUtil.addErrorMessage(e.getMessage());
             }
 
         } else {
-
+            JsfUtil.addErrorMessage("Error al registrar el conductor");
         }
     }
 
-    public void validarRut() {
+    public boolean validarRut() {
         validaRut = false;
-        //JsfUtil.addErrorMessage("rut"+this.selected.getRutTrabajador());
+        JsfUtil.addErrorMessage("rut"+this.selected.getRutTrabajador());
         try {
             String rut = null;
             rut = this.selected.getRutTrabajador();
@@ -463,18 +491,23 @@ public class RegistroTrabajadorController implements Serializable {
                     if (trabajadorDaoImpl.existeTrabajador(rut)) {
                         this.selected.setRutTrabajador("");
                         JsfUtil.addErrorMessage("El rut se encuentra registrado");
+                        return false;
                     }
+                    return true;
 
                 } else {
                     this.selected.setRutTrabajador("");
                     JsfUtil.addErrorMessage("Rut Mal Formado");
+                    return false;
                 }
             } else {
                 JsfUtil.addErrorMessage("Debe ingresar un rut válido");
+                return false;
             }
 
         } catch (java.lang.NumberFormatException | javax.el.PropertyNotFoundException | NullPointerException | javax.faces.FacesException e) {
             JsfUtil.addErrorMessage("Rut Mal Formado");
+            return false;
         }
     }
 

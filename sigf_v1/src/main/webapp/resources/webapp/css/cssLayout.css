@@ -1,0 +1,186 @@
+.ui-widget {
+    font-size: 12px !important;
+}
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+.ui-widget-header {
+    text-align: left;
+    
+}
+.ui-datatable .ui-datatable-footer .footer-section {
+    text-align: left;
+}
+
+.column {
+    font-weight: bold;
+}
+
+#top {
+    position: relative;
+    background-color: #036fab;
+    color: white;
+    padding: 5px;    
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    width: 85%;
+    
+}
+
+#menu {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#bottom {    
+    padding: 5px;
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    height:20px;
+    width:100%;
+    margin: 3px 0px 0px 0px;
+    text-align: center;
+    background:#000000;
+    color: white;
+}
+
+#container{
+    margin-top: 0px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 400px;
+    background-color: white;
+}
+
+#right_align{
+    float: right;
+    background-color: transparent;
+    width: 150px;
+    padding: 5px;
+}
+
+#right_align_close{
+    float: right;
+    background-color: transparent;
+    width: 150px;
+    padding: 5px;
+    color: #000000;
+}
+
+#left_align{
+    float: left;
+    background-color: transparent;
+    
+    padding: 5px;
+}
+
+#headerControl {
+    position: relative;
+    background-color: #036fab;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 3px 0px;
+    height: 50px;
+    text-align: left;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+
+
+#left {
+    float: left;
+    background-color: #ffffff;
+    padding: 5px;
+    width: 150px;
+    height: 400px;
+}
+
+#right {
+    float: right;
+    background-color: #ffffff;
+    padding: 5px;
+    width: 150px;
+    height: 400px;
+}
+
+.center_content {
+    position: relative;
+    background-color: #ffffff;
+   padding: 0px;
+    margin-top: 100px;
+
+}
+
+#center_content_index{
+    position: relative;
+    background-color: #ffffff;
+    padding: 0px;
+    margin-top: 1px;
+    height: 100%;
+    width: 100%;
+    border-style: none !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: auto;
+    
+}
+
+
+.logout-link{
+    padding-right: 30px;
+    margin-top: 20px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #ffffff;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+    min-height: 40px;
+    margin-top: 10px;
+}
+
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+.NuevaCompraBoletoCreateDlg{
+    width: 500px;
+    height: 500px;
+}
+
+
+@media print{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+.alignTop {
+vertical-align: top;
+}

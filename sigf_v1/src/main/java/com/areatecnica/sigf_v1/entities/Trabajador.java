@@ -46,7 +46,7 @@ public class Trabajador implements java.io.Serializable {
     private Boolean nacionalidad;
     private Boolean sexo;
     private Short estadoCivil;
-    private Short fonasa;
+    private Boolean fonasa;
     private String calleTrabajador;
     private String numeroDireccionTrabajador;
     private String telefonoFijoTrabajador;
@@ -115,7 +115,7 @@ public class Trabajador implements java.io.Serializable {
         this.fechaIngresoTrabajador = fechaIngresoTrabajador;
     }
 
-    public Trabajador(Terminal terminal, Sindicato sindicato, AsignacionFamiliar asignacionFamiliar, Short fonasa, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Integer montoApv, Boolean subsidioJoven, Boolean cesantia, Boolean contratado, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargaTrabajador> cargaTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<LiquidacionSueldo> liquidacionSueldos, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
+    public Trabajador(Terminal terminal, Sindicato sindicato, AsignacionFamiliar asignacionFamiliar, Boolean fonasa, Comuna comuna, InstitucionApv institucionApv, InstitucionPrevision institucionPrevision, InstitucionSalud institucionSalud, MonedaPactadaInstitucionSalud monedaPactadaInstitucionSalud, TipoCotizacionTrabajador tipoCotizacionTrabajador, int codigoTrabajador, String rutTrabajador, String nombreTrabajador, String apellidoPaternoTrabajador, String apellidoMaternoTrabajador, Date fechaNacimientoTrabajador, Boolean nacionalidad, Boolean sexo, Short estadoCivil, String calleTrabajador, String numeroDireccionTrabajador, String telefonoFijoTrabajador, String celularTrabajador, String emailTrabajador, Integer numeroCargas, BigDecimal montoSalud, Boolean formaPagoApv, Integer montoApv, Boolean subsidioJoven, Boolean cesantia, Boolean contratado, Date fechaIngresoTrabajador, Set<ObservacionTrabajador> observacionTrabajadors, Set<LicenciaMedica> licenciaMedicas, Set<Despacho> despachos, Set<CentroCostoTrabajador> centroCostoTrabajadors, Set<RelacionLaboral> relacionLaborals, Set<HaberTrabajadorLiquidacion> haberTrabajadorLiquidacions, Set<ControlAsistencia> controlAsistencias, Set<HoraExtraTrabajador> horaExtraTrabajadors, Set<CargaTrabajador> cargaTrabajadors, Set<FeriadoLegal> feriadoLegals, Set<DescuentoTrabajadorLiquidacion> descuentoTrabajadorLiquidacions, Set<CargaRetroactiva> cargaRetroactivas, Set<FormaPagoTrabajador> formaPagoTrabajadors, Set<LiquidacionSueldo> liquidacionSueldos, Set<CuentaBancariaTrabajador> cuentaBancariaTrabajadors, Set<Guia> guias, Set<JornadaTrabajador> jornadaTrabajadors, Set<DiaTrabajador> diaTrabajadors, Set<TrabajadorTerminal> trabajadorTerminals, Set<SindicatoTrabajador> sindicatoTrabajadors, Set<AnticipoTrabajador> anticipoTrabajadors) {
         this.terminal = terminal;
         this.sindicato = sindicato;
         this.asignacionFamiliar = asignacionFamiliar;
@@ -357,11 +357,11 @@ public class Trabajador implements java.io.Serializable {
     }
 
     @Column(name = "fonasa")
-    public Short getFonasa() {
+    public Boolean getFonasa() {
         return this.fonasa;
     }
 
-    public void setFonasa(Short fonasa) {
+    public void setFonasa(Boolean fonasa) {
         this.fonasa = fonasa;
     }
 

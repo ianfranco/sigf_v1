@@ -558,59 +558,56 @@ public class PlanillonGuiaController implements Serializable {
 
     public void saveNew() {
         if (this.selected != null) {
-            if (this.selected.getFolio() <= 0) {
-                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-                Transaction tx = session.beginTransaction();
 
-                try {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
 
-                    this.selected.setEstadoGuia(estadoGuia);
-                    this.selected.setFechaIngresoGuia(new Date());
-                    this.selected.setFechaRecaudacion(fechaRecaudacion);
-                    this.selected.setProcesoRecaudacion(procesoRecaudacion);
-                    this.selected.setRecaudada(Boolean.TRUE);
-                    this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
+            try {
 
-                    session.save(this.selected);
+                this.selected.setEstadoGuia(estadoGuia);
+                this.selected.setFechaIngresoGuia(new Date());
+                this.selected.setFechaRecaudacion(fechaRecaudacion);
+                this.selected.setProcesoRecaudacion(procesoRecaudacion);
+                this.selected.setRecaudada(Boolean.TRUE);
+                this.folios.put(this.selected.getFolio(), this.selected.getIdGuia());
 
-                    for (EgresoGuia e : this.egresosGuiaItems) {
-                        e.setGuia(selected);
-                        session.save(e);
-                        e = null;
-                    }
+                session.save(this.selected);
 
-                    this.log = new Log();
-                    this.log.setPrivilegio(priviliegio);
-                    this.log.setUsuario(user);
-                    this.log.setTipoAccion("Ingreso");
-                    this.log.setFechaRegistroLog(new Date());
-                    this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
-
-                    session.save(this.log);
-
-                    JsfUtil.addSuccessMessage("SE INGRESÓ LA GUÍA N°:" + this.selected.getFolio() + " EN LA RECUADACIÓN:" + this.selected.getProcesoRecaudacion().getNombreProceso() + " CON FECHA:" + format.format(fechaRecaudacion));
-                    tx.commit();
-
-                    this.fechaGuiaDate = this.selected.getFechaGuia();
-
-                    this.selected = new Guia();
-                    this.selected.setFechaGuia(fechaGuiaDate);
-
-                    this.selected.setTotalEgresos(0);
-                    this.selected.setTotalIngresos(0);
-                    this.selectedHashMap = null;
-
-                    setPorcentajes();
-
-                } catch (HibernateException e) {
-                    tx.rollback();
-                    JsfUtil.addErrorMessage(e.getLocalizedMessage());
-                    System.err.println("NULL:Guia");
+                for (EgresoGuia e : this.egresosGuiaItems) {
+                    e.setGuia(selected);
+                    session.save(e);
+                    e = null;
                 }
-            } else {
-                JsfUtil.addErrorMessage("El folio de la Guía debe ser mayor a 0");
-                JsfUtil.isValidationFailed();
+
+                this.log = new Log();
+                this.log.setPrivilegio(priviliegio);
+                this.log.setUsuario(user);
+                this.log.setTipoAccion("Ingreso");
+                this.log.setFechaRegistroLog(new Date());
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
+
+                session.save(this.log);
+
+                JsfUtil.addSuccessMessage("SE INGRESÓ LA GUÍA N°:" + this.selected.getFolio() + " EN LA RECUADACIÓN:" + this.selected.getProcesoRecaudacion().getNombreProceso() + " CON FECHA:" + format.format(fechaRecaudacion));
+                tx.commit();
+
+                this.fechaGuiaDate = this.selected.getFechaGuia();
+
+                this.selected = new Guia();
+                this.selected.setFechaGuia(fechaGuiaDate);
+
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
+                this.selectedHashMap = null;
+
+                setPorcentajes();
+
+            } catch (HibernateException e) {
+                tx.rollback();
+                JsfUtil.addErrorMessage(e.getLocalizedMessage());
+                System.err.println("NULL:Guia");
             }
+
         } else {
             JsfUtil.addErrorMessage("Error al ingresar la Guía");
             JsfUtil.isValidationFailed();
@@ -619,57 +616,53 @@ public class PlanillonGuiaController implements Serializable {
 
     public void save() {
         if (this.selected != null) {
-            if (this.selected.getFolio() <= 0) {
-                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-                Transaction tx = session.beginTransaction();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
 
-                try {
-                    session.saveOrUpdate(this.selected);
-                    int index = this.listOfMaps.indexOf(this.selectedHashMap);
-                    LinkedHashMap auxHash = this.selectedHashMap;
+            try {
+                session.saveOrUpdate(this.selected);
+                int index = this.listOfMaps.indexOf(this.selectedHashMap);
+                LinkedHashMap auxHash = this.selectedHashMap;
 
-                    this.selectedHashMap.put("Folio", this.selected.getFolio());
-                    this.selectedHashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
-                    this.selectedHashMap.put("Bus", this.selected.getBus().getNumeroBus());
-                    this.selectedHashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
-                    this.selectedHashMap.put("Nombre Conductor", this.selected.getTrabajador());
+                this.selectedHashMap.put("Folio", this.selected.getFolio());
+                this.selectedHashMap.put("Fecha", format.format(this.selected.getFechaGuia()));
+                this.selectedHashMap.put("Bus", this.selected.getBus().getNumeroBus());
+                this.selectedHashMap.put("Codigo", this.selected.getTrabajador().getCodigoTrabajador());
+                this.selectedHashMap.put("Nombre Conductor", this.selected.getTrabajador());
 
-                    for (EgresoGuia e : arrayEgresosGuias) {
-                        session.saveOrUpdate(e);
-                        this.selectedHashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
-                        session.flush();
-                    }
-
-                    this.log = new Log();
-                    this.log.setPrivilegio(priviliegio);
-                    this.log.setUsuario(user);
-                    this.log.setTipoAccion("Edición");
-                    this.log.setFechaRegistroLog(new Date());
-                    this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
-
-                    session.save(this.log);
-
-                    tx.commit();
-
-                    this.listOfMaps.set(index, this.selectedHashMap);
-
-                    JsfUtil.addSuccessMessage("SE HA EDITADO LA GUÍA N°:" + this.selected.getFolio());
-
-                    //this.items.add(selected);
-                    this.selected = new Guia();
-                    this.selected.setTotalEgresos(0);
-                    this.selected.setTotalIngresos(0);
-                    this.selectedHashMap = null;
-
-                } catch (HibernateException e) {
-                    tx.rollback();
-                    JsfUtil.addErrorMessage(e.getLocalizedMessage());
-                    System.err.println("NULL:Guia");
+                for (EgresoGuia e : arrayEgresosGuias) {
+                    session.saveOrUpdate(e);
+                    this.selectedHashMap.put(e.getEgresoRecaudacion().getEgreso().getNombreEgreso(), e.getMonto());
+                    session.flush();
                 }
-            } else {
-                JsfUtil.addErrorMessage("El folio de la Guía debe ser mayor a 0");
-                JsfUtil.isValidationFailed();
+
+                this.log = new Log();
+                this.log.setPrivilegio(priviliegio);
+                this.log.setUsuario(user);
+                this.log.setTipoAccion("Edición");
+                this.log.setFechaRegistroLog(new Date());
+                this.log.setDescripcionLog("Guía Folio N°: " + this.selected.getFolio() + "  Proceso: " + this.procesoRecaudacion.getNombreProceso() + " F.Guía: " + format.format(this.selected.getFechaGuia()) + " F.Recaudación: " + format.format(this.selected.getFechaRecaudacion()));
+
+                session.save(this.log);
+
+                tx.commit();
+
+                this.listOfMaps.set(index, this.selectedHashMap);
+
+                JsfUtil.addSuccessMessage("SE HA EDITADO LA GUÍA N°:" + this.selected.getFolio());
+
+                //this.items.add(selected);
+                this.selected = new Guia();
+                this.selected.setTotalEgresos(0);
+                this.selected.setTotalIngresos(0);
+                this.selectedHashMap = null;
+
+            } catch (HibernateException e) {
+                tx.rollback();
+                JsfUtil.addErrorMessage(e.getLocalizedMessage());
+                System.err.println("NULL:Guia");
             }
+
         } else {
             JsfUtil.addErrorMessage("Error al editar la Guía");
         }
