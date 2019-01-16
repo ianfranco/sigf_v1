@@ -15,11 +15,11 @@ import org.primefaces.context.RequestContext;
 public class MyUtil {
 
     public static String baseURL() {
-        return "http://localhost:8080/sigf_v1-4/";
+        return "http://localhost:8080/sigf_v1-5/";
     }
 
     public static String basePathLogin() {
-        return "/sigf_v1-4/faces/";
+        return "/sigf_v1-5/faces/";
     }
 
     public static String basePath() {
